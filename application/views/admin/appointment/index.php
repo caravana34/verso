@@ -1215,18 +1215,7 @@ $("#formedit").on('submit', (function (e) {
                         table.ajax.reload();
                         var url =`${baseurl}admin/bill/index/${data.case_reference_id}`;
                         window.open(url, '_blank');
-//                         $('#add_chargeModal').modal('show');myPaymentModal
-//                         $('#myPaymentModal').modal('show');
-                        
-//                         $("#net_amount").val('22000');
-//                         var charge=`<tr><td>${data.date}</td><td>${data.date}</td><td>${data.date}</td><td>${data.date}</td><td>${data.amount}</td><td>${data.date}</td></tr>`;
-//                         $('#preview_charges').append(charge);
-//                         var date_date = document.createTextNode(data.date);
-//                         document.getElementById('id_charges_vale').appendChild(date_date);
-//                         var appointment = document.createTextNode(data.appointment_no);
-//                         document.getElementById('id_charges_n').appendChild(appointment);
-//                         $('.print_charge').attr('data-record-id' , data.id);
-//                         console.log(data.id);
+
                       }
                   });
                }else if(edit_status == "llegada"){
