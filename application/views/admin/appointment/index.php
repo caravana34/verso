@@ -1212,7 +1212,7 @@ $("#formedit").on('submit', (function (e) {
                         $("#payment_case_id").val(data.case_reference_id);
                         $("#payment_opd_id").val(data.opd_details_id);
                         $("#patient_id").val(data.patient_id);
-                        table.ajax.reload();
+//                         table.ajax.reload();
                         var url =`${baseurl}admin/bill/index/${data.case_reference_id}`;
                         window.open(url, '_blank');
 
