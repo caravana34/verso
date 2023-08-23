@@ -1,0 +1,1448 @@
+[
+    {
+        "principio": "ACETAMINOFEN",
+        "PRESENTACIÓN": "JARABE",
+        "DOSIS": "10MG/ML",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Analgésico"
+    },
+    {
+        "principio": "ACETAMINOFEN (16136)",
+        "PRESENTACIÓN": "JARABE",
+        "DOSIS": "150 MG/ML",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Analgésico"
+    },
+    {
+        "principio": "ACETAMINOFEN",
+        "PRESENTACIÓN": "CAPSULA BLANDA ",
+        "DOSIS": "500 MG",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Analgésico"
+    },
+    {
+        "principio": "ACETAMINOFEN/IBUPROFENO/CAFEINA (285000)",
+        "PRESENTACIÓN": "TABLETA RECUBIERTA",
+        "DOSIS": "250/400/65 MG ",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Analagésico + Aines"
+    },
+    {
+        "principio": "ACETAMINOFEN/METOCARBAMOL",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "350/750 MG/MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Analagésico + Relajante muscular"
+    },
+    {
+        "principio": "ACIDO VALPROICO",
+        "PRESENTACIÓN": "SOLUCIÓN ORAL",
+        "DOSIS": "250/5 MG/ML",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA"
+    },
+    {
+        "principio": "ACIDO VALPROICO",
+        "PRESENTACIÓN": "CÁPSULA BLANDA",
+        "DOSIS": "250 MG",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA"
+    },
+    {
+        "principio": "ALPRAZOLAM",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "0.5 MG",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Ansiolisis"
+    },
+    {
+        "principio": "ALPRAZOLAM",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "1MG",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Ansiolisis"
+    },
+    {
+        "principio": "ALPRAZOLAM",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "0,25 MG",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Ansiolisis"
+    },
+    {
+        "principio": "ALPRAZOLAM",
+        "PRESENTACIÓN": "SOLUCION ORAL",
+        "DOSIS": "0.75 MG X 20 ML",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Ansiolisis"
+    },
+    {
+        "principio": "ARIPIPRAZOL",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "15 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE"
+    },
+    {
+        "principio": "ARIPIPRAZOL",
+        "PRESENTACIÓN": "SOLUCIÓN ORAL",
+        "DOSIS": "1MG/ ML",
+        "DISPONIBILIDAD": "DISPONIBLE"
+    },
+    {
+        "principio": "ARMODAFINILO",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "50 MG , 150 MG ",
+        "DISPONIBILIDAD": "AGOTADO"
+    },
+    {
+        "principio": "BUPROPION (30600)",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "150 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Ansiolisis + antidepresivo."
+    },
+    {
+        "principio": "BUPROPION (22641)",
+        "PRESENTACIÓN": "TABLETA DE LIBERACION PROLONGADA",
+        "DOSIS": "150 MG",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Ansiolisis + antidepresivo."
+    },
+    {
+        "principio": "BUPROPION (22641)",
+        "PRESENTACIÓN": "TABLETA DE LIBERACION PROLONGADA",
+        "DOSIS": "300 MG",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Ansiolisis + antidepresivo."
+    },
+    {
+        "principio": "CAPSAICINA 0.025%",
+        "PRESENTACIÓN": "CREMA X 20 ML ",
+        "DOSIS": "0,025 %",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Analgésico + Neuromodulador dolor neuropático"
+    },
+    {
+        "principio": "CARBAMAZEPINA",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "200 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Anticonvulsivante + Neuromodulador en dolor crónico neuropático."
+    },
+    {
+        "principio": "CARBAMAZEPINA (19164)",
+        "PRESENTACIÓN": "TABLETA LIB PROLONGADA",
+        "DOSIS": "200 MG, 400 MG",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Anticonvulsivante + Neuromodulador en dolor crónico neuropático."
+    },
+    {
+        "principio": "CARBAMAZEPINA",
+        "PRESENTACIÓN": "SUSPENSION ORAL X 100 ML",
+        "DOSIS": "100/5 G/ML ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Anticonvulsivante + Neuromodulador en dolor crónico neuropático."
+    },
+    {
+        "principio": "CITALOPRAM",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "20 MG ",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA"
+    },
+    {
+        "principio": "CLOBAZAM",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "10 MG , 20 MG",
+        "DISPONIBILIDAD": "DISPONIBLE"
+    },
+    {
+        "principio": "CLOBAZAM",
+        "PRESENTACIÓN": "SOLUCIÓN ORAL",
+        "DOSIS": "0,25 GR/ML * 100 ML",
+        "DISPONIBILIDAD": "DISPONIBLE"
+    },
+    {
+        "principio": "CLONAZEPAM",
+        "PRESENTACIÓN": "SOLUCION ORAL",
+        "DOSIS": "2.5 MG/ML X 20 ML",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Ansiolisis"
+    },
+    {
+        "principio": "CLONAZEPAM",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "0.5 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Ansiolisis"
+    },
+    {
+        "principio": "CLONAZEPAM",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "2 MG",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Ansiolisis"
+    },
+    {
+        "principio": "CLONIXINATO DE LISINA/ERGOTAMINA TARTRATO",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "125/1 MG/MG ",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Relajante muscular"
+    },
+    {
+        "principio": "CLONIXINATO DE LISINA/CICLOBENZAPRINA CLORHIDRATO",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "125/5MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Relajante muscular"
+    },
+    {
+        "principio": "DESVENLAFAXINA",
+        "PRESENTACIÓN": "TABLETA LIB PROLONGADA",
+        "DOSIS": "50 MG",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Ansiolisis + antidepresivo."
+    },
+    {
+        "principio": "DESVENLAFAXINA",
+        "PRESENTACIÓN": "TAB LIB PROLONGADA",
+        "DOSIS": "100 MG ",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Ansiolisis + antidepresivo."
+    },
+    {
+        "principio": "DIACEREINA",
+        "PRESENTACIÓN": "CAPSULA DURA",
+        "DOSIS": "50 MG",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Analagésico + Antiinflamatorio"
+    },
+    {
+        "principio": "DEXKETOPROFENO",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "25 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Aines"
+    },
+    {
+        "principio": "DICLOFENAC SODICO/CODEINA FOSFATO HEMIHIDRATADO",
+        "PRESENTACIÓN": "TABLETA RECUBIERTA",
+        "DOSIS": "50/50 MG/MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Aines"
+    },
+    {
+        "principio": "DICLOFENACO SODICO",
+        "PRESENTACIÓN": "CAP LIB PROLONGADA",
+        "DOSIS": "100 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Aines"
+    },
+    {
+        "principio": "DICLOFENACO 1%",
+        "PRESENTACIÓN": "GEL\r\n",
+        "DOSIS": "1 %",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Aines"
+    },
+    {
+        "principio": "DIPIRONA",
+        "PRESENTACIÓN": "SOLUCIÓN ORAL",
+        "DOSIS": "500 MG/ML",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Aines"
+    },
+    {
+        "principio": "DIPIRONA",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "500 MG TABLETA",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Aines"
+    },
+    {
+        "principio": "DIVALPROATO DE SODIO",
+        "PRESENTACIÓN": "TABLETA LIBERACION RETARDAD /SOSTENIDA",
+        "DOSIS": "250 MG, 500 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA"
+    },
+    {
+        "principio": "DONEPECILO",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "5 MG ",
+        "DISPONIBILIDAD": "AGOTADO"
+    },
+    {
+        "principio": "DONEPECILO",
+        "PRESENTACIÓN": "TABLETA RECUBIERTA",
+        "DOSIS": "10 MG",
+        "DISPONIBILIDAD": "DISPONIBLE"
+    },
+    {
+        "principio": "ESCITALOPRAM",
+        "PRESENTACIÓN": "SLN ORAL",
+        "DOSIS": "1 MG/ML ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Antidepresivo"
+    },
+    {
+        "principio": "ESCITALOPRAM",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "10 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Antidepresivo"
+    },
+    {
+        "principio": "ESZOPICLONA",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "2 MG",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Hipnótico"
+    },
+    {
+        "principio": "ESZOPICLONA",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "3 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Hipnótico"
+    },
+    {
+        "principio": "EXTRACTO DE GINKGO BILOBA",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "40MG",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA"
+    },
+    {
+        "principio": "EXTRACTO DE GINKGO BILOBA",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "80MG, 120 MG",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA"
+    },
+    {
+        "principio": "FENITOINA",
+        "PRESENTACIÓN": "CAPSULA LIBERACIÓN PROLONGADA",
+        "DOSIS": "100 MG ",
+        "DISPONIBILIDAD": "AGOTADO"
+    },
+    {
+        "principio": "FLUOXETINA",
+        "PRESENTACIÓN": "CAPSULA DURA",
+        "DOSIS": "20 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Antidepresivo"
+    },
+    {
+        "principio": "GLUCOSAMINA SULFATO/CONDROITINA SULFATO",
+        "PRESENTACIÓN": "CAPSULA",
+        "DOSIS": "500/400 MG/MG Y 750/600 MG",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "MIPRES"
+    },
+    {
+        "principio": "GLUCOSAMINA-CONDROITINA",
+        "PRESENTACIÓN": "POLVO;GRANULOS PARA RECONSTITUIR",
+        "DOSIS": "1500 / 1200 MILIGRAMOS (MG) / MILIGRAMOS (MG)",
+        "DISPONIBILIDAD": "DESCONTINUADO",
+        "ORDEN EN": "MIPRES"
+    },
+    {
+        "principio": "IBUPROFENO ",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "400 MG Y 800 MG  ",
+        "DISPONIBILIDAD": "DISPONIBLE"
+    },
+    {
+        "principio": "IBUPROFENO ",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "600 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE"
+    },
+    {
+        "principio": "LEVETIRACETAM",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "500 MG , 1000 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE"
+    },
+    {
+        "principio": "LEVETIRACETAM",
+        "PRESENTACIÓN": "SOLUCIÓN ORAL",
+        "DOSIS": "100 MG/ML",
+        "DISPONIBILIDAD": "DISPONIBLE"
+    },
+    {
+        "principio": "LEVODOPA/BENSERAZIDA",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "200/50 MG",
+        "DISPONIBILIDAD": "Agotado"
+    },
+    {
+        "principio": "LEVODOPA/CARBIDOPA",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "100/25 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE"
+    },
+    {
+        "principio": "LEVODOPA/CARBIDOPA",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "200/50 MG ",
+        "DISPONIBILIDAD": "AGOTADO"
+    },
+    {
+        "principio": "LEVOMEPROMAZINA",
+        "PRESENTACIÓN": "SOLUCION ORAL FRASCO X 20 ML",
+        "DOSIS": "40 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Antipsicótico + Estabilizador del ánimo"
+    },
+    {
+        "principio": "LISDEXANFETAMINA",
+        "PRESENTACIÓN": "CÁPSULA DURA",
+        "DOSIS": "30 MG , 50 MG , 70 MG ",
+        "DISPONIBILIDAD": "AGOTADO"
+    },
+    {
+        "principio": "MELATONINA",
+        "PRESENTACIÓN": "TABLETA DE LIBERACION SOSTENIDA",
+        "DOSIS": "2 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE(SOLO MAYORES 55 AÑOS) ",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Hipnótico"
+    },
+    {
+        "principio": "MELATONINA",
+        "PRESENTACIÓN": "CAPSULA",
+        "DOSIS": "3 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Hipnótico"
+    },
+    {
+        "principio": "MEMANTINA",
+        "PRESENTACIÓN": "SOLUCION ORAL X 30 ML",
+        "DOSIS": "10/1 MILIGRAMOS (MG) / MILILITROS (ML)",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA"
+    },
+    {
+        "principio": "MEMANTINA  (283263)",
+        "PRESENTACIÓN": "TABLETA RECUBIERTA",
+        "DOSIS": "10 MG Y 20 MG",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA"
+    },
+    {
+        "principio": "METILFENIDATO CLORHIDRATO",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "10 MG",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Estimulante SNC"
+    },
+    {
+        "principio": "METILFENIDATO CLORHIDRATO",
+        "PRESENTACIÓN": "TABLETA DE LIBERACION PROLONGADA",
+        "DOSIS": "18 MG, 36 MG",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Estimulante SNC"
+    },
+    {
+        "principio": "MEXAZOLAM",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "1.0 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Ansiolisis"
+    },
+    {
+        "principio": "MIRTAZAPINA",
+        "PRESENTACIÓN": "TABLETA RECUBIERTA",
+        "DOSIS": "15 MG ",
+        "DISPONIBILIDAD": "NO HAY DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Antidepresivo"
+    },
+    {
+        "principio": "MIRTAZAPINA (22973)",
+        "PRESENTACIÓN": "TABLETA RECUBIERTA",
+        "DOSIS": "30 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Antidepresivo"
+    },
+    {
+        "principio": "N-BUTIL BROMURO DE HIOSCINA",
+        "PRESENTACIÓN": "TABLETA CUBIERTA (GRAGEA)",
+        "DOSIS": "10 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Analgésico + Anticolinérgico"
+    },
+    {
+        "principio": "N-BUTILBROMURO DE HIOSCINA/ACETAMINOFEN",
+        "PRESENTACIÓN": "SOLUCION ORAL X 30 ML",
+        "DOSIS": "2/10 MG/MG ",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Analgésico + Anticolinérgico"
+    },
+    {
+        "principio": "N-BUTILBROMURO DE HIOSCINA/ACETAMINOFEN",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "10/325 MG ",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Analgésico + Anticolinérgico"
+    },
+    {
+        "principio": "N-BUTILBROMURO DE HIOSCINA/DIPIRONA",
+        "PRESENTACIÓN": "TABLETA CUBIERTA",
+        "DOSIS": "10/300 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Analgésico + Anticolinérgico"
+    },
+    {
+        "principio": "NAPROXENO SODICO",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "275 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Aines"
+    },
+    {
+        "principio": "NAPROXENO/TIOCOLCHICÓSIDO",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "250/4 MG ",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Aines + Relajante muscular"
+    },
+    {
+        "principio": "OLANZAPINA",
+        "PRESENTACIÓN": "TABLETA DISPENSABLE ",
+        "DOSIS": "5 MG",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Antipsicótico + Estabilizador del ánimo"
+    },
+    {
+        "principio": "OLANZAPINA ",
+        "PRESENTACIÓN": "TABLETA DISPENSABLE ",
+        "DOSIS": "10 MG ",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Antipsicótico + Estabilizador del ánimo"
+    },
+    {
+        "principio": "OLANZAPINA ",
+        "PRESENTACIÓN": "TABLETA RECUBIERTA",
+        "DOSIS": "10 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE ",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Antipsicótico + Estabilizador del ánimo"
+    },
+    {
+        "principio": "OXAPROZINA",
+        "PRESENTACIÓN": "TABLETA CUBIERTA (GRAGEA)",
+        "DOSIS": "600 MG TABLETA CUBIERTA (GRAGEA)",
+        "DISPONIBILIDAD": "DISPONIBLE ",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Aines"
+    },
+    {
+        "principio": "OXCARBAZEPINA",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "600 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE ",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Anticonvulsivante + Neuromodulador en dolor crónico neuropático."
+    },
+    {
+        "principio": "OXCARBAZEPINA",
+        "PRESENTACIÓN": " SUSPENSION ORAL X 100 ML",
+        "DOSIS": "60 MG/ML ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Anticonvulsivante + Neuromodulador en dolor crónico neuropático."
+    },
+    {
+        "principio": "PIROXICAM (28386)",
+        "PRESENTACIÓN": "CAPSULA DURA ",
+        "DOSIS": "20 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Aines"
+    },
+    {
+        "principio": "PRAMIPEXOL (23560)",
+        "PRESENTACIÓN": "TABLETA LIBERACIÓN PROLONGADA",
+        "DOSIS": "0,75 MG , 1,5 MG, 3 MG , 4,5 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE"
+    },
+    {
+        "principio": "QUETIAPINA  (281163)",
+        "PRESENTACIÓN": "TABLETA RECUBIERTA ",
+        "DOSIS": "25 MG , 200 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA"
+    },
+    {
+        "principio": "QUETIAPINA ",
+        "PRESENTACIÓN": "TABLETA ",
+        "DOSIS": "300 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA"
+    },
+    {
+        "principio": "QUETIAPINA (281105)",
+        "PRESENTACIÓN": "TABLETA ",
+        "DOSIS": "400 MG XR",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA"
+    },
+    {
+        "principio": "RISPERIDONA",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "0.5 MG",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Antipsicótico + Estabilizador del ánimo"
+    },
+    {
+        "principio": "RISPERIDONA",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "1 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Antipsicótico + Estabilizador del ánimo"
+    },
+    {
+        "principio": "RISPERIDONA",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "2 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Antipsicótico + Estabilizador del ánimo"
+    },
+    {
+        "principio": "RISPERIDONA",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "3 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Antipsicótico + Estabilizador del ánimo"
+    },
+    {
+        "principio": "RISPERIDONA",
+        "PRESENTACIÓN": "SOLUCION ORAL FRASCO X 20 ML",
+        "DOSIS": "1 MG /ML",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Antipsicótico + Estabilizador del ánimo"
+    },
+    {
+        "principio": "RIVASTIGMINA (280786,280785)",
+        "PRESENTACIÓN": "PARCHE",
+        "DOSIS": "18 MG , 27 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE"
+    },
+    {
+        "principio": "SERTRALINA",
+        "PRESENTACIÓN": "TABLETA RECUBIERTA",
+        "DOSIS": "100 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Antidepresivo"
+    },
+    {
+        "principio": "SERTRALINA",
+        "PRESENTACIÓN": "TABLETA RECUBIERTA",
+        "DOSIS": "50 MG",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Antidepresivo"
+    },
+    {
+        "principio": "SUMATRIPTAN",
+        "PRESENTACIÓN": "TABLETA RAPIDA DESINTEGRACIÓN",
+        "DOSIS": "50 MG",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA"
+    },
+    {
+        "principio": "SUMATRIPTAN",
+        "PRESENTACIÓN": "TABLETA RECUBIERTA",
+        "DOSIS": "100 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Migraña - Triptan"
+    },
+    {
+        "principio": "TIOCOLCHICOSIDO (30284)",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "4 MG",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Relajante muscular"
+    },
+    {
+        "principio": "TIOCOLCHICOSIDO (26541)",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "8 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Relajante muscular"
+    },
+    {
+        "principio": "TOPIRAMATO (281110)",
+        "PRESENTACIÓN": "TABLETA RECUBIERTA",
+        "DOSIS": "25 MG, 50 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE"
+    },
+    {
+        "principio": "TRAMADOL CLORHIDRATO",
+        "PRESENTACIÓN": "CAPSULA DURA",
+        "DOSIS": "50 MG ",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Opioide débil"
+    },
+    {
+        "principio": "TRAMADOL CLORHIDRATO",
+        "PRESENTACIÓN": "TABLETA DE LIBERACION PROLONGADA",
+        "DOSIS": "50 MG",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Opioide débil"
+    },
+    {
+        "principio": "TRAMADOL CLORHIDRATO (285072)",
+        "PRESENTACIÓN": "TABLETA DE LIBERACION PROLONGADA",
+        "DOSIS": "100 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Opioide débil"
+    },
+    {
+        "principio": "TRAMADOL CLORHIDRATO (285073)",
+        "PRESENTACIÓN": "TABLETA DE LIBERACION PROLONGADA",
+        "DOSIS": "150 MG,  200 MG ",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Opioide débil"
+    },
+    {
+        "principio": "TRAZODONA ",
+        "PRESENTACIÓN": "TABLETA ",
+        "DOSIS": "25 MG ",
+        "DISPONIBILIDAD": "NO HAY DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Antidepresivo + Hipnótico"
+    },
+    {
+        "principio": "TRAZODONA CLORHIDRATO",
+        "PRESENTACIÓN": "TABLETA ",
+        "DOSIS": "50 MG , 100 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Antidepresivo + Hipnótico"
+    },
+    {
+        "principio": "TRAZODONA CLORHIDRATO",
+        "PRESENTACIÓN": "TABLETA LIBERACION PROLONGADA",
+        "DOSIS": "150 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Antidepresivo + Hipnótico"
+    },
+    {
+        "principio": "VENLAFAXINA",
+        "PRESENTACIÓN": "CAPSULA DE LIBERACION RETARDADA",
+        "DOSIS": "37.5 MG  ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Ansiolisis + antidepresivo."
+    },
+    {
+        "principio": "VENLAFAXINA",
+        "PRESENTACIÓN": "CAPSULA DE LIBERACION PROLONGADA",
+        "DOSIS": "75 MG y 150 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Ansiolisis + antidepresivo."
+    },
+    {
+        "principio": "ZOLPIDEM",
+        "PRESENTACIÓN": "TABLETA RECUBIERTA",
+        "DOSIS": "10 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Hipnótico"
+    },
+    {
+        "principio": "ZOPICLONA",
+        "PRESENTACIÓN": "TABLETA CUBIERTA (GRAGEA)",
+        "DOSIS": "2 MG ",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Hipnótico"
+    },
+    {
+        "principio": "ZOPICLONA (26639)",
+        "PRESENTACIÓN": "TABLETA ",
+        "DOSIS": "7,5 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Hipnótico"
+    },
+    {
+        "principio": "ACETAMINOFEN/CAFEINA (286001)",
+        "PRESENTACIÓN": "TABLETA ",
+        "DOSIS": "325/65 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Analagésico"
+    },
+    {
+        "principio": "ACETAMINOFEN/FOSFATO DE CODEINA *",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "325/15 MG ",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "MIPRES",
+        "INDICACIÓN": "Opioide débil"
+    },
+    {
+        "principio": "ACETAMINOFEN/FOSFATO DE CODEINA",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "325/30 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "MIPRES",
+        "INDICACIÓN": "Opioide débil"
+    },
+    {
+        "principio": "ACETAMINOFEN / HIDROCODONA ",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "325/5.0 MG/MG",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "MIPRES",
+        "INDICACIÓN": "Opioide débil"
+    },
+    {
+        "principio": "ACETAMINOFEN / HIDROCODONA (29561)",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "325/7.5 MG/MG",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "MIPRES",
+        "INDICACIÓN": "Opioide débil"
+    },
+    {
+        "principio": "ACETAMINOFEN / HIDROCODONA",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "10/325 MG/MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "MIPRES",
+        "INDICACIÓN": "Opioide débil"
+    },
+    {
+        "principio": "ACETAMINOFEN/TIZANIDINA",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": " 325/2.0 MG ",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Analagésico + Relajante muscular"
+    },
+    {
+        "principio": "CAFEINA/ACETAMINOFEN/ACIDO ACETIL SALICILICO",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "65/250/250 MG/MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Analagésico"
+    },
+    {
+        "principio": "CELECOXIB",
+        "PRESENTACIÓN": "CAPSULA DURA ",
+        "DOSIS": "100 MG",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Aines cox2"
+    },
+    {
+        "principio": "CELECOXIB (29900)",
+        "PRESENTACIÓN": "CAPSULA DURA ",
+        "DOSIS": "200 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Aines cox2"
+    },
+    {
+        "principio": "CICLOBENZAPRINA CLORHIDRATO ",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "10 MG",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Relajante muscular"
+    },
+    {
+        "principio": "DULOXETINA  (28370)",
+        "PRESENTACIÓN": "CAPSULA DURA",
+        "DOSIS": "30 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Antidepresivo + Neuromodulador en dolor crónico neuropático."
+    },
+    {
+        "principio": "DULOXETINA (284184)",
+        "PRESENTACIÓN": "CAPSULA DURA",
+        "DOSIS": "60 MG",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Antidepresivo + Neuromodulador en dolor crónico neuropático."
+    },
+    {
+        "principio": "DULOXETINA  (26885)",
+        "PRESENTACIÓN": "CAPSULA LIBERACION RETARDADA",
+        "DOSIS": "60 MG",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Antidepresivo + Neuromodulador en dolor crónico neuropático."
+    },
+    {
+        "principio": "DULOXETINA ",
+        "PRESENTACIÓN": "TABLETA DE LIBERACION RETARDADA ",
+        "DOSIS": "30 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Antidepresivo + Neuromodulador en dolor crónico neuropático."
+    },
+    {
+        "principio": "DULOXETINA ",
+        "PRESENTACIÓN": "TABLETA DE LIBERACION RETARDADA ",
+        "DOSIS": "60 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Antidepresivo + Neuromodulador en dolor crónico neuropático."
+    },
+    {
+        "principio": "ETORICOXIB",
+        "PRESENTACIÓN": "TABLETA ",
+        "DOSIS": "30 MG , 90 MG",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Aines cox2"
+    },
+    {
+        "principio": "ETORICOXIB",
+        "PRESENTACIÓN": "TABLETA ",
+        "DOSIS": "120 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Aines cox2"
+    },
+    {
+        "principio": "GABAPENTINA",
+        "PRESENTACIÓN": "CAPSULA DURA",
+        "DOSIS": "300 MG",
+        "DISPONIBILIDAD": "DISPONIBLE"
+    },
+    {
+        "principio": "GABAPENTIN (20045)",
+        "PRESENTACIÓN": "CAPSULA DURA /TABLETA",
+        "DOSIS": "600 MG, 800 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Anticonvulsivante + Neuromodulador en dolor crónico neuropático."
+    },
+    {
+        "principio": "IBUPROFENO/CAFEINA",
+        "PRESENTACIÓN": "CAPSULA BLANDA ",
+        "DOSIS": "200/30 MG/MG",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Analagésico + Aines"
+    },
+    {
+        "principio": "KETOPROFENO",
+        "PRESENTACIÓN": "TABLETA RECUBIERTA",
+        "DOSIS": "100 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE"
+    },
+    {
+        "principio": "LANCOSAMIDA  (281035)",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "50 MG",
+        "DISPONIBILIDAD": "DISPONIBLE"
+    },
+    {
+        "principio": "MELOXICAM",
+        "PRESENTACIÓN": "TABLETA ",
+        "DOSIS": "7,5 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Aines"
+    },
+    {
+        "principio": "MELOXICAM",
+        "PRESENTACIÓN": "TABLETA ",
+        "DOSIS": "15 MG ",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Aines"
+    },
+    {
+        "principio": "NAPROXENO/ACETAMINOFEN/CAFEINA",
+        "PRESENTACIÓN": "TABLETA RECUBIERTA",
+        "DOSIS": "220/250/65 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Analagésico + Aines"
+    },
+    {
+        "principio": "OXICODONA CLORHIDRATO",
+        "PRESENTACIÓN": "TABLETA DE LIBERACION PROLONGADA",
+        "DOSIS": "10 MG",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Opioide Fuerte"
+    },
+    {
+        "principio": "OXICODONA CLORHIDRATO",
+        "PRESENTACIÓN": "TABLETA DE LIBERACION PROLONGADA",
+        "DOSIS": "20 MG, 40 MG ",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Opioide Fuerte"
+    },
+    {
+        "principio": "PREGABALINA",
+        "PRESENTACIÓN": "CAPSULA DURA ",
+        "DOSIS": "25 MG , 75 MG , 150 MG , 300 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Anticonvulsivante + Neuromodulador en dolor crónico neuropático."
+    },
+    {
+        "principio": "TAPENTADOL",
+        "PRESENTACIÓN": "TABLETA DE LIBERACION PROLONGADA",
+        "DOSIS": "25 MG TABLETA DE LIBERACION PROLONGADA",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Opioide débil"
+    },
+    {
+        "principio": "TRAMADOL/ACETAMINOFEN (285005)",
+        "PRESENTACIÓN": "SLN ORAL",
+        "DOSIS": "0.75/6.5 GR * 120 ML",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Opioide débil"
+    },
+    {
+        "principio": "TRAMADOL/ACETAMINOFEN",
+        "PRESENTACIÓN": "TABLETA ",
+        "DOSIS": "325/37.5 MG TABLETA",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Opioide débil"
+    },
+    {
+        "principio": "TRAMADOL/DICLOFENACO",
+        "PRESENTACIÓN": "TABLETA ",
+        "DOSIS": "25/25 MG/MG Y 50/50 MG/MG ",
+        "DISPONIBILIDAD": "DISPONIBLE ",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Opioide débil"
+    },
+    {
+        "principio": "TIZANIDINA",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "2 MG ",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Relajante muscular"
+    },
+    {
+        "principio": "TIZANIDINA",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "4MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Relajante muscular"
+    },
+    {
+        "principio": "CICLOBENZAPRINA CLORHIDRATO",
+        "PRESENTACIÓN": "TABLETA RECUBIERTA",
+        "DOSIS": "5 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Relajante muscular"
+    },
+    {
+        "principio": "BETAHISTINA *",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "8 MG",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Vertigo"
+    },
+    {
+        "principio": "BETAHISTINA *",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "16 MG , 24 MG ",
+        "DISPONIBILIDAD": "AGOTADO ",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Vertigo"
+    },
+    {
+        "principio": "DICLOFENAC SODICO/CODEINA FOSFATO HEMIHIDRATADO *",
+        "PRESENTACIÓN": "TABLETA RECUBIERTA",
+        "DOSIS": "50/50 MG/MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Aines"
+    },
+    {
+        "principio": "ETORICOXIB ",
+        "PRESENTACIÓN": "TABLETA ",
+        "DOSIS": "60 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Aines cox2"
+    },
+    {
+        "principio": "GABAPENTIN *",
+        "PRESENTACIÓN": "CAPSULA DURA /TABLETA",
+        "DOSIS": "400 MG",
+        "DISPONIBILIDAD": "AGOTADO ",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Anticonvulsivante + Neuromodulador en dolor crónico neuropático."
+    },
+    {
+        "principio": "HIDROCODONA BITARTRATO DISESQUIHIDRATO/NAPROXENO",
+        "PRESENTACIÓN": "TABLETA RECUBIERTA",
+        "DOSIS": "5/250 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Opioide / Aines"
+    },
+    {
+        "principio": "HIDROCODONA BITARTRATO DISESQUIHIDRATO/NAPROXENO",
+        "PRESENTACIÓN": "TABLETA RECUBIERTA",
+        "DOSIS": "10/250 MG/MG",
+        "DISPONIBILIDAD": "AGOTADO ",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Opioide / Aines"
+    },
+    {
+        "principio": "IBUPROFENO/CAFEINA",
+        "PRESENTACIÓN": "CAPSULA BLANDA ",
+        "DOSIS": "400/60 MG/MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Analagésico + Aines"
+    },
+    {
+        "principio": "IBUPROFENO BASE/CICLOBENZAPRINA CLORHIDRATO",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "400/5.0 MG/MG",
+        "DISPONIBILIDAD": "AGOTADO ",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Aines + Relajante muscular"
+    },
+    {
+        "principio": "IBUPROFENO/HIDROCODONA",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "200/5 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Opioide / Aines"
+    },
+    {
+        "principio": "IBUPROFENO/TIOCOLCHICÓSIDO",
+        "PRESENTACIÓN": "TABLETA ",
+        "DOSIS": "400/4 MG/MG ",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Aines + Relajante muscular"
+    },
+    {
+        "principio": "IBUPROFENO/TIOCOLCHICÓSIDO",
+        "PRESENTACIÓN": "TABLETA ",
+        "DOSIS": " 600/8 MG/MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Aines + Relajante muscular"
+    },
+    {
+        "principio": "IBUPROFENO/TIZANIDINA",
+        "PRESENTACIÓN": "CAPSULA DURA",
+        "DOSIS": "400/2 MG/MG CAPSULA DURA",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Aines + Relajante muscular"
+    },
+    {
+        "principio": "MELOXICAM/ESOMEPRAZOL",
+        "PRESENTACIÓN": "TABLETA RECUBIERTA Y CAPSULA DURA",
+        "DOSIS": "7.5/20 MG",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Aines + protector gástrico"
+    },
+    {
+        "principio": "MELOXICAM/ESOMEPRAZOL (27437)",
+        "PRESENTACIÓN": "CAPSULA DURA",
+        "DOSIS": "15/20 MG",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Aines + protector gástrico"
+    },
+    {
+        "principio": "NAPROXENO SODICO/CAFEINA",
+        "PRESENTACIÓN": "TABLETA ",
+        "DOSIS": "550/65 MG/MG TABLETA",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Analagésico + Aines"
+    },
+    {
+        "principio": "NIMESULIDA",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "100 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Antiinflamatorio"
+    },
+    {
+        "principio": "OXCARBAZEPINA *",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "300 MG",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Anticonvulsivante + Neuromodulador en dolor crónico neuropático."
+    },
+    {
+        "principio": "OXICODONA/ACETAMINOFEN",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "5.0/325 MG/MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Opioide Fuerte"
+    },
+    {
+        "principio": "PREGABALINA",
+        "PRESENTACIÓN": "CAPSULA DURA ",
+        "DOSIS": "50 MG ",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Anticonvulsivante + Neuromodulador en dolor crónico neuropático."
+    },
+    {
+        "principio": "TAPENTADOL",
+        "PRESENTACIÓN": "TABLETA DE LIBERACIÓN PROLONGADA ",
+        "DOSIS": "50 MG",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Opioide débil"
+    },
+    {
+        "principio": "TAPENTADOL",
+        "PRESENTACIÓN": "TABLETA DE LIBERACIÓN INMEDIATA",
+        "DOSIS": "50 MG",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Opioide débil"
+    },
+    {
+        "principio": "ACETAMINOFEN/CAFEINA",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "500/65 MG",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Analagésico"
+    },
+    {
+        "principio": "ACETAMINOFEN / TIOCOLCHICOSIDO",
+        "PRESENTACIÓN": "TABLETA ",
+        "DOSIS": "325/4 MG",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Analagésico + Relajante muscular"
+    },
+    {
+        "principio": "BUPRENORFINA",
+        "PRESENTACIÓN": "SISTEMA TRANSDERMICO (PARCHE)",
+        "DOSIS": "10 MCG/H(10MG), 20 MCG/H (20MG), 35MCG/H (20MG), 52.5 MCG/H (30 MG)",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "MIPRES",
+        "INDICACIÓN": "Opioide Fuerte"
+    },
+    {
+        "principio": "BUPRENORFINA",
+        "PRESENTACIÓN": "SISTEMA TRANSDERMICO (PARCHE)",
+        "DOSIS": "70 MCG/H (40 MG) ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "MIPRES",
+        "INDICACIÓN": "Opioide Fuerte"
+    },
+    {
+        "principio": "CICLOBENZAPRINA CLORHIDRATO",
+        "PRESENTACIÓN": "CAPSULA DE LIBERACION PROLONGADA",
+        "DOSIS": "15 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Relajante muscular"
+    },
+    {
+        "principio": "DEXIBUPROFENO/ACETAMINOFEN/CAFEINA ANHIDRA",
+        "PRESENTACIÓN": "TABLETA RECUBIERTA",
+        "DOSIS": "200/250/65 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Analagésico + Aines"
+    },
+    {
+        "principio": "FENTANILO (4,20MG)",
+        "PRESENTACIÓN": "SISTEMA TRANSDERMICO (PARCHE)",
+        "DOSIS": "25 MCG/H(4,20MG), 50 MCG/H (8,4MG), 75 MCG/H(12,6MG) , 100 MCG/H  (16,8MG)",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Opioide Fuerte"
+    },
+    {
+        "principio": "KETOPROFENO",
+        "PRESENTACIÓN": "GEL TOPICO",
+        "DOSIS": "2.5/100 G/G ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "MIPRES",
+        "INDICACIÓN": "Aines"
+    },
+    {
+        "principio": "LIDOCAINA",
+        "PRESENTACIÓN": "SISTEMA TRANSDERMICO (PARCHE)",
+        "DOSIS": "700 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE ",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Anestésico local"
+    },
+    {
+        "principio": "MELOXICAM ",
+        "PRESENTACIÓN": "GEL",
+        "DOSIS": "1 %",
+        "DISPONIBILIDAD": "DISPONIBLE ",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Aines"
+    },
+    {
+        "principio": "OXICODONA CLORHIDRATO",
+        "PRESENTACIÓN": "TABLETA DE LIBERACION PROLONGADA",
+        "DOSIS": "20 MG",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Opioide Fuerte"
+    },
+    {
+        "principio": "OXICODONA /NALOXONA CLORHIDRATO",
+        "PRESENTACIÓN": "TABLETA DE LIBERACION PROLONGADA",
+        "DOSIS": "40/20 MG/MG ",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Opioide Fuerte + Antagonista opioide"
+    },
+    {
+        "principio": "OXICODONA /NALOXONA CLORHIDRATO",
+        "PRESENTACIÓN": "TABLETA DE LIBERACION PROLONGADA",
+        "DOSIS": "20/10 MG/MG ",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Opioide Fuerte + Antagonista opioide"
+    },
+    {
+        "principio": "OXICODONA /NALOXONA CLORHIDRATO",
+        "PRESENTACIÓN": "TABLETA DE LIBERACION PROLONGADA",
+        "DOSIS": "10/5 MG/MG",
+        "DISPONIBILIDAD": "AGOTADO",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Opioide Fuerte + Antagonista opioide"
+    },
+    {
+        "principio": "PREGABALINA",
+        "PRESENTACIÓN": "SOLUCION ORAL X 105 ML",
+        "DOSIS": "2/100 G/ML ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Anticonvulsivante + Neuromodulador en dolor crónico neuropático."
+    },
+    {
+        "principio": "TAPENTADOL",
+        "PRESENTACIÓN": "TABLETA DE LIBERACION PROLONGADA",
+        "DOSIS": "100 MG",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Opioide débil"
+    },
+    {
+        "principio": "TAPENTADOL",
+        "PRESENTACIÓN": "TABLETA DE LIBERACION PROLONGADA",
+        "DOSIS": "150 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Opioide débil"
+    },
+    {
+        "principio": "TAPENTADOL",
+        "PRESENTACIÓN": "TABLETA DE LIBERACION PROLONGADA",
+        "DOSIS": "200 MG ",
+        "DISPONIBILIDAD": "NO SE MANEJA ",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Opioide débil"
+    },
+    {
+        "principio": "TIZANIDINA *",
+        "PRESENTACIÓN": "TABLETA",
+        "DOSIS": "6 MG ",
+        "DISPONIBILIDAD": "DISPONIBLE",
+        "ORDEN EN": "IPSA",
+        "INDICACIÓN": "Relajante muscular"
+    }
+]

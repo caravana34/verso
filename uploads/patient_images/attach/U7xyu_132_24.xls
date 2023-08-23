@@ -1,0 +1,33 @@
+<table border='2px'><tr >
+                                        <th>Appointment S.No.</th>
+                                        <th>Nombre del paciente</th>
+                                        <th>Teléfono</th>
+                                        <th>Tiempo</th>
+                                        <th>Correo electrónico</th>
+                                        <th>Fecha</th>
+                                        <th>Fuente</th>
+                                    </tr>
+                                        <td>1</td>
+                                        <td>Roberto Pelaez (1)</td>
+                                        <td>01: Indígena</td>
+                                        <td>08:30 AM</td>
+                                        <td>gomez@gmail.com</td>
+                                        <td>07/25/2023</td>
+                                        <td>Offline</td>
+                                    </tr>
+                                        <td>2</td>
+                                        <td>Dario (4)</td>
+                                        <td></td>
+                                        <td>11:10 AM</td>
+                                        <td>gomez@gmail.com</td>
+                                        <td>07/25/2023</td>
+                                        <td>Offline</td>
+                                    </tr>
+                                        <td>3</td>
+                                        <td>Dario (4)</td>
+                                        <td></td>
+                                        <td>04:10 PM</td>
+                                        <td>gomez@gmail.com</td>
+                                        <td>07/25/2023</td>
+                                        <td>Offline</td>
+                                    </tr></table>

@@ -1,0 +1,168 @@
+Array
+(
+    [result] => Array
+        (
+            [id] => 123
+            [case_reference_id] => 123
+            [patient_id] => 1
+            [generated_by] => 1
+            [is_ipd_moved] => 0
+            [discharged] => no
+            [created_at] => 2023-05-15 04:01:17
+            [blood_group_name] => O+
+            [casualty] => 
+            [symptoms] => 
+            [known_allergies] => 
+            [refference] => 
+            [case_type] => 
+            [pid] => 1
+            [patient_name] => Roberto Pelaez
+            [age] => 24
+            [month] => 0
+            [day] => 18
+            [image] => uploads/patient_images/TAM97_1.png
+            [mobileno] => 01: Indígena
+            [email] => gomez@gmail.com
+            [gender] => Mujer
+            [dob] => 
+            [marital_status] => Casado
+            [blood_group] => 
+            [address] => 01: Masculino
+            [guardian_name] => Posada
+            [name] => Alfredo
+            [surname] => Posada
+            [discharge_date] => 
+            [field_value] => Consulta realizada debido a fuertes dolores de cabez
+        )
+
+    [custom] => Array
+        (
+            [0] => stdClass Object
+                (
+                    [id] => 493
+                    [belong_table_id] => 123
+                    [custom_field_id] => 32
+                    [field_value] => Consulta realizada debido a fuertes dolores de cabez
+                    [created_at] => 2023-05-15 04:01:18
+                )
+
+            [1] => stdClass Object
+                (
+                    [id] => 494
+                    [belong_table_id] => 123
+                    [custom_field_id] => 43
+                    [field_value] => Se revisan los respectivos sistemas de cabeza, cuello, brazos y piernas
+                    [created_at] => 2023-05-15 04:01:18
+                )
+
+            [2] => stdClass Object
+                (
+                    [id] => 495
+                    [belong_table_id] => 123
+                    [custom_field_id] => 19
+                    [field_value] => 178
+                    [created_at] => 2023-05-15 04:01:18
+                )
+
+            [3] => stdClass Object
+                (
+                    [id] => 496
+                    [belong_table_id] => 123
+                    [custom_field_id] => 36
+                    [field_value] => 67
+                    [created_at] => 2023-05-15 04:01:18
+                )
+
+            [4] => stdClass Object
+                (
+                    [id] => 497
+                    [belong_table_id] => 123
+                    [custom_field_id] => 38
+                    [field_value] => 67
+                    [created_at] => 2023-05-15 04:01:18
+                )
+
+            [5] => stdClass Object
+                (
+                    [id] => 498
+                    [belong_table_id] => 123
+                    [custom_field_id] => 39
+                    [field_value] => 67
+                    [created_at] => 2023-05-15 04:01:18
+                )
+
+            [6] => stdClass Object
+                (
+                    [id] => 499
+                    [belong_table_id] => 123
+                    [custom_field_id] => 49
+                    [field_value] => 36
+                    [created_at] => 2023-05-15 04:01:18
+                )
+
+            [7] => stdClass Object
+                (
+                    [id] => 500
+                    [belong_table_id] => 123
+                    [custom_field_id] => 52
+                    [field_value] => 56
+                    [created_at] => 2023-05-15 04:01:18
+                )
+
+            [8] => stdClass Object
+                (
+                    [id] => 501
+                    [belong_table_id] => 123
+                    [custom_field_id] => 54
+                    [field_value] => 66
+                    [created_at] => 2023-05-15 04:01:18
+                )
+
+            [9] => stdClass Object
+                (
+                    [id] => 502
+                    [belong_table_id] => 123
+                    [custom_field_id] => 44
+                    [field_value] => 55
+                    [created_at] => 2023-05-15 04:01:18
+                )
+
+            [10] => stdClass Object
+                (
+                    [id] => 503
+                    [belong_table_id] => 123
+                    [custom_field_id] => 45
+                    [field_value] => 56
+                    [created_at] => 2023-05-15 04:01:18
+                )
+
+            [11] => stdClass Object
+                (
+                    [id] => 504
+                    [belong_table_id] => 123
+                    [custom_field_id] => 46
+                    [field_value] => Sentado
+                    [created_at] => 2023-05-15 04:01:18
+                )
+
+            [12] => stdClass Object
+                (
+                    [id] => 505
+                    [belong_table_id] => 123
+                    [custom_field_id] => 47
+                    [field_value] =>  Brazo izquierdo
+                    [created_at] => 2023-05-15 04:01:18
+                )
+
+            [13] => stdClass Object
+                (
+                    [id] => 506
+                    [belong_table_id] => 123
+                    [custom_field_id] => 57
+                    [field_value] => El paciente presenta disposición a enfermedades de tipo 
+                    [created_at] => 2023-05-15 04:01:18
+                )
+
+        )
+
+)
