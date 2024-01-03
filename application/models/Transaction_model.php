@@ -40,6 +40,24 @@ class Transaction_model extends MY_Model
         return $query->row_array();
     }
 
+  
+    public function type_opdPaymentByCaseId($case_id)
+    {
+        $query = $this->db->select('payment_mode')
+               ->group_start()     
+                ->or_where('transactions.opd_id !=',null)
+                ->or_where('transactions.ipd_id !=',null)
+                ->group_end()   
+                ->where("transactions.case_reference_id", $case_id)
+                ->where("transactions.type", 'payment')         
+                ->order_by("transactions.id", "desc")
+                ->get("transactions");
+        return $query->row_array();
+    }
+  
+  
+  
+  
     public function radiologyPaymentByTransactionId($transaction_id)
     {
         $query = $this->db->select('transactions.*,radiology_billing.id as radiology_billing_id,patients.note as pnote,patients.id as patient_id,patients.patient_name,patients.age,patients.month,patients.gender,patients.id as patient_unique_id,patients.mobileno,patients.email,patients.dob,patients.image,patients.address,staff.name,staff.surname,staff.employee_id')
@@ -398,11 +416,12 @@ class Transaction_model extends MY_Model
               $condition.= " and  date_format(appointment_date,'%Y-%m-%d') >='". $start_date."' and date_format(appointment_date,'%Y-%m-%d') <= '".$end_date."' " ;
         }      
        
-         $sql="select opd_details.id,'opd_no' module_no,visit_details.id as visit_id,visit_details.symptoms,visit_details.appointment_date, ipd_prescription_basic.finding_description, patients.patient_name,patients.dob,patients.age,patients.month,patients.day,patients.gender,patients.mobileno,patients.guardian_name,patients.address,patients.id patientid,staff.name,staff.surname,staff.employee_id ".$field_variable." from opd_details 
-        left join visit_details on  opd_details.id=visit_details.opd_details_id 
-        left join ipd_prescription_basic on ipd_prescription_basic.visit_details_id = visit_details.id  
-        left join patients on patients.id = opd_details.patient_id
-        left join staff on staff.id = visit_details.cons_doctor"  .$custom_join ." where 0=0 ".$condition." " ;
+         $sql="select opd_details.id,'opd_no' module_no,visit_details.id as visit_id,visit_details.symptoms,visit_details.appointment_date, ipd_prescription_basic.finding_description, patients.patient_name,patients.dob,patients.age,patients.month,patients.day,patients.gender,patients.mobileno,patients.guardian_name,patients.address,patients.id patientid,staff.name,staff.surname,staff.employee_id,appointment.appointment_status ".$field_variable." from opd_details 
+              left join visit_details on  opd_details.id=visit_details.opd_details_id 
+              right join appointment on  appointment.visit_details_id = visit_details.id
+              left join ipd_prescription_basic on ipd_prescription_basic.visit_details_id = visit_details.id  
+              left join patients on patients.id = opd_details.patient_id
+              left join staff on staff.id = visit_details.cons_doctor"  .$custom_join ." where 0=0 ".$condition." " ;
              $this->datatables->query($sql) 
               ->searchable('patients.id,patients.patient_name,patients.age,patients.gender,patients.mobileno,patients.guardian_name,patients.address'.$custom_field_column)
               ->orderable('visit_details.appointment_date,opd_details.id,visit_details.id,patients.patient_name,patients.age,patients.gender,patients.mobileno,patients.guardian_name,staff.name,visit_details.symptoms,ipd_prescription_basic.finding_description'.$custom_field_column)
@@ -430,13 +449,23 @@ class Transaction_model extends MY_Model
             $condition.=" and opd_details.discharged= '".$discharged."'  ";
        }
 
-        $sql="SELECT visit_details.appointment_date,opd_details.*,patients.id as patient_id,patients.patient_name,patients.guardian_name,patients.address,patients.gender,patients.dob,patients.age,patients.month,patients.day,patients.mobileno,patients.is_active,patients.age,patients.month,charge_amounts.amount_charged,transaction_amount.amount_paid FROM `opd_details` inner JOIN (select sum(amount) as amount_charged ,opd_id from patient_charges WHERE patient_charges.opd_id IS NOT NULL GROUP BY opd_id )  as charge_amounts on charge_amounts.opd_id=opd_details.id INNER JOIN (select sum(amount) as amount_paid ,opd_id from transactions WHERE transactions.opd_id IS NOT NULL GROUP BY opd_id) as transaction_amount on transaction_amount.opd_id=opd_details.id INNER JOIN patients ON opd_details.patient_id = patients.id inner join visit_details on visit_details.opd_details_id=opd_details.id where 0=0 ".$condition." and date_format(visit_details.appointment_date,'%Y-%m-%d') >='". $start_date."' and date_format(visit_details.appointment_date,'%Y-%m-%d') <= '".$end_date."'";
-              $this->datatables->query($sql)
-              ->searchable('patients.id,case_reference_id')
-              ->orderable('opd_details.id,patients.patient_name,case_reference_id,patients.age,patients.gender,mobileno,patients.is_active,opd_details.discharged,charge_amounts.amount_charged,transaction_amount.amount_paid')
-              ->sort('visit_details.appointment_date','desc')
-              ->group_by('visit_details.opd_details_id', true)
-              ->query_where_enable(TRUE);
+        $sql="SELECT visit_details.appointment_date,opd_details.*,opd_details.id as opd,patients.id as patient_id,patients.patient_name,patients.guardian_name,electronic_bills.*,patients.address,patients.gender,patients.dob,patients.age,patients.month,patients.day,patients.mobileno,patients.email,
+        patients.is_active,patients.age,patients.month,charge_amounts.amount_charged,transaction_amount.amount_paid, custom_field_values.field_value as eps
+        FROM `opd_details` inner JOIN (select sum(amount) as amount_charged ,opd_id from patient_charges WHERE patient_charges.opd_id IS NOT NULL GROUP BY opd_id )  as charge_amounts on charge_amounts.opd_id=opd_details.id 
+        INNER JOIN (select sum(amount) as amount_paid ,opd_id, case_reference_id as case_id_d from transactions WHERE transactions.opd_id IS NOT NULL GROUP BY opd_id) as transaction_amount on transaction_amount.opd_id=opd_details.id 
+        INNER JOIN patients ON opd_details.patient_id = patients.id
+        INNER JOIN custom_field_values ON opd_details.patient_id = custom_field_values.belong_table_id and custom_field_id=12
+        RIGHT JOIN 
+        electronic_bills 
+        ON opd_details.case_reference_id = electronic_bills.case_id 
+        AND electronic_bills.date_send = (SELECT MAX(date_send) FROM electronic_bills WHERE case_id = opd_details.case_reference_id)
+        inner join visit_details on visit_details.opd_details_id=opd_details.id where 0=0 ".$condition." and date_format(visit_details.appointment_date,'%Y-%m-%d') >='". $start_date."' and date_format(visit_details.appointment_date,'%Y-%m-%d') <= '".$end_date."'";
+         $this->datatables->query($sql)
+         ->searchable('patients.id,case_reference_id')
+         ->orderable('opd_details.id,patients.patient_name,case_reference_id,patients.age,patients.gender,mobileno,patients.is_active,opd_details.discharged,charge_amounts.amount_charged,transaction_amount.amount_paid')
+         ->sort('visit_details.appointment_date','desc')
+         ->group_by('visit_details.opd_details_id', true)
+         ->query_where_enable(TRUE);
         return $this->datatables->generate('json');
     } 
     
@@ -1148,11 +1177,15 @@ class Transaction_model extends MY_Model
 //new function
     public function expensereportRecord($start_date, $end_date) {
         
-        $custom_fields             = $this->customfield_model->get_custom_fields('expenses','','',1);
+            $custom_fields             = $this->customfield_model->get_custom_fields('expenses','','',1);
             $custom_field_column_array = array();
             $field_var_array = array();
             $custom_join = NULL;
             $i                         = 1;
+      
+//       echo "<pre>";
+//       print_r($start_date);
+//       exit;
            
       if (!empty($custom_fields)) {
             foreach ($custom_fields as $custom_fields_key => $custom_fields_value) {
@@ -1193,7 +1226,7 @@ class Transaction_model extends MY_Model
     } 
 
     public function get_ipdopdchargebycaseId($case_id){
-         return $query = $this->db->select('patient_charges.*,charge_categories.name as charge_category_name,charges.charge_category_id,charges.standard_charge,charges.name as `charge_name`,charge_units.unit,charge_type_master.id as `charge_type_master_id`,ipd_details.patient_id as `ipd_patient_id`,ipd_patient.patient_name as `ipd_patient_name`,opd_details.patient_id as `opd_patient_id`,opd_patient.patient_name as `opd_patient_name`,opd_details.case_reference_id as `opd_case_reference_id`,ipd_details.case_reference_id as `ipd_case_reference_id`,tax_category.name as apply_tax,tax_category.percentage')
+         return $query = $this->db->select('patient_charges.*,charge_categories.name as charge_category_name,charges.charge_category_id,charges.cups,charges.standard_charge,charges.name as `charge_name`,charge_units.unit,charge_type_master.id as `charge_type_master_id`,ipd_details.patient_id as `ipd_patient_id`,ipd_patient.patient_name as `ipd_patient_name`,opd_details.patient_id as `opd_patient_id`,opd_patient.patient_name as `opd_patient_name`,opd_details.case_reference_id as `opd_case_reference_id`,ipd_details.case_reference_id as `ipd_case_reference_id`,tax_category.name as apply_tax,tax_category.percentage')
             ->join('opd_details', 'patient_charges.opd_id = opd_details.id','left')
             ->join('patients as opd_patient', 'opd_details.patient_id = opd_patient.id','left')
             ->join('ipd_details', 'patient_charges.ipd_id = ipd_details.id','left')

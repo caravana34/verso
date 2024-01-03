@@ -55,7 +55,7 @@
  * NOTE: If you change these, also change the error_reporting() code below
  */
  
-    ini_set('max_execution_time', 3000); // 0 = Unlimited
+  ini_set('max_execution_time', 3000); // 0 = Unlimited
 	
 	define('ENVIRONMENT', 'production');
 

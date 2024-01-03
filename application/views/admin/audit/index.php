@@ -24,6 +24,7 @@
                                     <th><?php echo $this->lang->line('users'); ?></th>
                                     <th><?php echo $this->lang->line('ip_address'); ?></th>
                                     <th><?php echo $this->lang->line('action'); ?></th>
+                                    <th>Agendamiento</th>
                                     <th><?php echo $this->lang->line('platform'); ?></th>
                                     <th><?php echo $this->lang->line('agent'); ?></th>
                                     <th><?php echo $this->lang->line('date_time'); ?></th>

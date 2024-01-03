@@ -12,6 +12,9 @@ class CSVReader {
     function parse_file($p_Filepath) {
         $file = fopen($p_Filepath, 'r');
         $this->fields = fgetcsv($file, $this->max_row_size, $this->separator, $this->enclosure);
+//       echo "<pre>";
+//       print_r($this->fields);
+//       exit;      
 
         $keys = str_getcsv($this->fields[0]);
         // $buffer = fgets($file, $this->max_row_size);
@@ -19,15 +22,13 @@ class CSVReader {
         while (($row = fgetcsv($file, $this->max_row_size, $this->separator, $this->enclosure)) != false) {
             if ($row != null) { // skip empty lines
                 $values = str_getcsv($row[0]);
-//                        echo "<pre>";
-//                     print_r($values);
-//                     exit;
+              
                 if (count($keys) == count($values)) {
                     $arr = array();
                     for ($j = 0; $j < count($keys); $j++) {
                         if ($keys[$j] != "") {
                             // $buffer = $this->autoUTF($values[$j]);
-
+                                   
                             /* if ($keys[$j] == "admission_date(dd-mm-yyyy)" || $keys[$j] == "dob(dd-mm-yyyy)") {
                               $search = "(dd-mm-yyyy)";
                               $trimmed = str_replace($search, '', $keys[$j]);
@@ -45,8 +46,31 @@ class CSVReader {
             }
         }
         fclose($file);
+                       
         return $content;
     }
+  
+  function parse_charge($file){
+       $csv_file = fopen($file, 'r');
+
+             // Obtener la primera fila como encabezados
+    $headers = fgetcsv($csv_file, 1000, ';');
+
+    while (($data = fgetcsv($csv_file, 1000, ';')) !== FALSE) {
+        // Crear un array asociativo usando los encabezados como claves
+        $fila = array_combine($headers, $data);
+
+        // Procesar cada fila del CSV
+        // Aquí deberías insertar los datos en tu base de datos
+//         print_r($fila); // Ejemplo: Mostrar los datos en la pantalla
+    }
+//                            echo"<pre>";
+//                           print_r($fila);
+//                           exit;
+
+                      fclose($csv_file);
+    return $fila;
+  }
 
     public function fgetcsvUTF8($handle, $length = 4096, $separator = ';') {
         $handler = fopen($handle, "r");

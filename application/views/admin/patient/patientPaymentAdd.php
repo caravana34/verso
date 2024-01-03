@@ -99,6 +99,7 @@
 $(document).on('click','.addpayment',function(){     
        $('#myPaymentModal').modal('show');
 });
+  
  $(document).ready(function (e) {
         $("#add_payment").on('submit', (function (e) {
             e.preventDefault();         
@@ -136,6 +137,71 @@ $(document).on('click','.addpayment',function(){
             });
         }));
     });
+ $(document).ready(function(e) {
+          $("#add_charges button[type=submit]").click(function() {
+            $("button[type=submit]", $(this).parents("form")).removeAttr("clicked");
+            $(this).attr("clicked", "true");
+          });
+
+          $("#add_charges").on('submit', (function(e) {
+            e.preventDefault();
+            var $this = $("button[type=submit][clicked=true]");
+            var form = $(this);
+            var form_data = form.serializeArray();
+            var button_val = $this.attr('value');
+            form_data.push({
+              name: "add_type",
+              value: button_val
+            });
+            $.ajax({
+              url: '<?php echo base_url(); ?>admin/charges/add_opdcharges',
+              type: "post",
+              data: form_data,
+              dataType: 'json',
+              beforeSend: function() {
+                $("#add_chargesbtn").button('loading');
+
+              },
+              success: function(res) {
+                if (res.status == "fail") {
+                  var message = "";
+                  $.each(res.error, function(index, value) {
+                    message += value;
+                  });
+                  errorMsg(message);
+                } else if (res.status == "new_charge") {
+                  var data = res.data;
+                  var row_id = makeid(8);
+
+
+                  var charge = '<tr id="' + row_id + '"><td>' + data.date + '<input type="hidden" name="pre_date[]" value="' + data.date + '"></td><td>' + data.charge_type_name + '</td><td>' + data.charge_category + '</td><td>' + data.charge_name + '<input type="hidden" name="pre_charge_id[]" value="' + data.charge_id + '"><br><h6>' + data.note + '<input type="hidden" name="pre_note[]" value="' + data.note + '"></h6></td><td class="text-right">' + data.standard_charge + '<input type="hidden" name="pre_standard_charge[]" value="' + data.standard_charge + '"><input type="hidden" name="pre_tax_percentage[]" value="' + data.tax_percentage + '"></td><td class="text-right">' + data.tpa_charge + '<input type="hidden" name="pre_tpa_charges[]" value="' + data.tpa_charge + '"></td><td class="text-right">' + data.qty + '<input type="hidden" name="pre_qty[]" value="' + data.qty + '"></td><td class="text-right">' + data.amount + '<input type="hidden" name="pre_total[]" value="' + data.amount + '"></td><td class="text-right">' + data.tax + '<input type="hidden" name="pre_tax[]" value="' + data.tax + '"><input type="hidden" name="pre_apply_charge[]" value="' + data.apply_charge + '"></td><td class="text-right">' + data.net_amount + '<input type="hidden" name="pre_net_amount[]" value="' + data.net_amount + '"></td><td><button type="button" class="closebtn delete_row" data-row-id="' + row_id + '" data-record-id="' + data.charge_id + '" autocomplete="off"><i class="fa fa-remove"></i></button></td></tr>';
+                  $('#preview_charges').append(charge);
+
+                  charge_reset();
+                } else {
+                  successMsg(res.message);
+                  window.location.reload(true);
+                }
+
+              },
+              error: function() {
+                $("#add_chargesbtn").button('reset');
+              },
+              complete: function() {
+                $("#add_chargesbtn").button('reset');
+              }
+            });
+          }));
+        });
+ function makeid(length) {
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random()*charactersLength));
+    }
+    return result;
+  }
 
 
 </script>

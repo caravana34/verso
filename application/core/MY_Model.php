@@ -42,8 +42,15 @@ class MY_Model extends CI_Model
             'agent'      => $agent,
             'action'     => $action,
             'time'       => date('Y-m-d H:i:s'),
-            'created_at' => date('Y-m-d'),
+            'created_at' => date('Y-m-d')
         );
+      
+       if (strpos($message, "Appointment") !== false) {
+              $insert['id_appointment'] = $record_id;
+          } 
+//       echo "<pre>";
+//       print_r($insert);
+//       exit;
 
         $this->db->insert('logs', $insert);
     }

@@ -7,7 +7,7 @@ class Onlineappointment_model extends MY_Model
 {
     public function getShiftdata($doctor, $day, $shift)
     {
-        $this->db->select("id,staff_id as doctor_id,date_format(start_time,'%h:%i %p') as start_time ,date_format(end_time,'%h:%i %p') as end_time");
+        $this->db->select("id,staff_id as doctor_id, day, status_blocked,status_blocked,id_lock_calendar, start_date, end_date, date_format(start_time,'%h:%i %p') as start_time ,date_format(end_time,'%h:%i %p') as end_time");
         $this->db->where("staff_id", $doctor);
         $this->db->where("global_shift_id", $shift);
         $this->db->where("day", $day);
@@ -35,10 +35,23 @@ class Onlineappointment_model extends MY_Model
         }
         if (isset($update_array) && !empty($update_array)) {
             $this->db->update_batch('doctor_shift', $update_array, 'id');
+            $id = $this->db->insert_id();
+            $this->db->set(array(
+                'start_date' => $update_array[0]['start_date'],
+                'end_date'   => $update_array[0]['end_date'],
+            ));
+            $this->db->where('staff_id', $update_array[0]['staff_id']);
+            $this->db->update('doctor_shift');
         }
         if (isset($insert_array) && !empty($insert_array)) {
-
             $this->db->insert_batch('doctor_shift', $insert_array);
+            $id = $this->db->insert_id();
+            $this->db->set(array(
+                'start_date' => $insert_array[0]['start_date'],
+                'end_date'   => $insert_array[0]['end_date'],
+            ));
+            $this->db->where('staff_id', $insert_array[0]['staff_id']);
+            $this->db->update('doctor_shift');
         }
         $this->db->trans_complete();
         if ($this->db->trans_status() === false) {
@@ -86,10 +99,10 @@ class Onlineappointment_model extends MY_Model
     
     public function getAppointments($doctor_id, $shift_id, $date)
     {
-        $status_array = array('approved','pending','En curso','Confirmar','llegada');
-        $this->db->select("time");
-        $this->db->where("doctor", $doctor_id);
+        $status_array = array('Aprobada','Agendada','Firmada','Confirmada');
+        $this->db->select("id,time,time_finish");
         $this->db->where("shift_id", $shift_id);
+        $this->db->where("doctor", $doctor_id);
         $this->db->where("date_format(date,'%Y-%m-%d')", $date);
         $this->db->where_in('appointment_status', $status_array);
         $query         = $this->db->get("appointment");
@@ -102,7 +115,7 @@ class Onlineappointment_model extends MY_Model
         $this->db->where("doctor", $doctor_id);
         $this->db->where("shift_id", $shift_id);
         $this->db->where("time", $slot);
-        $this->db->where("appointment_status", "approved");
+        $this->db->where("appointment_status", "Aprobada");
         $this->db->where("date_format(date,'%Y-%m-%d')", $date);
         $query         = $this->db->get("appointment");
         return $result = $query->result();
@@ -180,7 +193,7 @@ class Onlineappointment_model extends MY_Model
             ->searchable("patients.patient_name,patients.mobileno,patients.email,appointment.date,appointment.time,appointment.source")
            ->orderable("patients.patient_name,patients.mobileno,'',patients.email,appointment.date")
             ->join("patients", "appointment.patient_id=patients.id")
-            ->where("appointment.appointment_status", "approved")
+            ->where("appointment.appointment_status", "Aprobada")
             ->from("appointment");
         return $this->datatables->generate('json');
     }
@@ -190,7 +203,7 @@ class Onlineappointment_model extends MY_Model
         $query = $this->db
             ->select("appointment.id as appointment_id,patients.id,patients.patient_name,patients.mobileno,patients.email,appointment.date,appointment.time,appointment.source")
             ->join("patients", "appointment.patient_id=patients.id")
-            ->where("appointment.appointment_status", "approved")
+            ->where("appointment.appointment_status", "Aprobada")
             ->where("appointment.doctor", $doctor_id)
             ->where("date_format(appointment.date,'%Y-%m-%d')", $date)
             ->where("appointment.shift_id", $shift)
@@ -207,7 +220,7 @@ class Onlineappointment_model extends MY_Model
         $query = $this->db
             ->select("appointment.id as appointment_id,patients.id,patients.patient_name,patients.mobileno,patients.email,appointment.date,appointment.time,appointment.source")
             ->join("patients", "appointment.patient_id=patients.id")
-            ->where("appointment.appointment_status", "approved")
+            ->where("appointment.appointment_status", "Aprobada")
             ->where("appointment.doctor", $doctor_id)
             ->where("date_format(appointment.date,'%Y-%m-%d')", $date)
             ->where("appointment.source", "Offline")
@@ -407,6 +420,9 @@ class Onlineappointment_model extends MY_Model
         $this->db->where("dg.staff_id", $doctor_id);
         $query  = $this->db->get("doctor_global_shift as dg");
         $result = $query->result_array();
+//       echo "<pre>";
+//       print_r($result);
+//       exit;
         return $result;
     }
 
@@ -466,7 +482,7 @@ class Onlineappointment_model extends MY_Model
         $this->db->trans_strict(false);
         $this->db->insert("appointment_payment",$payment_data);
         $insert_id=$this->db->insert_id();
-        $data = array('appointment_status' => 'approved');
+        $data = array('appointment_status' => 'Aprobada');
         $this->db->insert("transactions",$transaction);
         $this->db->update("appointment", $data,"id=".$payment_data['appointment_id']);
         $this->db->trans_complete();
@@ -478,5 +494,24 @@ class Onlineappointment_model extends MY_Model
             return $payment_data['appointment_id'];
         } 
     }
+  
+    public function getBlockedDatatable()
+    {
+          date_default_timezone_set("America/Bogota");
+          $userdata           = $this->customlib->getUserData();
+          $doctor_restriction = $this->session->userdata['hospitaladmin']['doctor_restriction'];
+
+          if ($doctor_restriction == 'enabled' && $userdata["role_id"] == 3) {
+              $this->datatables->where('appointment.doctor', $userdata['id']);
+          }
+
+          $this->datatables->select('lock.id_lock_calendar, lock.start_date, lock.end_date, lock.blocking_reason, lock.create_at, lock.id_doctor, lock.status, staff.name, staff.surname');
+          $this->datatables->join('staff', 'lock.id_doctor = staff.id', "inner");
+          $this->datatables->searchable('lock.start_date, lock.end_date, lock.blocking_reason, staff.name, staff.surname');
+          $this->datatables->orderable('lock.start_date, lock.end_date, lock.blocking_reason, staff.name, staff.surname');
+          $this->datatables->sort('lock.create_at', 'DESC');
+          $this->datatables->from('lock_calendar as lock');
+          return $this->datatables->generate('json');
+   }
 
 }

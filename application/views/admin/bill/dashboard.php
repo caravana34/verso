@@ -25,7 +25,16 @@
                                 <div class="billingbox text-center">
                                     <a href="<?php echo base_url('admin/bill/opd');?>">
                                         <div class="billingbox-icon"><i class="fas fa-stethoscope"></i></div>
-                                        <p><?php echo $this->lang->line('opd'); ?></p>
+                                        <p>Eventos por paciente</p>
+                                    </a>
+                                    
+                                </div>
+                            </div><!--./col-lg-4-->
+                           <div class="col-lg-4 col-md-6 col-sm-6">
+                                <div class="billingbox text-center">
+                                    <a href="<?php echo base_url('admin/bill/bill_report');?>">
+                                        <div class="billingbox-icon"><i class="fas fa-money-check"></i></div>
+                                        <p>Facturas</p>
                                     </a>
                                     
                                 </div>

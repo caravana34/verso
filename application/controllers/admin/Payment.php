@@ -181,7 +181,9 @@ class Payment extends Admin_Controller
 
     public function addOPDPayment()
     {        
-      
+//             echo "<pre>";
+//           print_r("factura");
+//           exit;
 //         $this->form_validation->set_rules(
 //             'amount', $this->lang->line('amount'), array('required', 'xss_clean', 'valid_amount',
 //                 array('check_exists', array($this->transaction_model, 'validate_paymentamount')),
@@ -207,9 +209,6 @@ class Payment extends Admin_Controller
 
             $array = array('status' => 'fail', 'error' => $msg, 'message' => '');
         } else {
-//       echo "<pre>";
-//           print_r($array);
-//           exit;
             $payment_date    = $this->customlib->dateFormatToYYYYMMDDHis($this->input->post("payment_date"), $this->time_format);
             $cheque_date     = $this->customlib->dateFormatToYYYYMMDD($this->input->post("cheque_date"));
             $amount          = $this->input->post('amount');
@@ -228,6 +227,9 @@ class Payment extends Admin_Controller
                 'received_by'       => $this->customlib->getLoggedInUserID(),
             );
 
+//       echo "<pre>";
+//           print_r($data);
+//           exit;
             $cheque_date = $this->input->post("cheque_date");
 
             $insert_id       = $this->transaction_model->add($data);

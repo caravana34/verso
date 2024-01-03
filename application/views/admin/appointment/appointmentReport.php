@@ -112,12 +112,14 @@ $currency_symbol = $this->customlib->getHospitalCurrencyFormat();
                                 <table class="table table-striped table-bordered table-hover allajaxlist" data-export-title="<?php echo $this->lang->line('appointment_report'); ?>">
                                     <thead>
                                         <tr>
+                                            <th>Id Cita</th>
                                             <th><?php echo $this->lang->line('patient_name'); ?></th>
                                             <th><?php echo $this->lang->line('date'); ?></th>
-                                            <th><?php echo $this->lang->line('phone'); ?></th>
-                                            <th><?php echo $this->lang->line('gender'); ?></th>
+                                            <th>Tipo de atención</th>
+                                            <th>Cups</th>
+                                            <th>Iss</th>
                                             <th><?php echo $this->lang->line('doctor'); ?></th>
-                                            <th><?php echo $this->lang->line('source'); ?></th>
+                                            <th>Responsable</th>
                                             <?php 
                                             if (!empty($fields)) {
                                                 foreach ($fields as $fields_key => $fields_value) {
@@ -128,6 +130,7 @@ $currency_symbol = $this->customlib->getHospitalCurrencyFormat();
                                              }
                                             ?> 
                                              <th><?php echo $this->lang->line('fees'); ?></th>
+                                             <th>Honorarios</th>
                                             <th class="text text-right"><?php echo $this->lang->line('status'); ?></th>
                                         </tr>
                                     </thead>
@@ -160,7 +163,7 @@ $currency_symbol = $this->customlib->getHospitalCurrencyFormat();
     'use strict';
 
     $(document).ready(function () {
-         emptyDatatable('allajaxlist', 'data');
+       emptyDatatable('allajaxlist', 'data');
        $('#form1').on('submit', (function (e) {
         e.preventDefault();
         var search= 'search_filter';

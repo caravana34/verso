@@ -29,12 +29,38 @@ class Bill extends Admin_Controller
         $this->load->model(array('charge_model', 'patient_model', 'appoint_priority_model', 'onlineappointment_model', 'transaction_model', 'conference_model', 'transaction_model', 'casereference_model'));
 
         $this->load->library('datatables');
-        $this->payment_mode = $this->config->item('payment_mode');
+       
         $this->load->model("transaction_model");
+        $this->load->model("resoluciones_model");
         $this->load->helper('customfield_helper');
         $this->time_format = $this->customlib->getHospitalTimeFormat();
         $this->load->library('system_notification');
         $this->load->library('mailsmsconf');
+        $this->load->library('curl');
+      
+        $this->config->load("payroll");
+        $this->config->load("mailsms");
+        $this->notification            = $this->config->item('notification');
+        $this->notificationurl         = $this->config->item('notification_url');
+        $this->yesno_condition         = $this->config->item('yesno_condition');
+        $this->patient_notificationurl = $this->config->item('patient_notification_url');
+        $this->search_type             = $this->config->item('search_type');
+        $this->load->library('mailsmsconf');
+        $this->load->library('Enc_lib');
+        $this->load->library('datatables');
+        $this->load->library('system_notification');
+        $this->load->model(array('appoint_priority_model', 'onlineappointment_model', 'transaction_model','conference_model'));
+        $this->appointment_status = $this->config->item('appointment_status');
+        $this->load->helper('customfield_helper');
+        $this->time_format = $this->customlib->getHospitalTimeFormat();
+        $this->config->load('image_valid');
+        $this->payment_mode = $this->config->item('payment_mode');
+      
+      
+      
+      
+      
+      
     }
 
     public function index($case_id)
@@ -42,6 +68,10 @@ class Bill extends Admin_Controller
         $this->session->set_userdata('top_menu', 'bill');
         $data["payment_mode"] = $this->payment_mode;
         $data['case_id']=$case_id;
+      
+//         echo "<pre>";
+//       print_r($data);
+//       exit;
         $this->load->view("layout/header");
         $this->load->view("admin/bill/index", $data);
         $this->load->view("layout/footer");
@@ -56,6 +86,7 @@ class Bill extends Admin_Controller
             
         } else {
             $patient = $this->patient_model->getDetailsByCaseId($this->input->post('case_id'));
+            
         if (!empty($patient['patient_id'])) {
             redirect('admin/bill/index/'.$this->input->post('case_id'));
         } else {
@@ -75,7 +106,6 @@ class Bill extends Admin_Controller
         if ($this->form_validation->run() == false) {
             $msg = array(
                 'case_id' => form_error('case_id'),
-
             );
             $array = array('status' => 'fail', 'error' => $msg, 'message' => '');
         } else {
@@ -335,6 +365,7 @@ class Bill extends Admin_Controller
     {
 
         $patient = $this->patient_model->getDetailsByCaseId($case_id);
+        
 
         if (!array_filter($patient)) {
             $data['result'] = '';
@@ -525,6 +556,8 @@ class Bill extends Admin_Controller
         $data['bloodissue_data']  = $this->bloodissue_model->getbloodissueByCaseId($case_id);
         $data['transaction_data'] = $this->transaction_model->getTransactionByCaseId($case_id);
         $data['refund_data'] = $this->transaction_model->getRefundByCaseId($case_id);
+       
+      
         $page                     = $this->load->view('admin/bill/_patient_bill', $data, true);
         $modal_action             = "<a href='javascript:void(0);' data-case-id=" . $case_id . " class='print_bill d-inline'><i class='fa fa-print'></i></a>";
         echo json_encode(array('status' => 1, 'page' => $page, 'modal_action' => $modal_action));
@@ -548,6 +581,15 @@ class Bill extends Admin_Controller
 
         $patient         = $this->patient_model->getDetailsByCaseId($case_id);
         $data['patient'] = $patient;
+         $data['bills_electronic_cm']  = $this->db
+                                          ->select('*')
+                                          ->from('electronic_bills')
+                                          ->where('case_id', $case_id)
+                                          ->where('prefix', 'CM')
+                                          ->order_by('date_send', 'desc') // Order by date in descending order
+                                          ->limit(1) // Limit the result to one row
+                                          ->get()
+                                          ->result_array();
 
         $data['opd_data']         = $this->charge_model->getopdChargesbyCaseId($case_id);
         $data['ipd_data']         = $this->charge_model->getipdChargesbyCaseId($case_id);
@@ -1058,6 +1100,156 @@ class Bill extends Admin_Controller
         $page                        = $this->load->view("admin/bill/_print_bill_report", $data, true);
         echo json_encode(array('status' => 1, 'patient_name' => composePatientName($patient['patient_name'], $patient['patient_id']), 'page' => $page));
     }
+  
+    public function bill_report()
+    {
+        $this->session->set_userdata('top_menu', 'Reports');
+        $this->session->set_userdata('sub_menu', 'admin/bill/bill_report');
+        $doctorlist                    = $this->staff_model->getEmployeeByRoleID(3);
+        $data['doctorlist']            = $doctorlist;
+        $data['appoint_priority_list'] = $this->appoint_priority_model->appoint_priority_list();
+        $data['appointment_type']      = $this->config->item('appointment_type');
+        $data["searchlist"]            = $this->search_type;
+        $this->load->view('layout/header');
+        $this->load->view('admin/bill/bill_report', $data);
+        $this->load->view('layout/footer');
+    }
+  
+    public function bill_reports()
+    {
+        $search['search_type']   = $this->input->post('search_type');
+        $search['collect_staff'] = $this->input->post('collect_staff');
+        $search['date_from']     = $this->input->post('date_from');
+        $search['date_to']       = $this->input->post('date_to');
+        $shift                   = $this->input->post('shift');
+        $priority                = $this->input->post('priority');
+        $appointment_type        = $this->input->post('appointment_type');
+        $start_date              = '';
+        $end_date                = '';
+        $fields                  = $this->customfield_model->get_custom_fields('appointment', '', '', 1);
+        if ($search['search_type'] == 'period') {
+
+            $start_date = $this->customlib->dateFormatToYYYYMMDD($search['date_from']);
+            $end_date   = $this->customlib->dateFormatToYYYYMMDD($search['date_to']);
+
+        } else {
+
+            if (isset($search['search_type']) && $search['search_type'] != '') {
+                $dates               = $this->customlib->get_betweendate($search['search_type']);
+                $data['search_type'] = $search['search_type'];
+            } else {
+                $dates               = $this->customlib->get_betweendate('this_year');
+                $data['search_type'] = '';
+            }
+
+            $start_date = $dates['from_date'];
+            $end_date   = $dates['to_date'];
+        }
+
+        $reportdata  = $this->report_model->billRecord($start_date, $end_date, $search['collect_staff'], $shift, $priority, $appointment_type);
+        $reportdata  = json_decode($reportdata);
+      
+      
+      echo "<pre>";
+      print_r($reportdata);
+      exit;
+        
+        $dt_data     = array();
+        $paid_amount = 0;
+        $paid_doctor = 0;
+        $currency_symbol = $this->customlib->getHospitalCurrencyFormat();
+        if (!empty($reportdata->data)) {
+            foreach ($reportdata->data as $key => $value) {
+                $paid_amount += $value->value;
+ //
+                 $paid_doctor += $value->paid_doctor;
+                 $label = "class='label label-success'";
+             
+                $row = array();
+                $row[] = $value->prefix."-".$value->consecutive;
+                $row[] = $this->customlib->YYYYMMDDHisTodateFormat($value->date_send, $this->time_format);
+//                 $row[] = composePatientName($value->patient_name." ".$value->guardian_name, $value->patient_id);
+                $row[] = $this->customlib->YYYYMMDDHisTodateFormat($value->date_send, $this->time_format);
+                $row[] = $value->identification_number;
+                $row[] = $value->patient_name." ".$value->guardian_name;
+                $row[] = $value->value;
+                
+                //====================
+                if (!empty($fields)) {
+                    foreach ($fields as $fields_key => $fields_value) {
+                        $display_field = $value->{"$fields_value->name"};
+                        if ($fields_value->type == "link") {
+                            $display_field = "<a href=" . $value->{"$fields_value->name"} . " target='_blank'>" . $value->{"$fields_value->name"} . "</a>";
+
+                        }
+                        $row[] = $display_field;
+                    }
+                }
+                //====================
+                $row[]     = $value->value;
+                $row[]     = $value->value;
+                $row[]     = "<small " . $label . " >" . $value->value . "</small>";
+                $dt_data[] = $row;
+            }
+            $footer_row   = array();
+            $footer_row[] = "";
+            $footer_row[] = "";
+            $footer_row[] = "";
+            $footer_row[] = "";
+            $footer_row[] = "";
+           
+            if (!empty($fields)) {
+                foreach ($fields as $fields_key => $fields_value) {
+
+                    $footer_row[] = "";
+                }
+            }
+            $footer_row[] = "<b>" . $this->lang->line('total_amount') . "</b>" . ':';
+            $footer_row[] = "<b>" .$currency_symbol. (number_format($paid_amount, 2, '.', '')) . "<br/>";
+            $footer_row[] = "<b>" .$currency_symbol. (number_format($paid_doctor, 2, '.', '')) . "<br/>";
+            $footer_row[] = "";
+            $dt_data[]    = $footer_row;
+        }
+
+        $json_data = array(
+            "draw"            => intval($reportdata->draw),
+            "recordsTotal"    => intval($reportdata->recordsTotal),
+            "recordsFiltered" => intval($reportdata->recordsFiltered),
+            "data"            => $dt_data,
+        );
+        echo json_encode($json_data);
+    }
+  
+  
+  
+  
+  public function checkvalidation()
+    {
+        $search = $this->input->post('search');
+        $this->form_validation->set_rules('search_type', $this->lang->line('search_type'), 'trim|required|xss_clean');
+
+        if ($this->form_validation->run() == false) {
+            $msg = array(
+                'search_type' => form_error('search_type'),
+            );
+            $json_array = array('status' => 'fail', 'error' => $msg, 'message' => '');
+        } else {
+            $param = array(
+                'search_type'      => $this->input->post('search_type'),
+                'collect_staff'    => $this->input->post('collect_staff'),
+                'date_from'        => $this->input->post('date_from'),
+                'date_to'          => $this->input->post('date_to'),
+                'shift'            => $this->input->post('shift'),
+                'priority'         => $this->input->post('priority'),
+                'appointment_type' => $this->input->post('appointment_type'),
+            );
+
+            $json_array = array('status' => 'success', 'error' => '', 'param' => $param, 'message' => $this->lang->line('success_message'));
+        }
+        echo json_encode($json_array);
+    }
+  
+  
 
     public function getAmbulanceCallTransaction()
     {
@@ -2437,7 +2629,28 @@ class Bill extends Admin_Controller
         $dt_data     = array();
         if (!empty($dt_response->data)) {
             foreach ($dt_response->data as $key => $value) {
-
+                
+                 //consulta custom
+              $this->db->select('*');
+              $this->db->from('custom_field_values');
+              $this->db->where('belong_table_id', $value->patientid);
+              $query2 = $this->db->get();
+              $custom = $query2->result_object();
+              
+              foreach($custom as $key2=>$value2){
+                  if($value2->custom_field_id == 12){
+                      $eps = $value2->field_value;
+                    }
+                  if($value2->custom_field_id == 10){
+                      $regimen = $value2->field_value;
+                    }
+                  if($value2->custom_field_id == 30){
+                      $telefono= $value2->field_value;
+                    }
+                }
+              
+              
+              
                 $row = array();
                 //====================================
                 $action = "<div class='rowoptionview rowview-mt-19'>";
@@ -2445,11 +2658,11 @@ class Bill extends Admin_Controller
                 $action .= "</div'>";
                 $first_action = "<a href=" . base_url() . 'admin/bill/patient_profile/' . $value->pid . ">";
                 //==============================
-                $row[] = $first_action . $value->patient_name . "</a>" . $action;
+                $row[] = $first_action . $value->patient_name ." ".$value->guardian_name. "</a>" . $action;
                 $row[] = $value->patientid;
-                $row[] = $value->guardian_name;
+                $row[] = $value->email;
                 $row[] = $value->gender;
-                $row[] = $value->mobileno;
+                $row[] = $telefono;
                 $row[] = composeStaffNameByString($value->name, $value->surname, $value->employee_id);
                 $row[] = $this->customlib->YYYYMMDDHisTodateFormat($value->last_visit, $this->time_format);
 
@@ -2488,6 +2701,9 @@ class Bill extends Admin_Controller
         $dt_data     = array();
         if (!empty($dt_response->data)) {
             foreach ($dt_response->data as $key => $value) {
+             
+              
+              
                 $row = array();
                 //====================================
                 $opd_id           = $value->opd_id;
@@ -2608,7 +2824,18 @@ class Bill extends Admin_Controller
         }
         $data["result"]           = $result;
         $data["opd_details_id"]   = $opd_details_id;
-        
+        $custom = get_custom_table_values($id, 'patient');
+        foreach($custom as $key2=>$value2){
+                  if($value2->custom_field_id == 12){
+                      $data['eps'] = $value2->field_value;
+                    }
+                  if($value2->custom_field_id == 10){
+                     $data['regimen'] = $value2->field_value;
+                    }
+                  if($value2->custom_field_id == 30){
+                      $data['telefono'] = $value2->field_value;
+                    }
+                }
 
         $staff_id                = $this->customlib->getStaffID();
         $data['logged_staff_id'] = $staff_id;
@@ -2629,6 +2856,7 @@ class Bill extends Admin_Controller
  
     public function opd_visit_detail($id, $opdid)
     {
+      
         if (!empty($id)) {
             $result         = $this->patient_model->getDetails($opdid);
             $data['result'] = $result;
@@ -2653,6 +2881,7 @@ class Bill extends Admin_Controller
             $role_id                    = $userdata['role_id'];
             $category_dosage            = $this->medicine_dosage_model->getCategoryDosages();
             $data['category_dosage']    = $category_dosage;
+            $data['resolutions']        = $this->resoluciones_model->getAllResolutions();
             $doctorid                   = "";
             $doctor_restriction         = $this->session->userdata['hospitaladmin']['doctor_restriction'];
             $disable_option             = false;
@@ -2693,12 +2922,33 @@ class Bill extends Admin_Controller
             $charge_category           = $this->charge_category_model->getCategoryByModule("opd");
             $data['charge_category']   = $charge_category;
             $data['categorylist']      = $this->operationtheatre_model->category_list();
+            $data['bills_electronic_cm']  = $this->db
+                                            ->select('*')
+                                            ->from('electronic_bills')
+                                            ->where('case_id', $result['result']['case_reference_id'])
+                                            ->where('prefix', 'CM')
+                                            ->order_by('date_send', 'desc') // Order by date in descending order
+                                            ->limit(1) // Limit the result to one row
+                                            ->get()
+                                            ->result_array();
+            $data['bills_electronic_cl']  =  $this->db
+                                            ->select('*')
+                                            ->from('electronic_bills')
+                                            ->where('case_id', $result['result']['case_reference_id'])
+                                            ->where('prefix', 'CL')
+                                            ->order_by('date_send', 'desc') // Order by date in descending order
+                                            ->limit(1) // Limit the result to one row
+                                            ->get()
+                                            ->result_array();
 
             $data["opd_data"]       = $this->patient_model->getPatientVisitDetails($id);
             $data['investigations'] = $this->patient_model->getallinvestigation($result['result']['case_reference_id']);
             $data["bloodgroup"]     = $this->bloodbankstatus_model->get_product(null, 1);
             $data["marital_status"] = $this->marital_status;
             $data['is_discharge']   = $this->customlib->checkDischargePatient($data["result"]['discharged']);
+//           echo "<pre>";
+//           print_r($data);
+//           exit;
             $this->load->view("layout/header");
             $this->load->view("admin/bill/opd/opd_visit_detail", $data);
             $this->load->view("layout/footer");
@@ -2743,7 +2993,7 @@ class Bill extends Admin_Controller
 
                 $action = "<div class=''>";
 
-                $action .= "<a href='javascript:void(0)'  data-loading-text='" . $this->lang->line('please_wait') . "' data-record-id=" . $visit_details_id . " class='btn btn-default btn-xs get_opd_detail'  data-toggle='tooltip' title='" . $this->lang->line('show') . "'><i class='fa fa-reorder'></i></a>";
+                $action .= "<a href='javascript:void(0)'  data-loading-text='" . $this->lang->line('please_wait') . "' data-record-id=" . $visit_details_id . " class='btn btn-default btn-xs get_opd_detail'  data-toggle='tooltip' title='" . $this->lang->line('show') . "'> <i class='fa fa-reorder'></i></a>";
 
                 $action .= "</div>";
                 //=====================
@@ -3940,5 +4190,690 @@ class Bill extends Admin_Controller
         $caseidlist = $this->casereference_model->get($this->input->get('caseid'));
         echo json_encode($caseidlist);
     }
+  
+   function charges_nuvo($case, $prefix, $payment){
+     
+        $case_id = $case;
+        $prefix  = $prefix;
+        $payment = $payment;
+
+        $this->db->select('*');
+        $this->db->from('comercial_resolutions');
+        $this->db->where('prefix', $prefix);
+        $query2 = $this->db->get();
+        $resolution_case = $query2->result_object();
+
+        $this->db->select('*');
+        $this->db->from('electronic_bills');
+        $this->db->where('prefix', $prefix);
+        $query2 = $this->db->get();
+        $electronic_bill = $query2->result_object();
+
+//      echo "<pre>";
+//      print_r(count($electronic_bill));
+//      exit;
+
+  //     $module_type            = $this->input->post('module_type');
+  //     $id                     = $this->input->post('id');
+        $print_details          = $this->printing_model->get('', 'paymentreceipt');
+        $patient                = $this->patient_model->getDetailsByCaseId($case_id);
+        $data['patient']        = $patient;
+        $data['print_details']  = $print_details;
+        $data['case_id']        = $case_id;
+        $transaction            = $this->transaction_model->ipdopdPaymentByCaseId($case_id);
+        $payment_mode           = $this->transaction_model->type_opdPaymentByCaseId($case_id);
+
+  //     $data['transaction']    = $transaction;
+        $data['payment_mode']    = $payment_mode;
+        $data['paid_amount']     = $transaction;
+        $data['charge_details']  = $this->transaction_model->get_ipdopdchargebycaseId($case_id);
+//        echo "<pre>";
+//        print_r($data['patient']);
+//        exit;
+        $userdata           = $this->customlib->getUserData();
+        $data['userdata'] = $userdata;
+        $appointment_details = $this->appointment_model->getDetails($data['patient']['appointment_id']);
+  //     $data['module_type'] = $module_type;
+        $refund              = $this->transaction_model->getopdIpdrefundbyCaseId($case_id);
+        if (!empty($refund)) {
+            $data['refund'] = $refund['amount'];
+        } else {
+            $data['refund']   = 0;
+            $refund['amount'] = 0;
+        }
+
+       $data['discharge_card'] = $this->patient_model->get_dischargeCard(array('case_reference_id' => $case_id));
+       $nit_cliniverso = "901597551";
+       $codigo_prestador_cliniverso = "050882158402";
+
+       if($payment_mode == "Cash" ){
+            $payment_mode = "10";
+       }
+
+       $date_send = date("Y-m-d H:i:s");
+
+       if(count($electronic_bill) == 0){
+           $consecutivo = 1;
+//            $insert_array = array(
+//                   'date_send '     => $date_send,     
+//                   'case_id '       => $data['case_id'],        
+//                   'consecutive'    => $consecutivo,      
+//                   'value'          => $data['paid_amount']['total_pay'],    
+//                   'transaction'    => $payment,       
+//                   'resolution_id'  => $resolution_case[0]->id,      
+//                   'prefix'         => $resolution_case[0]->prefix,    
+//                   'modality '      => $resolution_case[0]->modality
+//             );
+//            $this->db->insert('electronic_bills', $insert_array);
+//            $insert_id = $this->db->insert_id();
+         
+       }else{
+         // Obtener el número actual en la columna
+
+          $query = $this->db->query("SELECT MAX(consecutive) AS max_value FROM electronic_bills WHERE prefix = '$prefix'");
+          $result = $query->row();
+          $numero_actual = $result->max_value;
+
+          // Incrementar el número
+          $consecutivo = $numero_actual + 1;
+
+  //      echo "<pre>";
+  //      print_r($consecutivo);
+  //      exit;
+//           $insert_array = array(
+//                 'date_send '      =>  $date_send,     
+//                 'case_id '        =>  $data['case_id'] ,        
+//                 'consecutive'    =>   $consecutivo,      
+//                 'value '          =>  $data['paid_amount']['total_pay'],    
+//                 'transaction'   =>    $payment,       
+//                 'resolution_id'   =>  $resolution_case[0]->id,      
+//                 'prefix '         =>  $resolution_case[0]->prefix,    
+//                 'modality ' => $resolution_case[0]->modality
+//           );
+//          $this->db->insert('electronic_bills', $insert_array);
+//          $insert_id = $this->db->insert_id();
+  //            echo "<pre>";
+  //      print_r($insert_id);
+  //        print_r($consecutivo);
+  //      exit;
+       }
+  
+       // Convertir la cadena en un objeto de fecha
+      $fecha_appointment = new DateTime($data['patient']['appointment_date']);
+
+      $code_mod = $data['patient']['payment_type'];
+      if($code_mod == "moderator_fee" ){
+          $code_mod = "19";
+      }else if($code_mod == "copay"){
+        $code_mod = "18";
+      }else if($code_mod == "exempt_from_payment"){
+        $code_mod = "18";
+      }
+      // Obtener la parte de la fecha sin las horas (formato: Y-m-d)
+      $soloFecha = $fecha_appointment->format('Y-m-d');
+      $curl = curl_init();
+     
+//         $cutom_fields_data             = get_custom_table_values($result['patient_id'], 'patient');  
+     
+//         $this->db->select('visit_details.appointment_date, opd_details.*, patients.id as patient_id, patients.patient_name, patients.guardian_name, electronic_bills.*, patients.address, patients.gender, patients.dob, patients.age, patients.month, patients.day, patients.mobileno, patients.email, patients.is_active, patients.age, patients.month, charge_amounts.amount_charged, transaction_amount.amount_paid, custom_field_values.field_value as eps, appointment.order_code');
+//         $this->db->from('opd_details');
+//         $this->db->join('(SELECT sum(amount) as amount_charged, opd_id FROM patient_charges WHERE patient_charges.opd_id IS NOT NULL GROUP BY opd_id) as charge_amounts', 'charge_amounts.opd_id = opd_details.id', 'inner');
+//         $this->db->join('(SELECT sum(amount) as amount_paid, opd_id, case_reference_id as case_id_d FROM transactions WHERE transactions.opd_id IS NOT NULL GROUP BY opd_id) as transaction_amount', 'transaction_amount.opd_id = opd_details.id', 'inner');
+//         $this->db->join('patients', 'opd_details.patient_id = patients.id', 'inner');
+//         $this->db->join('custom_field_values', 'opd_details.patient_id = custom_field_values.belong_table_id', 'inner');
+//         $this->db->join('electronic_bills', 'opd_details.case_reference_id = electronic_bills.case_id AND electronic_bills.date_send = (SELECT MAX(date_send) FROM electronic_bills WHERE case_id = opd_details.case_reference_id)', 'inner');
+//         $this->db->join('visit_details', 'visit_details.opd_details_id = opd_details.id', 'inner');
+//         $this->db->join('appointment', 'appointment.case_reference_id = opd_details.case_reference_id', 'inner');
+//         $this->db->where('0=0 ' . $condition);
+//         $this->db->where('electronic_bills.case_id', $data['case_id']);
+//         $this->db->where_in('custom_field_values.custom_field_id', array('12', '102'));
+     
+        $this->db->select('*');
+        $this->db->from('custom_field_values');
+        $this->db->where('belong_table_id', $data['patient']['patient_id']);
+        $custom = $this->db->get()->result_object();
+     
+        foreach($custom as $key2 => $value2){
+            if($value2->custom_field_id == 12){
+                $eps = $value2->field_value;
+            }
+            if($value2->custom_field_id == 10){
+                $regimen = $value2->field_value;
+            }
+            if($value2->custom_field_id == 30){
+                $telefono = $value2->field_value;
+            }
+            if($value2->custom_field_id == 102){
+                $type_user = $value2->field_value;
+            }
+         }
+
+//         $sql="SELECT visit_details.appointment_date,opd_details.*,opd_details.id as opd,patients.id as patient_id,patients.patient_name,patients.guardian_name,electronic_bills.*,patients.address,patients.gender,patients.dob,patients.age,patients.month,patients.day,patients.mobileno,patients.email,
+//         patients.is_active,patients.age,patients.month,charge_amounts.amount_charged,transaction_amount.amount_paid, custom_field_values.field_value as eps
+//         FROM `opd_details` inner JOIN (select sum(amount) as amount_charged ,opd_id from patient_charges WHERE patient_charges.opd_id IS NOT NULL GROUP BY opd_id )  as charge_amounts on charge_amounts.opd_id=opd_details.id 
+//         INNER JOIN (select sum(amount) as amount_paid ,opd_id, case_reference_id as case_id_d from transactions WHERE transactions.opd_id IS NOT NULL GROUP BY opd_id) as transaction_amount on transaction_amount.opd_id=opd_details.id 
+//         INNER JOIN patients ON opd_details.patient_id = patients.id
+//         INNER JOIN custom_field_values ON opd_details.patient_id = custom_field_values.belong_table_id and custom_field_id=12
+//         RIGHT JOIN 
+//         electronic_bills 
+//         ON opd_details.case_reference_id = electronic_bills.case_id 
+//         AND electronic_bills.date_send = (SELECT MAX(date_send) FROM electronic_bills WHERE case_id = opd_details.case_reference_id)
+//         inner join visit_details on visit_details.opd_details_id=opd_details.id where 0=0 ".$condition." and date_format(visit_details.appointment_date,'%Y-%m-%d') >='". $start_date."' and date_format(visit_details.appointment_date,'%Y-%m-%d') <= '".$end_date."'";
+//         $this->db->query($sql);
+
+//         echo "<pre>";
+//         print_r($data);
+//         exit;
+    
+       $detalle = [
+            [
+                "Nvfac_dcop" => 1,
+                "Nvpro_codi" => $data['charge_details'][0]['cups'],
+                "Nvpro_nomb" => $data['charge_details'][0]['charge_name'],
+                "Nvuni_desc" => "EA",
+                "Nvfac_cant" => 1,
+                "Nvfac_valo" => $data['charge_details'][0]['standard_charge'],
+                "Nvfac_pdes" => "0",
+                "Nvfac_desc" => "0.00",
+                "Nvfac_stot" => $data['charge_details'][0]['standard_charge'],
+                "Nvimp_cdia" => "00",
+                "Nvdet_piva" => "0.00",
+                "Nvdet_viva" => "0.00",
+                "Nvdet_tcod" => "",
+                "Nvpro_cean" => "",
+                "Nvdet_entr" => "",
+                "Nvdet_nota" => "",
+                "Nvuni_quan" => "",
+                "Nvdet_padr" => "",
+                "Nvdet_marc" => "",
+                "Nvdet_mode" => ""
+            ]
+       ];
+     
+       $apellidos = $data['patient']['guardian_name'];
+       $apellidos = explode(' ', $data['patient']['guardian_name']);
+       $aped = count($apellidos);
+     
+       if($aped >1){
+         $Nvsal_pape = $apellidos[0];
+         $Nvsal_sape = $apellidos[1];
+       }else if($aped == 1){
+         $Nvsal_pape = $apellidos[0];
+         $Nvsal_sape = "";
+       }
+     
+       $nombres = $data['patient']['patient_name'];
+       $nombres = explode(' ', $data['patient']['patient_name']);
+       $nom = count($nombres);
+     
+       if($nom >1){
+         $Nvsal_pnom= $nombres[0];
+         $Nvsal_snom = $nombres[1];
+       }else if($nom == 1){
+         $Nvsal_pnom = $nombres[0];
+         $Nvsal_snom = "";
+       }
+       
+       $current_timestamp = (new DateTime())->format('Y-m-d\TH:i:s');
+     
+       $fechaActual = new DateTime();
+
+      // Sumar 15 días
+       $fechaNueva = $fechaActual->add(new DateInterval('P15D'));
+
+      // Obtener la fecha formateada
+       $fecha_vencimiento = $fechaNueva->format('Y-m-d\TH:i:s');
+
+//       1 Instrumento no
+//       definido 10 Efectivo, 20
+//       Cheque, 41 Transferencia
+//       bancaria, 42 Consignación
+//       bancaria
+       
+       if($data['payment_mode']['payment_mode'] = "Cash"){
+         $Nvfac_fpag = 10;
+       }else if($data['payment_mode']['payment_mode'] = "Qr"){
+         $Nvfac_fpag = 41;
+       }else if($data['payment_mode']['payment_mode'] = "Transferencia Bancaria"){
+         $Nvfac_fpag = 41;
+       }
+        
+        if($resolution_case[0]->prefix == "CM"){
+            $Nvfac_conv = 1;
+        }else if($resolution_case[0]->prefix == "CL"){
+           $Nvfac_conv = 2;
+        }
+     
+       if($resolution_case[0]->prefix == "CM"){
+            $Nvcli_cper = 1;
+        }else if($resolution_case[0]->prefix == "CL"){
+           $Nvcli_cper = 2;
+        }
+       
+//      echo "<pre>";
+//      print_r(explode(':', $data['patient']['insurance_validity'])[0]);
+//      exit;
+       $document_type = explode(':', $data['patient']['insurance_validity'])[0];
+       if($document_type == "CC"){
+         $Nvcli_cdoc = 13;
+       }else if($document_type == "TI"){
+         $Nvcli_cdoc = 12;
+       }else if($document_type == "RC"){
+         $Nvcli_cdoc = 11;
+       }else if($document_type == "CE"){
+         $Nvcli_cdoc = 22;
+       }
+     
+     
+     
+         
+     
+
+       $usuariosSalud = [
+        [
+            "Nvsal_cpsa" => $codigo_prestador_cliniverso,
+            "Nvsal_tdoc" => explode(':', $data['patient']['insurance_validity'])[0],
+            "Nvsal_ndoc" => $data['patient']['identification_number'],
+            "Nvsal_pape" => $Nvsal_pape,
+            "Nvsal_sape" => $Nvsal_sape,
+            "Nvsal_pnom" => $Nvsal_pnom,
+            "Nvsal_snom" => $Nvsal_snom,
+            "Nvsal_tusu" => $type_user === 'Beneficiario' ? '02' : ($type_user === 'Cotizante' ? '01' : ''),
+            "Nvsal_mcon" => "06",
+            "Nvsal_cobe" => "10",
+          
+            //verificar
+            "Nvsal_naut" => $data['patient']['order_code'],
+            "Nvsal_npre" => "",
+            "Nvsal_nidp" => "",
+            "Nvsal_ncon" => "",
+            "Nvsal_npol" => "",
+            "Nvsal_cpag" => $data['charge_details'][0]['standard_charge'],
+            "Nvsal_cmod" => "0.00",
+            "Nvsal_crec" => "0.00",
+            "Nvsal_pcom" => "0.00"
+        ]
+     ];
+
+     $documentoReferencia = [
+          "invoice" => [
+              "Nvdoc_nume" => "SETT".$consecutivo,
+              "Nvdoc_cufd" => "92b823c0e9d9707335d40b17255cd323dfcc39ee19d7b42054a95668b6724420d0bf8c16922d5bb9948ffffbe27dcbab",
+              "Nvdoc_algr" => "CUFE-SHA384",
+              "Nvdoc_femi" => $soloFecha,
+              "Nvdoc_itdo" => "01",
+              "Nvusu_ndoc" => $data['patient']['identification_number'],
+              "Nvfor_oper" => "SS-Recaudo",
+              "Nvsal_cpsa" => $codigo_prestador_cliniverso,
+              "Nvsal_naut" => $data['patient']['order_code']
+          ],
+          "lLineaDocumentoReferencia" => [
+              [
+                  "Nvldo_nume" =>  "SETT".$consecutivo,
+                  "Nvldo_tope" => $code_mod,
+                  "Nvldo_valo" => $data['charge_details'][0]['standard_charge']
+              ]
+          ]
+      ];
+
+      $json_fac = [
+            "Nvfac_orig" => "E",
+            "Nvemp_nnit" => $nit_cliniverso,
+//             "Nvres_nume" => $resolution_case[0]->resolution,
+            "Nvres_nume" => "18760000001",
+            "Nvfac_nume" => "SETT".$consecutivo,
+            "Nvfac_tipo" => "FV",
+            "Nvfac_tcru"=> "",
+            "Nvfac_cdet"=> "1",
+            "Nvfac_fech"=> $current_timestamp,
+            "Nvfac_venc"=> $fecha_vencimiento,
+            "Nvsuc_codi"=> "1",
+            "Nvmon_codi"=> "COP",
+            "Nvfor_codi"=> "1",
+            "Nvven_nomb"=> $data['userdata']['name'],
+            "Nvfac_fpag"=> $Nvfac_fpag,
+            "Nvfac_conv"=> $Nvfac_conv,
+            "Nvcli_cper"=> $Nvcli_cper,
+            "Nvcli_cdoc"=> $Nvcli_cdoc,
+            "Nvcli_docu"=> $data['patient']['identification_number'],
+            "Nvcli_pais"=> "CO",
+            "Nvcli_depa"=> "Antioquia",
+            "Nvcli_ciud"=> "Medellin@05001",
+            "Nvcli_loca"=> "",
+            "Nvcli_dire"=> "Cra 59",
+            "Nvcli_regi"=> "48",
+            "Nvcli_fisc"=> "",
+            "Nvcli_nomb"=> "EPS SURA",
+            "Nvcli_pnom"=> $data['patient']['patient_name'],
+            "Nvcli_snom"=> $data['patient']['patient_name'],
+            "Nvcli_apel"=> $data['patient']['guardian_name'],
+            "Nvcli_mail"=> $data['patient']['email'],
+            "Nvema_copi"=> "N",
+            "Nvfac_obse"=> "Atencion del usuario:".$data['patient']['patient_name']."con CC:".$data['patient']['identification_number']." por concepto de: ".$data['charge_details'][0]['charge_name'],
+            "Nvfac_orde"=> "",
+            "Nvfac_remi"=> "",
+            "Nvfac_rece"=> "",
+            "Nvfac_entr"=> "",
+            "Nvfac_stot" => $data['charge_details'][0]['standard_charge'],
+            "Nvfac_desc" => "0.00",
+            "Nvfac_anti" => "",
+            "Nvfac_carg" => "0.00",
+            "Nvfac_tota" => $data['charge_details'][0]['standard_charge'],
+            "Nvfac_totp" => $data['charge_details'][0]['standard_charge'],
+            "Nvfor_oper" => "SS-CUFE",
+            "lDetalle" => $detalle,
+            "lImpuestos" => [],
+            "SectorSalud" => [
+                "Nvsal_fini" => $soloFecha,
+                "Nvsal_ffin" => $soloFecha,
+                "lUsuariosSalud" => $usuariosSalud,
+                "lDocumentoReferencia" => [$documentoReferencia]
+            ]
+        ];
+
+       $data_fac = json_encode($json_fac);
+//       echo "<pre>";
+//        print_r($data_fac);
+//        exit;
+       
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => 'https://apitest.documenteme.com/api/FacFacturas',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+        CURLOPT_POSTFIELDS =>$data_fac,
+        CURLOPT_HTTPHEADER => array(
+            'Content-Type: application/json',
+            'Connection: Keep-Alive',
+            'Authorization: Basic aW50ZWdyYWRvckBjbGluaXZlcnNvc2FzOkludGVncmE5MDE1OTc1NTEq',
+            'Cookie: ARRAffinity=c6113fa7204cc4302abddaa28f1bf3dc0fa724fa25fbd28b03261cf9908bc5ca; ARRAffinitySameSite=c6113fa7204cc4302abddaa28f1bf3dc0fa724fa25fbd28b03261cf9908bc5ca'
+          ),
+        ));
+
+
+     $response = curl_exec($curl);
+     $response = json_decode($response);
+
+      $result = $response->Result;
+      $description = $response->Description;
+      $id = $response->Id;
+      $documentNumber = $response->DocumentNumber;
+      $reference = $response->Reference;
+      $cufe = $response->Cufe;
+      $qrCode = $response->QrCode;
+      $url = $response->URL;
+      $request = $response->Request;
+      $signature = $response->Signature;
+      $state = $response->State;
+      $validated = $response->Validated;
+//                echo "<pre>";
+//      print_r($response);
+//      exit;
+      
+               $insert_array = array(
+                      'date_send '     => $date_send,     
+                      'case_id '       => $data['case_id'],        
+                      'consecutive'    => $consecutivo,      
+                      'value'          => $data['paid_amount']['total_pay'],    
+                      'transaction'    => $payment,       
+                      'resolution_id'  => $resolution_case[0]->id,      
+                      'prefix'         => $resolution_case[0]->prefix,    
+                      'modality '      => $resolution_case[0]->modality,
+                      'result_response' => $result,     
+                      'description_response' => $description,        
+                      'id_response' => $id,      
+                      'document_number_response' => $documentNumber,    
+                      'reference_response'   => $reference,       
+                      'cufe_response'   =>  $cufe,      
+                      'qr_code_response'=>  $qrCode,    
+                      'url_response' => $url,
+                      'signature_response' => $signature,
+                      'state_response' => $state,
+                      'validated_response' => $validated
+                );
+               $this->db->insert('electronic_bills', $insert_array);
+               $insert_id = $this->db->insert_id();
+           
+
+             // Obtener el número actual en la columna
+
+//            echo "<pre>";
+//            print_r($insert_array);
+//            exit;
+             $this->db->insert('electronic_bills', $insert_array);
+             $insert_id = $this->db->insert_id();
+          
+    
+
+       curl_close($curl);
+
+       echo json_encode($response);
+     
+   }
+     
+    
+  
+  function charges_nuvo_cm($case){
+     
+    $case_id                = $case;
+//     $module_type            = $this->input->post('module_type');
+//     $id                     = $this->input->post('id');
+    $print_details          = $this->printing_model->get('', 'paymentreceipt');
+    $patient                = $this->patient_model->getDetailsByCaseId($case_id);
+    $data['patient']        = $patient;
+    $data['print_details']  = $print_details;
+    $data['case_id']        = $case_id;
+    $transaction            = $this->transaction_model->ipdopdPaymentByCaseId($case_id);
+    $payment_mode           = $this->transaction_model->type_opdPaymentByCaseId($case_id);
+
+//     $data['transaction']    = $transaction;
+    $data['payment_mode']    = $payment_mode;
+    $data['paid_amount']    = $transaction;
+    $data['charge_details'] = $this->transaction_model->get_ipdopdchargebycaseId($case_id);
+    
+     $userdata           = $this->customlib->getUserData();
+     $data['userdata'] = $userdata;
+     $appointment_details = $this->appointment_model->getDetails($appointment_id);
+//     $data['module_type'] = $module_type;
+    $refund              = $this->transaction_model->getopdIpdrefundbyCaseId($case_id);
+    if (!empty($refund)) {
+        $data['refund'] = $refund['amount'];
+    } else {
+        $data['refund']   = 0;
+        $refund['amount'] = 0;
+    }
+
+    $data['discharge_card'] = $this->patient_model->get_dischargeCard(array('case_reference_id' => $case_id)); 
+    $nit_cliniverso = "901597551";
+    $codigo_prestador_cliniverso = "050882158402";
+//      echo "<pre>";
+//      print_r($data);
+//      exit;
+     
+     if($payment_mode == "Cash" ){
+          $payment_mode = "10";
+      }
+     
+     // Convertir la cadena en un objeto de fecha
+    $fecha_appointment = new DateTime($data['patient']['appointment_date']);
+     
+    $code_mod = $data['patient']['payment_type'];
+    if($code_mod == "moderator_fee" ){
+        $code_mod = "19";
+    }else if($code_mod == "copay"){
+      $code_mod = "18";
+    }else if($code_mod == "exempt_from_payment"){
+      $code_mod = "18";
+    }
+    // Obtener la parte de la fecha sin las horas (formato: Y-m-d)
+    $soloFecha = $fecha_appointment->format('Y-m-d');
+     
+     
+   $curl = curl_init();
+    
+   $detalle = [
+        [
+            "Nvfac_dcop" => 1,
+            "Nvpro_codi" => $data['charge_details'][0]['cups'],
+            "Nvpro_nomb" => $data['charge_details'][0]['charge_name'],
+            "Nvuni_desc" => "EA",
+            "Nvfac_cant" => 1,
+            "Nvfac_valo" => $data['charge_details'][0]['standard_charge'],
+            "Nvfac_pdes" => "0",
+            "Nvfac_desc" => "0.00",
+            "Nvfac_stot" => $data['charge_details'][0]['standard_charge'],
+            "Nvimp_cdia" => "00",
+            "Nvdet_piva" => "0.00",
+            "Nvdet_viva" => "0.00",
+            "Nvdet_tcod" => "",
+            "Nvpro_cean" => "",
+            "Nvdet_entr" => "",
+            "Nvdet_nota" => "",
+            "Nvuni_quan" => "",
+            "Nvdet_padr" => "",
+            "Nvdet_marc" => "",
+            "Nvdet_mode" => ""
+        ]
+    ];
+
+   $usuariosSalud = [
+    [
+        "Nvsal_cpsa" => $codigo_prestador_cliniverso,
+        "Nvsal_tdoc" => "CC",
+        "Nvsal_ndoc" => $data['patient']['identification_number'],
+        "Nvsal_pape" => $data['patient']['guardian_name'],
+        "Nvsal_sape" => $data['patient']['guardian_name'],
+        "Nvsal_pnom" => $data['patient']['guardian_name'],
+        "Nvsal_snom" => $data['patient']['guardian_name'],
+        "Nvsal_tusu" => "01",
+        "Nvsal_mcon" => "06",
+        "Nvsal_cobe" => "10",
+        "Nvsal_naut" => "9876543210987654000",
+        "Nvsal_npre" => "999888777666555",
+        "Nvsal_nidp" => "999888777666555",
+        "Nvsal_ncon" => "A654123789",
+        "Nvsal_npol" => "ZAS123654987",
+        "Nvsal_cpag" => $data['charge_details'][0]['standard_charge'],
+        "Nvsal_cmod" => "0.00",
+        "Nvsal_crec" => "0.00",
+        "Nvsal_pcom" => "0.00"
+    ]
+];
+
+   $documentoReferencia = [
+    "invoice" => [
+        "Nvdoc_nume" => "SETT1006661",
+        "Nvdoc_cufd" => "92b823c0e9d9707335d40b17255cd323dfcc39ee19d7b42054a95668b6724420d0bf8c16922d5bb9948ffffbe27dcbab",
+        "Nvdoc_algr" => "CUFE-SHA384",
+        "Nvdoc_femi" => $soloFecha,
+        "Nvdoc_itdo" => "01",
+        "Nvusu_ndoc" => $data['patient']['identification_number'],
+        "Nvfor_oper" => "SS-Recaudo",
+        "Nvsal_cpsa" => $codigo_prestador_cliniverso,
+        "Nvsal_naut" => "9876543210987654000"
+    ],
+    "lLineaDocumentoReferencia" => [
+        [
+            "Nvldo_nume" => "SETT1006661",
+            "Nvldo_tope" => $code_mod,
+            "Nvldo_valo" => $data['charge_details'][0]['standard_charge']
+        ]
+    ]
+];
+
+   $Json_fac = [
+          "Nvfac_orig" => "E",
+          "Nvemp_nnit" => $nit_cliniverso,
+          "Nvres_nume" => "18760000001",
+          "Nvfac_nume" => "SETT1006688",
+          "Nvfac_tipo" => "FV",
+          "Nvfac_tcru"=> "",
+          "Nvfac_cdet"=> "1",
+          "Nvfac_fech"=> "2023-12-18T13:34:32",
+          "Nvfac_venc"=> "2023-12-24T00:00:00",
+          "Nvsuc_codi"=> "1",
+          "Nvmon_codi"=> "COP",
+          "Nvfor_codi"=> "1",
+          "Nvven_nomb"=> $data['userdata']['name'],
+          "Nvfac_fpag"=> "42",
+          "Nvfac_conv"=> "1",
+          "Nvcli_cper"=> "2",
+          "Nvcli_cdoc"=> "13",
+          "Nvcli_docu"=> $data['patient']['identification_number'],
+          "Nvcli_pais"=> "CO",
+          "Nvcli_depa"=> "Antioquia",
+          "Nvcli_ciud"=> "Medellin@05001",
+          "Nvcli_loca"=> "",
+          "Nvcli_dire"=> "Cra 59",
+          "Nvcli_regi"=> "48",
+          "Nvcli_fisc"=> "",
+          "Nvcli_nomb"=> "EPS SURA",
+          "Nvcli_pnom"=> $data['patient']['patient_name'],
+          "Nvcli_snom"=> $data['patient']['patient_name'],
+          "Nvcli_apel"=> $data['patient']['guardian_name'],
+          "Nvcli_mail"=> $data['patient']['email'],
+          "Nvema_copi"=> "N",
+          "Nvfac_obse"=> "Atencion del usuario:".$data['patient']['patient_name']."con CC:".$data['patient']['identification_number']." por concepto de: ".$data['charge_details'][0]['charge_name'],
+          "Nvfac_orde"=> "",
+          "Nvfac_remi"=> "",
+          "Nvfac_rece"=> "",
+          "Nvfac_entr"=> "",
+          "Nvfac_stot" => $data['charge_details'][0]['standard_charge'],
+          "Nvfac_desc" => "0.00",
+          "Nvfac_anti" => "",
+          "Nvfac_carg" => "0.00",
+          "Nvfac_tota" => $data['charge_details'][0]['standard_charge'],
+          "Nvfac_totp" => $data['charge_details'][0]['standard_charge'],
+          "Nvfor_oper" => "SS-CUFE",
+          "lDetalle" => $detalle,
+          "lImpuestos" => [],
+          "SectorSalud" => [
+              "Nvsal_fini" => $soloFecha,
+              "Nvsal_ffin" => $soloFecha,
+              "lUsuariosSalud" => $usuariosSalud,
+              "lDocumentoReferencia" => [$documentoReferencia]
+          ]
+      ];
+
+   $data_fac = json_encode($Json_fac);
+//     echo "<pre>";
+//      print_r($data_fac);
+//      exit;
+       
+
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'https://apitest.documenteme.com/api/FacFacturas',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'POST',
+  CURLOPT_POSTFIELDS =>$data_fac,
+        CURLOPT_HTTPHEADER => array(
+          'Content-Type: application/json',
+          'Connection: Keep-Alive',
+          'Authorization: Basic aW50ZWdyYWRvckBjbGluaXZlcnNvc2FzOkludGVncmE5MDE1OTc1NTEq',
+          'Cookie: ARRAffinity=c6113fa7204cc4302abddaa28f1bf3dc0fa724fa25fbd28b03261cf9908bc5ca; ARRAffinitySameSite=c6113fa7204cc4302abddaa28f1bf3dc0fa724fa25fbd28b03261cf9908bc5ca'
+        ),
+      ));
+
+     
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    echo json_encode($response);
+
+     
+      
+    }
+  
+  
 
 }

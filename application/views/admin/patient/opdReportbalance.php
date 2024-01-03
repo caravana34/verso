@@ -101,11 +101,25 @@ if ((isset($search_type)) && ($search_type == $key)) {
                                 </div>
                             </div>
                         </div>
-                            <div class="form-group">
+                          
+                          <div class="d-flex" style="justify-content: end;">
+                             <div class="form-group">
+                                <div class="col-sm-12">
+                                    <button type="button" onclick="module_bill.generate_rips()" class="btn btn-primary btn-sm checkbox-toggle pull-right"><i class="fa fa-search"></i> Generar rips</button>
+                                </div>
+                             </div>
+                             <div class="form-group">
+                                <div class="col-sm-12">
+                                    <button type="button" onclick="generate_bill.generate_rips()" class="btn btn-primary btn-sm checkbox-toggle pull-right"><i class="fa fa-search"></i> Enviar facturas CL</button>
+                                </div>
+                             </div>
+                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <button type="submit" name="search" value="search_filter" class="btn btn-primary btn-sm checkbox-toggle pull-right"><i class="fa fa-search"></i> <?php echo $this->lang->line('search'); ?></button>
                                 </div>
-                            </div>
+                             </div>
+                          </div>
+                          
                         </div>
                     </form>
                     <div class="box border0 clear">
@@ -118,6 +132,8 @@ if ((isset($search_type)) && ($search_type == $key)) {
                                 <thead>
                                     <tr>
                                         <th><?php echo $this->lang->line('opd_no'); ?></th>
+                                        <th>Facturas</th>
+                                        <th>Rips</th>
                                         <th><?php echo $this->lang->line('patient_name'); ?></th>
                                         <th><?php echo $this->lang->line('case_id'); ?></th>
                                         <th width="7%"><?php echo $this->lang->line('age'); ?></th>
@@ -136,6 +152,26 @@ if ((isset($search_type)) && ($search_type == $key)) {
                             </table>
 
                         </div>
+                      
+                          <div class="box-body table-responsive">
+                              <div class="download_label"><?php echo $this->lang->line('opd_balance_report'); ?></div>
+                              <table class="table table-striped table-bordered table-hover rips-ajax-list" data-export-title="<?php echo $this->lang->line('opd_balance_report'); ?>">
+                                  <thead>
+                                      <tr>
+                                        <th>ID</th>
+                                        <th>Responsable</th>
+                                        <th>Registros</th>
+                                        <th>Valor</th>
+                                        <th>Carpeta</th>
+                                        <th>Fecha</th>
+                                        <th>Fecha de creación</th>
+                                        <th>Acciones</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                              </table>
+                           </div>
+                      
                     </div>
                 </div>
             </div>
@@ -146,7 +182,7 @@ if ((isset($search_type)) && ($search_type == $key)) {
 </section>
 </div>
 <script type="text/javascript">
-         $(document).ready(function (e) {
+    $(document).ready(function (e) {
        emptyDatatable('allajaxlist', 'data');
        
     });
@@ -200,8 +236,9 @@ if ((isset($search_type)) && ($search_type == $key)) {
                 } else {
                     $("#error_search_type").html('');
                     $("#error_collect_staff").html('');
-                initDatatable('allajaxlist', 'admin/patient/opdbalancereports/',data.param,[],100,[
+                    initDatatable('allajaxlist', 'admin/patient/opdbalancereports/',data.param,[],100,[
                         {  "sWidth": "45px", "aTargets": [ -1,-2,-3 ] ,'sClass': 'dt-body-right'},
+                        
                          {  "sWidth": "150px", "aTargets": [ 2 ] ,'sClass': 'dt-body-left'},
                          {  "sWidth": "100px", "aTargets": [ 3 ] ,'sClass': 'dt-body-left'},
                          {  "sWidth": "60px", "aTargets": [ 4 ] ,'sClass': 'dt-body-left'},
@@ -211,7 +248,137 @@ if ((isset($search_type)) && ($search_type == $key)) {
                 }
             }
         });
-        }
-       ));
- 
+      }
+   ));
+
+  
+  const module_generate = (function() {
+     let generate_bills = [];
+
+     function generate_bills_cl(data){
+
+         let input_checkbox_gen = document.querySelector(`#gene_${data.id}`);
+
+          if(input_checkbox_gen.checked){
+              console.log('entro al else');
+              generate_bills.push(data.id);
+          } else {
+              generate_bills = generate_bills.filter((id) => id !== data.id);
+              console.log('entro aqui');
+          }
+
+          console.log(data);
+          console.log(input_checkbox_gen);
+          console.log(generate_bills);
+     }
+
+
+     function generate(){
+
+         fetch('<?= base_url("admin/Bill/send_bill") ?>', {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({'generate_bills': generate_bills})  
+         })
+        .then(response => response.json())
+        .then(data => {
+           
+            console.log(data);
+            if(data.state === 'success'){
+              
+            } else {
+              errorMsg(data.msg);
+            }
+           
+         });
+
+     }
+     
+     function get_bills(data){
+       console.log(data);
+     }
+     
+//       // Devolver un objeto que contiene las variables y funciones que deseas exponer
+      return {
+          generate_bills: generate,
+          generate_bills_cl: generate_bills_cl,
+          generate_bills: generate_bills,
+      };
+  })();
+  
+  document.addEventListener('DOMContentLoaded',  function() {
+    
+//          initDatatable('rips-ajax-list', `admin/Rips/rips_datatable`, [], [], 25);
+  console.log("hola");
+  });
+  
+  
+  
+  
+  
+  
+   const module_bill = (function() {
+     let array_bill_rips = [];
+
+     function array_bill(data){
+
+         let input_checkbox = document.querySelector(`#bill_${data.id}`);
+
+          if(input_checkbox.checked){
+              console.log('entro al else');
+              array_bill_rips.push(data.id);
+          } else {
+
+              array_bill_rips = array_bill_rips.filter((id) => id !== data.id);
+              console.log('entro aqui');
+          }
+
+          console.log(data);
+          console.log(input_checkbox);
+          console.log(array_bill_rips);
+     }
+
+
+     function generate_rips(){
+
+         fetch('<?= base_url("admin/Rips/generate_bill_rips") ?>', {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({'array_bill_rips': array_bill_rips})  
+         })
+        .then(response => response.json())
+        .then(data => {
+           
+            console.log(data);
+            if(data.state === 'success'){
+              
+            } else {
+              errorMsg(data.msg);
+            }
+           
+         });
+
+     }
+     
+     function get_bill_rips(data){
+       console.log(data);
+     }
+     
+      // Devolver un objeto que contiene las variables y funciones que deseas exponer
+      return {
+          array_bill_rips: array_bill_rips,
+          array_bill: array_bill,
+          generate_rips: generate_rips,
+      };
+  })();
+  
+  document.addEventListener('DOMContentLoaded',  function() {
+    
+         initDatatable('rips-ajax-list', `admin/Rips/rips_datatable`, [], [], 25);
+  });
+
 </script>

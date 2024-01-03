@@ -40,7 +40,7 @@ if(!empty($result)){
                         <th class="bozerotop"><?php echo $this->lang->line('name'); ?></th>
                         <td class="bozerotop"><?php echo composePatientName($result['patient_name'],$result['patient_id']); ?></td>
                         <th class="bozerotop"><?php echo $this->lang->line('guardian_name'); ?></th>
-                        <td class="bozerotop"><?php echo $result['guardian_name']; ?></td>
+                        <td class="bozerotop"><?php echo $result['email']; ?></td>
                     </tr>
                     <tr>
                         <th class="bozerotop"><?php echo $this->lang->line('gender'); ?></th>
@@ -55,12 +55,12 @@ if(!empty($result)){
                     </tr>
                     <tr>
                         <th class="bozerotop"><?php echo $this->lang->line('phone'); ?></th>
-                        <td class="bozerotop"><?php echo $result['mobileno']; ?></td>
-                        <th class="bozerotop"><?php
+                        <td class="bozerotop"><?php echo $result['phone']; ?></td>
+<!--                         <th class="bozerotop"><?php
                             echo $this->lang->line('credit_limit') . " (" . $currency_symbol . ")";
                             ;
                             ?></th>
-                        <td class="bozerotop"><?php echo $result['credit_limit']; ?>
+                        <td class="bozerotop"><?php echo $result['credit_limit']; ?> -->
                         </td>
                     </tr>
                     <?php 

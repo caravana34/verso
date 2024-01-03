@@ -275,16 +275,78 @@ class Report_model extends CI_Model
         }
 
 
-        $sql="select appointment.*,patients.mobileno,patients.email,patients.gender,appointment_payment.paid_amount,patients.patient_name,patients.id as `patient_id`,staff.name,staff.surname,staff.employee_id ".$field_variable." from appointment  
+        $sql="select appointment.*,organisation.id as org_id,organisation.organisation_name,charges.id as char_id,charges.name as cname,charges.cups,charges.iss,patients.mobileno,patients.email,patients.gender,appointment_payment.paid_amount,appointment_payment.paid_doctor,patients.patient_name,patients.guardian_name,patients.id as `patient_id`,staff.name,staff.surname,staff.employee_id ".$field_variable." from appointment  
         join appointment_payment on appointment_payment.appointment_id = appointment.id
+        join organisation on organisation.id = appointment.id_organizations
+        join charges on charges.id = appointment.charge_id 
         JOIN patients on patients.id = appointment.patient_id LEFT JOIN staff on staff.id = appointment.doctor ".$custom_join." where date_format(appointment.date,'%Y-%m-%d') >='". $start_date."'and date_format(appointment.date,'%Y-%m-%d') <= '".$end_date."'".$condition ;
-             $this->datatables->query($sql) 
+        
+   
+      
+      
+        $this->datatables->query($sql) 
               ->searchable('patients.patient_name,appointment_payment.paid_amount,appointment.patient_id,appointment.date,patients.mobileno,patients.gender,staff.name'.$custom_field_column)
-              ->orderable('patients.patient_name,appointment.date,patients.mobileno,patients.gender,staff.name,appointment.source'.$custom_field_column.', appointment_payment.paid_amount, appointment_status')
+              ->orderable('patients.patient_name,appointment.date,patients.mobileno,patients.gender,staff.name,appointment.source'.$custom_field_column.', appointment_payment.paid_amount, appointment.appointment_status')
               ->sort('date_format(appointment.date, "%m/%e/%Y")','desc')
               ->query_where_enable(TRUE);
         return $this->datatables->generate('json');
     } 
+  
+  
+   public function billRecord($start_date, $end_date, $collect_staff = "", $shift = "", $appointment_priority = "", $appointment_type = "") {
+        
+        $custom_fields             = $this->customfield_model->get_custom_fields('appointment','','',1);
+        $custom_field_column_array = array();
+        $field_var_array = array();
+        $custom_join = NULL;
+        $i                         = 1;
+        if (!empty($custom_fields)) {
+            foreach ($custom_fields as $custom_fields_key => $custom_fields_value) {
+                $tb_counter = "table_custom_" . $i;
+                array_push($custom_field_column_array, 'table_custom_' . $i . '.field_value');
+                array_push($field_var_array, '`table_custom_' . $i . '`.`field_value` as `' . $custom_fields_value->name.'`');
+                $custom_join .= ('LEFT JOIN custom_field_values as '.$tb_counter.' ON appointment.id = '.$tb_counter.'.belong_table_id AND '.$tb_counter.'.custom_field_id = '.$custom_fields_value->id." ");
+                $i++;
+            }
+        }
+
+        $field_variable = (empty($field_var_array))? "": ",".implode(',', $field_var_array);
+        $custom_field_column = (empty($custom_field_column_array))? "": ",".implode(',', $custom_field_column_array);
+        $condition = "";
+        if($collect_staff != ""){
+            $condition .= " and appointment.doctor =".$collect_staff;
+        }
+        if($shift != ""){
+            $condition .= " and appointment.global_shift_id =".$shift;
+        }
+        if($appointment_priority != ""){
+            $condition .= " and appointment.priority =".$appointment_priority;
+        }
+        if($appointment_type != ""){
+            $condition .= " and appointment.source = '".$appointment_type."'";
+        }
+
+
+        $sql="select electronic_bills.*,transactions.id,opd_details.patient_id,patients.id,patients.patient_name,patients.guardian_name,patients.identification_number,transactions.patient_id as tpatient ".$field_variable." from electronic_bills  
+        inner join transactions on transactions.case_reference_id = electronic_bills.case_id
+        join opd_details on opd_details.id = transactions.opd_id
+        JOIN patients on patients.id = opd_details.patient_id".$custom_join." where date_format(electronic_bills.date_send,'%Y-%m-%d') >='". $start_date."'and date_format(electronic_bills.date_send,'%Y-%m-%d') <= '".$end_date."'".$condition ;
+        
+   
+        $this->datatables->query($sql) 
+              ->searchable('electronic_bills.case_id,electronic_bills.transaction,electronic_bills.value,electronic_bills.prefix'.$custom_field_column)
+              ->orderable('electronic_bills.case_id,electronic_bills.transaction,electronic_bills.value'.$custom_field_column)
+              ->sort('date_format(electronic_bills.date_send, "%m/%e/%Y")','desc')
+              ->query_where_enable(TRUE);
+        return $this->datatables->generate('json');
+    } 
+  
+  
+  
+  
+  
+  
+  
 
     public function referralRecord($payee, $patient_type, $patient) {
         $search="";

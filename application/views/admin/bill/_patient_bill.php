@@ -1,4 +1,18 @@
+<style>
+
+.pup-scroll-area {
+  height: calc(51vh - 30px);
+  }
+
+
+</style>
+
+
+
 <?php $currency_symbol = $this->customlib->getHospitalCurrencyFormat(); ?>
+
+
+
 
         <div class="row">
             <div class="col-md-12">
@@ -7,16 +21,24 @@
 $total_amount=0;
 $amount_paid=0;
 $amount_refund = 0;
+              
+//     echo "<pre>";
+//               print_r($opd_data);
+//               exit;
+              
+              
+              
 if(!empty($opd_data)){
  
     ?>
-    <h4><?php echo $this->lang->line('opd_charges'); ?></h4>
+    <h4>Cargos Hospitalarios</h4>
 <div class="table-responsive">    
 <table class="table table-hover">
     <thead>
         <tr>
+           <th width="10%">Código</th>
             <th width="20%"><?php echo $this->lang->line('service'); ?></th>
-            <th width="20%"><?php echo $this->lang->line('charge'); ?></th>
+            <th width="20%">Valor</th>
             <th width="10%"><?php echo $this->lang->line('qty'); ?></th>
             <th width="15%" class="text-right"><?php echo $this->lang->line('discount'); ?></th>
             <th class="text-right" width="15%"><?php echo $this->lang->line('tax'); ?></th>
@@ -29,12 +51,17 @@ if(!empty($opd_data)){
         $total_amount+=$opd_value['amount'];
  ?>
       <tr>
-         
-          <td width="20%">
-<?php echo $opd_value['name'];?>
+        
+         <td width="10%">
+        <?php echo $opd_value['cups'];?> 
               
           </td>
+         
           <td width="20%">
+<?php echo $opd_value['name'];?> - <?php echo $opd_value['cups'];?> 
+              
+          </td>
+          <td width="10%">
 <?php echo $currency_symbol.$opd_value['apply_charge'];?>
           </td>
           <td width="10%">
@@ -307,7 +334,7 @@ $discount_amount=calculatePercent($blood_issue_value->standard_charge,$blood_iss
 <?php    
     if(!empty($transaction_data)){
         ?>
- <h4><?php echo $this->lang->line('transactions'); ?></h4>
+ <h4>Pagos Realizados</h4>
 <div class="table-responsive"> 
 <table class="table table-hover">
     <thead>
@@ -385,8 +412,8 @@ $discount_amount=calculatePercent($blood_issue_value->standard_charge,$blood_iss
     
 <div class="row">
     <div class="col-md-6">
-        
-    </div>
+   
+       </div>
   <div class="col-md-6">
            <p class="lead"><?php echo $this->lang->line('amount_summary'); ?></p>
                   <div class="table-responsive">

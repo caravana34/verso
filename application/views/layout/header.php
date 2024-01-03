@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -15,6 +16,7 @@
             }
          ?>
         <link href="<?php echo $mini_logo; ?>" rel="shortcut icon" type="image/x-icon">
+<!--         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"/> -->
         <link rel="stylesheet" href="<?php echo base_url(); ?>backend/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="<?php echo base_url(); ?>backend/dist/css/style-main.css">
         <link rel="stylesheet" href="<?php echo base_url(); ?>backend/dist/css/jquery.mCustomScrollbar.min.css">
@@ -25,6 +27,7 @@
             if ($this->customlib->getRTL() == "yes") {
                 ?>
             <!-- Bootstrap 3.3.5 RTL -->
+<!--         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"/> -->
         <link rel="stylesheet" href="<?php echo base_url(); ?>backend/rtl/bootstrap-rtl/css/bootstrap-rtl.min.css"/> <!-- Theme RTL style -->
         <link rel="stylesheet" href="<?php echo base_url(); ?>backend/rtl/dist/css/AdminLTE-rtl.min.css" />
         <link rel="stylesheet" href="<?php echo base_url(); ?>backend/rtl/dist/css/ss-rtlmain.css">
@@ -55,6 +58,7 @@
         <link href="<?php echo base_url(); ?>backend/dist/datatables/css/rowReorder.dataTables.min.css" rel="stylesheet">
         
         <script src="<?php echo base_url(); ?>backend/custom/jquery.min.js"></script>
+<!--         <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script> -->
         <script src="<?php echo base_url(); ?>backend/plugins/colorpicker/bootstrap-colorpicker.js"></script>
         <script src="<?php echo base_url(); ?>backend/datepicker/date.js"></script>
         <script src="<?php echo base_url(); ?>backend/dist/js/jquery-ui.min.js"></script>
@@ -64,7 +68,8 @@
         <!-- fullCalendar -->
         <link rel="stylesheet" href="<?php echo base_url() ?>backend/fullcalendar/dist/fullcalendar.min.css">
         <link rel="stylesheet" href="<?php echo base_url() ?>backend/fullcalendar/dist/fullcalendar.print.min.css" media="print">
-        <link rel="stylesheet" href="<?php echo base_url() ?>backend/plugins/select2/select2.min.css">        
+<!--         <link rel="stylesheet" href="<?php echo base_url() ?>backend/plugins/select2/select2.min.css">         -->
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/css/flag-icon.min.css">
         <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>/backend/dist/css/bootstrap-select.min.css">
         <link rel="canonical" href="https://quilljs.com/standalone/snow/">
@@ -78,6 +83,8 @@
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css" />
 
         <link rel="stylesheet" href="//cdn.quilljs.com/1.3.6/quill.snow.css" />
+      
+        <link href="https://fonts.cdnfonts.com/css/nasalization-2" rel="stylesheet">
         
         <style>
             
@@ -174,7 +181,12 @@
             font-family: 'Roboto-Bold';
 /*                 text-shadow: 0.1em 0.1em 3em black; */
           }
-          
+          .items_text {
+                font-family: 'Nasalization', sans-serif !important;
+                font-weight: normal !important;
+                text-transform: capitalize !important;
+                color: #28a9bf !important;
+            }
           
         .skin-blue .sidebar-menu>li:hover>a, .skin-blue .sidebar-menu>li.active>a {
             color: #fff;
@@ -182,23 +194,109 @@
             border-left-color: #fff;
           }
           
-              .skin-blue .treeview-menu>li.active>a, .skin-blue .treeview-menu>li>a:hover {
-                  color: #fff;
-                  background:#1563b0;
-              }
+        .skin-blue .treeview-menu>li.active>a, .skin-blue .treeview-menu>li>a:hover {
+            color: #fff;
+            background:#1563b0;
+        }
+          
+          
+          /* Personaliza el estilo del scroll */
+          
+          .scroll-container {
+            max-height: 280px;
+            overflow-y: scroll;
+            overflow-x: hidden;
+          }
+
+          .scroll-container::-webkit-scrollbar {
+            width: 8px;
+          }
+
+          .scroll-container::-webkit-scrollbar-track {
+            background-color: #f1f1f1;
+          }
+
+          .scroll-container::-webkit-scrollbar-thumb {
+            background-color: #25538f;
+            border-radius: 4px;
+          }
+
+          .scroll-container::-webkit-scrollbar-thumb:hover {
+            background-color: #555;
+          }
+
+          .list-hover:hover {
+            background: rgb(240, 240, 240);
+            cursor: pointer;
+          }
 
 
           .skin-blue .wrapper, .skin-blue .main-sidebar, .skin-blue .left-side {}
           
+          .cita_agendada {
+            background-color: #1563b0 !important;
+          }
           
-        </style>
+          .cita_confirmada {
+            background-color: #e27c00 !important;
+          }
+          
+          .cita_cirugia {
+            background-color: #1b2831 !important;
+          }
+          
+          .cita_externa {
+            background-color: #18624d !important;
+          }
+          
+          
+          .cita_procedimiento {
+            background-color: #186234 !important;
+          }
+          
+          .cita_cancelada {
+            background-color: #ca3335 !important;
+          }
+          
+          .cita_disponible {
+            background-color: #9acfa1 !important;
+          }
+          
+          .cita_aprobada {
+            background-color: #3ab549 !important;
+          }
+           
+          .cita_firmada {
+            background-color: #8cc63e !important;
+          }
+          
+          .cita_bloqueada {
+            background-color: #7a7a7a !important;
+          }
+          
+          .cita_no_asistida {
+            background-color: #5874b8 !important;
+          }
+          
+          .color-black {
+            color: #000000 !important;
+          }
+          
+          .items_text{
+              font-family: 'Nasalization', sans-serif !important;
+              font-weight: normal !important;
+              text-transform: capitalize !important;
+              color: #28a9bf !important;
+          }
+
+     </style>
     </head>
     <script type="text/javascript">
         var baseurl = "<?php echo base_url(); ?>";
         var chk_validate = "<?php echo $this->config->item('SHLK') ?>";
     </script>
-  
-    <body class="hold-transition skin-blue fixed sidebar-mini"> 
+<!--   skin-blue fixed sidebar-mini sidebar-collapse -->
+    <body class="skin-blue fixed sidebar-mini sidebar-collapse"> 
         <?php
         if ($this->config->item('SHLK') == "") {
             ?>
@@ -291,7 +389,7 @@ if (!empty($logoresult["mini_logo"])) {
                                     </div>
                                     <?php
                                         }?> 
-                                <ul class="nav navbar-nav headertopmenu">
+                                <ul class="nav navbar-nav headertopmenu d-flex flex-row">
                                     <?php 
                                     if ($this->rbac->hasPrivilege('notification_center', 'can_view')) {
                                             $systemnotifications = $this->notification_model->getCountUnreadNotification();

@@ -1,3 +1,4 @@
+
 <div class="content-wrapper">  
 
     <!-- Main content -->
@@ -159,7 +160,7 @@
                             </div>
                             <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-6">
                                 <label><?php echo $this->lang->line('staff_name'); ?></label><small class="req"> *</small>
-                                <select name="empname" id="empname" value=""onchange="   getLeaveTypeDDL(this.value)"  class="form-control">
+                                <select name="empname" id="empname" value="" onchange="   getLeaveTypeDDL(this.value)"  class="form-control">
                                     <option value="" selected><?php echo $this->lang->line('select') ?></option>
                                 </select> 
                                 <span class="text-danger"><?php echo form_error('empname'); ?></span>
@@ -473,7 +474,7 @@
             type: 'POST',
             data: {lid: lid},           
             success: function (result) {
-                $("#leavetypeddl").html(result);
+//                 $("#leavetypeddl").html(result);
             }
         });
     }

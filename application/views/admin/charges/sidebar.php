@@ -15,4 +15,7 @@
     <?php if ($this->rbac->hasPrivilege('unit_type', 'can_view')) {?>
         <li><a class="<?php echo set_sidebar_Submenu('admin/unittype/index'); ?>" href="<?php echo site_url('admin/unittype'); ?>"> <?php echo $this->lang->line('unit_type'); ?></a></li>
     <?php } ?>
+  <?php if ($this->rbac->hasPrivilege('hospital_charges', 'can_view')) {?>
+        <li><a class="<?php echo set_sidebar_Submenu('admin/resoluciones/index'); ?>" href="<?php echo site_url('admin/resoluciones'); ?>"> Resoluciones</a></li>
+    <?php } ?>
 </ul>

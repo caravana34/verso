@@ -360,6 +360,30 @@ class Staff extends Admin_Controller
             echo "No Record Found";
         }
     }
+  
+  
+    function getdoctor_byspecialist(){
+       
+    }
+  
+    public function getdoctorbyspecialist($spec_id){
+      
+       $id_charge = $this->input->post('charge_id');
+      
+       $data['doctor_spacialist'] = $this->staff_model->getdoctorbyspecialist($spec_id);
+
+       $data['charge'] = $this->db->query("SELECT charge_type_master.id as id_type_master
+                                      FROM charges
+                                      INNER JOIN charge_categories ON charge_categories.id = charges.charge_category_id
+                                      INNER JOIN charge_type_master ON charge_type_master.id = charge_categories.charge_type_id
+                                      WHERE charges.id = ?", array($id_charge))->row();
+//       echo "<pre>";
+//       print_r($data);
+//       exit;
+       echo json_encode($data);
+    }
+  
+  
 
     public function create()
     {
@@ -395,8 +419,9 @@ class Staff extends Admin_Controller
         }
         $this->form_validation->set_rules('name', $this->lang->line('name'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('role', $this->lang->line('role'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('gender', $this->lang->line('gender'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('dob', $this->lang->line('date_of_birth'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('contactno', $this->lang->line('contactno'), 'trim|required|xss_clean');
+//         $this->form_validation->set_rules('gender', $this->lang->line('gender'), 'trim|required|xss_clean');
+//         $this->form_validation->set_rules('dob', $this->lang->line('date_of_birth'), 'trim|xss_clean');
         $this->form_validation->set_rules('email', $this->lang->line('email'), array('required', 'valid_email',
             array('check_exists', array($this->staff_model, 'valid_email_id')),
         )
@@ -684,6 +709,11 @@ class Staff extends Admin_Controller
 
     public function edit($id)
     {
+//       echo "<pre>";
+//       print_r($this->input->post());
+//       exit;
+      
+      
         if (!$this->rbac->hasPrivilege('staff', 'can_edit')) {
             access_denied();
         }
@@ -720,6 +750,12 @@ class Staff extends Admin_Controller
         $other_document_name       = $this->input->post("other_document_name");
         $other_document_file       = $this->input->post("other_document_file");
         $custom_fields             = $this->customfield_model->getByBelong('staff');
+        
+        
+      
+      
+      
+      
         foreach ($custom_fields as $custom_fields_key => $custom_fields_value) {
 
             if ($custom_fields_value['validation']) {
@@ -731,8 +767,10 @@ class Staff extends Admin_Controller
 
         $this->form_validation->set_rules('name', $this->lang->line('name'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('role', $this->lang->line('role'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('gender', $this->lang->line('gender'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('dob', $this->lang->line('date_of_birth'), 'trim|required|xss_clean');
+  
+        $this->form_validation->set_rules('contactno', $this->lang->line('contactno'), 'trim|required|xss_clean');
+//         $this->form_validation->set_rules('gender', $this->lang->line('gender'), 'trim|required|xss_clean');
+//         $this->form_validation->set_rules('dob', $this->lang->line('date_of_birth'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('file', $this->lang->line('image'), 'callback_handle_image_upload[file]');
         $this->form_validation->set_rules('first_doc', $this->lang->line('document'), 'callback_handle_upload[first_doc]');
         $this->form_validation->set_rules('second_doc', $this->lang->line('document'), 'callback_handle_upload[second_doc]');
@@ -970,11 +1008,14 @@ class Staff extends Admin_Controller
                 $fourth_title = 'Other Document';
                 $fourth_doc   = $other_document_file;
             }
-
+//             echo "<pre>";
+//         print_r($fourth_doc);
+//       exit;
             $data_doc = array('id' => $id, 'resume' => $resume_doc, 'joining_letter' => $joining_letter_doc, 'resignation_letter' => $resignation_letter_doc, 'other_document_name' => $fourth_title, 'other_document_file' => $fourth_doc);
 
             $this->staff_model->add($data_doc);
             $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('update_message') . '</div>');
+          
             redirect('admin/staff/edit/' . $id);
         }
     }

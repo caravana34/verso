@@ -60,11 +60,11 @@ function uniqueFileName()
     return time() . uniqid(rand());
 }
 
-function composePatientName($patient_name,$patient_id)
+function composePatientName($patient_name, $patient_id)
 {
     $name = "";
     if ($patient_name != "") {
-        $name = ($patient_id != "") ? $patient_name  : $patient_name;
+        $name = ($patient_id != "") ? $patient_name . " (" . $patient_id . ")" : $patient_name;
     }
 
     return $name;
@@ -76,7 +76,7 @@ function composeStaffName($staff)
     if (!empty($staff)) {
         $name = ($staff->surname == "") ? $staff->name : $staff->name . " " . $staff->surname;
     }
-
+    $name = ucwords(strtolower($name)); 
     return $name;
 }
 
@@ -87,7 +87,7 @@ function composeStaffNameByString($staff_name, $staff_surname, $staff_employeid)
 //         $name = ($staff_surname == "") ? $staff_name . " (" . $staff_employeid . ")" : $staff_name . " " . $staff_surname . " (" . $staff_employeid . ")";
        $name = ($staff_surname == "") ? $staff_name  : $staff_name . " " . $staff_surname;
     }
-
+    $name = ucwords(strtolower($name)); 
     return $name;
 }
 

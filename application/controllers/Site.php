@@ -36,6 +36,10 @@ class Site extends Public_Controller
             }
         }
     }
+  
+  public function clinify(){
+    $this->load->view('admin/clinify');
+  }
 
     public function login()
     {
@@ -143,11 +147,11 @@ class Site extends Public_Controller
         $patient_session = $this->session->userdata('patient');
         $this->auth->logout();
         if ($admin_session) {
-            redirect('site/login');
+            redirect('site/clinify');
         } else if ($patient_session) {
-            redirect('site/login');
+            redirect('site/clinify');
         } else {
-            redirect('site/login');
+            redirect('site/clinify');
         }
     }
 
@@ -522,36 +526,65 @@ class Site extends Public_Controller
 
     public function getSlotByShift()
     {
+ 
         $data           = array();
         $data["result"] = array();
         $shift          = $this->input->post("shift");
         $doctor_id      = $this->input->post("doctor");
         $global_shift   = $this->input->post("global_shift");
+        $visit          = $this->input->post("visit");
+      
         $date           = $this->customlib->dateFormatToYYYYMMDD($this->input->post("date"));
         $appointments   = $this->onlineappointment_model->getAppointments($doctor_id, $shift, $date);
+
         $array_of_time  = $this->customlib->getSlotByDoctorShift($doctor_id, $shift);
+
         $this->load->model("charge_model");
         $class = "";
+
         foreach ($array_of_time as $time) {
             if (!empty($appointments)) {
                 foreach ($appointments as $appointment) {
+
+                    if($appointment->time <= date("H:i:s", strtotime($time)) && $appointment->time_finish >= date("H:i:s", strtotime($time))) {
+                          if($appointment->id == $visit){
+                                 $class  = "row badge badge-pill propios_slot";
+                                 $filled = "";
+                                 break;
+                          } else {
+                            
+                                $class  = "row badge badge-pill badge-danger-soft";
+                                $filled = "filled";
+                                
+//                                 if($appointment->time < date("H:i:s", strtotime($time)) && $appointment->time_finish > date("H:i:s", strtotime($time))){
+//                                   $class  = "row badge badge-pill badge-danger-soft";
+//                                   $filled = "filled";
+//                                 } else {
+//                                   $class  = "row badge badge-pill badge-success-soft border-danger";
+//                                   $filled = "";
+//                                 }
+
+                                break;
+                          }
                       
-                    if ($appointment->time == date("H:i:s", strtotime($time))) {
-                        $class  = "row badge badge-pill badge-danger-soft";
-                        $filled = "filled";
-                        break;
+//                     } else if( ($appointment->time = date("H:i:s", strtotime($time)) ||  $appointment->time_finish = date("H:i:s", strtotime($time))) && $appointment->id == $visit ){
+//                         $class  = "row badge badge-pill badge-warning-soft";
+//                         $filled = "";
+                      
                     } else {
-                        $class  = "row badge badge-pill badge-success-soft";
-                        $filled = "";
+                          $class  = "row badge badge-pill badge-success-soft";
+                          $filled = ""; 
                     }
                 }
-
+                
                 array_push($data["result"], array("time" => $this->customlib->getHospitalTime_FormatFrontCMS($time), "class" => $class, "filled" => $filled));
             } else {
                 array_push($data["result"], array("time" => $this->customlib->getHospitalTime_FormatFrontCMS($time), "class" => "row badge badge-pill badge-success-soft"));
             }
         }
+        
         $doctor_data               = $this->staff_model->getProfile($doctor_id);
+
         $data["doctor_name"]       = $doctor_data["name"] . " " . $doctor_data["surname"];
         $data["doctor_speciality"] = $this->staff_model->getStaffSpeciality($doctor_id);
         $shift_details             = $this->onlineappointment_model->getShiftDetails($doctor_id);

@@ -21,6 +21,8 @@ $genderList = $this->customlib->getGender_Patient();
 $marital_status = $this->config->item('marital_status');
 $bloodgroup = $this->config->item('bloodgroup');
 $ocupations = $this->config->item('ocupations');
+$userdata                      = $this->customlib->getUserData();
+$role_id                       = $userdata['role_id'];
 ?>
 <div class="modal fade" id="myModalpa" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-lg" role="document">
@@ -207,7 +209,8 @@ $ocupations = $this->config->item('ocupations');
                                         </div> -->
                                         <div class="col-md-12 col-sm-12"> 
                                             <div class="row"> 
-<!--                                                 <div class="col-sm-4">
+                                             <?php if($role_id == 3): ?>
+                                                <div class="col-sm-4">
                                                     <div class="form-group">
                                                         <label><?php echo $this->lang->line('blood_group'); ?></label>
                                                         
@@ -221,7 +224,8 @@ $ocupations = $this->config->item('ocupations');
 
                                                         </select>
                                                     </div>
-                                                </div> -->
+                                                </div>
+                                              <?php endif ?>
                                               <div class="col-md-4 col-sm-12">
                                                 <div class="form-group">
                                                    <label for="pwd"><?php echo $this->lang->line('marital_status'); ?></label>

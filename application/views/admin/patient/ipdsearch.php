@@ -254,9 +254,7 @@ $genderList = $this->customlib->getGender();
                                             </div>
                                         </div>
                                     <div class="">
-                                        <?php
-                                        echo display_custom_fields('ipd');
-                                        ?>
+                                        
                                     </div>      
                                 </div><!--./row--> 
                             </div><!--./col-md-8--> 
@@ -324,7 +322,7 @@ $genderList = $this->customlib->getGender();
                                         <div class="form-group">
                                             <label for="exampleInputFile">
 <?php echo $this->lang->line('credit_limit') . " (" . $currency_symbol . ")"; ?><small class="req"> *</small></label>
-                                            <div><input class="form-control" type='text' name='credit_limit' value="<?php echo $setting[0]['credit_limit']; ?>"/>
+                                            <div><input class="form-control" type='text' name='credit_limit' value="2"/>
                                                 <span class="text-danger"><?php echo form_error('credit_limit'); ?></span>
                                             </div>
 
@@ -745,10 +743,10 @@ $genderList = $this->customlib->getGender();
                                                 <?php echo $this->lang->line('organisation'); ?></label>
                                         <div><select class="form-control" name='organisation' >
                                                 <option value=""><?php echo $this->lang->line('select') ?></option>
-<?php foreach ($organisation as $orgkey => $orgvalue) {
-    ?>
-                                                    <option value="<?php echo $orgvalue["id"]; ?>"><?php echo $orgvalue["organisation_name"] ?></option>   
-<?php } ?>
+                                                  <?php foreach ($organisation as $orgkey => $orgvalue) {
+                                                      ?>
+                                                                                                      <option value="<?php echo $orgvalue["id"]; ?>"><?php echo $orgvalue["organisation_name"] ?></option>   
+                                                  <?php } ?>
                                             </select>
                                         </div>
                                         <span class="text-danger"><?php echo form_error('refference'); ?></span>
@@ -1077,7 +1075,7 @@ $genderList = $this->customlib->getGender();
 <script type="text/javascript">
     $(document).ready(function (e) {
         $("#formadd").on('submit', (function (e) {
-            $("#formaddbtn").button('loading');
+//             $("#formaddbtn").button('loading');
             e.preventDefault();
             $.ajax({
                 url: '<?php echo base_url(); ?>admin/patient/add_inpatient',
@@ -1494,6 +1492,15 @@ function refreshmodal(){
 		delete_row(i);
 	}
 }
+  
+ function editRecord2(id){
+     console.log(id);
+   }
+  
+  function visits_patient(patientId){
+    console.log(patientId);
+  } 
+  
 </script>
 
 <!-- //========datatable start===== -->

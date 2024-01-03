@@ -3409,7 +3409,6 @@ window.location.href = baseurl+'admin/patient/search';
           if (event.target.id == "revisitModal") {
             $("#revisitModal").hide();
                $(".modal-backdrop").hide();
-              console.log("hola");
           }
         });
 

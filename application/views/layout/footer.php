@@ -4,16 +4,17 @@
     <?php echo $this->customlib->getAppName(); ?> <!-- <?php echo $this->customlib->getAppVersion(); ?> -->
 </footer>
 <div class="control-sidebar-bg"></div>
-<script>
+<!-- <script>
     $.widget.bridge('uibutton', $.ui.button);
-</script>
+</script> -->
 
 
-
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> -->
 <link href="<?php echo base_url(); ?>backend/toast-alert/toastr.css" rel="stylesheet"/>
 <script src="<?php echo base_url(); ?>backend/toast-alert/toastr.js"></script>
 <script src="<?php echo base_url(); ?>backend/bootstrap/js/bootstrap.min.js"></script>
-<script src="<?php echo base_url(); ?>backend/plugins/select2/select2.full.min.js"></script>
+<!-- <script src="<?php echo base_url(); ?>backend/plugins/select2/select2.full.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="<?php echo base_url(); ?>backend/plugins/input-mask/jquery.inputmask.js"></script>
 <script src="<?php echo base_url(); ?>backend/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
 <script src="<?php echo base_url(); ?>backend/plugins/input-mask/jquery.inputmask.extensions.js"></script>
@@ -102,6 +103,10 @@ if ($language_name != 'en') {
 <script type="text/javascript" src="<?php echo base_url(); ?>backend/dist/datatables/js/ss.custom.js" ></script>
 <script src="<?php echo base_url(); ?>backend/dist/datatables/js/datetime-moment.js"></script>
 <script src="<?php echo base_url() ?>backend/plugins/select2/select2.full.min.js"></script>
+
+
+
+
 <script type="text/javascript">
     $(document).ready(function () {
     $(".dt-body-right a").tooltip();
@@ -241,10 +246,10 @@ $bedgroup_list = $this->bedgroup_model->bedGroupFloor();
     d = today.getDate();
     var viewtitle = 'month';
     var pagetitle = "<?php
-if (isset($title)) {
-    echo $title;
-}
-?>";
+      if (isset($title)) {
+          echo $title;
+      }
+   ?>";
 
     if (pagetitle == "Dashboard") {
         viewtitle = 'agendaWeek';
@@ -330,39 +335,58 @@ if (isset($title)) {
     });
 
     $(document).ready(function () {
-         var datetime_format = '<?php echo $result = strtr($this->customlib->getHospitalDateFormat(true, true), ['d' => 'DD', 'm' => 'MM', 'Y' => 'YYYY', 'H' => 'hh', 'i' => 'mm']) ?>';
+        var datetime_format = '<?php echo $this->customlib->getHospitalDateFormat(true, true); ?>';
 
-        $("#date-field").daterangepicker({timePicker: true, timePickerIncrement: 5, locale: {
-                format: datetime_format
-            }});
+        $("#date-field").daterangepicker({
+            timePicker: true,
+            timePickerIncrement: 5,
+            locale: {
+                format: datetime_format.replace('d', 'DD').replace('m', 'MM').replace('Y', 'YYYY').replace('H', 'hh').replace('i', 'mm')
+            }
+        });
 
         $('.patient_list_ajax').select2({
-            ajax: { 
+            ajax: {
                 url: "<?= base_url(); ?>admin/patient/getPatientListAjax",
                 type: "post",
                 dataType: 'json',
                 delay: 250,
                 data: function (params) {
-                   $('#case_reference_idd').val('');
+                    $('#case_reference_idd').val('');
                     return {
-                    searchTerm: params.term // search term
+                        searchTerm: params.term // search term
                     };
                 },
                 processResults: function (response) {
-                  console.log(response);
+                    console.log(response);
                     return {
                         results: response
                     };
                 },
                 cache: true
+            },
+            language: {
+                noResults: function () {
+                    return 'No se encontró el paciente';
+                },
+                searching: function () {
+                    return 'Escriba el nombre o la cédula.'; 
+                },
+                loadingMore: function () {
+                    return 'Cargando más resultados...'; 
+                },
+                errorLoading: function () {
+                    return ''; 
+                }
             }
         }).on('select2:select', function (e) {
-          var data = e.params.data;
-          var patientId = data.id; 
-          editRecord2(patientId);
-          
+            var data = e.params.data;
+            var patientId = data.id;
+            editRecord2(patientId);
+            visits_patient(patientId);
         });
     });
+
 
     function datepic() {
          var datetime_format = '<?php echo $result = strtr($this->customlib->getHospitalDateFormat(true, true), ['d' => 'DD', 'm' => 'MM', 'Y' => 'YYYY', 'H' => 'hh', 'i' => 'mm']) ?>';
@@ -415,34 +439,134 @@ if (isset($title)) {
             }
         });
     }
-
-    var calendar_date_time_format = '<?php echo $result = strtr($this->customlib->getHospitalDateFormat(), ['d' => 'DD', 'm' => 'MM', 'M' => 'MMM', 'Y' => 'YYYY']) ?>';
+  
     $(document).ready(function () {
 
-        $("body").delegate(".date", "focusin", function () {
-        var date_format = '<?php echo $result = strtr($this->customlib->getHospitalDateFormat(), ['d' => 'dd', 'm' => 'mm', 'Y' => 'yyyy']) ?>';
-        console.log(date_format);
-
-        $(this).datepicker({
-                todayHighlight: false,
-                format: date_format,
-                autoclose: true,
-                language: '<?php echo $language_name ?>'
-            });
+        $("body").on("change", "#doctorid", function () {
+            $('.date-appointment').datepicker('remove');
+            date_appointment();
+        });
+      
+        $("body").on("change", "#rdoctor", function () {
+            $('.date-appointment').datepicker('remove');
+            date_appointment();
+        });
+      
+        $("body").on("focusin", ".date-appointment", function () {
+            date_appointment();
         });
 
-        var datetime_format = '<?php echo $result = strtr($this->customlib->getHospitalDateFormat(true, true), ['d' => 'DD', 'm' => 'MM', 'Y' => 'YYYY', 'H' => 'HH', 'i' => 'mm']) ?>';
-        
-        $("body").delegate(".datetime", "focusin", function () {
-            $(this).datetimepicker({
-                format: datetime_format,
-                locale:
-                        '<?php echo $language_name ?>',
+        function date_appointment(event) {
+          
+            let date_format = '<?php echo $result = strtr($this->customlib->getHospitalDateFormat(), ['d' => 'dd', 'm' => 'mm', 'Y' => 'yy']) ?>';
+            let holidays = ['01/01/2024', '01/08/2024', '03/25/2024', '03/28/2024', '03/29/2024', '05/01/2024', '05/13/2024', '06/03/2024', '06/10/2024', '07/01/2024', '07/20/2024', '08/07/2024', '08/19/2024', '10/14/2024', '11/04/2024', '11/11/2024', '12/08/2024', '12/25/2024'];
 
-            });
-        });
+            let doctor_id =  document.getElementById('doctorid').value;
+            let rdoctor =  document.getElementById('rdoctor').value;
+           
+           let date_appointment = document.getElementById('date_appointment').value;
+           let doctor_not_working = [];
+
+            if(doctor_id !== '' || rdoctor !== ''){
+                 let id = doctor_id === '' ? rdoctor : doctor_id;
+
+                 $.ajax({
+                    url: '<?= base_url("admin/appointment/hidden_days") ?>',
+                    type: "POST",
+                    data: {id_doctor: id},
+                    dataType: 'json',
+                    success: function (data) {
+                      console.log(data);
+                      let result = Object.values(data.doctor_days);
+                      
+                      const daysMap = {
+                        Sunday: 0,
+                        Monday: 1,
+                        Tuesday: 2,
+                        Wednesday: 3,
+                        Thursday: 4,
+                        Friday: 5,
+                        Saturday: 6
+                      };
+                      
+                      for (const day of result) {
+                        doctor_not_working.push(daysMap[day]);
+                      }
+
+//                       const sortedArray = doctor_not_working.slice().sort((a, b) => a - b);
+
+//                       console.log(sortedArray);
+                      
+                        $('.date-appointment').datepicker({
+                            todayHighlight: false,
+                            dateFormat: date_format,
+                            autoclose: true,
+                            language: '<?php echo $language_name ?>',
+                            daysOfWeekDisabled: doctor_not_working,
+                            startDate: new Date(),
+                            beforeShowDay: function (date) {
+                                console.log(date);
+                                let formattedDate = $.datepicker.formatDate('mm/dd/yy', date);
+                                if (isHoliday(formattedDate)) {
+                                    return {
+                                        tooltip: 'Día festivo',
+                                        classes: 'festivo',
+                                    };
+                                }
+                               var dayOfWeek = date.getDay(); // Obtener el número del día de la semana
+
+                                if (isDoctorNonWorkingDayOfWeek(dayOfWeek)) {
+                                    return {
+                                        tooltip: 'Día no laboral del doctor',
+                                        classes: 'not-working-doctor',
+                                        disabled: true // Bloquear el día en el calendario
+                                    };
+                                }
+
+                                return [true, ''];
+                           },
+                        });
+                      
+                    },
+                    error: function(error) { 
+                        console.error(error);
+                    },
+                 }); 
+            } else {
+              
+                doctor_not_working = [];
+
+                $('.date-appointment').datepicker({
+                    todayHighlight: false,
+                    dateFormat: date_format,
+                    autoclose: true,
+                    language: '<?php echo $language_name ?>',
+                    daysOfWeekDisabled: doctor_not_working,
+                    startDate: new Date(),
+                    beforeShowDay: function (date) {
+                        let formattedDate = $.datepicker.formatDate('mm/dd/yy', date);
+                        if (isHoliday(formattedDate)) {
+                            return {
+                                tooltip: 'Día festivo',
+                                classes: 'festivo',
+                            };
+                        }
+                        return [true, ''];
+                   },
+                });
+            }
+
+            function isHoliday(date) {
+                return holidays.includes(date);
+            }
+
+            function isDoctorNonWorkingDayOfWeek(day) {
+                return doctor_not_working.includes(day);
+            }
+        }
     });
-
+  
+    let calendar_date_time_format = '<?php echo $result = strtr($this->customlib->getHospitalDateFormat(), ['d' => 'DD', 'm' => 'MM', 'M' => 'MMM', 'Y' => 'YYYY']) ?>';
 
     $(document).ready(function (e) {
         var datetime_format = '<?php echo $result = strtr($this->customlib->getHospitalDateFormat(true, true), ['d' => 'DD', 'm' => 'MM', 'Y' => 'YYYY', 'H' => 'hh', 'i' => 'mm']) ?>';
@@ -457,17 +581,34 @@ if (isset($title)) {
         var date_format = '<?php echo $result = strtr($this->customlib->getHospitalDateFormat(), ['d' => 'dd', 'm' => 'mm', 'Y' => 'yyyy']) ?>';
         var capital_date_format = date_format.toUpperCase();
         $.fn.dataTable.moment(capital_date_format);
-
-        $("body").delegate(".date", "focusin", function () {
-
+      
+        $("body").on("focusin", ".date-today", function () {
+            let previousValue = $(this).val();
+          
             $(this).datepicker({
                 todayHighlight: false,
                 format: date_format,
                 autoclose: true,
-                language: '<?php echo $language_name ?>'
+                language: '<?php echo $language_name ?>',
+                startDate: new Date(),
+            }).on('changeDate', function (e) {
+              previousValue = e.format(date_format);
+            }).on('hide', function () {
+              if ($(this).val() === "") {
+                $(this).val(previousValue);
+              }
             });
         });
-        
+      
+       $("body").on("focusin", ".date", function () {
+            $(this).datepicker({
+                todayHighlight: false,
+                format: date_format,
+                autoclose: true,
+                language: '<?php echo $language_name ?>',
+            });
+       });
+
         var daterange_format = '<?php echo $result = strtr($this->customlib->getHospitalDateFormat(), ['d' => 'DD', 'm' => 'MM', 'Y' => 'YYYY']) ?>';
         $("body").delegate(".daterange", "focusin", function () {
             $(this).daterangepicker({

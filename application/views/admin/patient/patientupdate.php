@@ -4,6 +4,8 @@
   $marital_status = $this->config->item('marital_status');
   $bloodgroup = $this->config->item('bloodgroup');
   $ocupations = $this->config->item('ocupations');
+  $userdata                      = $this->customlib->getUserData();
+  $role_id                       = $userdata['role_id'];
 ?>
 <div class="modal fade" id="editModal2"  role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-lg" role="document">
@@ -177,6 +179,7 @@
                                               </div>
                                              </div>
                                         </div>
+                                          <?php if($role_id == 3 || $role_id == 7 ): ?>
                                          <div class="col-sm-3">
                                               <div class="form-group">
                                                   <label><?php echo $this->lang->line('blood_group'); ?></label>
@@ -194,6 +197,7 @@
                                                   </div>
                                               </div>
                                           </div>
+                                          <?php endif ?>
                                         <div class="col-md-6 col-sm-12"> 
                                             <div class="row"> 
                                                 <div class="col-sm-6">
@@ -272,6 +276,79 @@
 
 <script>
   
+      function visits_patient(id){
+          let canceladas = 0;
+          let firmadas = 0;
+          let aprobadas = 0;
+          $.ajax({
+            url: '<?php echo base_url(); ?>admin/patient/tablePatientVisits',
+            type: "POST",
+            data: {id: id},
+            dataType: 'json',
+            success: function (r) { 
+                 console.log(r);
+//                  console.log(r.data.appointment);
+                let visits = "";
+                let result="";
+              
+                if(r.status == "success"){
+                  
+                       if(r.data.patientdetails.length >= 1){
+
+                          for(let property of r.data.patientdetails){
+                              let fechaFormateada = new Date(property.appointment_date).toLocaleString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true });
+                            
+                            
+
+                              visits += `<tr>
+                                            <td><a href="<?= base_url('admin/patient/visitdetails/') ?>${property.patient_id}/${property.opd_id}">${r.data.opd_no}${property.opd_id}</a></td>
+                                            <td>${property.case_reference_id ? property.case_reference_id : ''}</td>
+                                            <td>${fechaFormateada}</td>
+                                            <td>${property.name} ${property.surname}</td>
+                                            <td>${result = property.appointment_status === 'Agendada'
+                                                  ? '<small class="label cita_agendada">Agendada</small>'
+                                                  : property.appointment_status === 'Confirmada'
+                                                  ? '<small class="label cita_confirmada">Confirmada</small>'
+                                                  : property.appointment_status === 'Aprobada'
+                                                  ? '<small class="label cita_aprobada">Aprobada</small>'
+                                                  : property.appointment_status === 'Cancelada'
+                                                  ? '<small class="label cita_cancelada">Cancelada</small>'
+                                                  : property.appointment_status === 'Firmada'
+                                                  ? '<small class="labe cita_firmada">Firmada</small>'
+                                                  : property.appointment_status === 'Bloqueada'
+                                                  ? '<small class="labe cita_bloqueada">Bloqueada</small>'
+                                                  : '<small class="label" style="background-color: #ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</small>'}</td>
+                                            <td>Acciones</td>
+                                         </tr>`;
+                            
+                            if(property.appointment_status === "Cancelada"){
+                                canceladas++;
+                               }
+                            if(property.appointment_status === "Firmada"){
+                                firmadas++;
+                               }
+                            if(property.appointment_status === "Aprobada"){
+                                aprobadas++;
+                               }
+                           }
+                         
+                           successMsg("Ha cancelado "+canceladas+" y ha asistido "+aprobadas,);
+                         
+
+                           $('#table_patient_visits').css('display', 'block');
+                           document.getElementById('patient_visits').innerHTML = visits;
+                     }
+                  
+                  
+                }
+             
+            },
+            error: (error) => {
+               console.log(error); 
+            }
+        });
+        
+      }
   
       function editRecord2(id) {
         window.id_record = id;
@@ -285,19 +362,26 @@
             dataType: 'json',
             success: function (data) { 
                 console.log(data);
+              
+              
+              
                 $("#eupdateid").val(data.id);
                 $('#customfield2').html(data.custom_fields_value);
                 $("#ename").val(data.patient_name);
+                $('#edit_patient_id').val(data.id);
+                $('#name_patient').val(data.patient_name);
+//                 $('#patient_id').val(data.id);
                 $("#eguardian_name").val(data.guardian_name);
                 $("#emobileno").val(data.mobileno);
                 $("#eemail").val(data.email);
-                $("#eaddress").val(data.address);       
-                      $.ajax({
+                $("#eaddress").val(data.address);
+              
+                    $.ajax({
                           url: '<?php echo base_url(); ?>admin/patient/getpatientage',
                           type: "POST",
                           dataType: "json",
                           data: {birth_date:data.dob},
-                          success: function (data) {
+                          success: function (data) {  
                             $("#age_year").val(data.year);
                             $("#age_month").val(data.month);
                             $("#age_day").val(data.day);
@@ -328,8 +412,12 @@
                 
                 
                 let municipio = document.getElementById('custom_fields[patient][5]').value;
-                
                 let departamento = document.getElementById('custom_fields[patient][4]').value;
+                let patient_eps = document.getElementById('custom_fields[patient][12]').value;
+              
+                console.log(data.patient_eps);
+                $("#responsible_eps").val(data.patient_eps);
+              
                 departamentos_2(municipio,departamento);
                 holdModal('editModal2');
                 $( "#municipio" ).parent().parent().css( "display", "none" );
@@ -449,6 +537,7 @@
 //                         setTimeout(function() {
 //                                 location.reload();
 //                               }, 900);
+                      table.ajax.reload( null, false );
                       
                     }
                     $("#formeditpabtn").button('reset');

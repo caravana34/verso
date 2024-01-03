@@ -12,11 +12,12 @@ if (!function_exists('active_link')) {
     }
 
     function set_Topmenu($top_menu_name) {
+        $CI = get_instance();
+        $session_top_menu = $CI->session->userdata('top_menu');
+    
 //       echo "<pre>";
 //       print_r($top_menu_name);
 //       exit;
-        $CI = get_instance();
-        $session_top_menu = $CI->session->userdata('top_menu');
 //         $session_sub_menu = $CI->session->userdata('sub_menu');
         if($top_menu_name=='setup/patient'){
             if($session_top_menu == 'setup' ){

@@ -80,6 +80,10 @@ class Patient_model extends MY_Model
 
     public function addmedication($data)
     {
+      
+//                  echo "<pre>";
+//       print_r($data);
+//       exit;
         $this->db->trans_start(); # Starting Transaction
         $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
@@ -625,6 +629,9 @@ class Patient_model extends MY_Model
             $case_id = $this->db->insert_id();
             //===================
             $data['case_reference_id'] = $case_id;
+//           echo "<pre>";
+//           print_r($data);
+//           exit;
             $this->db->insert('ipd_details', $data);
             $insert_id = $this->db->insert_id();
             $message   = INSERT_RECORD_CONSTANT . " On IPD id " . $insert_id;
@@ -1252,7 +1259,7 @@ class Patient_model extends MY_Model
             ->join('visit_details', "opd_details.id=visit_details.opd_details_id", "LEFT")
             ->join('patients', "patients.id=opd_details.patient_id", "LEFT")
             ->join('staff', 'staff.id = visit_details.cons_doctor', "LEFT")
-            ->searchable('patients.patient_name,patients.id,patients.guardian_name,patients.gender,patients.mobileno,staff.name'. $custom_field_column)
+            ->searchable('patients.patient_name,patients.id,patients.guardian_name,patients.gender,patients.mobileno,staff.name, patients.identification_number'. $custom_field_column)
             ->orderable('patients.patient_name,patients.id,patients.guardian_name,patients.gender,patients.mobileno,staff.name'. $custom_field_column.',MAX(visit_details.appointment_date)')
             ->sort('max(visit_details.appointment_date)', 'desc')
             
@@ -1506,19 +1513,26 @@ class Patient_model extends MY_Model
 
     public function getVisitDetailsbyopdid($opdid)
     {
-        $this->db->select('visit_details.*,appointment.id as appointment_no,appointment_queue.position as appointment_serial_no,department.department_name as department_name,organisation.organisation_name,opd_details.id as opdid,opd_details.case_reference_id,opd_details.patient_id,patients.patient_name,patients.id as patient_id,patients.age,patients.month,patients.day,patients.dob,patients.guardian_name,patients.gender,patients.marital_status,patients.mobileno,patients.email,patients.address,patients.insurance_id,patients.insurance_validity,patients.identification_number,patients.known_allergies,patients.image as patient_image,blood_bank_products.name as blood_group_name,staff.name,staff.surname,staff.employee_id,patients.id as `patient_id`')->from('visit_details');
+        $this->db->select('visit_details.*,appointment.reason_consultation,appointment.id as appointment_no,appointment.date as mydate,appointment_queue.position as appointment_serial_no,department.department_name as department_name,organisation.organisation_name,opd_details.id as opdid,opd_details.case_reference_id,opd_details.patient_id,patients.patient_name,patients.id as patient_id,patients.age,patients.month,patients.day,patients.dob,patients.guardian_name,patients.gender,patients.marital_status,patients.mobileno,patients.email,patients.address,patients.insurance_id,patients.insurance_validity,patients.identification_number,patients.known_allergies,patients.image as patient_image,blood_bank_products.name as blood_group_name,staff.name,staff.surname,staff.employee_id,patients.id as `patient_id`, specialist.id as `specialist_id`, specialist.specialist_name as `specialist_name` ')->from('visit_details');
         $this->db->join('opd_details', 'opd_details.id = visit_details.opd_details_id');
         $this->db->join('patients', 'patients.id = opd_details.patient_id');
         $this->db->join('blood_bank_products', 'blood_bank_products.id = patients.blood_bank_product_id','left');
         $this->db->join('staff', 'staff.id = visit_details.cons_doctor',"left");
-         $this->db->join('appointment', 'appointment.visit_details_id = visit_details.id',"left");
+        $this->db->join('appointment', 'appointment.visit_details_id = visit_details.id',"left");
         $this->db->join('appointment_queue', 'appointment_queue.appointment_id = appointment.id',"left");
         $this->db->join('department', 'department.id = staff.department_id', "left");
+        $this->db->join('specialist', 'specialist.id = staff.specialist', "left");
         $this->db->join('organisation', 'organisation.id = visit_details.organisation_id', 'left');
         $this->db->where('visit_details.opd_details_id', $opdid);
         $query  = $this->db->get();
         $result = $query->row_array();
+//            echo "<pre>";
+//       print_r(  $result );
+//       exit;
+      
+      
         return $result;
+      
     }
 
     public function getopdvisitDetailsbyvisitid($visitid)
@@ -1535,7 +1549,7 @@ class Patient_model extends MY_Model
             }
         }
         $field_variable = implode(',', $field_var_array);
-        $this->db->select('visit_details.*,visit_details.known_allergies as visit_known_allergies,appointment.date, transactions.payment_mode,transactions.amount,transactions.cheque_no,transactions.cheque_date,transactions.note as payment_note,transactions.payment_date,organisation.organisation_name,opd_details.id as opdid,opd_details.case_reference_id,opd_details.patient_id,patients.patient_name,patients.id as patient_id,patients.age,patients.month,patients.day,patients.dob,patients.guardian_name,patients.gender,patients.marital_status,patients.mobileno,patients.email,patients.address,patients.insurance_id,patients.insurance_validity,patients.identification_number,patients.known_allergies,patients.image as patient_image,patients.age,patients.month, patients.day,blood_bank_products.name as blood_group_name,staff.name,staff.surname,staff.employee_id,patients.id as `patient_id`,' . $field_variable)->from('visit_details');
+        $this->db->select('visit_details.*,visit_details.known_allergies as visit_known_allergies,appointment.date,appointment.message,appointment.reason_consultation, transactions.payment_mode,transactions.amount,transactions.cheque_no,transactions.cheque_date,transactions.note as payment_note,transactions.payment_date,organisation.organisation_name,opd_details.id as opdid,opd_details.case_reference_id,opd_details.patient_id,patients.patient_name,patients.id as patient_id,patients.age,patients.month,patients.day,patients.dob,patients.guardian_name,patients.gender,patients.marital_status,patients.mobileno,patients.email,patients.address,patients.insurance_id,patients.insurance_validity,patients.identification_number,patients.known_allergies,patients.image as patient_image,patients.age,patients.month, patients.day,blood_bank_products.name as blood_group_name,staff.name,staff.surname,staff.employee_id,patients.id as `patient_id`,' . $field_variable)->from('visit_details');
         $this->db->join('appointment', 'appointment.visit_details_id = visit_details.id');
         $this->db->join('opd_details', 'opd_details.id = visit_details.opd_details_id');
         $this->db->join('patients', 'patients.id = opd_details.patient_id');
@@ -1660,7 +1674,54 @@ class Patient_model extends MY_Model
 
     public function addImport($patient_data)
     {
-        $this->db->insert('patients', $patient_data);
+
+        $data = array();
+        $data['patient_name'] = $patient_data['patient_name'];
+        $data['guardian_name'] = $patient_data['guardian_name'];
+        $data['is_active'] = $patient_data['is_active'];
+        $data['age'] = $patient_data['age'];
+        $data['image'] = $patient_data['image'];
+        $data['email'] = $patient_data['email'];
+        if($patient_data['gender'] == "F"){
+          $data['gender'] = "Mujer";
+        }else {
+           $data['gender'] = "Hombre";
+        }
+        $data['identification_number'] = $patient_data['identification_number'];
+        $data['insurance_id'] = $patient_data['ocupacion'];
+        $data['insurance_validity'] = $patient_data['insurance_validity'];
+   
+//         $date_format = str_replace("/","-",$patient_data['fecha_naci']);
+//         echo "<pre>";
+//         print_r($data['insurance_validity']);
+//         exit;
+        if($data['insurance_validity'] == "CC"){
+          $data['insurance_validity'] = "CC: Cédula de ciudadanía";
+        }
+        if($data['insurance_validity'] == "RC"){
+          $data['insurance_validity'] = "RC: Registro civil";
+        }
+      
+      if($data['insurance_validity'] == "CE"){
+          $data['insurance_validity'] = "CE: Cédula de extranjería";
+        }
+      
+      if($data['insurance_validity'] == "TI"){
+          $data['insurance_validity'] = "TI: Tarjeta de identidad";
+        }
+      
+//         $fecha = new DateTime($patient_data['dob']);
+//         $start_time = $fecha->format('Y-d-m');
+
+        $data['dob'] = $patient_data['dob'];
+      
+      
+//        echo "<pre>";
+      
+//       print_r( $data['dob']);
+//       exit;
+             
+        $this->db->insert('patients', $data);
         return $this->db->insert_id();
     }
 
@@ -2061,8 +2122,9 @@ class Patient_model extends MY_Model
         $custom_field_column = implode(',', $custom_field_column_array);
 
         $this->datatables
-            ->select('opd_details.case_reference_id,opd_details.id as opd_id,opd_details.patient_id as patientid,opd_details.is_ipd_moved,max(visit_details.id) as visit_id,visit_details.appointment_date,visit_details.refference,visit_details.symptoms,patients.id as pid,patients.patient_name,staff.id as staff_id,staff.name,staff.surname,staff.employee_id,consult_charges.standard_charge,patient_charges.apply_charge,' . $field_variable)
+            ->select('appointment.id as appointment_id, opd_details.case_reference_id,opd_details.id as opd_id,opd_details.patient_id as patientid,opd_details.is_ipd_moved,max(visit_details.id) as visit_id,visit_details.appointment_date,visit_details.refference,visit_details.symptoms,patients.id as pid,patients.patient_name,staff.id as staff_id,staff.name,staff.surname,staff.employee_id,consult_charges.standard_charge,patient_charges.apply_charge,' . $field_variable)
             ->join('visit_details', 'opd_details.id = visit_details.opd_details_id')
+            ->join('appointment', 'appointment.visit_details_id = visit_details.id')
             ->join('staff', 'staff.id = visit_details.cons_doctor', "inner")
             ->join('patients', 'patients.id = opd_details.patient_id', "inner")
             ->join('consult_charges', 'consult_charges.doctor=visit_details.cons_doctor', 'left')
@@ -2552,6 +2614,51 @@ class Patient_model extends MY_Model
 
         return $result;
     }
+  
+  public function getdatanursenote_opd($id, $opdid)
+    {
+        $i             = 1;
+        $custom_fields = $this->customfield_model->get_custom_fields('ipdnursenote', 1);
+
+        $field_var_array = array();
+        if (!empty($custom_fields)) {
+            foreach ($custom_fields as $custom_fields_key => $custom_fields_value) {
+                $tb_counter = "table_custom_" . $i;
+                array_push($field_var_array, 'table_custom_' . $i . '.field_value as ' . $custom_fields_value->name);
+                $this->db->join('custom_field_values as ' . $tb_counter, 'nurse_note.id = ' . $tb_counter . '.belong_table_id AND ' . $tb_counter . '.custom_field_id = ' . $custom_fields_value->id, 'left');
+                $i++;
+            }
+        }
+        $field_variable = implode(',', $field_var_array);
+        $query          = $this->db->select('nurse_note.*,staff.name,staff.surname,staff.employee_id,' . $field_variable)->join('staff', 'staff.id = nurse_note.staff_id', "LEFT")->where("nurse_note.procedure_id", $opdid)->get("nurse_note");
+        $result         = $query->result_array();
+
+        return $result;
+    }
+  
+  public function getdatanursenote_surgeryopd($id, $opdid)
+    {
+        $i             = 1;
+        $custom_fields = $this->customfield_model->get_custom_fields('ipdnursenote', 1);
+
+        $field_var_array = array();
+        if (!empty($custom_fields)) {
+            foreach ($custom_fields as $custom_fields_key => $custom_fields_value) {
+                $tb_counter = "table_custom_" . $i;
+                array_push($field_var_array, 'table_custom_' . $i . '.field_value as ' . $custom_fields_value->name);
+                $this->db->join('custom_field_values as ' . $tb_counter, 'nurse_note.id = ' . $tb_counter . '.belong_table_id AND ' . $tb_counter . '.custom_field_id = ' . $custom_fields_value->id, 'left');
+                $i++;
+            }
+        }
+        $field_variable = implode(',', $field_var_array);
+        $query          = $this->db->select('nurse_note.*,staff.name,staff.surname,staff.employee_id,' . $field_variable)->join('staff', 'staff.id = nurse_note.staff_id', "LEFT")->where("nurse_note.surgery_id", $opdid)->get("nurse_note");
+        $result         = $query->result_array();
+
+        return $result;
+    }
+  
+  
+  
     public function getmedicationdetailsbydate_overview($ipdid){
        $query = $this->db->select("medication_report.*,pharmacy.medicine_name,medicine_dosage.dosage as medicine_dosage,charge_units.unit")
             ->join('pharmacy', 'pharmacy.id = medication_report.pharmacy_id', 'left')
@@ -3634,14 +3741,251 @@ class Patient_model extends MY_Model
        }
 
        if(!empty($opd_details)){
+         
+           $this->db->select('*');
+           $this->db->from('custom_field_values');
+           $this->db->where('belong_table_id', $opd_details['patient_id']);
+           $query2 = $this->db->get();
+           $custom = $query2->result_object();
+//        
+          foreach($custom as $key=>$value){
+           
+             if($value->custom_field_id == 4){
+                $Departamento = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 5){
+                $Municipio = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 7){
+                $Acudiente = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 8){
+                $Cedula = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 9){
+                $Huella = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 10 && ($value->field_value != "") ){
+                $Regimen = $value->field_value;
+              }
+
+             if($value->custom_field_id == 11){
+                $TelefonoDeAcudiente = $value->field_value;
+              }         
+         
+             if($value->custom_field_id == 12){
+                $EPS = $value->field_value;
+              }            
+              
+             if($value->custom_field_id == 13){
+                $CategoriaDiscapacidad = $value->field_value;
+              }
+            
+              if($value->custom_field_id == 14){
+                $estrato = $value->field_value;
+              }
+         
+             if($value->custom_field_id == 15){
+                $TelefonoDeContactoAuxiliar = $value->field_value;
+              }
+            
+             if($value->custom_field_id == 16){
+                $EstadoDeAfiliacion = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 18){
+                $IMC = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 19){
+                $Talla = $value->field_value;
+              }          
+             
+             if($value->custom_field_id == 24){
+                $VoluntadAnticipada = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 25){
+                $Direccion = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 26){
+                $ZonaDeResidenciae = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 28){
+                $VoluntadAnticipada = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 29){
+                $Observaciones = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 30){
+                $TelefonoPrincipal = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 31){
+                $OtroAsegurador = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 32){
+                $MotivoDeConsulta = $value->field_value;
+              }          
+             
+             if($value->custom_field_id == 36){
+                $Peso = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 37){
+                $ClasificacionIMC = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 38){
+                $FrecuenciaCardiaca = $value->field_value;
+              }
+
+             if($value->custom_field_id == 39){
+                $FrecuenciaRespiratoria = $value->field_value;
+              }
+             if($value->custom_field_id == 43){
+                $RevisionPorSistemas = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 44){
+                $PresionArterialSistolica = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 45){
+                $PresionArterialDiastolica = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 46){
+                $PosicionPresionArterial = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 47){
+                $LugarPresionArterial = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 49){
+                $Temperatura = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 52){
+                $SaturacionDe02SinOxigeno = $value->field_value;
+              }         
+             
+             if($value->custom_field_id == 54){
+                $SaturacionDeO2ConOxigeno = $value->field_value;
+              }           
+             
+             if($value->custom_field_id == 57){
+                $NotaDiagnostico = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 58){
+                $EnfermedadActual = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 59){
+                $DiagnosticoPrincipal = $value->field_value;
+              }
+           
+             if($value->custom_field_id == 62){
+                $TipoDeDiagnostico = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 64){
+                $Analisis = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 65){
+                $Plan = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 66){
+                $Cual = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 67){
+                $PacienteEstudio = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 68){
+                $ConsentimientoEstudioClinico = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 69){
+                $CausaExterna = $value->field_value;
+              }
+             
+              if($value->custom_field_id == 70){
+                $Arl = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 71){
+                $IncodolMedicamentos = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 72){
+                $Diagnosticossecundarios = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 73){
+                $TiposDeDiagnosticosSecundarios = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 74){
+                $NotaDiagnosticoSecundario = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 75){
+                $Socioeconomicos = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 76){
+                $Patologicos = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 77){
+                $Familiares = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 78){
+                $Farmacologicos = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 79){
+                $Transfusiones = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 80){
+                $Habitos = $value->field_value;
+              }
+             
+             if($value->custom_field_id == 81){
+                $Ginecobstetrico = $value->field_value;
+              }
+           }
+           
+//               echo "<pre>";
+//                 print_r($opd_details);
+//                 exit;
     
             $patient_details['patient_id'] =$opd_details['patient_id'];
-            $patient_details['patient_name'] =$opd_details['patient_name'];
+            $patient_details['patient_name'] = $opd_details['patient_name'] ." " .$opd_details['guardian_name'];
             $patient_details['dob'] =$opd_details['dob'];
             $patient_details['age'] =$opd_details['age'];
             $patient_details['month'] =$opd_details['month'];
             $patient_details['day'] =$opd_details['day'];
             $patient_details['image'] =$opd_details['image'];
+            $patient_details['identification_number'] =$opd_details['identification_number'];
             $patient_details['mobileno'] =$opd_details['mobileno'];
             $patient_details['email'] =$opd_details['email'];
             $patient_details['gender'] =$opd_details['gender'];
@@ -3649,18 +3993,23 @@ class Patient_model extends MY_Model
             $patient_details['address'] =$opd_details['address'];
             $patient_details['guardian_name'] =$opd_details['guardian_name'];
             $patient_details['is_dead'] =$opd_details['is_dead'];
-            $patient_details['insurance_id'] =$opd_details['insurance_id'];
+            $patient_details['insurance_id'] = $EPS;
+//             $patient_details['insurance_validity'] =$Regimen;
             $patient_details['insurance_validity'] =$opd_details['insurance_validity'];
             $patient_details['opdid'] =$opd_details['opdid'];
             $patient_details['discharged'] =$opd_details['discharged'];
             $patient_details['appointment_date'] =$opd_details['appointment_date'];
-             $patient_details['date'] =$opd_details['appointment_date'];
-
+            $patient_details['appointment_id'] = $opd_details['id'];
+            $patient_details['date'] =$opd_details['appointment_date'];
+            $patient_details['order_code'] =$opd_details['order_code'];
+            $patient_details['cat_cuota_moderadora'] =$opd_details['cat_cuota_moderadora'];
+            $patient_details['payment_type'] =$opd_details['payment_type'];
        }else{
             $patient_details['opdid'] ='';
             $patient_details['discharged'] ='';
             $patient_details['appointment_date'] ='';  
-            $patient_details['date'] ='';        
+            $patient_details['date'] ='';   
+            $patient_details['appointment_id'] = '';
        }
 
 
@@ -3669,9 +4018,10 @@ class Patient_model extends MY_Model
 
     public function getDetailsopdByCaseId($case_id)
     {
-        return $this->db->select('patients.id as patient_id,patients.patient_name,patients.dob,patients.age,patients.month,patients.day,patients.image,patients.mobileno,patients.email,patients.gender,patients.blood_group,patients.address,patients.guardian_name,patients.is_dead,patients.insurance_id,patients.insurance_validity,opd_details.id as opdid,opd_details.discharged,visit_details.appointment_date,')->from('patients')
+        return $this->db->select('patients.id as patient_id,patients.patient_name,patients.dob,patients.age,patients.month,patients.day,patients.image,patients.mobileno,patients.email,patients.gender,patients.identification_number,patients.blood_group,patients.address,patients.guardian_name,patients.is_dead,patients.insurance_id,patients.insurance_validity,opd_details.id as opdid,opd_details.discharged,visit_details.appointment_date,appointment.cat_cuota_moderadora,appointment.order_code,appointment.payment_type,appointment.id')->from('patients')
             ->join('opd_details', 'opd_details.patient_id=patients.id', 'inner')
             ->join('visit_details', 'visit_details.opd_details_id=opd_details.id', 'inner')
+            ->join('appointment', 'appointment.case_reference_id=opd_details.case_reference_id', 'inner')
             ->where('opd_details.case_reference_id', $case_id)
             ->get()
             ->row_array();
@@ -3733,7 +4083,7 @@ class Patient_model extends MY_Model
 
     public function getPatientVisitDetails($patient_id)
     {
-        $result = $this->db->select("p.patient_name,od.id as opd_id,od.case_reference_id,p.id as patient_id")
+        $result = $this->db->select("p.patient_name,p.guardian_name,od.id as opd_id,od.case_reference_id,p.id as patient_id")
             ->join("opd_details od", "od.patient_id = p.id", "right")
             ->where("p.id", $patient_id)
             ->get("patients p")
@@ -4415,10 +4765,10 @@ class Patient_model extends MY_Model
 
     public function getpatientoverview($patient_id){
 
-        $patient_details['patient']['allergy'] = $this->db->select('known_allergies')->from('visit_details')->join('opd_details',"opd_details.id=visit_details.opd_details_id")
-         ->where('opd_details.patient_id',$patient_id)->where('known_allergies!=',"")->order_by("visit_details.id","desc")->group_by('known_allergies') ->limit(5)->get()->result_array();       
+       $patient_details['patient']['allergy'] = $this->db->select('known_allergies')->from('visit_details')->join('opd_details',"opd_details.id=visit_details.opd_details_id")
+        ->where('opd_details.patient_id',$patient_id)->where('known_allergies!=',"")->order_by("visit_details.id","desc")->group_by('known_allergies') ->limit(5)->get()->result_array();       
 
-        $patient_details['patient']['findings'] = $this->db->select('finding_description')->from('ipd_prescription_basic')->join('visit_details',"visit_details.id=ipd_prescription_basic.visit_details_id") ->join('opd_details',"opd_details.id=visit_details.opd_details_id")->where('opd_details.patient_id',$patient_id) ->where('finding_description!=',"") ->order_by("ipd_prescription_basic.id","desc")->group_by('finding_description')->limit(5)->get()->result_array();       
+       $patient_details['patient']['findings'] = $this->db->select('finding_description')->from('ipd_prescription_basic')->join('visit_details',"visit_details.id=ipd_prescription_basic.visit_details_id") ->join('opd_details',"opd_details.id=visit_details.opd_details_id")->where('opd_details.patient_id',$patient_id) ->where('finding_description!=',"") ->order_by("ipd_prescription_basic.id","desc")->group_by('finding_description')->limit(5)->get()->result_array();       
 
        $patient_details['patient']['symptoms'] = $this->db->select('symptoms')->from('visit_details') ->join('opd_details',"opd_details.id=visit_details.opd_details_id")
          ->where('opd_details.patient_id',$patient_id)->where('symptoms!=',"")->order_by("visit_details.id","desc")->group_by('symptoms')->limit(5)->get()->result_array();      
@@ -4441,12 +4791,36 @@ class Patient_model extends MY_Model
 
 
         $patient_details['patient']['visitdetails'] = $this->db
-        ->select('opd_details.case_reference_id,opd_details.id as opd_id,opd_details.patient_id as patientid,opd_details.is_ipd_moved,max(visit_details.id) as visit_id,visit_details.appointment_date,visit_details.refference,visit_details.symptoms,patients.id as pid,patients.patient_name,staff.id as staff_id,staff.name,staff.surname,staff.employee_id,consult_charges.standard_charge,patient_charges.apply_charge' )
-        ->join('visit_details', 'opd_details.id = visit_details.opd_details_id', "left")->join('staff', 'staff.id = visit_details.cons_doctor', "inner")->join('patients', 'patients.id = opd_details.patient_id', "inner")->join('consult_charges', 'consult_charges.doctor=visit_details.cons_doctor', 'left')
-        ->join('patient_charges', 'opd_details.id=patient_charges.opd_id', 'left')->order_by('visit_details.id', 'desc')->where('opd_details.patient_id', $patient_id)
-        ->where('opd_details.discharged', 'no')->group_by('visit_details.opd_details_id', '')->order_by('visit_details.opd_details_id', 'desc')
-        ->limit(5)->from('opd_details')->get()->result_array();
-            return $patient_details ;
+        ->select('opd_details.case_reference_id,opd_details.id as opd_id,opd_details.patient_id as patientid,opd_details.is_ipd_moved,max(visit_details.id) as visit_id,visit_details.appointment_date,visit_details.refference,visit_details.symptoms,patients.id as pid,patients.patient_name,staff.id as staff_id,staff.name,staff.surname,staff.employee_id,consult_charges.standard_charge,patient_charges.apply_charge, appointment.patient_id, appointment.case_reference_id, appointment.visit_details_id,
+        appointment.id_role_cancel, appointment.date, appointment.time, appointment.time_finish, appointment.priority, appointment.specialist, appointment.doctor, appointment.amount, appointment.message, appointment.medical_message, appointment.appointment_status, appointment.id as appointment_id, appointment.id as appointment_id, appointment.reason_consultation')
+        ->join('visit_details', 'opd_details.id = visit_details.opd_details_id', "left")
+        ->join('staff', 'staff.id = visit_details.cons_doctor', "inner")
+        ->join('patients', 'patients.id = opd_details.patient_id', "inner")
+        ->join('appointment', 'appointment.patient_id = patients.id', 'left')
+        ->join('consult_charges', 'consult_charges.doctor=visit_details.cons_doctor', 'left')
+        ->join('patient_charges', 'opd_details.id=patient_charges.opd_id', 'left')
+        ->order_by('visit_details.id', 'desc')->where('opd_details.patient_id', $patient_id)
+        ->where('opd_details.discharged', 'no')->group_by('visit_details.opd_details_id', '')->limit(5)->order_by('visit_details.opd_details_id', 'desc')->from('opd_details')->get()->result_array();
+     
+        $patient_details['patient']['cancels'] = $this->db
+        ->select('opd_details.case_reference_id,opd_details.id as opd_id,opd_details.patient_id as patientid,opd_details.is_ipd_moved,max(visit_details.id) as visit_id,visit_details.appointment_date,visit_details.refference,visit_details.symptoms,patients.id as pid,patients.patient_name,staff.id as staff_id,staff.name,staff.surname,staff.employee_id,consult_charges.standard_charge,patient_charges.apply_charge, appointment.*' )
+        ->join('visit_details', 'opd_details.id = visit_details.opd_details_id', "left")
+        ->join('staff', 'staff.id = visit_details.cons_doctor', "inner")
+        ->join('patients', 'patients.id = opd_details.patient_id', "inner")
+        ->join('appointment', 'appointment.patient_id = patients.id', 'left')
+        ->join('consult_charges', 'consult_charges.doctor=visit_details.cons_doctor', 'left')
+        ->join('patient_charges', 'opd_details.id=patient_charges.opd_id', 'left')
+        ->order_by('visit_details.id', 'desc')->where('opd_details.patient_id', $patient_id)
+        ->where('appointment.appointment_status', 'Cancelada')->group_by('visit_details.opd_details_id', '')->order_by('visit_details.opd_details_id', 'desc')->from('opd_details')->get()->result_array();
+     
+//         $patient_details['patient']['appointment'] = $this->db->select('appointment.*')
+//         ->from('appointment')
+//         ->join('patients', 'patients.id = appointment.patient_id', 'left')
+//         ->where('appointment.patient_id', $patient_id)
+//         ->get()
+//         ->result_array();
+      
+         return $patient_details;
      
     }
 
@@ -4465,7 +4839,7 @@ class Patient_model extends MY_Model
 
         $query = $this->db->query("select pathology.test_name,pathology.short_name   from opd_details  left join  pathology_billing on opd_details.patient_id = pathology_billing.patient_id   inner join pathology_report  on pathology_billing.id= pathology_report.pathology_bill_id   inner join pathology  on pathology_report.pathology_id = pathology.id
              where opd_details.case_reference_id ='".$case_reference_id."' 
-             union all  select radio.test_name,radio.short_name   from opd_details   left join  radiology_billing on opd_details.patient_id = radiology_billing.patient_id  inner join radiology_report  on radiology_billing.id = radiology_report.radiology_bill_id  inner join radio  on radiology_report.radiology_id =radio.id   where opd_details.case_reference_id ='".$case_reference_id."'  ");
+             union all  select radio.test_name,radio.short_name   from opd_details   left join  radiology_billing on opd_details.patient_id = radiology_billing.patient_id  inner join radiology_report  on radiology_billing.id = radiology_report.radiology_bill_id  inner join radio  on radiology_report.radiology_id =radio.id  where opd_details.case_reference_id ='".$case_reference_id."'  ");
 
         $result = $query->result_array();
         $patient_details['patient']['labinvestigation'] = $result ;
@@ -4502,5 +4876,14 @@ class Patient_model extends MY_Model
         return "success" ;
         
     }
+  
+  public function consult_patient(){
+    $this->db->select('id');
+    $this->db->from('patients');
+    $query = $this->db->get();
+    $result = $query->result_array();
+    return $result ;
+    
+  }
     
 }

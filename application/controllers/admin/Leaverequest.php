@@ -35,6 +35,8 @@ class Leaverequest extends Admin_Controller
         $staffRole         = $this->staff_model->getStaffRole();
         $data["staffrole"] = $staffRole;
         $data["status"]    = $this->status;
+      
+      
         $this->load->view("layout/header", $data);
         $this->load->view("admin/staff/approveleaverequest", $data);
         $this->load->view("layout/footer", $data);
@@ -131,18 +133,27 @@ class Leaverequest extends Admin_Controller
     {
         $lid               = $this->input->post("lid");
         $alloted_leavetype = $this->leaverequest_model->allotedLeaveType($id);
+      
+//         echo "<pre>";
+//         print_r($alloted_leavetype);
+//         exit;
+
         $i    = 0;
         $html = "<select name='leave_type' id='leave_type' class='form-control'><option value=''>" . $this->lang->line('select') . "</option>";
         $data = array();
         if (!empty($alloted_leavetype[0]["alloted_leave"])) {
             foreach ($alloted_leavetype as $key => $value) {
                 $count_leaves[]            = $this->leaverequest_model->countLeavesData($id, $value["leave_type_id"]);
+              
                 $data[$i]['type']          = $value["type"];
                 $data[$i]['id']            = $value["leave_type_id"];
                 $data[$i]['alloted_leave'] = $value["alloted_leave"];
                 $data[$i]['approve_leave'] = $count_leaves[$i]['approve_leave'];
                 $i++;
             }
+//                  echo "<pre>";
+//                 print_r($data);
+//                 exit;
 
             foreach ($data as $dkey => $dvalue) {
                 if (!empty($dvalue["alloted_leave"])) {
@@ -210,7 +221,10 @@ class Leaverequest extends Admin_Controller
     {
         $id     = $this->input->post("id");
         $result = $this->staff_model->getLeaveRecord($id);
-
+      
+        echo "<pre>";
+        print_r($result);
+        exit;
 
         if ($result->applier_employee_id != '') {
             $result->applied_by = composeStaffNameByString($result->applier_name, $result->applier_surname, $result->applier_employee_id);
@@ -269,10 +283,8 @@ class Leaverequest extends Admin_Controller
 
             $array = array('status' => 'fail', 'error' => $msg, 'message' => '');
         } else {
-            
-
-
-             $a         = $this->input->post("leavedates");
+           
+            $a         = $this->input->post("leavedates");
             $b         = explode(' - ', trim($a));
             $leavefrom = $this->customlib->dateFormatToYYYYMMDD($b[0]);
             $leaveto   = $this->customlib->dateFormatToYYYYMMDD($b[1]);
@@ -283,102 +295,104 @@ class Leaverequest extends Admin_Controller
 
             $staff_leave = $this->leaverequest_model->myallotedLeaveType($staff_id, $leavetype);
             $approve_leave  = $this->leaverequest_model->countLeavesData($staff_id, $leavetype);
-            $pending_leave = $staff_leave['alloted_leave'] - $approve_leave['approve_leave'] ;
+            $pending_leave = $staff_leave['alloted_leave'] - $approve_leave['approve_leave'];
 
-            if($pending_leave >= $leave_days)
-            {
-            if (!empty($request_id))
-             {
-                $data = array('id' => $request_id,
-                    'staff_id'         => $staff_id,
-                    'date'             => $this->customlib->dateFormatToYYYYMMDD($applied_date),
-                    'leave_type_id'    => $leavetype,
-                    'leave_days'       => $leave_days,
-                    'leave_from'       => $leavefrom,
-                    'leave_to'         => $leaveto,
-                    'employee_remark'  => $reason,
-                    'status'           => $status,
-                    'admin_remark'     => $remark,
-                    'applied_by'       => $applied_by,
+            if($pending_leave >= $leave_days){
+                if (!empty($request_id))
+                {
+                    $data = array(
+                        'id' => $request_id,
+                        'staff_id'         => $staff_id,
+                        'date'             => $this->customlib->dateFormatToYYYYMMDD($applied_date),
+                        'leave_type_id'    => $leavetype,
+                        'leave_days'       => $leave_days,
+                        'leave_from'       => $leavefrom,
+                        'leave_to'         => $leaveto,
+                        'employee_remark'  => $reason,
+                        'status'           => $status,
+                        'admin_remark'     => $remark,
+                        'applied_by'       => $applied_by,
+                    );
+
+                    $this->leaverequest_model->addLeaveRequest($data);
+
+                    if (isset($_FILES["userfile"]) && !empty($_FILES['userfile']['name'])) {
+                        $fileInfo = pathinfo($_FILES["userfile"]["name"]);
+                        $img_name = $insert_id . '.' . $fileInfo['extension'];
+
+                        $uploaddir = './uploads/staff_documents/' . $staff_id . '/';
+
+                        if (!is_dir($uploaddir) && !mkdir($uploaddir)) {
+                            die("Error creating folder $uploaddir");
+                        }
+
+                        move_uploaded_file($_FILES["userfile"]["tmp_name"], "./uploads/staff_documents/" . $staff_id . "/" . $img_name);
+                        $data_img = array('id' => $request_id, 'document_file' => $img_name, 'status' => $status);
+
+                        $this->leaverequest_model->addLeaveRequest($data_img);
+                    }
+                } else {
+                  
+                    $addLeaveRequest = array(
+                        'staff_id'          => $staff_id,
+                        'date'              => $this->customlib->dateFormatToYYYYMMDD($applied_date),
+                        'leave_days'        => $leave_days,
+                        'leave_type_id'     => $leavetype,
+                        'leave_from'        => $leavefrom,
+                        'leave_to'          => $leaveto,
+                        'employee_remark'   => $reason,
+                        'status'            => $status,
+                        'admin_remark'      => $remark,
+                        'applied_by'        => $applied_by,
+                        'status_updated_by' => $this->customlib->getStaffID(),
+                    );
+
+                    $insert_id = $this->leaverequest_model->addLeaveRequest($addLeaveRequest);
+
+                    if (isset($_FILES["userfile"]) && !empty($_FILES['userfile']['name'])) {
+                        $fileInfo = pathinfo($_FILES["userfile"]["name"]);
+                        $img_name = $insert_id . '.' . $fileInfo['extension'];
+
+                        $uploaddir = './uploads/staff_documents/' . $staff_id . '/';
+
+                        if (!is_dir($uploaddir) && !mkdir($uploaddir)) {
+                            die("Error creating folder $uploaddir");
+                        }
+
+                        move_uploaded_file($_FILES["userfile"]["tmp_name"], "./uploads/staff_documents/" . $staff_id . '/' . $img_name);
+                        $data_img = array('id' => $insert_id, 'document_file' => $img_name, 'status' => $status);
+
+                        $this->leaverequest_model->addLeaveRequest($data_img);
+                    }
+                }
+
+                $array = array('status' => 'success', 'error' => '', 'message' => $this->lang->line('success_message'));
+
+                $staff_details     = $this->notificationsetting_model->getstaffDetails($staff_id);
+                $leavetype_details = $this->notificationsetting_model->getleavetypesDetails($leavetype);
+
+                $event_data = array(
+                    'apply_date'    => $this->customlib->YYYYMMDDTodateFormat($applied_date),
+                    'leave_type'    => $leavetype_details['type'],
+                    'leave_date'    => $this->customlib->YYYYMMDDTodateFormat($leavefrom) . ' - ' . $this->customlib->YYYYMMDDTodateFormat($leaveto),
+                    'days'          => $leave_days,
+                    'role_id'       => $role,
+                    'staff_id'      => $staff_details['id'],
+                    'staff_name'    => $staff_details['name'],
+                    'staff_surname' => $staff_details['surname'],
+                    'employee_id'   => $staff_details['employee_id'],
+                    'leave_status'  => $this->lang->line($status),
                 );
 
-                $this->leaverequest_model->addLeaveRequest($data);
-
-                if (isset($_FILES["userfile"]) && !empty($_FILES['userfile']['name'])) {
-                    $fileInfo = pathinfo($_FILES["userfile"]["name"]);
-                    $img_name = $insert_id . '.' . $fileInfo['extension'];
-
-                    $uploaddir = './uploads/staff_documents/' . $staff_id . '/';
-
-                    if (!is_dir($uploaddir) && !mkdir($uploaddir)) {
-                        die("Error creating folder $uploaddir");
-                    }
-
-                    move_uploaded_file($_FILES["userfile"]["tmp_name"], "./uploads/staff_documents/" . $staff_id . "/" . $img_name);
-                    $data_img = array('id' => $request_id, 'document_file' => $img_name, 'status' => $status);
-
-                    $this->leaverequest_model->addLeaveRequest($data_img);
-                }
-            } else {
-                $addLeaveRequest = array(
-                    'staff_id'          => $staff_id,
-                    'date'              => $this->customlib->dateFormatToYYYYMMDD($applied_date),
-                    'leave_days'        => $leave_days,
-                    'leave_type_id'     => $leavetype,
-                    'leave_from'        => $leavefrom,
-                    'leave_to'          => $leaveto,
-                    'employee_remark'   => $reason,
-                    'status'            => $status,
-                    'admin_remark'      => $remark,
-                    'applied_by'        => $applied_by,
-                    'status_updated_by' => $this->customlib->getStaffID(),
-                );
-
-                $insert_id = $this->leaverequest_model->addLeaveRequest($addLeaveRequest);
-
-                if (isset($_FILES["userfile"]) && !empty($_FILES['userfile']['name'])) {
-                    $fileInfo = pathinfo($_FILES["userfile"]["name"]);
-                    $img_name = $insert_id . '.' . $fileInfo['extension'];
-
-                    $uploaddir = './uploads/staff_documents/' . $staff_id . '/';
-
-                    if (!is_dir($uploaddir) && !mkdir($uploaddir)) {
-                        die("Error creating folder $uploaddir");
-                    }
-                    
-                    move_uploaded_file($_FILES["userfile"]["tmp_name"], "./uploads/staff_documents/" . $staff_id . '/' . $img_name);
-                    $data_img = array('id' => $insert_id, 'document_file' => $img_name, 'status' => $status);
-
-                    $this->leaverequest_model->addLeaveRequest($data_img);
-                }
-            }
-
-            $array = array('status' => 'success', 'error' => '', 'message' => $this->lang->line('success_message'));
-
-            $staff_details     = $this->notificationsetting_model->getstaffDetails($staff_id);
-            $leavetype_details = $this->notificationsetting_model->getleavetypesDetails($leavetype);
-
-            $event_data = array(
-                'apply_date'    => $this->customlib->YYYYMMDDTodateFormat($applied_date),
-                'leave_type'    => $leavetype_details['type'],
-                'leave_date'    => $this->customlib->YYYYMMDDTodateFormat($leavefrom) . ' - ' . $this->customlib->YYYYMMDDTodateFormat($leaveto),
-                'days'          => $leave_days,
-                'role_id'       => $role,
-                'staff_id'      => $staff_details['id'],
-                'staff_name'    => $staff_details['name'],
-                'staff_surname' => $staff_details['surname'],
-                'employee_id'   => $staff_details['employee_id'],
-                'leave_status'  => $this->lang->line($status),
-            );
-
-            $this->system_notification->send_system_notification('staff_leave', $event_data);
+                $this->system_notification->send_system_notification('staff_leave', $event_data);
 
             }else{
+              
                  $msg = array(
                     'applieddate' => $this->lang->line('selected_leave_days') . " > " . $this->lang->line('available_leaves'),
-                );
+                 );
 
-                $array = array('status' => 'fail', 'error' => $msg, 'message' => '');
+                 $array = array('status' => 'fail', 'error' => $msg, 'message' => '');
             }
         }
 
@@ -387,6 +401,10 @@ class Leaverequest extends Admin_Controller
 
     public function add_staff_leave()
     {
+      
+//          echo '<pre>';
+//          print_r($this->input->post());
+//          exit;
         $userdata     = $this->customlib->getUserData();
         $applied_date = $this->input->post("applieddate");
         $leavetype    = $this->input->post("leave_type");
@@ -419,13 +437,13 @@ class Leaverequest extends Admin_Controller
             $leave_days  = $this->dateDifference($leavefrom, $leaveto);
             $staff_leave = $this->leaverequest_model->myallotedLeaveType($staff_id, $leavetype);
             $approve_leave  = $this->leaverequest_model->countLeavesData($staff_id, $leavetype);
-            $pending_leave = $staff_leave['alloted_leave'] - $approve_leave['approve_leave'] ;
+            $pending_leave = $staff_leave['alloted_leave'] - $approve_leave['approve_leave'];
            
           
             if($pending_leave >= $leave_days)
             {
 
-                $staff_id = $userdata["id"];
+            $staff_id = $userdata["id"];
             if (isset($_FILES["userfile"]) && !empty($_FILES['userfile']['name'])) {
                 $uploaddir = './uploads/staff_documents/' . $staff_id . '/';
                 if (!is_dir($uploaddir) && !mkdir($uploaddir)) {
@@ -486,9 +504,6 @@ class Leaverequest extends Admin_Controller
 
                 $array = array('status' => 'fail', 'error' => $msg, 'message' => '');
             }
-
-
-
 
         }
         echo json_encode($array);

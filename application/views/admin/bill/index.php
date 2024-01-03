@@ -74,8 +74,8 @@ $currency_symbol = $this->customlib->getHospitalCurrencyFormat();
                              
                                 <?php if ($this->rbac->hasPrivilege('opd_billing', 'can_view')) {?>
                           
-                                <li class="active"><a href="#opd" data-toggle="tab" aria-expanded="true" onclick="load_opd_data()"><?php echo $this->lang->line('opd') ?></a></li>
-                                 <?php } if ($this->rbac->hasPrivilege('ipd_billing', 'can_view')) { ?>
+                                <li class="active"><a href="#opd" data-toggle="tab" aria-expanded="true" onclick="load_opd_data()">Consulta Externa</a></li>
+<!--                                  <?php } if ($this->rbac->hasPrivilege('ipd_billing', 'can_view')) { ?>
                                 <li ><a onclick="load_ipd_data()" href="#ipd" data-toggle="tab" aria-expanded="true"><?php echo $this->lang->line('ipd') ?></a></li> 
                                 <?php } if ($this->rbac->hasPrivilege('pharmacy_billing', 'can_view')) {?>                             
                                 <li ><a href="#pharmacy" onclick="load_pharmacy_data()" data-toggle="tab" aria-expanded="true"><?php echo $this->lang->line('pharmacy') ?></a></li>
@@ -87,7 +87,7 @@ $currency_symbol = $this->customlib->getHospitalCurrencyFormat();
                                 <li ><a href="#blood_bank" onclick="load_blood_bank_data()" data-toggle="tab" aria-expanded="true"><?php echo $this->lang->line('blood_bank') ?></a></li>
                                  <?php } if ($this->rbac->hasPrivilege('ambulance_billing', 'can_view')) {?>
                                 <li ><a href="#ambulance" onclick="load_ambulance_data()" data-toggle="tab" aria-expanded="true"><?php echo $this->lang->line('ambulance') ?></a></li>
-                                 <?php } ?>
+                                 <?php } ?> -->
                             </ul>
                             <div class="tab-content">
                                 <?php if ($this->rbac->hasPrivilege('opd_billing', 'can_view')) {?>
@@ -2150,7 +2150,38 @@ $(document).on('click','.print_transactions',function(){
                 $this.button('reset');
              }
         });
-    })
+    });
+  
+  $(document).on('click','.print_bill',function(){
+    var id=$(this).data('recordId');
+      
+        var $this = $(this);
+        var lab   = $(this).data('typeId');
+        $.ajax({
+            url: base_url+'admin/patient/printpathoparameter',
+            type: "POST",
+            data: {'id': id,'lab':lab},
+            dataType: 'json',
+               beforeSend: function() {
+              $this.button('loading');
+               },
+            success: function (data) {         
+          
+           popup(data.page);
+
+            },
+
+             error: function(xhr) { // if error occured
+          alert("<?php echo $this->lang->line('error_occurred_please_try_again'); ?>");
+             $this.button('reset');
+               
+      },
+      complete: function() {
+            $this.button('reset');
+     
+      }
+        });
+    });
  
 
     $(document).on('click','.print_ambulance_receipt',function(){

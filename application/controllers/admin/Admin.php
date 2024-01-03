@@ -389,11 +389,12 @@ class Admin extends Admin_Controller
                     $month = ", " . " 0 " . $this->lang->line("month");
                 }
 
-                     $action = "";
+                $action = "";
 //                 $action = "<a href='#' onclick='getpatientData(" . $value->id . ")' class='btn btn-default btn-xl pull-right'  data-toggle='modal' title='" . $this->lang->line('edit') ." ". $this->lang->line('patient') ." '>Ver detalle <i class='fa fa-reorder'></i></a>";
-                $action .= "<div class='' style='margin-right: -24px !important; margin-left: -22px !important;'><a href=' $info_url[0]' style='width: 50px;border-radius: 2px;padding:0px;' class='btn btn-default btn-xl'  data-toggle='' title='OPD'><i class='fas fa-stethoscope'></i></a> </div>";
+                $action .= "<div class='' style='margin-right: -24px !important; margin-left: -22px !important;'><a href=' $info_url[0]' style='width: 50px;border-radius: 2px;padding:0px; color: black; margin-left: 20px;' class='btn btn-default btn-xl' data-toggle='tooltip' title='OPD'><i class='fas fa-stethoscope'></i></a></div>";
                 $action .= "<ul class='dropdown-menu dropdown-menu2' role='menu'>";
                 $action .= "<div class='btn-group' style='margin-left:2px;'>";
+              
                 if (!empty($result[$key]['info'])) {
 //                     $action .= "<a href=' $info_url[0]' style='width: 50px;border-radius: 2px;padding:0px;' class='btn btn-default btn-xl'  data-toggle='' title='OPD'><i class='fas fa-stethoscope'></i></a> <a href='#'  class='btn btn-default btn-xl' onclick='editRecord(".$value->id.")' style='padding:0px;' data-toggle='' title='" . $this->lang->line('edit') . "'><i class='fa fa-edit'></i></a>";
 //                     $action .= "<ul class='dropdown-menu dropdown-menu2' role='menu'>";
@@ -405,7 +406,7 @@ class Admin extends Admin_Controller
                     $action .= "</ul>";
                 }
                 $action .= "</div>";
-                $first_action = "<div class='row' style='display:flex;'><div class='col-md-9'><a href='#' onclick='editRecord2(".$id.")' class=''  data-toggle='modal' title='' style='font-size: 14px !important;text-align: justify;'>". composePatientName($value->patient_name."<br> ".$value->guardian_name, $value->id)."</div><div class='col-3'><i class='fa fa-pencil'></i></div></a> </div>";
+                $first_action = "<div class='row' style='display:flex;'><div class='col-md-9'><a href='#' onclick='editRecord2(".$id.")' class=''  data-toggle='modal' title='' style='font-size: 14px !important;text-align: left;'>". composePatientName($value->patient_name."<br> ".$value->guardian_name, $value->id)."</div><div class='col-3'><i class='fa fa-pencil'></i></div></a> </div>";
                 $checkbox     = "<input  class='chk2 enable_delete' type='checkbox' name='patient[]' value='" . $value->id . "'>";
 
                 //==============================
@@ -422,7 +423,6 @@ class Admin extends Admin_Controller
                 } else {
                     $row[] = $this->lang->line('no');
                 }
-
                 //====================
                 if (!empty($fields)) {
                     foreach ($fields as $fields_key => $fields_value) {
@@ -646,7 +646,8 @@ class Admin extends Admin_Controller
         redirect('admin/admin/backup');
     }
 
-    public function dashboard()
+    
+       public function dashboard()
     {
         $this->session->set_userdata('top_menu', 'dashboard');
         $this->session->set_userdata('sub_menu', '');
@@ -737,40 +738,7 @@ class Admin extends Admin_Controller
         $month_expences            = $this->expense_model->getTotalExpenseBwdate(date('Y-m-01'), date('Y-m-t'));
         $data['expences']          = $month_expences->amount;
         $where_date                = array('date >=' => date('Y-m-01'), 'date <=' => date('Y-m-t'));
-        
-//         $this->db->select('*');
-//         $this->db->from('appointment');
-//         $query2 = $this->db->get();
-//         $result2 = $query2->result_object();
-        $sql= "SELECT appointment.*, staff.name AS nameDoctor,staff.surname AS surnameDoctor,patients.identification_number,
-                custom_field_values.field_value as responsable,
-                patients.patient_name,patients.guardian_name
-                FROM appointment
-                INNER JOIN patients ON appointment.patient_id = patients.id
-                INNER JOIN staff ON appointment.doctor = staff.id
-                INNER JOIN custom_field_values ON appointment.patient_id = custom_field_values.belong_table_id WHERE custom_field_values.custom_field_id = 12
-                ORDER BY appointment.case_reference_id DESC";
-        
-        $query2 = $this->db->query($sql);
-        $result2 = $query2->result_object();
 
-        $data['citas'] = $result2;
-        
-        $patients_count= "select count(id) as count_patient from patients";
-          
-        $query_patients = $this->db->query($patients_count);
-        $result_patients = $query_patients->result_object();
-        $data['patients_count'] = $result_patients;
-      
-        $staff_count= "select count(id) as count_staff from staff";
-          
-        $query_staff = $this->db->query($staff_count);
-        $result_staff= $query_staff->result_object();
-        $data['staff_count'] = $result_staff;
-      
-      
-      
-        
         $data['general_income'] = $this->income_model->getTotal($where_date);
         $parameter              = array(
             'opd'        => $data['opd_income'],
@@ -790,38 +758,36 @@ class Admin extends Admin_Controller
         $jsonarr  = array();
         $i        = 0;
 
-//         foreach ($parameter as $key => $value) {
-//             $data[$key . "_income"] = number_format($value, 2);
-//             if (($this->module_lib->hasActive($module[$i]))) {
-//                 if ($tot_data != 0) {
-//                     $jsonarr['value'][] = round((($value / $tot_data) * 100), 0);
-//                     $jsonarr['label'][] = $label[$i];
-//                 } else {
-//                     $jsonarr['value'][] = 0;
-//                     $jsonarr['label'][] = $label[$i];
-//                 }
-//             }
-//             if ($tot_data != 0) {
-//                 $data[$key . "_cdata"] = ($value / $tot_data) * 100;
-//             } else {
-//                 $data[$key . "_cdata"] = 0;
-//             }
+        foreach ($parameter as $key => $value) {
+            $data[$key . "_income"] = number_format($value, 2);
+            if (($this->module_lib->hasActive($module[$i]))) {
+                if ($tot_data != 0) {
+                    $jsonarr['value'][] = round((($value / $tot_data) * 100), 0);
+                    $jsonarr['label'][] = $label[$i];
+                } else {
+                    $jsonarr['value'][] = 0;
+                    $jsonarr['label'][] = $label[$i];
+                }
+            }
+            if ($tot_data != 0) {
+                $data[$key . "_cdata"] = ($value / $tot_data) * 100;
+            } else {
+                $data[$key . "_cdata"] = 0;
+            }
 
-//             $i++;
-//         }
+            $i++;
+        }
 
         $data['mysqlVersion'] = $this->setting_model->getMysqlVersion();
         $data['sqlMode']      = $this->setting_model->getSqlMode();
         $data['jsonarr']      = $jsonarr;
-        
-//         echo "<pre>";
-//         print_r($data);
-//         exit;
         $this->load->view('layout/header', $data);
         $this->load->view('admin/dashboard', $data);
         $this->load->view('layout/footer', $data);
     }
 
+  
+  
     public function updateandappCode()
     {
         $this->form_validation->set_rules('app-email', $this->lang->line('email'), 'required|valid_email|trim|xss_clean');

@@ -61,16 +61,17 @@ class Appointment_model extends MY_Model
         return $query->result_array();
     }
 
-    public function getAllappointmentRecord($fecha_inicial=null, $fecha_final=null,$doctor_id=null)
+    public function getAllappointmentRecord($fecha_inicial=null, $fecha_final=null,$doctor_id=null, $view=null)
     {
+      
+
+      
         date_default_timezone_set("America/Bogota");
         $userdata           = $this->customlib->getUserData();
         $doctor_restriction = $this->session->userdata['hospitaladmin']['doctor_restriction'];
         $today = date("Y-m-d",mktime(0, 0, 0, date("m")  , date("d")+0, date("Y")));
         $week = date("Y-m-d",mktime(0, 0, 0, date("m")  , date("d")+7, date("Y")));
-//       echo "<pre>";
-//       print_r($fecha_inicial);
-//       exit;
+
         $i                         = 1;
         $custom_fields             = $this->customfield_model->get_custom_fields('appointment', 1);
         $custom_field_column_array = array();
@@ -90,39 +91,53 @@ class Appointment_model extends MY_Model
             }
         }
       
+      
        if(!empty($doctor_id)){
             $this->datatables->where('appointment.doctor', $doctor_id);
         }
         
         $field_variable      = (empty($field_var_array)) ? "" : "," . implode(',', $field_var_array);
         $custom_field_column = (empty($custom_field_column_array)) ? "" : "," . implode(',', $custom_field_column_array);
+     
         
-        $this->datatables->select('appointment.*,appointment_payment.paid_amount,staff.id as sid,staff.name,patients.id as pid, patients.patient_name as patient_name,patients.gender as gender, patients.email as email, patients.mobileno as mobileno,staff.surname,staff.employee_id,appoint_priority.appoint_priority as priorityname' . $field_variable);
+        $this->datatables->select('appointment.*,appointment_payment.paid_amount,specialist.specialist_name,staff.id as sid,staff.specialist,staff.name,patients.id as pid, patients.patient_name as patient_name,patients.guardian_name,patients.gender as gender, patients.email as email, patients.mobileno as mobileno,staff.surname,staff.employee_id,appoint_priority.appoint_priority as priorityname' . $field_variable);
         $this->datatables->join('appointment_payment', "appointment_payment.appointment_id=appointment.id","left");
         $this->datatables->join('staff', 'appointment.doctor = staff.id', "inner");
         $this->datatables->join('patients', 'appointment.patient_id = patients.id', "left");
         $this->datatables->join('appoint_priority', 'appoint_priority.id = appointment.priority', "left");
-        
-        if($fecha_inicial == "sin_lapso"){
+        $this->datatables->join('specialist', 'specialist.id = staff.specialist', "left");
+        $this->datatables->join('visit_details', 'visit_details.id = appointment.visit_details_id ', "left");
+      
+       if($fecha_inicial == "sin_lapso" && $fecha_inicial == "0"){
 //           $fecha_inicial = date("Y-m-d",$fecha_inicial);
 //           $fecha_final = date("Y-m-d",$fecha_final);
+//           $this->datatables->where('appointment.date',$today );
+             $this->datatables->where('appointment.date', $today);
           
-          if($fecha_final == 1 || $fecha_final == null){
+       }else if($fecha_final == 2 || $fecha_final == null){
+//               echo "<pre>";
+//               print_r("$fecha_inicial $fecha_final $doctor_id $view");
+//               exit;
+             $this->datatables->where('appointment.date', $today);
+       }else if($fecha_final == 1 ){
 
-            $this->datatables->where('appointment.date',$today );
-          }elseif($fecha_final == 2 ){
-
-          }elseif($fecha_final == 4){
-            $this->datatables->where('appointment.date BETWEEN "'. $today. '" and "'. $week.'"');
-          }elseif($fecha_final == 5){
+       }else if($fecha_final == 4){
+             $this->datatables->where('appointment.date BETWEEN "'. $today. '" and "'. $week.'"');
+       }else if($fecha_final == 5){
             $this->datatables->where('DATE(appointment.created_at)', $today);
-          }
-        }else{
-          $this->datatables->where('appointment.date BETWEEN "'. $fecha_inicial. '" and "'. $fecha_final.'"');
-        }
-        
+       }else{
+            $this->datatables->where('appointment.date BETWEEN "'. $fecha_inicial. '" and "'. $fecha_final.'"');
+       }
       
-        $this->datatables->searchable('patients.patient_name,appointment_payment.paid_amount,appointment.id,appointment.date,patients.mobileno,patients.gender,staff.name,appointment.source,appoint_priority.appoint_priority,appointment.live_consult, patients.identification_number, appointment.type_visit, appointment.responsible, appointment.reason_consultation' . $custom_field_column);
+        if($view === 'procedures'){
+              $this->datatables->where('appointment.is_procedure', 'yes');
+        }else if($view === 'surgery'){
+              $this->datatables->where('appointment.is_operation', 'yes');
+        }
+      
+
+      
+        $this->datatables->searchable('patients.patient_name,appointment_payment.paid_amount,appointment.id,appointment.date,patients.mobileno,patients.gender,staff.name,appointment.source,appoint_priority.appoint_priority,appointment.live_consult, patients.identification_number, appointment.type_visit, appointment.reason_consultation, appointment.appointment_status' . $custom_field_column);
         $this->datatables->orderable('patients.patient_name,appointment.id,appointment.date,patients.mobileno,patients.gender,staff.name,appointment.source,appoint_priority.appoint_priority,appointment.live_consult' . $custom_field_column . ', appointment_payment.paid_amount');
         $this->datatables->sort('appointment.date', 'DESC');
         $this->datatables->sort('appointment.time', 'ASC');
@@ -165,13 +180,13 @@ class Appointment_model extends MY_Model
 
     public function getDetailsAppointment($id,$is_patient=null){
 
-    $i=0 ;
-    if($is_patient==1){
-         $custom_fields             = $this->customfield_model->get_custom_fields('appointment','','','',1);
-    }else{
-         $custom_fields             = $this->customfield_model->get_custom_fields('appointment');
-    }
-    
+        $i=0 ;
+        if($is_patient==1){
+             $custom_fields             = $this->customfield_model->get_custom_fields('appointment','','','',1);
+        }else{
+             $custom_fields             = $this->customfield_model->get_custom_fields('appointment');
+        }
+
         $custom_field_column_array = array();
         $field_var_array           = array();
         if (!empty($custom_fields)) {
@@ -187,11 +202,24 @@ class Appointment_model extends MY_Model
         $field_variable      = (empty($field_var_array)) ? "" : "," . implode(',', $field_var_array);
         $custom_field_column = (empty($custom_field_column_array)) ? "" : "," . implode(',', $custom_field_column_array);
     
-        $this->db->select('appointment.*,blood_bank_products.name as blood_group,appointment_payment.paid_amount, appointment_queue.position as appointment_serial_no, `department`.`department_name`,appointment_payment.note as payment_note,visit_details.opd_details_id,transactions.id as transaction_id ,transactions.payment_mode,transactions.cheque_date , transactions.cheque_no, transactions.amount, transactions.attachment, appoint_priority.appoint_priority,staff.name,staff.surname,staff.employee_id,patients.mobileno as patient_mobileno,patients.guardian_name,patients.email as patient_email,patients.patient_name as patients_name,patients.identification_number,patients.gender as patients_gender,patients.age,patients.day,patients.month,global_shift.name as global_shift_name,concat(date_format(doctor_shift.start_time,"%h:%i %p")," - ",date_format(doctor_shift.end_time,"%h:%i %p")) as doctor_shift_name'.$field_variable);
+        $this->db->select('appointment.*,blood_bank_products.name as blood_group,appointment_payment.paid_amount, 
+                           appointment_queue.position as appointment_serial_no, `department`.`department_name`,
+                           appointment_payment.note as payment_note,visit_details.opd_details_id,appointment.type_visit, appointment.charge_id,
+                           transactions.id as transaction_id ,transactions.payment_mode,transactions.cheque_date , 
+                           transactions.cheque_no, transactions.amount, transactions.attachment, 
+                           appoint_priority.appoint_priority,staff.name,staff.surname,
+                           staff.employee_id, charges.id, charges.charge_category_id,
+                           patients.mobileno as patient_mobileno,patients.guardian_name,
+                           patients.email as patient_email,patients.patient_name as patients_name,
+                           patients.identification_number,patients.gender as patients_gender,
+                           patients.age,patients.day,patients.month,global_shift.name as global_shift_name, organisation.organisation_name,
+                           concat(date_format(doctor_shift.start_time,"%h:%i %p")," - ",
+                           date_format(doctor_shift.end_time,"%h:%i %p")) as doctor_shift_name'.$field_variable);
 
         $this->db->join('transactions', 'appointment.id = transactions.appointment_id', "left");
         $this->db->join('staff', 'appointment.doctor = staff.id', "left");
         $this->db->join('department', 'department.id = staff.department_id', "left");
+        $this->db->join('charges', 'charges.id = appointment.charge_id', "left");
         $this->db->join('appoint_priority', 'appoint_priority.id = appointment.priority', "left");
         $this->db->join('patients', 'appointment.patient_id = patients.id', "left");
         $this->db->join('global_shift', 'global_shift.id = appointment.global_shift_id', 'left');
@@ -200,6 +228,7 @@ class Appointment_model extends MY_Model
         $this->db->join("appointment_payment","appointment_payment.appointment_id=appointment.id","left");
         $this->db->join('appointment_queue', 'appointment_queue.appointment_id = appointment.id', "left");
         $this->db->join('blood_bank_products', '`patients`.`blood_bank_product_id` = blood_bank_products.id', "left");
+        $this->db->join('organisation', 'organisation.id = appointment.id_organizations', "left");
         $this->db->where('appointment.id', $id);
         $query = $this->db->get('appointment');
         return $query->row_array();
@@ -215,7 +244,7 @@ class Appointment_model extends MY_Model
             $this->db->where('id', $data['id']);
             $this->db->update('appointment', $data);
             $message   = UPDATE_RECORD_CONSTANT . "On Appointment Updated " . $data['id'];
-            $action    = "Update";
+            $action    = "Update ".$data['appointment_status']." ".$data['id'];
             $record_id = $data['id'];
             $this->log($message, $record_id, $action);
             //======================Code End==============================
@@ -450,6 +479,7 @@ class Appointment_model extends MY_Model
 
     public function moveToOpd($opd_details, $visit_details, $charges, $appointment_id, $doctor_fees)
     {
+        date_default_timezone_set("America/Bogota");
         $this->db->trans_start();
         $this->db->trans_strict(false);
         $this->db->insert('case_references', array('id' => null));
@@ -490,9 +520,10 @@ class Appointment_model extends MY_Model
         return $result;
     }
     
-    public function updateappointmentpayment($appointment_id, $doctor_fees)
+    public function updateappointmentpayment($appointment_id,$apply_charge_mod,$doctor_fees)
     {        
-        $data['paid_amount'] = $doctor_fees;            
+        $data['paid_amount'] = $apply_charge_mod;
+        $data['paid_doctor'] = $doctor_fees;
         $this->db->where('appointment_id', $appointment_id);
         $this->db->update('appointment_payment', $data);             
         

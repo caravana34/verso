@@ -1,36 +1,420 @@
+
 <style>
-  .btn{
-    background:#1563B0; 
-/*     color:#fff; */
-    border-radius: 5px;
+  
+  td {
+      border: 1px solid black;
+      height: 15px;
   }
+    
+  .propios_slot{
+      background:#1563B0 !important;
+  }
+  
+  .btn{
+      background:#1563B0; 
+  /*     color:#fff; */
+      border-radius: 5px;
+  }
+  
+  .capitalize {
+      text-transform: uppercase;
+  }
+  
+  .fc .fc-daygrid-event-harness {
+      width: fit-content !important;
+  }
+  
+  /* Estilo para las fechas festivas */
+  .festivo {
+        background-color: #FFD2D2 !important;
+        pointer-events: none; /* Deshabilita la interacción con las fechas festivas */
+   }
+    
+/*   .fc-timegrid-event-harness { height: 90px !important; } */
   
   .btn:hover{
-            color: #1563B0;
-            background:#3387d6;
-            border-left-color: #fff;
-          }
-  .modal-header h4 {
-      color: #fff !important;
+        color: #1563B0;
+        background:#3387d6;
+        border-left-color: #fff;
+   }
+  
+    .modal-header h4 {
+        color: #fff !important;
     }
-    
-   .modalbtnpatient {
-    padding-left: 0px;
-    line-height: 0px;
+
+     .modalbtnpatient {
+        padding-left: 0px;
+        line-height: 0px;
+     }
+
+    .matrix{
+       max-width: 100%;
+        width: auto;
+        /* visibility: visible; */
+        overflow: auto;
+     }
+  
+     .matrix table {
+            border-collapse: collapse;
+            max-width: 100%;
+/*             max-width: 600px; */
+            height: auto;
+            visibility: visible;
+            overflow-x: auto;
       }
-  .name_link a:hover{
-      color: #232BF7 !important;
-      border-left-color: #fff !important;
+  
+     .matrix table th {
+/*             position:absolute; */
+      }
+
+      .matrix th, .matrix td {
+          border: 1px solid #ddd;
+          padding: 8px;
+          text-align: left;
+      }
+  
+  
+       .matrix  td {
+            min-width:250px !important;
+            max-width:-webkit-fill-available !important;
+          
+        }
+
+        .matrix th {
+            background-color: #f2f2f2;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .matrix .highlighted-cell {
+            background-color: #aaffaa; /* Light green */
+            color: white;
+        }
+  
+        .matrix .agendada-cell {
+            background-color: #aa00aa; /* Light green */
+            color: white;
+        }
+
+      /* Set a fixed width for the first column */
+      .matrix td.first-column {
+          min-width: 70px !important; /* Adjust the pixel value as needed */
+          position: sticky;
+          left: 0;
+          background-color: #f2f2f2;
+          z-index: 1;
+      }
+  
+      .name_link a:hover{
+          color: #000 !important;
+          border-left-color: #fff !important;
+       }
+
+       input.form-control.error-input{
+         border-color: red !important;
+       }
+
+       .fc-dayGridMonth-view .fc-event {
+          font-size: 12px; 
+          padding: 2px 4px; 
+          height: 20px; 
+       }
+
+      .fc-blockeddays{
+        background-color: rgba(243, 156, 18, 0.5) !important;
+      }
+
+      .fc-vigenciadays{
+        background-color: rgba(343, 256, 28, 0.5) !important;
+      }
+
+      .fc-event{
+        padding: 3px !important;
+      }
+
+      .fc-list-item:hover {
+        background-color: lightgray;
+        cursor: pointer;
+      }
+
+      .custom-calendar {
+        width: 99%;
+      }
+
+     .custom-calendar:hover {
+        background: blue;
+      }
+
+      .fc-today {
+        background-color: rgba(21, 99, 176, 0.5) !important;
+      }
+
+      .fc-today div  a {
+        color: #ffffff;
+      }
+
+      .fc-highlight-now {
+        background-color: #FFD700; 
+        opacity: 0.3; 
+      }
+
+      .fc-time-grid-slot.fc-today {
+        background-color: #FFD700; 
+      }
+
+      .fc-holiday {
+        background-color: rgba(198, 0, 0, 0.5) !important;
+        color: black !important; 
+        pointer-events: none;
+        cursor: not-allowed;
+      }
+  
+    .text-ellipsis {
+        overflow: hidden; 
+        text-overflow: ellipsis;
     }
   
-  input.form-control.error-input{
-    border-color: red !important;
+  .margin-none > h5{
+    margin: 0 !important;
   }
+
+    /*   .fc-holiday div a {
+        color: black;
+      } */
+
+    /*   .fc-timegrid-slot {
+          height: 16em !important;
+          border-bottom: 0 !important;
+      }
+       */
+    /* Tamaño de los slots */
+      .fc-timegrid-slot {
+          height: 4em !important;
+          border-bottom: 0 !important;
+      }
+
+      .custom-calendar{
+        border-radius: 5px !important;
+    /*     margin: 0px !important; */
+      }
+
+      .fc-list-event-title{
+        display: none;
+      }
+      .fc-list-event-time {
+        display: none;
+      }
+      .fc-list-event-graphic{
+        display: none;
+      }
+
+      .hover-event{
+          width: 100% !important;
+/*           height: fit-content; */
+      }
+
+      .hover-event > h5{
+        margin: 0px;
+      }
+
+      /* color del alendario */
+      .fc-view-harness {
+        background-color: rgb(51, 134, 190, 0.5);
+    /*     background-color: rgba(51, 190, 134, 0.5); */
+        border-radius: 5px;
+      }
+
+      /* Color no bussiness */
+    /*   .fc-non-business{
+        background-color: rgba(115, 113, 112, 0.5) !important;
+      } */
+
+      .custom_slots{
+        align-items: center;
+      }
+
+      .custom_slots a{
+        margin: 0px !important;
+      }
+
+      .time-grid-custom{
+        flex-direction: column;
+        margin-bottom: 5px;
+      }
+
+      .time-grid-custom h5{
+        margin: 1px !important;
+      }
+
+      .fc .fc-timegrid-bg-harness {
+            background-color: rgba(115, 113, 112, 0.1); 
+            opacity: 1;
+      }
+
+    /*   .fc .fc-scroller-liquid-absolute {
+          overflow-y: hidden !important;
+      } */
+
+      .flex-grow {
+        display: flex;
+        flex-grow: 1;
+      }
+
+      .tippy-content{
+        display: flex;
+      }
+
+      .fc-header-toolbar{
+    /*       background-color: rgb(51, 134, 190, 0.5); */
+          margin-bottom: 5px !important;  
+    /*       padding: 5px !important;  */
+      }
+
+    /*   .fc-toolbar-title {
+        font-family: sans-serif;
+        font-size: 1.5rem !important;
+        margin-top: 10px !important;
+      } */
+
+      .fc .fc-scrollgrid {
+          border-collapse: collapse;
+      }
+
+      .bootstrap-datetimepicker-widget{
+        overflow: visible !important;
+      }
+
+      .available-time{
+        background-color: rgba(116, 184, 47, 0.5);
+      }
+
+       #appointment_calendar {
+          height: 430px !important;
+       }
+
+      .not-working-doctor{
+          background-color: #c9c9c9 !important;
+          pointer-events: none;
+      }
+  
+       .border-danger {
+           border: 1px solid #ff0000;
+       }
+  
+
+      @media (max-height: 1080px){
+          #appointment_calendar {
+          height: 780px !important;
+        }
+      }
+
+      @media (max-height: 2160px){
+          #appointment_calendar {
+          height: 1080px !important;
+        }
+      }
+      @media (max-height: 2160px){
+          #appointmentMatrix {
+          height: 1080px !important;
+          overflow: scroll;
+        }
+      }
+
+      @media (max-height: 1080px){
+         #matrixTable{
+          height: 780px !important;
+        }
+      }
+
+      @media (max-height: 1080px){
+          #appointmentMatrix {
+          height: 780px !important;
+          overflow: scroll;
+        }
+      }
+
+      @media (max-height: 768px){
+         #matrixTable{
+          height: 450px !important;
+        }
+      }
+
+      @media (max-height: 768px){
+          #appointmentMatrix {
+          height: 450px !important;
+          overflow: scroll;
+        }
+      }
+
+      @media (max-height: 2160px){
+         #matrixTable{
+          height: 1080px !important;
+        }
+      }
+
+      @media (max-height: 768px){
+          #appointment_calendar {
+          height: 450px !important;
+        }
+      }
   
 
 </style>
 
+  <style>
+      table.dataTable tbody td {
+        word-break: break-word;
+        vertical-align: top;
+      }
 
+      .scroll-container {
+        max-height: 280px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+      }
+
+      /* Personaliza el estilo del scroll */
+
+      .scroll-container::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .scroll-container::-webkit-scrollbar-track {
+        background-color: #f1f1f1;
+      }
+
+      .scroll-container::-webkit-scrollbar-thumb {
+        background-color: #25538f;
+        border-radius: 4px;
+      }
+
+      .scroll-container::-webkit-scrollbar-thumb:hover {
+        background-color: #555;
+      }
+
+      .list-hover:hover {
+        background: rgb(240, 240, 240);
+        cursor: pointer;
+      }
+
+      .disabled {
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+    
+    .badge{
+      font-size: 11px !important;
+      max-width: 61px !important;
+      padding: 0px !important;
+      margin: 5px !important;
+      padding: 3px 7px !important;
+     }
+      
+       .eva {
+         height: 224px !important;
+       }
+    </style>
 
 
 <?php
@@ -40,610 +424,1033 @@ date_default_timezone_set("America/Bogota");
 $currentDateTime = new DateTime(); 
 $result_currentDate = $currentDateTime->format('Y/m/d');
 // $result_currentTime = $currentDateTime->format('H:m:s');
-
+// $this->appointment_status = $this->config->item('public_holidays');}
+// $holidays = $this->public_holidays = $this->config->item('public_holidays');
 // echo "<pre>";
-// print_r();
+// print_r($doctor_select);
 // exit; 
-
 ?>
-<style>
-  .bootstrap-datetimepicker-widget{overflow: visible !important}
-</style>
+
 <div class="content-wrapper">
   <!-- Main content --> 
   <section class="content">
     <div class="row">
       <div class="col-md-12">
         <div class="box box-primary">
-          <div class="box-header with-border">
-            <div class="row" style="margin: 10px;">
-              <div class="row" >
-              <div class="col-lg-3" >
-                <h3 style="margin:0px">
-                  <strong>Citas</strong>
-                </h3>
-              </div>
-              <div class="box-tools pull-right">
-                <?php if ($this->rbac->hasPrivilege('appointment', 'can_add')) {?>
-
-
-                <a data-toggle="modal" data-target="#myModal" class="btn btn-sm addappointment" style="background:#1563B0; color:#fff;border-radius: 5px;"> <i class="fa fa-plus"></i> <?php echo $this->lang->line('add_appointment'); ?></a>
-                <a data-toggle="modal" id="add" onclick="holdModal('myModalpa')" class="btn btn-sm addappointment" style="color:#fff;"><i class="fa fa-plus"></i> Paciente nuevo</a>
-                <?php }?>
-<!--                 <a href="<?php echo base_url("admin/onlineappointment/patientschedule"); ?>" class="btn btn-sm" style="background:#1563B0; color:#fff;border-radius: 5px;"><i class="fa fa-reorder"></i> Búsqueda por doctor</a>
-                <a href="<?php echo base_url("admin/onlineappointment/patientqueue"); ?>" class="btn btn-sm" style="background:#1563B0; color:#fff;border-radius: 5px;"><i class="fa fa-reorder"></i> Citas del día</a> -->
-              </div>
-           </div>     
-          </div>
-            <hr>
-            <div class="row" style="margin: 10px 0px 10px 0px;" >
-              <div class="col-lg-12">
-                <div class="col-lg-3">
-                    <label for="" style="margin-right: 10px;">Fecha</label>
-                    <select id="fecha_id"  onchange="enviar_fecha('limpiar')" name=""  class="form-control select2" style="width:100%" tabindex="-1" aria-hidden="true" >
-                        <option value="1">Citas de Hoy</option>   
-                        <option value="2">Todas las citas</option>   
-                        <option value="4">Citas en los próximos 7 días</option>
-                        <option value="5">Citas recientemente agendadas</option> 
-                    </select>
-                  </div>
-                <?php if ($user_role_id != 3): ?>
-                  <div class="col-lg-3">
-                    <label for="fecha_inicial" style="margin-right: 10px;">Doctor</label>
-                    <select id="doctor_id" onchange="enviar_fecha()" name="" class="form-control select2" style="width:100%" tabindex="-1" aria-hidden="true">
-                        <option value="" hidden>Todos los doctores</option> 
-                        <?php foreach ($doctors as $key => $value): ?>
-                        <option value="<?= $value['id'] ?>"><?php echo $value["name"] . " " . $value["surname"] ." (". $value["employee_id"].")" ?></option> 
-                        <?php endforeach ?>
-                    </select>
-                  </div>
-                <?php endif ?>
-                <div class="col-lg-3">
-                      <label for="fecha_inicial" style="margin-right: 10px;">Fecha Inicial</label>
-                      <div class="">
-                          <div class="input-group">
-                              <input type="text" onchange="enviar_fecha_parametros()" value="" id="fecha_inicial" class="form-control date" name="" placeholder="Fecha Inicial" autocomplete="off" style="border-radius: 10px 0px 0px 10px !important; margin-bottom: 0px !important;"><span class="input-group-addon" style="border-radius: 0px 10px 10px 0px !important;"><i class="fa fa-calendar"></i></span>
-                          </div>
-                          <span class="text-danger"></span>
-                      </div>
-                </div>
-                <div class="col-lg-3">
-                       <label for="fecha_final" style="margin-right: 10px;">Fecha Final</label>
-                      <div class="">
-                          <div class="input-group"> 
-                              <input type="text" onchange="enviar_fecha_parametros()" id="fecha_final" value="" class="form-control date" name="" placeholder="Fecha Final" autocomplete="off" style="border-radius: 10px 0px 0px 10px !important; margin-bottom: 0px !important;"><span class="input-group-addon" style="border-radius: 0px 10px 10px 0px !important;"><i class="fa fa-calendar"></i></span>
-                          </div>
-                          <span class="text-danger" hidden>Ingresa fecha inicial</span>
-                      </div>
-                </div>
-              </div>
-            </div>
           
-            
-          </div><!-- /.box-header -->
-          <div class="box-body">
-            <div class="download_label"><?php echo $this->lang->line('appointed_patient_list'); ?></div>
-            <div class="">
-              <table class="table table-striped table-bordered table-hover ajaxlist" data-export-title="<?php echo $this->lang->line('appointment_details'); ?>" >
-                <thead>
-                  <tr>
-                    <th width="15%"><?php echo $this->lang->line('patient_name'); ?></th>
-                    <th width="10%">Documento Identidad</th>
-                    <th width="15%">Motivo de consulta</th>
-<!--                     <th><?php echo $this->lang->line('gender'); ?></th> -->
-                    <th><?php echo $this->lang->line('source'); ?></th>
-                    <th width="15%"><?php echo $this->lang->line('doctor'); ?></th>
-                    <th><?php echo $this->lang->line('appointment_date'); ?></th>
-                    <th width="5%">Hora de inicio</th>
-                    <?php if ($this->module_lib->hasActive('live_consultation')) { ?>
-                    <th><?php echo $this->lang->line('live_consultant'); ?></th>
-                    
-                    <?php } ?>
-                    <?php 
-                      if (!empty($fields)) {
-                      foreach ($fields as $fields_key => $fields_value) {
-                    ?>
-                    <th ><?php echo $fields_value->name; ?></th>
-                    <?php
-                    } 
-                    }
-                    ?> 
-                     <th width="5%">Hora de finalización</th>
-                    <th width="5%">Fecha de creación</th>
-                    <th width="100" class="text-right"><?php echo $this->lang->line('status'); ?></th>
-                  </tr>
-                </thead>
-                <tbody>
-                </tbody>
-              </table>
-            </div>  
+          <div class="box-header with-border">
+            <div class="row" style="display: flex; margin: 0px 5px 0px 5px;">
+                  <div class="flex-grow">
+                    <h3  style="margin: 0px">
+                      <strong class="items_text">Agendas</strong>
+                    </h3>
+                  </div>
+                  <div class="flex-grow">
+                     <div id="">
+                       <small class="label cita_agendada" data-toggle='tooltip' title='Agendamiento' >Agendada</small>
+                       <small class="label cita_confirmada" data-toggle='tooltip' title='Confirmación'>Confirmada</small>
+                       <small class="label cita_cancelada" data-toggle='tooltip' title='Cancelación' >Cancelada</small>
+                       <small class="label cita_no_asistida" data-toggle='tooltip' title='Inasistencia'>No Asistida</small>
+                       <small class="label cita_aprobada" data-toggle='tooltip' title='Aprobación' >Por Atender</small>
+                       <small class="label cita_firmada" data-toggle='tooltip' title='Finalización' >Firmada</small>
+                       <small class="label cita_bloqueada" data-toggle='tooltip' title='Bloqueos' >Bloqueada</small>
+                     </div>
+                  </div>
+                  <div>           
+                      <?php if ($this->rbac->hasPrivilege('appointment', 'can_add')):?>
+                          <a data-toggle="modal" onclick="holdModal('myModal')" class="btn btn-sm addappointment" style="background:#1563B0; color:#fff;border-radius: 5px;"> <i class="fa fa-plus"></i> <?php echo $this->lang->line('add_appointment'); ?></a>
+                          <a data-toggle="modal" id="add" onclick="holdModal('myModalpa')" class="btn btn-sm addappointment" style="color:#fff;"><i class="fa fa-plus"></i> Paciente nuevo</a>
+                      <?php endif ?>
+      <!--            <a href="<?php echo base_url("admin/onlineappointment/patientschedule"); ?>" class="btn btn-sm" style="background:#1563B0; color:#fff;border-radius: 5px;"><i class="fa fa-reorder"></i> Búsqueda por doctor</a>
+                      <a href="<?php echo base_url("admin/onlineappointment/patientqueue"); ?>" class="btn btn-sm" style="background:#1563B0; color:#fff;border-radius: 5px;"><i class="fa fa-reorder"></i> Citas del día</a> -->
+                  </div>  
+            </div>     
           </div>
+          
+          <div class="row">     
+             <div class="col-md-12 itemcol">
+               <?php if ($user_role_id == 3): ?>
+                     <div class="nav-tabs-custom relative" style="margin:10px">
+                      <ul class="nav nav-tabs">
+                        <li class="active"><a href="#table_clini"  data-toggle="tab" aria-expanded="true"><i class="fas fa-table"></i> Admisiones Médicos</a></li>
+                        <li><a href="#agendas_quirofanos" onclick="agendas_clinicasquirofano()" data-toggle="tab" aria-expanded="true"><i class="fas fa-table"></i> Agendas Quirófanos</a></li>
+                        <div style="display: flex; justify-content: end; align-items: center; margin: 0px 5px 0px 0px; padding: 0px; height: 43px; gap: 5px;">
+                            <div class="col-3 col-md-4 col-sm-4">
+                                  <div class="input-group">
+                                    <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fa fa-calendar-check-o"></i></span>
+                                    <input onchange="refetch_events();agendas_clinicas()" type="date" name="" id="dateInput" placeholder="" class="form-control" autocomplete="off" style="border-radius: 0px 10px 10px 0px !important;">
+                                    <span class="text-danger"></span>
+                                  </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-4" style="display: <?= $user_role_id === '3' ? 'none;' : 'block;' ?>">
+          <!--                     <label for="fecha_inicial" style="margin-right: 10px;">Doctor</label> -->
+                              <select id="doctor_id"  name="" class="form-control select2" style="width:100%" tabindex="-1" aria-hidden="true">
+                                  <option value="" hidden>Todos los doctores</option> 
+                                  <?php foreach ($doctors as $key => $value): ?>
+                                    <?php if($value["specialist"] != '11'): ?>
+                                    <option value="<?= $value['id'] ?>" <?= $user_role_id === '3' ? 'selected' : '' ?>><p class="capitalize">
+                                    <?php echo ucwords(strtolower($value["name"] . " " . $value["surname"] ." (". $value["employee_id"].")")) ?></p></option> 
+                                    <?php endif ?>
+                                  <?php endforeach ?>
+                              </select>
+                            </div>
+                        </div>
+
+                      </ul>
+                      <div class="tab-content pt6" style="margin:10px;">
+                            <div class="tab-pane tab-content-height active" id="table_clini">
+                                <div class="row" style="margin-bottom:10px" >
+                                    <div class="col-lg-3">
+                                      <label for="" style="margin-right: 10px;">Fecha</label>
+                                      <select id="fecha_id"  onchange="enviar_fecha('limpiar')" name=""  class="form-control select2" style="width:100%" tabindex="-1" aria-hidden="true" >
+                                          <option value="2">Citas de Hoy</option>   
+                                          <option value="1">Todas las citas</option>   
+                                          <option value="4">Citas en los próximos 7 días</option>
+                                          <option value="5">Citas recientemente </option>
+                                      </select>
+                                    </div>
+                                    <div class="col-lg-3">
+                                            <label for="fecha_inicial" style="margin-right: 10px;">Fecha Inicial</label>
+                                            <div class="">
+                                                <div class="input-group">
+                                                    <input type="text" onchange="enviar_fecha_parametros()" value="" id="fecha_inicial" class="form-control date" name="" placeholder="Fecha Inicial" autocomplete="off" style="border-radius: 10px 0px 0px 10px !important; margin-bottom: 0px !important;"><span class="input-group-addon" style="border-radius: 0px 10px 10px 0px !important;"><i class="fa fa-calendar"></i></span>
+                                                </div>
+                                                <span class="text-danger"></span>
+                                            </div>
+                                      </div>
+                                      <div class="col-lg-3">
+                                             <label for="fecha_final" style="margin-right: 10px;">Fecha Final</label>
+                                            <div class="">
+                                                <div class="input-group"> 
+                                                    <input type="text" onchange="enviar_fecha_parametros()" id="fecha_final" value="" class="form-control date" name="" placeholder="Fecha Final" autocomplete="off" style="border-radius: 10px 0px 0px 10px !important; margin-bottom: 0px !important;"><span class="input-group-addon" style="border-radius: 0px 10px 10px 0px !important;"><i class="fa fa-calendar"></i></span>
+                                                </div>
+                                                <span class="text-danger" hidden>Ingresa fecha inicial</span>
+                                            </div>
+                                      </div>
+                                </div>
+                                <div class="download_label"><?php echo $this->lang->line('appointed_patient_list'); ?></div>
+                                <div class="">
+                                    <table class="table table-striped table-bordered table-hover ajaxlist" data-export-title="<?php echo $this->lang->line('appointment_details'); ?>" >
+                                          <thead>
+                                            <tr>
+                                              <th><?php echo $this->lang->line('patient_name'); ?></th>
+                                              <th>Documento identidad</th>
+                                              <th>Tipo de atención</th>
+                                              <th><?php echo $this->lang->line('source'); ?></th>
+                                              <th><?php echo $this->lang->line('doctor'); ?></th>
+                                              <th><?php echo $this->lang->line('appointment_date'); ?></th>
+                                              <?php if ($this->module_lib->hasActive('live_consultation')) { ?>
+                                              <th><?php echo $this->lang->line('live_consultant'); ?></th>
+                                              <?php } ?>
+                                              <?php if (!empty($fields)): ?>
+                                                <?php foreach($fields as $fields_key => $fields_value): ?>
+                                                  <th><?php echo $fields_value->name; ?></th>
+                                                <?php endforeach ?> 
+                                              <?php endif ?>
+                                              <th>Tipo de cita</th>
+                                              <th><?php echo $this->lang->line('status'); ?></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div> 
+                            </div>
+                          <div class="tab-pane tab-content-height" id="agendas_quirofanos">
+                              <div class="matrix">
+                                  <div id="appointmentMatrix">
+                                      <table id="matrixTable_quirofanos">
+                                          <thead>
+                                              <tr>
+                                                  <th></th>
+                                                  <!-- Dynamic columns will be inserted here using JavaScript -->
+                                              </tr>
+                                          </thead>
+                                          <tbody>
+                                              <!-- Dynamic content will be inserted here using JavaScript -->
+                                          </tbody>
+                                      </table>
+                                  </div>
+                              </div>
+                            </div>
+                        
+                        
+                        </div>
+                  </div>  
+               
+                <?php else: ?>
+                 
+                     <div class="nav-tabs-custom relative" style="margin:10px">
+                      <ul class="nav nav-tabs">
+                        <li class="active"><a href="#calendar_clini" data-toggle="tab" onclick="refetch_events()" aria-expanded="true"><i class="fas fa-calendar"></i> Agendamiento </a></li>
+                        <li><a href="#table_clini"  data-toggle="tab" aria-expanded="true"><i class="fas fa-table"></i> Admisiones Médicos</a></li>
+                        <li><a href="#agendas_table_clini" onclick="agendas_clinicas()" data-toggle="tab" aria-expanded="true"><i class="fas fa-table"></i> Agendas Clínicas</a></li>
+                        <li><a href="#agendas_quirofanos" onclick="agendas_clinicasquirofano()" data-toggle="tab" aria-expanded="true"><i class="fas fa-table"></i> Agendas Quirófanos</a></li>
+                        <div style="display: flex; justify-content: end; align-items: center; margin: 0px 5px 0px 0px; padding: 0px; height: 43px;">
+                            <div class="col-3 col-md-4 col-sm-3" style="">
+                                  <div class="input-group">
+                                    <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fa fa-calendar-check-o"></i></span>
+                                    <input onchange="refetch_events();agendas_clinicas()" type="date" name="" id="dateInput" placeholder="" class="form-control" autocomplete="off" style="border-radius: 0px 10px 10px 0px !important;">
+                                    <span class="text-danger"></span>
+                                  </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-3" style="display: <?= $user_role_id === '3' ? 'none;' : 'block;' ?>">
+          <!--                     <label for="fecha_inicial" style="margin-right: 10px;">Doctor</label> -->
+                              <select id="doctor_id"  name="" class="form-control select2" style="width:100%" tabindex="-1" aria-hidden="true">
+                                  <option value="" hidden>Todos los doctores</option> 
+                                  <?php foreach ($doctors as $key => $value): ?>
+                                    <?php if($value["specialist"] != '11'): ?>
+                                    <option value="<?= $value['id'] ?>" <?= $user_role_id === '3' ? 'selected' : '' ?>><p class="capitalize">
+                                    <?php echo ucwords(strtolower($value["name"] . " " . $value["surname"] ." (". $value["employee_id"].")")) ?></p></option> 
+                                    <?php endif ?>
+                                  <?php endforeach ?>
+                              </select>
+                            </div>
+                        </div>
+
+                      </ul>
+
+                      <div class="tab-content pt6" style="margin:10px;">
+                            <div class="tab-pane tab-content-height active" id="calendar_clini">
+                              <div class="chart">
+                                  <div id="appointment_calendar"></div>
+                              </div>
+                            </div>
+                            <div class="tab-pane tab-content-height" id="table_clini">
+                                <div class="row" style="margin-bottom:10px" >
+                                    <div class="col-lg-3">
+                                      <label for="" style="margin-right: 10px;">Fecha</label>
+                                      <select id="fecha_id"  onchange="enviar_fecha('limpiar')" name="" value="0" class="form-control select2" style="width:100%" tabindex="-1" aria-hidden="true" >
+                                          <option value="2">Citas de Hoy</option>   
+                                          <option value="1">Todas las citas</option>   
+                                          <option value="4">Citas en los próximos 7 días</option>
+                                          <option value="5">Citas recientemente agendadas</option> 
+                                      </select>
+                                    </div>
+                                    <div class="col-lg-3">
+                                            <label for="fecha_inicial" style="margin-right: 10px;">Fecha Inicial</label>
+                                            <div class="">
+                                                <div class="input-group">
+                                                    <input type="text" onchange="enviar_fecha_parametros()" value="" id="fecha_inicial" class="form-control date" name="" placeholder="Fecha Inicial" autocomplete="off" style="border-radius: 10px 0px 0px 10px !important; margin-bottom: 0px !important;"><span class="input-group-addon" style="border-radius: 0px 10px 10px 0px !important;"><i class="fa fa-calendar"></i></span>
+                                                </div>
+                                                <span class="text-danger"></span>
+                                            </div>
+                                      </div>
+                                      <div class="col-lg-3">
+                                             <label for="fecha_final" style="margin-right: 10px;">Fecha Final</label>
+                                            <div class="">
+                                                <div class="input-group"> 
+                                                    <input type="text" onchange="enviar_fecha_parametros()" id="fecha_final" value="" class="form-control date" name="" placeholder="Fecha Final" autocomplete="off" style="border-radius: 10px 0px 0px 10px !important; margin-bottom: 0px !important;"><span class="input-group-addon" style="border-radius: 0px 10px 10px 0px !important;"><i class="fa fa-calendar"></i></span>
+                                                </div>
+                                                <span class="text-danger" hidden>Ingresa fecha inicial</span>
+                                            </div>
+                                      </div>
+                                </div>
+                                <div class="download_label"><?php echo $this->lang->line('appointed_patient_list'); ?></div>
+                                <div class="">
+                                    <table class="table table-striped table-bordered table-hover ajaxlist" data-export-title="<?php echo $this->lang->line('appointment_details'); ?>" >
+                                          <thead>
+                                            <tr>
+                                              <th><?php echo $this->lang->line('patient_name'); ?></th>
+                                              <th>Documento</th>
+                                              <th>Tipo de atención</th>
+                                              <th><?php echo $this->lang->line('source'); ?></th>
+                                              <th width=""><?php echo $this->lang->line('doctor'); ?></th>
+                                              <th><?php echo $this->lang->line('appointment_date'); ?></th>
+                                              <?php if ($this->module_lib->hasActive('live_consultation')) { ?>
+                                              <th><?php echo $this->lang->line('live_consultant'); ?></th>
+                                              <?php } ?>
+                                              <th>Modalidad</th>
+                                              <?php if (!empty($fields)): ?>
+                                                <?php foreach ($fields as $fields_key => $fields_value): ?>
+                                                <th ><?php echo $fields_value->name; ?></th>
+                                                <?php endforeach ?> 
+                                              <?php endif ?> 
+                                              <th><?php echo $this->lang->line('status'); ?></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div> 
+                            </div>
+                            <div class="tab-pane tab-content-height" id="agendas_table_clini">
+                              <div class="matrix">
+                                  <div id="appointmentMatrix">
+                                      <table id="matrixTable">
+                                          <thead>
+                                              <tr>
+                                                  <th></th>
+                                                  <!-- Dynamic columns will be inserted here using JavaScript -->
+                                              </tr>
+                                          </thead>
+                                          <tbody>
+                                              <!-- Dynamic content will be inserted here using JavaScript -->
+                                          </tbody>
+                                      </table>
+                                  </div>
+                              </div>
+                            </div>
+                          <div class="tab-pane tab-content-height" id="agendas_quirofanos">
+                              <div class="matrix">
+                                  <div id="appointmentMatrix">
+                                      <table id="matrixTable_quirofanos">
+                                          <thead>
+                                              <tr>
+                                                  <th></th>
+                                                  <!-- Dynamic columns will be inserted here using JavaScript -->
+                                              </tr>
+                                          </thead>
+                                          <tbody>
+                                              <!-- Dynamic content will be inserted here using JavaScript -->
+                                          </tbody>
+                                      </table>
+                                  </div>
+                              </div>
+                            </div>
+                        
+                        
+                        </div>
+                  </div>  
+             
+               <?php endif ?>
+               
+             </div>
+          </div>
+          
         </div>
-      </div>
+      </div>   
     </div>
   </section>
 </div>
 
-<div class="modal fade" id="myModal"  aria-labelledby="myModalLabel">
+<div class="modal fade" id="vigencia_Modal" aria-labelledby="myModalLabel">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content modal-media-content">
       <div class="modal-header modal-media-header">
         <button type="button" class="close pt4" data-dismiss="modal">&times;</button>
-        <div class="row">
-          <div class="col-sm-8 col-xs-8">
-            <div class="row">
-                <div class="col-lg-10 col-md-10 col-sm-5 col-xs-9">
-                    <div class="p-2 select2-full-width">
-                        <select class="form-control patient_list_ajax" form="formadd" id="addpatient_id" name='patient_id'>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-2 col-sm-3 col-xs-1">
-                    <div class=" p-2" >
-                       <?php if ($this->rbac->hasPrivilege('patient', 'can_add')) {?>
-                        <a data-toggle="modal" id="add" onclick="holdModal('myModalpa')" class="btn btn-sm" style="color:#fff !important;"><i class="fa fa-plus"></i>  <span><?php echo $this->lang->line('new_patient'); ?></span></a>
-                        <?php }?>
-                    </div>    
-                </div>     
-            </div>
-          </div><!--./col-sm-8-->
-        </div><!-- ./row -->
+        <h4 class="modal-title"><?php echo $this->lang->line('appointment_details'); ?></h4>
       </div>
-      <form id="formadd" accept-charset="utf-8" method="post">
-        <div class="">
-        <div class="modal-body pb0">
+      <div class="modal-body pt0 pb0"> 
           <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12">
-              <div class="row">
-                <div class="col-sm-3">
-                  <div class="form-group">
-                    <label for="exampleInputFile"><?php echo $this->lang->line('doctor'); ?></label>
-                    <small class="req"> *</small>
-                    <div>
-                      <select class="form-control select2 doctor_select2" name="doctorid" onchange="getDoctorShift(this);getDoctorFees(this);get_specialist(this,'add');reset_all()" <?php
-                        if ((isset($disable_option)) && ($disable_option == true)) {
-                        echo 'disabled';
-                        }
-                        ?> name='doctor' id="doctorid" style="width:100%" >
-                        <option value="<?php echo set_value('doctor'); ?>"><?php echo $this->lang->line('select') ?></option>
-                        <?php foreach ($doctors as $dkey => $dvalue) {
-                        ?>
-                        <option value="<?php echo $dvalue["id"]; ?>" <?php
-                        if ($doctor_select == $dvalue['id']) {
-                        echo 'selected';
-                        }
-                        ?>><?php echo $dvalue["name"] . " " . $dvalue["surname"] ." (". $dvalue["employee_id"].")" ?></option>
-                        <?php }?>
-                      </select>
-                      <input type="hidden" name="charge_id" value="" id="charge_id" />
-                    </div>
-                    <span class="text-danger"><?php echo form_error('doctor'); ?></span>
-                  </div>
-                </div>
-                <div class="col-sm-3" style="display:none;">
-                  <div class="form-group">
-                    <label for="doctor_fees"><?php echo $this->lang->line("doctor_fees"); ?></label>
-                    <small class="req"> *</small>
-                    <div>   
-                        <input type="text" name="amount" id="doctor_fees" class="form-control" readonly="readonly" >
-                    </div>
-                    <span class="text-danger"><?php echo form_error('doctor_fees'); ?></span>
-                  </div>
-                </div>
-                <div class="col-sm-3" style="display:none;">
-                    <div class="form-group">
-                        <label for="pwd"><?php echo $this->lang->line('shift'); ?></label><span class="req"> *</span>
-                        <select name="global_shift" id="global_shift" class="select2" style="width:100%">
-                          
-                            <option value=""><?php echo $this->lang->line('select'); ?></option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                  <div class="form-group" style="position: relative; overflow:visible !important">
-                    <label><?php echo $this->lang->line('appointment_date'); ?></label>
-                    <small class="req"> *</small>
-                    <div class="input-group">
-                        <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fas fa-calendar-check" style="color:#1563B0;"></i></span> 
-                        <input type="text" id="datetimepicker" name="date" class="form-control date" style="border-radius: 0px 10px 10px 0px !important;">
-                        <span class="text-danger"><?php echo form_error('date'); ?></span>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label for="slot"><?php echo $this->lang->line('slot'); ?></label>
-                        <span class="req"> *</span>
-                        <div class="input-group">
-                            <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fas fa-user-clock" style="color:#1563B0;"></i></span> 
-                            <select name="slot" id="slot" onchange="validateTime(this);getSlotByShift('add')" class="form-control" style="border-radius: 0px 10px 10px 0px !important;">
-                                <option value=""><?php echo $this->lang->line('select'); ?></option>
-                            </select>
-                            <span class="text-danger"><?php echo form_error('slot'); ?></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-3" style="display: none;">
-                  <div class="form-group">
-                    <label for="exampleInputFile"><?php echo $this->lang->line('appointment_priority'); ?></label>
-                    <div class="input-group">
-                        <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fas fa-poll-h" style="color:#1563B0;"></i></span>
-                        <select class="form-control select2 appointment_priority_select2"  name='priority' style="width:100%; border-radius: 0px 10px 10px 0px !important;">
-                          <?php foreach ($appoint_priority_list as $dkey => $dvalue) { ?>
-                          <option value="<?= $result = $dvalue["appoint_priority"] == 'Normal' ? $dvalue["id"] : ''?>"> <?php echo $dvalue["appoint_priority"]; ?></option>
-                          <?php }?>
-                        </select>
-                    </div>
-                    <span class="text-danger"><?php echo form_error('doctor'); ?></span>
-                  </div>
-                </div>
-                <div class="col-sm-3" style="display: none;">
-                  <div class="form-group">
-                      <label><?php echo $this->lang->line('payment_mode'); ?></label>
-                      <div class="input-group">
-                          <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fas fa-poll-h" style="color:#1563B0;"></i></span>
-                          <select class="form-control" name="payment_mode" style="border-radius: 0px 10px 10px 0px !important;">
-                          <?php foreach ($payment_mode as $key => $value) { ?>
-                              <option value="<?= $result = $value == 'Dinero en efectivo' ? $key : ''?>"><?php echo $value ?></option>
-                          <?php } ?>
-                          </select>    
-                          <span class="text-danger"><?php echo form_error('apply_charge'); ?></span>
-                      </div>
-                  </div>
-                </div>
-                <div class="col-sm-3">
-                  <div class="form-group">
-                      <label>Responsable de consulta</label><small class="req"> *</small>
-                      <div class="input-group">
-                          <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fas fa-file-invoice-dollar" style="color:#1563B0;"></i></span>
-                          <select class="form-control" name="responsible" style="border-radius: 0px 10px 10px 0px !important;">
-                              <option value="" hidden>Seleccione</option>
-                              <option value="EPS">Eps</option>
-                              <option value="PARTICULAR">Particular</option>
-                              <option value="POLIZA">Poliza</option>
-                          </select>    
-                          <span class="text-danger"><?php echo form_error('apply_charge'); ?></span>
-                      </div>
-                  </div>
-                </div>
-                <div class="col-sm-3">
-                    <div class="form-group">
-                        <label for="appointment_status"><?php echo $this->lang->line('status'); ?><small class="req"> *</small></label>
-                        <div class="input-group">
-                          <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fas fa-exchange-alt" style="color:#1563B0;"></i></span>
-                          <select name="appointment_status" onchange="appointmentstatus()" class="form-control" id="appointment_status" style="border-radius: 0px 10px 10px 0px !important;">
-                              <option value="pending"><?php echo $this->lang->line('pending'); ?></option>
-  <!--                             <?php foreach ($appointment_status as $appointment_status_key => $appointment_status_value) {  ?>
-                              <option value="<?php echo $appointment_status_key ?>"><?php echo $appointment_status_value ?></option>
-                              <?php } ?> -->
-                          </select>
-                       </div>
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                  <div class="form-group">
-                      <label for="reason_consultation">Motivo de consulta</label><small class="req"> *</small>
-                      <div class="input-group">
-                          <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fas fa-user-injured" style="color:#1563B0;"></i></span>
-                          <select class="form-control" id="reason_consultation" name="reason_consultation" style="border-radius: 0px 10px 10px 0px !important;">
-                          </select>    
-                          <span class="text-danger"><?php echo form_error('apply_charge'); ?></span>
-                      </div>
-                  </div>
-                </div>
-                <div class="col-sm-3">
-                  <div class="form-group">
-                      <label for="type_visit">Tipo de cita</label><small class="req"> *</small>
-                      <div class="input-group">
-                          <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fas fa-th-list" style="color:#1563B0;"></i></span>
-                          <select class="form-control" id="type_visit" name="type_visit" style="border-radius: 0px 10px 10px 0px !important;">
-                              <option value="" hidden>Seleccione</option>
-                              <option value="Consulta primera vez">Consulta primera vez</option>
-                              <option value="Renovacion de ordenes">Renovación de órdenes</option>
-                              <option value="Renovacion de medicamentos">Renovación de medicamentos</option>
-                              <option value="Otros">Otros</option>
-                          </select>    
-                          <span class="text-danger"><?php echo form_error('apply_charge'); ?></span>
-                      </div>
-                  </div>
-                </div>
-                <div class="col-sm-3" id="other_type_visit">
-                </div>
-                <div class="col-sm-3">
-                  <div class="form-group">
-                      <label for="type_visit">Categoría Paciente</label><small class="req"> *</small>
-                      <div class="input-group">
-                          <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fas fa-th-list" style="color:#1563B0;"></i></span>
-                          <select class="form-control" id="category_visit" name="category_visit" style="border-radius: 0px 10px 10px 0px !important;">
-                              <option value="" hidden>Seleccione</option>
-                              <option value="A">A</option>
-                              <option value="B">B</option>
-                              <option value="C">C</option>
-                          </select>    
-                          <span class="text-danger"><?php echo form_error('apply_charge'); ?></span>
-                      </div>
-                  </div>
-                </div>
-                <div class="cheque_div" style="display: none;">                        
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <label><?php echo $this->lang->line('cheque_no'); ?></label><small class="req"> *</small> 
-                            <input type="text" name="cheque_no" id="cheque_no" class="form-control">
-                            <span class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <label><?php echo $this->lang->line('cheque_date'); ?></label><small class="req"> *</small> 
-                            <input type="text" name="cheque_date" id="cheque_date" class="form-control date">
-                            <span class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <label><?php echo $this->lang->line('attach_document'); ?></label>
-                            <input type="file" class="filestyle form-control" name="document">
-                            <span class="text-danger"><?php echo form_error('document'); ?></span> 
-                        </div>
-                    </div>
-                      
-                </div>
-              <div class="col-sm-12">
-                <div class="form-group">
-                  <label for="message"><?php echo $this->lang->line('message'); ?> </label>                 
-                  <textarea rows="5" name="message" id="note" class="form-control" style="resize: none;"></textarea>
-                  <span class="text-danger"><?php echo form_error('message'); ?></span>
-                </div>
-              </div>
-              <?php if ($this->module_lib->hasActive('live_consultation')) { ?>
-              <div class="col-sm-4">
-                <div class="form-group">
-                  <label for="exampleInputFile"><?php echo $this->lang->line('live_consultant_on_video_conference'); ?></label>
-                  <small class="req">*</small>
-                  <div>
-                  <select name="live_consult" id="live_consult" class="form-control">
-                      <?php foreach ($yesno_condition as $yesno_key => $yesno_value) {
-                          ?>
-                          <option value="<?php echo $yesno_key ?>" <?php
-                                  if ($yesno_key == 'no') {
-                                      echo "selected";
-                                  }
-                                  ?> ><?php echo $yesno_value ?>
-                          </option>
-                          <?php } ?>
-                  </select>
-                  </div>
-                  <span class="text-danger"><?php echo form_error('live_consult'); ?></span>
-                </div>
-              </div>
-              <?php } ?>
-              <div class="">
-              <?php echo display_custom_fields('appointment',0 ); ?>
-              </div>
-                <div class="col-md-12">
-                              
-                    <div class="form-group">
-                        <span id="slots_label"></span>
-                    </div>
-                </div>
-
-                <input type="hidden" id="slot_id" name="slot1" />
-                    <div class="col-md-12">
-                       <div id="slot1"></div>
-                    </div>
-                </div> 
-              </div><!--./row-->
-            </div><!--./col-md-12-->
-          </div><!--./row-->
-        </div><!--./modal-body-->
-         <div class="modal-footer">
-            <div class="pull-right">
-              <button type="submit" id="formaddbtn"  data-loading-text="<?php echo $this->lang->line('processing') ?>" class="btn" style="color:#fff;"><i class="fa fa-check-circle"></i> <?php echo $this->lang->line('save'); ?></button>
-            </div>
-            <div class="pull-right" style="margin-right: 10px; ">
-                <button type="submit"  data-loading-text="<?php echo $this->lang->line('processing') ?>" name="save_print" class="btn pull-right printsavebtn" style="color:#fff;"><i class="fa fa-print"></i> <?php echo $this->lang->line('save_print'); ?></button>
-            </div>
+              La agenda del doctor seleccionado no esta vigente por favor actualice la viegencia en el modulo de Agendamiento.
           </div>
-        </div>
-      </form>
+      </div>
     </div>
   </div>
 </div>
-<!-- dd -->
+
+  <div class="modal fade" id="myModal"  aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content modal-media-content">
+        <div class="modal-header modal-media-header">
+          <button type="button" class="close pt4" data-dismiss="modal">&times;</button>
+          <div class="row">
+            <p id="doctor_ver">
+
+            </p>
+            <div class="col-sm-8 col-xs-8">
+              <div class="row">
+                  <div class="col-lg-10 col-md-10 col-sm-5 col-xs-9">
+                      <div class="p-2 select2-full-width">
+                          <select class="form-control patient_list_ajax" form="formadd" id="select_patient_id" name='patient_id'>
+                          </select>
+                      </div>
+                  </div>
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-1">
+                      <div class=" p-2" >
+                         <?php if ($this->rbac->hasPrivilege('patient', 'can_add')) {?>
+                          <a data-toggle="modal" id="add" onclick="holdModal('myModalpa')" class="btn btn-sm" style="color:#fff !important;"><i class="fa fa-plus"></i>  <span><?php echo $this->lang->line('new_patient'); ?></span></a>
+                          <?php }?>
+                      </div>    
+                  </div>     
+              </div>
+            </div><!--./col-sm-8-->
+          </div><!-- ./row -->
+        </div>
+       
+        <form id="formadd" accept-charset="utf-8" method="post">
+
+           <div class="modal-body pb0">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                      
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" >
+                           <label>Tipo de atención</label>
+                            <div class="p-2 select2-full-width">
+                                 <select class="form-control charge_list_ajax" form="formadd"  id="charge_list_ajax" name='charge_list_ajax'>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>Eps responsable </label><small class="req"> *</small>
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fas fa-file-invoice-dollar" style="color:#1563B0;"></i></span>
+                                    <select class="form-control" id='responsible_eps' name="responsible_eps" style="border-radius: 0px 10px 10px 0px !important;">
+                                        <?php foreach($responsibles_esp as $key => $value): ?>
+                                        <option value="" hidden>Seleccione</option>
+                                        <option value="<?= $value->id ?>"><?= $value->organisation_name ?></option>
+                                        <?php endforeach ?>
+                                    </select>    
+                                </div>
+                            </div>
+                        </div> 
+                      
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                              <label for="doctorid">Especialista</label>
+                              <small class="req"> *</small>
+                              <div>
+                                <select class="form-control select2 doctor_select2" onchange="getDoctorShift(this);getDoctorFees(this);reset_all();" <?php
+                                  if ((isset($disable_option)) && ($disable_option == true)) {
+                                  echo 'disabled';
+                                  }
+                                  ?> name="doctorid" id="doctorid" style="width:100%" >
+                                  <option value="<?php echo set_value('doctor'); ?>"><?php echo $this->lang->line('select') ?></option>
+                                  <?php foreach ($doctors as $dkey => $dvalue) {
+                                  ?>
+                                  <option value="<?php echo $dvalue["id"]; ?>" <?php
+                                  if ($doctor_select == $dvalue['id']) {
+                                  echo 'selected';
+                                  }
+                                  ?>><?php echo $dvalue["name"] . " " . $dvalue["surname"] ." (". $dvalue["employee_id"].")" ?></option>
+                                  <?php }?>
+                                </select>
+                                <input type="hidden" name="charge_id" value="" id="charge_id" />
+                              </div>
+                              <span class="text-danger"><?php echo form_error('doctor'); ?></span>
+                            </div>
+                          </div>
+                      
+                        <div class="col-sm-3" >
+                            <div class="form-group" style="position: relative; overflow:visible !important">
+                              <label>Día de la consulta</label>
+                              <small class="req"> *</small>
+                              <div class="input-group">
+                                  <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fas fa-calendar-check" style="color:#1563B0;"></i></span> 
+                                  <input type="text" id="date_appointment" name="date" class="form-control date-appointment" style="border-radius: 0px 10px 10px 0px !important;">
+                                  <span class="text-danger"><?php echo form_error('date'); ?></span>
+                              </div>
+                            </div>
+                        </div>
+                      
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="slot"><?php echo $this->lang->line('slot'); ?></label>
+                                <span class="req">*</span>
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fas fa-user-clock" style="color:#1563B0;"></i></span> 
+                                    <select name="slot" id="slot" onchange="validateTime(this);getSlotByShift('add')" class="form-control" style="border-radius: 0px 10px 10px 0px !important;">
+                                        <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                    </select>
+                                    <span class="text-danger"><?php echo form_error('slot'); ?></span>
+                                </div>
+                            </div>
+                         </div>
+
+                         <div class="col-sm-3">
+                            <div class="form-group">
+                              <label>Código de la orden</label><small class="req"> *</small>
+                              <div class="input-group">
+                                <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fas fa-file-code"></i></span>
+                                <input type="text" class="form-control" id="order_code" name="order_code" placeholder="Codigo" autocomplete="off" style="border-radius: 0px 10px 10px 0px !important;">
+                                <span class="text-danger"></span>
+                              </div>
+                            </div>
+                         </div>
+
+<!--                         <div class="col-sm-3"  style="display: none;">
+                            <div class="form-group">
+                                <label for="reason_consultation">Motivo de consulta</label><small class="req"> *</small>
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fas fa-user-injured" style="color:#1563B0;"></i></span>
+                                    <select class="form-control" id="reason_consultation" name="reason_consultation" style="border-radius: 0px 10px 10px 0px !important;">
+                                    </select>    
+                                </div>
+                            </div>
+                        </div>  -->
+                      
+<!--                         <div class="col-sm-9" id="content_cups" style="display: none;"> 
+                            <label>Procedimientos</label>
+                            <div class="input-group">
+                              <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fa fa-search"></i></span>
+                              <input type="text" class="form-control search_text" id="search_cups" onkeyup="cups_structure()" placeholder="Buscar prestación" autocomplete="off" style="border-radius: 0px 10px 10px 0px !important;">
+                              <span class="text-danger"></span>
+                            </div>
+                            <div class="usersearchlist">
+                              <ul class="list-group scroll-container mb-3" style="position: absolute; z-index: 100;" id="cups_result" hidden>
+                              </ul>
+                            </div>
+                        </div> -->
+                      
+                         <div id='content_operation' style='display: none;'>
+                           
+                            <div class="col-sm-3">
+                              <div class="form-group">
+                                <label for="operation_anesthetist"><?php echo $this->lang->line('anesthetist'); ?></label><small class="req"> *</small>
+                                <div class="input-group">
+                                  <select class="form-control" name="operation_anesthetist" id="operation_anesthetist">
+                                      <option value="" hidden><?php echo $this->lang->line('select') ?></option>
+                                      <?php foreach ($doctors as $key => $value): ?>
+                                      <?php if($value["specialist"] === '10'): ?>
+                                      <option value="<?= $value['id'] ?>"><p class="capitalize"><?= ucwords(strtolower($value["name"] . " " . $value["surname"] ." (". $value["employee_id"].")")) ?></p></option> 
+                                      <?php endif ?>
+                                      <?php endforeach ?>
+                                  </select>
+                                </div>
+                              </div>
+                           </div>
+
+                            <div class="col-sm-3">
+                              <div class="form-group">
+                                <label for="nursing_assistant">Auxiliar de enfermeria</label><small class="req"> *</small>
+                                <div class="input-group">
+                                  <select class="form-control" name="nursing_assistant" id="nursing_assistant">
+                                      <option value="" hidden><?php echo $this->lang->line('select') ?></option>
+                                      <?php foreach ($nursing_assistant as $key => $value): ?>
+                                      <option value="<?= $value['id'] ?>"><p class="capitalize"><?= ucwords(strtolower($value["name"] . " " . $value["surname"] ." (". $value["employee_id"].")")) ?></p></option> 
+                                      <?php endforeach ?>
+                                  </select>
+                                </div>
+                              </div>
+                           </div>
+                           
+                        </div>
+                      
+                      
+                     </div>
+                  
+                     <div class="col-md-12">
+                       
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="message">Observación</label>                 
+                            <textarea rows="3" name="message" id="note" class="form-control" style="resize: none;"></textarea>
+                            <span class="text-danger"><?php echo form_error('message'); ?></span>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="medical_message">Mensaje para el médico</label>                 
+                            <textarea rows="3" name="medical_message" id="medical_message" class="form-control" style="resize: none;"></textarea>
+                          </div>
+                        </div>
+                       
+                     </div>
+                  
+                     <div clas="row">
+<!--                         <div class="col-sm-3" style="display:none;">
+                          <div class="form-group">
+                            <label for="doctor_fees"><?php echo $this->lang->line("doctor_fees"); ?></label>
+                            <small class="req"> *</small>
+                            <div>   
+                                <input type="text" name="amount" id="doctor_fees" class="form-control" readonly="readonly" >
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-3" style="display:none;">
+                            <div class="form-group">
+                                <label for="pwd"><?php echo $this->lang->line('shift'); ?></label><span class="req"> *</span>
+                                <select name="global_shift" id="global_shift" class="select2" style="width:100%">
+                                    <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3" style="display: none;">
+                          <div class="form-group">
+                            <label for="exampleInputFile"><?php echo $this->lang->line('appointment_priority'); ?></label>
+                            <div class="input-group">
+                                <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fas fa-poll-h" style="color:#1563B0;"></i></span>
+                                <select class="form-control select2 appointment_priority_select2"  name='priority' style="width:100%; border-radius: 0px 10px 10px 0px !important;">
+                                  <?php foreach ($appoint_priority_list as $dkey => $dvalue) { ?>
+                                  <option value="<?= $result = $dvalue["appoint_priority"] == 'Normal' ? $dvalue["id"] : ''?>"> <?php echo $dvalue["appoint_priority"]; ?></option>
+                                  <?php }?>
+                                </select>
+                            </div>
+                          </div>
+                        </div> -->
+
+<!--                        <div class="col-sm-6" style="display: none;">
+                          <label>Procedimientos iss</label>
+                          <div class="input-group">
+                            <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fa fa-search"></i></span>
+                            <input type="text" class="form-control search_text" id="search_iss" onkeyup="busqueda_iss('add')" placeholder="Buscar prestación" autocomplete="off" style="border-radius: 0px 10px 10px 0px !important;">
+                            <span class="text-danger"></span>
+                          </div>
+                          <div class="usersearchlist">
+                            <ul class="list-group scroll-container mb-3" style="position: absolute; z-index: 100;" id="iss_result" hidden>
+                            </ul>
+                         </div>
+                      </div> -->
+                       
+                       
+<!--                         <div class="cheque_div" style="display: none;">                        
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label><?php // echo $this->lang->line('cheque_no'); ?></label><small class="req"> *</small> 
+                                    <input type="text" name="cheque_no" id="cheque_no" class="form-control">
+                                    <span class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label><?php // echo $this->lang->line('cheque_date'); ?></label><small class="req"> *</small> 
+                                    <input type="text" name="cheque_date" id="cheque_date" class="form-control date-appointment">
+                                    <span class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label><?php // echo $this->lang->line('attach_document'); ?></label>
+                                    <input type="file" class="filestyle form-control" name="document">
+                                    <span class="text-danger"><?php // echo form_error('document'); ?></span> 
+                                </div>
+                            </div>
+                        </div> -->
+                       
+<!--                        <div class="col-lg-12">
+
+                       </div> -->
+
+<!--                         <?php if ($this->module_lib->hasActive('live_consultation')) { ?>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="exampleInputFile"><?php echo $this->lang->line('live_consultant_on_video_conference'); ?></label>
+                                <small class="req">*</small>
+                                <div>
+                                  <select name="live_consult" id="live_consult" class="form-control">
+                                      <?php foreach ($yesno_condition as $yesno_key => $yesno_value) {
+                                          ?>
+                                          <option value="<?php echo $yesno_key ?>" <?php
+                                                  if ($yesno_key == 'no') {
+                                                      echo "selected";
+                                                  }
+                                                  ?> ><?php echo $yesno_value ?>
+                                          </option>
+                                          <?php } ?>
+                                  </select>
+                                </div>
+                            </div>
+                        </div>
+                        <?php } ?> -->
+                       
+                       
+                        <div class="">
+                          <?php echo display_custom_fields('appointment',0); ?>
+                        </div>
+                        <div class="col-md-12">      
+                            <div class="form-group">
+                                <span id="slots_label"></span>
+                            </div>
+                        </div>
+        <!--                     <input type="hidden" id="slot_id" name="slot1" /> -->
+                        <div id="list_input_slot">
+                        </div>
+
+                        <div class="col-md-12">
+                           <div id="slot1"></div>
+                        </div>
+                    </div>
+                </div>
+           </div>
+
+           <div class="content" id="table_patient_visits" style="display: none;">
+              <h4>Visitas anteriores del paciente.</h4>
+              <div class="staff-members">
+                  <div class="table-responsive">
+                      <table class="table table-striped table-bordered table-hover">
+                              <thead>
+                                  <th><?php echo $this->lang->line('opd_no'); ?></th>
+                                  <th>Id visita</th>
+                                  <th><?php echo $this->lang->line('appointment_date'); ?></th>
+                                  <th>Doctor</th>
+                                  <th>Estado</th>
+                                  <th>Acciones</th>
+  <!--                                                         <th>Medicamentos</th> -->
+                              </thead>
+                              <tbody id="patient_visits">
+                              </tbody>
+                      </table>
+                  </div> 
+              </div><!--./staff-members-->
+           </div>
+
+           <div class="modal-footer">
+              <div class="pull-right">
+                <button type="submit" id="formaddbtn"  data-loading-text="<?php echo $this->lang->line('processing') ?>" class="btn" style="color:#fff;"><i class="fa fa-check-circle"></i> <?php echo $this->lang->line('save'); ?></button>
+              </div>
+              <div class="pull-right" style="margin-right: 10px; ">
+                  <button type="submit"  data-loading-text="<?php echo $this->lang->line('processing') ?>" name="save_print" class="btn pull-right printsavebtn" style="color:#fff;"><i class="fa fa-print"></i> <?php echo $this->lang->line('save_print'); ?></button>
+              </div>
+           </div>
+        </form>
+      </div>
+    </div>
+ </div>
+
+
 
 <div class="modal fade" id="rescheduleModal" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content modal-media-content">
       <div class="modal-header modal-media-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title"><?php echo $this->lang->line('reschedule'); ?></h4>
+        <button type="button" class="close pt4" data-dismiss="modal" autocomplete="off">×</button>
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <div class="p-2 select2-full-width">
+                    <select class="form-control patient_list_ajax" form="rescheduleform" id="addpatient_id" name='patient_id'>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-1">
+                <div class=" p-2" >
+                   <?php if ($this->rbac->hasPrivilege('patient', 'can_add')) {?>
+                    <a data-toggle="modal" id="add" onclick="holdModal('myModalpa')" class="btn btn-sm" style="color:#fff !important;"><i class="fa fa-plus"></i>  <span><?php echo $this->lang->line('new_patient'); ?></span></a>
+                    <?php }?>
+                </div>    
+            </div>     
+        </div>
       </div>
-      <form id="rescheduleform" accept-charset="utf-8" method="post">
-        <div class="">
-          <div class="modal-body pb0">
-            <div class="row">
-              <div class="col-lg-12 col-md-12 col-sm-12">
-                <div class="row">
-                  <input type="hidden" id="rdates">
-                  <input type="hidden" id="message_reason">
-                  <!-- inputs agregados al modal -->
-                  
-                  <div class="col-sm-3">
-                      <div class="form-group">
-                        <label for="date_time_opd">Paciente</label>
-                        <div class="input-group">
-                            <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fa fa-user"></i></span> 
-                            <input type="text" name="name_patient" id="name_patient" class="form-control"  style="border-radius: 0px 10px 10px 0px !important;" readonly>
-                        </div>
-                    </div>
-                  </div> 
+         <div class="modal-body" style="padding-bottom: unset !important;">
+           <form id="rescheduleform" accept-charset="utf-8" method="post">
+             <div class="row">
+                <div class='col-lg-12 col-md-12 col-sm-12'>
+                    <input type="hidden" id="rdates">
+                    <input type="hidden" id="message_reason">
+                    <input type="hidden" id="edit_patient_id" name="edit_patient_id">
+                    <input type="hidden" name="appointment_id" id="appointment_id">
 
-                  <div class="col-sm-3">
-                      <div class="form-group">
-                        <label for="date_time_opd">Hora</label>
-                        <div class="input-group">
-                            <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fas fa-clock"></i></span> 
-                            <input type="text" name="" id="r_dates_time" class="form-control"  style="border-radius: 0px 10px 10px 0px !important;" readonly>
-                        </div>
-                    </div>
-                  </div>
-                  
-                 <div class="col-sm-3">
-                    <div class="form-group">
-                        <label>Responsable de consulta</label><small class="req"> *</small>
-                        <div class="input-group">
-                            <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fas fa-file-invoice-dollar" style="color:#1563B0;"></i></span>
-                            <select class="form-control" id="edit_responsible" name="edit_responsible" style="border-radius: 0px 10px 10px 0px !important;" autocomplete="off">
-                                <option value="" hidden>Seleccione</option>
-                                <option value="EPS">Eps</option>
-                                <option value="PARTICULAR">Particular</option>
-                                <option value="POLIZA">Poliza</option>
-                            </select>    
-                            <span class="text-danger"></span>
-                        </div>
-                    </div>
-                  </div>
-                  
-                 <div class="col-sm-3">
-                    <div class="form-group">
-                        <label for="edit_reason_consultation">Motivo de consulta</label><small class="req"> *</small>
-                        <div class="input-group">
-                            <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fas fa-user-injured" style="color:#1563B0;"></i></span>
-                            <select class="form-control" id="edit_reason_consultation" name="edit_reason_consultation" style="border-radius: 0px 10px 10px 0px !important;" autocomplete="off">
-                            </select>    
-                            <span class="text-danger"></span>
-                        </div>
-                    </div>
-                  </div>
-                  
-                 <div class="col-sm-3">
-                    <div class="form-group">
-                        <label for="edit_type_visit">Tipo de cita</label><small class="req"> *</small>
-                        <div class="input-group">
-                            <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fas fa-th-list" style="color:#1563B0;"></i></span>
-                            <select class="form-control" id="edit_type_visit" name="edit_type_visit" style="border-radius: 0px 10px 10px 0px !important;" autocomplete="off">
-                                <option value="" hidden>Seleccione</option>
-                                <option value="Consulta primera vez">Consulta primera vez</option>
-                                <option value="Renovacion de ordenes">Renovación de órdenes</option>
-                                <option value="Renovacion de medicamentos">Renovación de medicamentos</option>
-                                <option value="Otros">Otros</option>
-                            </select>    
-                            <span class="text-danger"></span>
-                        </div>
-                    </div>
-                  </div>
-                  
-                  <div class="col-sm-3" id="edit_other_visit" style="display: none;">
-                      <div class="form-group">
-                        <label>Otros</label>
-                          <input type="text" placeholder="tipo de cita" class="form-control">
-                      </div>
-                  </div>
+                        <!-- inputs agregados al modal -->
 
-                  <!-- modal original -->
-                  <input type="hidden" name="appointment_id" id="appointment_id">
-                  <div class="col-sm-3">
-                    <div class="form-group">
-                      <label for="exampleInputFile">
-                      <?php echo $this->lang->line('doctor'); ?></label>
-                      <small class="req"> *</small>
-                      <div>
-                        <select name="rdoctor" class="form-control" onchange="getDoctorShift(this);getDoctorFeesEdit(this);get_specialist(this,'edit');reset_all()" style="width:100%" id="rdoctor" >
-                          <option value="<?php echo set_value('doctor'); ?>"><?php echo $this->lang->line('select') ?></option>
-                          <?php foreach ($doctors as $dkey => $dvalue) {
-                          ?>
-                          <option value="<?php echo $dvalue["id"]; ?>"><?php echo $dvalue["name"] . " " . $dvalue["surname"]." (".$dvalue["employee_id"].")" ?></option>
-                          <?php }?>
-                        </select>
-                        <span class="text-danger"><?php echo form_error('rdoctor'); ?></span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-3">
-                    <div class="form-group">
-                      <label for="doctor_fees"><?php echo $this->lang->line("doctor_fees"); ?></label>
-                      <small class="req"> *</small>
-                      <div>   
-                          <input type="" name="doctor_fees" id="rdoctor_fees_edit" class="form-control"  readonly >
-                      </div>
-                      <span class="text-danger"><?php echo form_error('doctor_fees'); ?></span>
-                    </div>
-                  </div>
-                  <div class="col-sm-3" style="display:none">
-                    <div class="form-group">
-                        <label for="pwd"><?php echo $this->lang->line('shift'); ?></label><span class="req"> *</span>
-                        <select name="rglobal_shift" id="rglobal_shift_edit" onchange="" class="select2" style="width:100%">
-                            <option value=""><?php echo $this->lang->line('select'); ?></option>
-                        </select>
-                        <span class="text-danger"><?php echo form_error('rglobal_shift'); ?></span>
-                    </div>
-                  </div>
-                  <div class="col-sm-3">
-                    <div class="form-group">
-                      <label><?php echo $this->lang->line('appointment_date') ?></label>
-                      <small class="req"> *</small>
-                      <input type="text" id="dates" name="appointment_date"  class="form-control date" value="<?php echo set_value('dates'); ?>">
-                      <span class="text-danger"><?php echo form_error('appointment_date'); ?></span>
-                    </div>
-                  </div>
-                  <div class="col-md-3">
-                    <div class="form-group">
-                        <label for="slot"><?php echo $this->lang->line('slot'); ?></label>
-                        <span class="req"> *</span>
-                        <select name="rslot" id="rslot_edit" onchange="getSlotByShift('update')" class="form-control">
-                            <option value=""><?php echo $this->lang->line('select'); ?></option>
-                        </select>
-                        <input type="hidden" id="rslot_edit_field" />
-                      <input type="hidden" id="time_opd" />
-                        <span class="text-danger"><?php echo form_error('rslot'); ?></span>
-                    </div>
-                  </div>
-                   <div class="col-sm-3" style="display:none;">
-                    <div class="form-group">
-                      <label for="exampleInputFile">
-                      <?php echo $this->lang->line('appointment_priority'); ?></label>
-                      <div>
-                        <select class="form-control select2" name='priority' style="width:100%" id="edit_appoint_priority" >
-                        <?php foreach ($appoint_priority_list as $dkey => $dvalue) {
-                        ?>
-                        <option value="<?php echo $dvalue["id"]; ?>"><?php echo $dvalue["appoint_priority"]; ?></option>
-                        <?php }?>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-3">
-                      <div class="form-group">
-                        <label for="appointment_status"><?php echo $this->lang->line('status'); ?><small class="req"> *</small></label>
-                        <select name="edit_appointment_status" onchange="editappointmentstatus()" class="form-control" id="edit_appointment_status">
-                            <option value=""><?php echo $this->lang->line('select'); ?></option>
-                            <?php foreach ($appointment_status as $appointment_status_key => $appointment_status_value) {  ?>
-                            <option value="<?php echo $appointment_status_key ?>" ><?php echo $appointment_status_value ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
-                </div>  
-                  
-                   <div id="person_cancel" class="col-sm-3" style="display:none;">
-                      <div class="form-group">
-                            <label>Persona que cancela</label>
-                            <div class="input-group">
-                              <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fas fa-user"></i></span> 
-                              <input type="text" name="person_cancel" id="cancel_person" style="border-radius: 0px 10px 10px 0px !important;" placeholder="" value="" class="form-control" autocomplete="off">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                          <label>Tipos de atención</label><small class="req"> *</small>
+                          <div class="p-2 select2-full-width">
+                              <select class="form-control charge_list_ajax" form="rescheduleform" id="charge_list_ajax_edit" name='charge_list_ajax_edit'>
+                                  <option value="" hidden><?php echo $this->lang->line('select') ?></option>
+                                  <?php foreach ($charges as $dkey => $dvalue):?>
+                                      <?php if ($dvalue->charge_category_id == 14):?>
+                                          <option value="<?php echo $dvalue->id; ?>"><?php echo ($dvalue->name." ".$dvalue->plan." ".$dvalue->iss." ".$dvalue->cups." ".$dvalue->sura_cups) ?></option>   
+                                      <?php else:?>
+                                          <option value="<?php echo $dvalue->id; ?>"><?php echo ($dvalue->description. " " . $dvalue->cups." ".$dvalue->sura_cups) ?></option>   
+                                      <?php endif;?> 
+                                  <?php endforeach;?>
+                              </select>
+                          </div>
+                       </div>
+
+                    <div class="col-sm-3" style="display:none;">
+                          <div class="form-group">
+                              <label>Responsable de consulta</label><small class="req"> *</small>
+                              <div class="input-group">
+                                  <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fas fa-file-invoice-dollar" style="color:#1563B0;"></i></span>
+                                  <select class="form-control" id="edit_responsible" name="edit_responsible" style="border-radius: 0px 10px 10px 0px !important;" autocomplete="off">
+                                      <option value="" hidden>Seleccione</option>
+                                      <option value="EPS">Eps</option>
+                                      <option value="PARTICULAR">Particular</option>
+                                      <option value="POLIZA">Poliza</option>
+                                      <option value="PAC">PAC</option>
+                                  </select>    
+                                  <span class="text-danger"></span>
+                              </div>
+                          </div>
+                        </div>
+
+                    <div class="col-sm-3">
+                         <div class="form-group">
+                              <label for="date_time_opd">Paciente</label>
+                              <div class="input-group">
+                                  <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fa fa-user"></i></span> 
+                                  <input type="text" name="name_patient" id="name_patient" class="form-control search_text"  style="border-radius: 0px 10px 10px 0px !important;" readonly>
+                              </div>
+                           </div>
+                        </div> 
+
+                    <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="date_time_opd">Hora</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fas fa-clock"></i></span> 
+                                    <input type="text" name="" id="r_dates_time" class="form-control search_text"  style="border-radius: 0px 10px 10px 0px !important;" readonly>
+                                </div>
                             </div>
                         </div>
+
+                    <div class="col-sm-3">
+                          <div class="form-group">
+                              <label>Eps responsable</label><small class="req"> *</small>
+                              <div class="input-group">
+                                  <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fas fa-file-invoice-dollar" style="color:#1563B0;"></i></span>
+                                  <select class="form-control" id="edit_responsible_eps" name="edit_responsible_eps" style="border-radius: 0px 10px 10px 0px !important;">
+                                      <option value="" hidden>Seleccione</option>
+                                        <?php foreach($responsibles_esp as $key => $value): ?>
+                                        <option value="" hidden>Seleccione</option>
+                                        <option value="<?= $value->id ?>"><?= $value->organisation_name ?></option>
+                                        <?php endforeach ?>
+                                  </select>    
+                              </div>
+                          </div>
+                        </div>
+
+                    <div class="col-sm-6" id="" hidden>
+                      <div class="form-group">
+                          <label>Procedimientos</label>
+                          <div class="input-group">
+                            <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fa fa-search"></i></span>
+                            <input type="text" class="form-control search_text" id="edit_search_cups" onkeyup="cups_structure()" placeholder="Buscar prestación" autocomplete="off" style="border-radius: 0px 10px 10px 0px !important;">
+                            <span class="text-danger"></span>
+                          </div>
+                       </div>  
+                        <div class="usersearchlist">
+                          <ul class="list-group scroll-container mb-3" style="position: absolute; z-index: 100;" id="edit_cups_result" hidden>
+                          </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6" hidden>
+                        <div class="form-group">
+                          <label>Procedimientos iss</label>
+                          <div class="input-group">
+                            <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fa fa-search"></i></span>
+                            <input type="text" class="form-control search_text" id="edit_search_iss" onkeyup="busqueda_iss('update')" placeholder="Buscar prestación" autocomplete="off" style="border-radius: 0px 10px 10px 0px !important;">
+                            <span class="text-danger"></span>
+                          </div>
+                       </div>   
+                        <div class="usersearchlist">
+                          <ul class="list-group scroll-container mb-3" style="position: absolute; z-index: 100;" id="edit_iss_result" hidden>
+                          </ul>
+                        </div>
+                      </div>
+
+                     <!-- modal original -->
+                    <div class="col-sm-3">
+                      <div class="input-group">
+                        <label for="exampleInputFile">Especialista</label>
+                        <small class="req"> *</small>
+                        <div>
+                          <select name="rdoctor" class="form-control" onchange="getDoctorFeesEdit(this);" style="width:100%" id="rdoctor" >
+                            <option value="<?php echo set_value('doctor'); ?>"><?php echo $this->lang->line('select') ?></option>
+                            <?php foreach ($doctors as $dkey => $dvalue): ?>
+                            <option value="<?php echo $dvalue["id"]; ?>"><?php echo $dvalue["name"] . " " . $dvalue["surname"]." (".$dvalue["employee_id"].")" ?></option>
+                            <?php endforeach ?>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <label for="dates">Dia de la consulta</label>
+                        <small class="req"> *</small>
+                        <input type="text" id="dates" name="appointment_date"  class="form-control date-appointment" value="<?php echo set_value('dates'); ?>">
+                        <span class="text-danger"><?php echo form_error('appointment_date'); ?></span>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-3" style="display:none;">
+                      <div class="input-group">
+                          <label for="rglobal_shift_edit"><?php echo $this->lang->line('shift'); ?></label><span class="req"> *</span>
+                          <select name="rglobal_shift" id="rglobal_shift_edit" class="select2" style="width:100%">
+                              <option value=""><?php echo $this->lang->line('select'); ?></option>
+                          </select>
+                          <span class="text-danger"><?php echo form_error('rglobal_shift'); ?></span>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="form-group">
+                          <label for="slot"><?php echo $this->lang->line('slot'); ?></label>
+                          <span class="req"> *</span>
+                          <select name="rslot" id="rslot_edit" onchange="getSlotByShift('update')" class="form-control">
+                              <option value=""><?php echo $this->lang->line('select'); ?></option>
+                          </select>
+                          <input type="hidden" id="rslot_edit_field" />
+                        <input type="hidden" id="time_opd" />
+                          <span class="text-danger"><?php echo form_error('rslot'); ?></span>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                       <div class="form-group">
+                          <label>Código de orden</label><small class="req"> *</small>
+                          <div class="input-group">
+                            <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fas fa-file-code"></i></span>
+                            <input type="text" class="form-control" id="edit_order_code" name="edit_order_code" placeholder="Codigo" autocomplete="off" style="border-radius: 0px 10px 10px 0px !important;">
+                            <span class="text-danger"></span>
+                          </div>
+                        </div>
+                    </div>
+
+                    <?php if($user_role_id === '6'): ?>
+
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                          <label><?php echo $this->lang->line('payment_mode'); ?></label> 
+                          <select class="form-control payment_mode" name="payment_mode">
+                          <?php foreach ($payment_mode as $key => $value) { ?>
+                              <option value="<?php echo $key ?>"><?php echo $value ?></option>
+                          <?php } ?>
+                          </select>    
+                          <span class="text-danger"><?php echo form_error('apply_charge'); ?></span>
+                      </div>
+                    </div>
+
+                    <?php endif ?>
+
+                    <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="appointment_status"><?php echo $this->lang->line('status'); ?><small class="req"> *</small></label>
+                                <select name="edit_appointment_status" onchange="editappointmentstatus()" class="form-control" id="edit_appointment_status">
+                                    <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                    <?php foreach ($appointment_status as $appointment_status_key => $appointment_status_value):  ?>
+                                       <?php if($appointment_status_value != "Firmada"): ?>
+                                       <option value="<?php echo $appointment_status_key ?>" ><?php echo $appointment_status_value ?></option>
+                                       <?php endif ?>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                        </div>
+
+                    <div id="person_cancel" class="col-sm-3" style="display:none;">
+                          <div class="form-group">
+                              <label>Persona que cancela</label><small class="req"> *</small>
+                              <div class="input-group">
+                                <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fas fa-user"></i></span> 
+                                <input type="text" name="person_cancel" id="cancel_person" style="border-radius: 0px 10px 10px 0px !important;" placeholder="" value="" class="form-control" autocomplete="off">
+                              </div>
+                          </div>
+                       </div>
+                  
+                  <div id="person_confirm" class="col-sm-3" style="display:none;">
+                          <div class="form-group">
+                              <label>Persona que Confirma</label><small class="req"> *</small>
+                              <div class="input-group">
+                                <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fas fa-user"></i></span> 
+                                <input type="text" name="person_confirm" id="" style="border-radius: 0px 10px 10px 0px !important;" placeholder="" value="" class="form-control" autocomplete="off">
+                              </div>
+                          </div>
+                       </div>
+
+                    <div id="moderadora" class="col-sm-3" style="display:none;">
+                        <div class="form-group">
+                            <label for="type_visit">Categoría Paciente</label><small class="req"> *</small>
+                            <div class="input-group">
+                                <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fas fa-th-list" style="color:#1563B0;"></i></span>
+                                <select class="form-control" id="category_visit" name="category_visit" style="border-radius: 0px 10px 10px 0px !important;">
+                                    <option value="" hidden>Seleccione</option>
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                </select> 
+                            </div>
+                         </div>
+                      </div>
+
+                    <div id="content_payment_type" class="col-sm-3" style="display: none;">
+                          <div class="form-group">
+                              <label for="payment_type">Tipo de pago<small class="req"> *</small></label>
+                              <select id="payment_type" name="payment_type" class="form-control">
+                                  <option value="" hidden>Seleccione</option>
+                                  <option value="copay">Copago</option>
+                                  <option value="moderator_fee">Cuota moderadora</option>
+                                  <option value="exempt_from_payment">Exento</option>
+                              </select>
+                          </div>
+                      </div>
+
+                    <div id="content_copay" class="col-sm-3" style="display:none;">
+                          <div class="form-group">
+                              <label for="copayment_value">Valor del copago</label><small class="req"> *</small>
+                              <div class="input-group">
+                                <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fas fa-dollar-sign"></i></span> 
+                                <input type="number" name="copayment_value" id="copayment_value" style="border-radius: 0px 10px 10px 0px !important;" placeholder="0000" value="" class="form-control" autocomplete="off">
+                              </div>
+                          </div>
+                       </div>
+
+                    <div id='edit_content_operation' style='display: none;'>
+                            <div class="col-sm-3">
+                              <div class="form-group">
+                                <label for="operation_anesthetist"><?php echo $this->lang->line('anesthetist'); ?></label><small class="req"> *</small>
+                                <div class="input-group">
+                                  <select class="form-control" name="edit_operation_anesthetist" id="edit_operation_anesthetist">
+                                      <option value="" hidden><?php echo $this->lang->line('select') ?></option>
+                                      <?php foreach ($doctors as $key => $value): ?>
+                                      <?php if($value["specialist"] === '10'): ?>
+                                      <option value="<?= $value['id'] ?>"><p class="capitalize"><?= ucwords(strtolower($value["name"] . " " . $value["surname"] ." (". $value["employee_id"].")")) ?></p></option> 
+                                      <?php endif ?>
+                                      <?php endforeach ?>
+                                  </select>
+                                </div>
+                              </div>
+                           </div>
+
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                <label for="nursing_assistant">Auxiliar de enfermería</label><small class="req"> *</small>
+                                <div class="input-group">
+                                  <select class="form-control" name="edit_nursing_assistant" id="edit_nursing_assistant">
+                                      <option value="" hidden><?php echo $this->lang->line('select') ?></option>
+                                      <?php foreach ($nursing_assistant as $key => $value): ?>
+                                      <option value="<?= $value['id'] ?>"><p class="capitalize"><?= ucwords(strtolower($value["name"] . " " . $value["surname"] ." (". $value["employee_id"].")")) ?></p></option> 
+                                      <?php endforeach ?>
+                                  </select>
+                                </div>
+                              </div>
+                           </div>
+                       </div>
+
+    <!--                   <div id="payment_type" class="col-lg-6 form-group" style="display: none; margin-top: 10px;">
+                        <div>
+                           <label class="radio-inline">
+                           <input type="radio" name="payment_type" value="copay" autocomplete="off">Copago </label>
+                           <label class="radio-inline">
+                           <input type="radio" name="payment_type" value="moderator_fee" autocomplete="off">Cuota moderadora. </label>
+                           <label class="radio-inline">
+                           <input type="radio" name="payment_type" value="exempt_from_payment" autocomplete="off">Exento. </label>
+                        </div>
+                      </div> -->
+
+                    <div id="content_cancel" class="col-sm-3" style="display: none;">
+                          <div class="form-group">
+                              <label for="id_role_cancel">Rol que solicito la cancelación</label><small class="req"> *</small>
+                              <div class="input-group">
+                                  <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fas fa-file-invoice-dollar" style="color:#1563B0;"></i></span>
+                                  <select class="form-control" name="id_role_cancel" id="id_role_cancel" style="border-radius: 0px 10px 10px 0px !important;">
+                                      <option value="" hidden>Seleccione</option>
+                                      <?php foreach($roles as $key => $value): ?>
+                                      <option value="<?= $value->id ?>"><?= $value->name ?></option>
+                                      <?php endforeach ?>
+                                  </select>    
+                              </div>
+                          </div>
+                       </div> 
+
+                    <div  class="col-sm-3" style="">
+                     <a href='#' id="charge_appointment" onclick="openNewWindow()"> </a>
                    </div>
-                   <div  class="col-sm-3" style="">
-                     <a href='#' id ="charge_appointment" onclick="openNewWindow()"> </a>
-                   </div>
-                  <div class="col-sm-12">
-                    <div class="form-group">
-                      <label for="message"><?php echo $this->lang->line('message'); ?></label>
-                      <textarea rows="5" name="message" id="message" class="form-control" style="resize: none;" ><?php echo set_value('message'); ?></textarea>
-                      <span class="text-danger"><?php echo form_error('message'); ?></span>
+                  
+                  </div>
+               
+                  <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                      <div class="form-group">
+                        <label for="message">Observación</label>
+                        <textarea rows="3" name="message" id="message" class="form-control" style="resize: none;" ><?php echo set_value('message'); ?></textarea>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                      <div class="form-group">
+                        <label for="edit_medical_message">Mensaje para el médico</label>                 
+                        <textarea rows="3" name="edit_medical_message" id="edit_medical_message" class="form-control" style="resize: none;"></textarea>
+                      </div>
                     </div>
                   </div>
-                        <?php if ($this->module_lib->hasActive('live_consultation')) { ?>
+
+                  <?php if ($this->module_lib->hasActive('live_consultation')) { ?>
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label><?php echo $this->lang->line('live_consultant_on_video_conference'); ?></label> <small class="req">*</small>
@@ -661,37 +1468,35 @@ $result_currentDate = $currentDateTime->format('Y/m/d');
                     </div>
                   </div>
                   <?php } ?>
+                  
+                  
                   <div class="" id="customfield" ></div> 
-                   <div class="col-md-12">
-                              
-                    <div class="form-group">
-                        <span id="edit_slots_label"></span>
-                    </div>
-                </div>
+                  <div class="col-md-12">
+                      <div class="form-group">
+                          <span id="edit_slots_label"></span>
+                      </div>
+                  </div>
 
-                <input type="hidden" id="edit_slot_id" name="edit_slot" />
+                  <div id="edit_input_slot">
+                  </div>
+
+<!--                 <input type="hidden" id="edit_slot_id" name="edit_slot" /> -->
                     <div class="col-md-12">
                        <div id="edit_slot"></div>
                     </div>
                   <!-- <div class="" id="customfield" ></div>  -->
-                </div><!--./row-->
-              </div><!--./col-md-12-->
-            </div><!--./row-->
-          </div><!--./modal-body-->
-        </div>
-        <div class="modal-footer">
-          <div class="pull-right">
-            <button type="submit" id="rescheduleformbtn" data-loading-text="<?php echo $this->lang->line('processing') ?>" class="btn pull-right" ><i class="fa fa-check-circle"></i> <?php echo $this->lang->line('save'); ?></button>
-          </div>
-
-        </div>
-      </form>
+                  
+             </div>
+           </form>         
+           <div class="modal-footer">
+              <div class="pull-right">
+                <button type="submit" id="rescheduleformbtn" form='rescheduleform' data-loading-text="<?php echo $this->lang->line('processing') ?>" class="btn pull-right" ><i class="fa fa-check-circle"></i> <?php echo $this->lang->line('save'); ?></button>
+              </div>
+           </div>
+        </div><!--./modal-body-->
     </div>
   </div>
 </div>
-
-
-
 
 <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog modal-lg" role="document">
@@ -732,7 +1537,7 @@ $result_currentDate = $currentDateTime->format('Y/m/d');
                       <td width="35%"><span id="genders"></span>
                       
                       <th width="15%">Responsable</th>
-                      <td width="35%"><span id="source"></span></td>  
+                      <td width="35%"><span id="responsible"></span></td>  
                       
                     </tr>
 
@@ -747,7 +1552,7 @@ $result_currentDate = $currentDateTime->format('Y/m/d');
                         <th width="15%"><?php echo $this->lang->line('phone'); ?></th>
                         <td width="35%"><span id="phones"></span> </td>
                         <th width="15%"><?php echo $this->lang->line('slot'); ?></th>
-                        <td width="35%"><span id='doctor_shift_view' style="text-transform: capitalize;"></span></td>
+                        <td width="35%"><span id="doctor_shift_view" ></span></td>
                         </td>
                      </tr>
 
@@ -757,18 +1562,29 @@ $result_currentDate = $currentDateTime->format('Y/m/d');
                       <th width="15%"><?php echo $this->lang->line('message'); ?></th>
                       <td width="35%"><span id="messages"></span></td>
                     </tr>
-                  <tr>
-                     <th width="15%">Municipio</th>
-                     <td width="35%"><span id="municipalities_name"></span></td>
-                     <th width="15%"><?php echo $this->lang->line('status'); ?></th>
-                     <td width="35%"><span id='status' style="text-transform: capitalize;"></span></td>
+                    <tr>
+                       <th width="15%">Municipio</th>
+                       <td width="35%"><span id="municipalities_name"></span></td>
+                       <th width="15%">Tipo de cita</th>
+                       <td width="35%"><span id="type_appointment"></span></td>
                     </tr>
                 
-                   <tr>
+                    <tr>
                       <th width="15%">Vivienda</th>
                       <td width="35%"><span id="home_name"></span></td>
+                      <th width="15%"><?php echo $this->lang->line('status'); ?></th>
+                      <td width="35%"><span id='status' style="text-transform: capitalize;"></span></td>
                     </tr>
               
+                  <div>
+                    <tr id="content_doctors" hidden>
+                        <th>Anesthetist</th>
+                        <td><span id="view_operation_anesthetist"></span></td>
+                        <th>Auxiliar de enfermeria</th>
+                        <td><span id="view_nursing_assistant"></span></td>
+                    </tr>
+                  </div>
+
 
                     <?php if ($this->module_lib->hasActive('live_consultation')) { ?>
                     <tr>
@@ -780,15 +1596,13 @@ $result_currentDate = $currentDateTime->format('Y/m/d');
                     <?php } ?>
                     <tr>
 
-
                     </tr>
               
                      <tr  id="payrow" style="display:none">
                       <th width="15%"><?php echo $this->lang->line('cheque_no'); ?></th>
                       <td width="35%"><span id='spn_chequeno'></span></td>
                       <th width="15%"><?php echo $this->lang->line('cheque_date'); ?></th>
-                      <td width="35%"><span id="spn_chequedate"></span>
-                      </td>
+                      <td width="35%"><span id="spn_chequedate"></span></td>
                     </tr>
                     <tr id="paydocrow" style="display:none">
                        <th width="15%"><?php echo $this->lang->line('document'); ?></th>
@@ -799,20 +1613,26 @@ $result_currentDate = $currentDateTime->format('Y/m/d');
                   </div>
               
                 </table>
-                  <table class="table mb0 table-striped table-bordered examples" id="field_data">
-                  </table>
-                  
-              </div>
+                <table class="table mb0 table-striped table-bordered examples" id="field_data">
+                </table>
+             </div>
+          
                 <span id="id_patient" hidden></span>
                 <span id="id_opd" hidden></span>
-                <span id="doctor_id" hidden></span>
                 <input type="text" hidden></input>
                 <div class="modal-footer">
                    <div class="pull-right">
-                      <?php if($user_role_id !=8): ?>
-                        <button onclick="view_appointment()" type="button" class="btn" style="background:#1563B0; color:#fff;border-radius: 5px;" autocomplete="off"><i class="fa fa-check-circle"></i> VER PACIENTE</button>
-                     <?php endif; ?>
+
+                        <button onclick="editpatient()" type="button" class="btn" style="background:#1563B0; color:#fff;border-radius: 5px;" autocomplete="off"><i class="fa fa-check-circle"></i> EDITAR PACIENTE</button>
+
                    </div>
+                  <?php if($userdata['role_id'] != 6) : ?>
+                   <div class="pull-right" style="margin-right: 5px;">
+
+                        <button id="view_appointment" type="button" class="btn" style="background:#1563B0; color:#fff;border-radius: 5px;" autocomplete="off"><i class="fa fa-check-circle"></i> VER PACIENTE</button>
+
+                   </div>
+                  <?php endif ?>
                 </div>
             </form>
           </div><!--./col-md-12-->
@@ -822,13 +1642,1396 @@ $result_currentDate = $currentDateTime->format('Y/m/d');
   </div>
 </div>
 
+<?php $this->load->view('admin/patient/patientPaymentAdd') ?>
 <?php $this->load->view('admin/patient/patientupdate') ?>    
 <?php $this->load->view('admin/patient/patientaddmodal') ?>
-<?php $this->load->view('admin/patient/patienttest') ?>
-<?php $this->load->view('admin/patient/patientPaymentAdd') ?>
+  <!-- Desarrollo de factura_modal -->
+<?php $this->load->view('admin/patient/patienttest',$doctors) ?>
+  <!-- Desarrollo de factura_modal  -->
+<!-- <script src="<?php echo base_url() ?>backend/js/Chart.bundle.js"></script>
+<script src="<?php echo base_url() ?>backend/js/utils.js"></script> -->
+
+<!-- Desarrollo de calendario -->
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.0/main.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.0/locales/es.js"></script>
+<script src="https://unpkg.com/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://unpkg.com/tippy.js@6.3.0/dist/tippy-bundle.umd.min.js"></script>
+
+<script type="text/javascript">
+
+    document.addEventListener('DOMContentLoaded', function () {
+      
+//       let eliminar = document.getElementById('btnEliminar'); 
+      const calendarEl = document.getElementById('appointment_calendar'); 
+      let tooltip = document.getElementById('tooltip');
+      
+      let holidays = ['2024-01-01', '2024-08-01', '2024-25-03', '2024-28-03', '2024-29-203','2024-01-05', '2024-13-05', '2024-03-06','2024-10-06','2024-01-07','2024-20-07','2024-07-08','2024-19-08','2024-14-10','2024-04-11','2024-11-11','2024-08-12','2024-25-12'];
+      let does_not_work = true;
+      let array_doctor_daily = [];
+      let base_url = "<?= base_url(); ?>";
+      let user_role_id = "<?= $user_role_id ?>";
+      
+      const calendar = new FullCalendar.Calendar(calendarEl, {
+        timeZone: 'local',
+        slotDuration: '00:10:00', 
+        slotLabelInterval: '01:00:00',
+        initialView: 'timeGridDay',
+        allDaySlot: false,
+        editable: true,
+        selectable: true,
+        nowIndicator: true,
+        events: base_url+"admin/appointment/appointment_calendar/",
+        
+//         slotEventOverlap: false,
+//         slotMinTime: '08:00:00', // Hora de inicio (por ejemplo, 08:00 AM)
+//         slotMaxTime: '18:00:00', // Hora máxima visible (por ejemplo, 06:00 PM)
+        locale: 'es',
+        headerToolbar: {
+          left: 'today,prev,next title',
+//           center: 'title',
+//           right: 'dayGridMonth,timeGridWeek,timeGridDay,listDay'
+          right: 'timeGridDay,timeGridWeek,dayGridMonth,listDay,customView'
+
+        },
+        
+        views: {
+          timeGrid: {
+            slotLabelFormat: {
+              hour: '2-digit', 
+              minute: '2-digit'
+            }
+          },
+          customView: { 
+             type: 'timeGrid',
+             duration: { day: 1},
+             buttonText: 'Agenda Clínicas',
+          }
+        },
+
+        customButtons: {
+          
+            timeGridWeek: {
+                text: 'Semana',
+                click: function() {
+                      calendar.changeView('timeGridWeek');
+                      custom_view_resouces();
+                } 
+            },
+            timeGridDay: {
+                text: 'Dia',
+                click: function() {
+                      calendar.changeView('timeGridDay');
+                      custom_view_resouces();
+
+                } 
+            },
+            customView: {
+              text: 'Agenda Clínicas',
+              click: function(event) {
+                if (!this.classList.contains('fc-button-active')) {
+                      calendar.changeView('customView');
+                      custom_view_resouces();
+                  }
+              },
+            },
+            today: {
+             text: 'Hoy',
+             click: function() {
+                calendar.today();
+                custom_view_resouces();
+              },
+            },
+            next: {
+              click: function() {
+                calendar.next(); 
+                custom_view_resouces();
+              },
+            },
+            prev: {
+              click: function() {
+                calendar.prev(); 
+                custom_view_resouces();
+              },
+            },
+        },
+
+        slotLabelContent: function(arg) {
+           if(arg.view.type === 'customView'){
+             
+                 calendar.setOption('slotLabelInterval', '00:10:00');
+
+                 let start = moment(arg.date);
+                 let end = start.clone().subtract(10, 'minutes'); // Clona y resta 10 minutos al tiempo original
+
+                 if (start.format('HH:mm') == '00:00') {
+                    end = moment('00:00', 'HH:mm');
+                 }
+
+                 return {
+                    html: '<span>' + end.format('HH:mm') + ' - ' + start.format('HH:mm') + '</span>',
+                 };
+           } else {
+             calendar.setOption('slotLabelInterval', '01:00:00');
+             return moment(arg.date).format('HH:mm');
+           }
+        },
+        
+//         datesSet: function (info) {
+
+// //              if(holiday){
+// //                  console.log(holiday);
+// //                  console.log('si existe');
+// //               }
+
+//               console.log(info);
+
+//               let today = "<?= $currentDateTime->format('Y-m-d') ?>";
+//               let todayCells = calendarEl.querySelectorAll('.fc-day[data-date="' + today + '"]');
+
+//               todayCells.forEach(function (cell) {
+//                 cell.classList.add('fc-today');
+//               });
+
+//               holidays.forEach(function (holiday) {
+//                   let holidayCells = calendarEl.querySelectorAll('.fc-day[data-date="' + holiday + '"]');
+//                   if (holidayCells.length > 0) {
+//                       holidayCells.forEach(function (cell) {
+//                           if (cell) {
+//                               console.log(cell);
+//                               cell.classList.add('fc-holiday');
+//                           }
+//                       });
+//                   }
+//               });
+          
+//          },
+        
+//         viewDidMount: function (info) {
+//             console.log(info);
+//         },
+        
+//        slotLaneDidMount: function(info) {
+//           console.log(info);
+//        }, 
+//        slotLaneContent: function (info) {
+//           console.log(info);
+//        },
+        
+        select: function (info) {
+          
+            console.log('start'+moment(info.start).format('HH:mm:ss'));
+            console.log('end'+moment(info.endStr).format('HH:mm:ss'));
+          
+            let doctor_id = document.getElementById('doctor_id').value;
+            let businessHours = calendar.getOption('businessHours');
+
+            if(doctor_id !== '' && info.view.type !== 'dayGridMonth' && typeof businessHours !== 'undefined' && businessHours){
+              
+                 let selectedDay = info.start.getDay(); // Día de la semana (0: domingo, 1: lunes, ..., 6: sábado)
+
+                 let startHour = new Date(info.startStr).toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: false});
+                 let endHour = new Date(info.endStr).toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: false});
+
+                 let filteredBusinessHours = businessHours.filter(function (interval) {
+                    return interval.daysOfWeek.includes(selectedDay);
+                 });
+
+                let close_slots = false;
+
+                filteredBusinessHours.forEach(function (interval) {
+//                   console.log('Día de la semana:', selectedDay);
+//                   console.log('Hora de inicio:', interval.startTime);
+//                   console.log('Hora de finalización:', interval.endTime);
+
+                    if (startHour >= interval.startTime && endHour <= interval.endTime) {
+                        close_slots = true;
+                    } 
+                });
+
+                if(close_slots == false){
+                   errorMsg('No puedes agendar en esta hora fuera del horario laboral.');
+                   does_not_work = false;
+                } else {
+                   close_slots = false;
+                   does_not_work = true;
+                }
+               
+            }
+
+        },
+        
+//         selectAllow: function(selectInfo) {
+//         },
+
+        dateClick: function (info) {
+          
+
+//          console.log(calendarEl.querySelectorAll('.fc-holiday'));
+            let element = info.jsEvent.target;
+            let holiday = calendarEl.querySelector('.fc-holiday');
+            let blockeddays = calendarEl.querySelector('.fc-blockeddays');
+            let vigenciadays = calendarEl.querySelector('.fc-vigenciadays');
+            let tippy_content = calendarEl.querySelector('.tippy-content');
+            let doctor_id = document.getElementById('doctor_id');
+            let today = "<?= $currentDateTime->format('Y-m-d') ?>";
+            let start_date = info.date.toISOString().split('T')[0];
+            let array_errors = [];
+          
+            let selectConstraint = calendar.getOption('selectConstraint');
+            if(selectConstraint){
+                if (isDateWithinSelectionConstraint(info.date)) {
+                    array_errors['not_bussines_hours'] = 'Debe de configurar los tiempos de consultas para este doctor.';
+                } 
+            }
+
+            if(!tippy_content && doctor_id.value == ""){
+                  array_errors['doctor'] = 'Debe seleccionar el doctor para agendar una cita.';
+            }
+
+            if (!tippy_content && start_date < today) {
+                  array_errors['previous_date'] = 'No puedes insertar una cita en una fecha anterior a hoy.';
+            }
+          
+            if(!tippy_content && holiday !== null){
+              
+                  if(info.view.type == 'dayGridMonth' || info.view.type == 'timeGridWeek'){
+                     if(!element.classList.contains('fc-highlight')){
+                         array_errors['holiday_date'] = 'Hoy es un día festivo y no se pueden agendar citas.';
+                     }
+                  } else {
+                      array_errors['holiday_date'] = 'Hoy es un día festivo y no se pueden agendar citas.';
+                  } 
+              
+            }
+          
+          if(!tippy_content && vigenciadays !== null){
+              
+                  if(info.view.type == 'dayGridMonth' || info.view.type == 'timeGridWeek'){
+                     if(!element.classList.contains('fc-highlight')){
+                         array_errors['blocked_date'] = 'Este día no está vigente.';
+                     }
+                  } else {
+                      array_errors['blocked_date'] = 'Este día no está vigente.';
+                  } 
+              
+            }
+          
+            if(!tippy_content && blockeddays !== null){
+                  if(info.view.type == 'dayGridMonth' || info.view.type == 'timeGridWeek'){
+                     if(!element.classList.contains('fc-highlight')){
+                         array_errors['blocked_date'] = 'Este día fue bloqueado.';
+                     }
+                  } else {
+                      array_errors['blocked_date'] = 'Este día fue bloqueado.';
+                  }  
+             }
+
+//               console.log(holiday);
+//               console.log(blockeddays);
+//               console.log(vigenciadays);
+//               console.log(element);
+          
+//             holiday = holiday === true ? false : true;
+//             blockeddays = blockeddays === null ? true : false;
+//             vigenciadays = vigenciadays === null ? true : false;
+
+//               console.log(holiday);
+//               console.log(blockeddays);
+//               console.log(vigenciadays);
+
+            if(!tippy_content && user_role_id != "3" && Object.keys(array_errors).length === 0 && does_not_work){
+
+                var date_ver = new Date(info.date).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
+                var hora = new Date(info.date).toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true });
+//               var tiempo_final = hora.setMinutes(hora.getMinutes() + 10);
+                var formData = new FormData();
+                formData.append("date", date_ver);
+                formData.append("doctorid", $("#doctor_id").val());
+                formData.append("time", hora);
+                console.log(date_ver);
+                var partes = hora.split(/:| /);
+
+                // Obtener la hora, los minutos y los segundos
+                var horas = parseInt(partes[0]);
+                var minutos = parseInt(partes[1]);
+                var segundos = parseInt(partes[2]);
+
+                // Obtener el AM/PM
+                var ampm = partes[3];
+
+                // Sumar 10 minutos a la hora
+                minutos += 10;
+
+                // Verificar si se pasa a la siguiente hora
+                if (minutos >= 60) {
+                  horas += 1;
+                  minutos -= 60;
+                }
+              
+                //desarrollando
+
+                // Formatear la hora resultante
+                var horaFinal = horas.toString().padStart(2, '0') + ":" + minutos.toString().padStart(2, '0') + ":" + segundos.toString().padStart(2, '0') + " " + ampm;
+                var global_shift_id = 8;
+                console.log(horaFinal);
+                function getShiftData() {
+                    return new Promise(function (resolve, reject) {
+                          $.ajax({
+                            url: baseurl + 'admin/onlineappointment/getShift',
+                            type: "POST",
+                            data: { doctor: $("#doctor_id").val(), date: date_ver, global_shift: 8 },
+                            dataType: 'json',
+                            success: function (res) {
+                              // Resuelve la promesa con los datos obtenidos
+                              resolve(res);
+                            },
+                            error: function (xhr, status, error) {
+                              // Rechaza la promesa en caso de error
+                              reject(error);
+                            }
+                          });
+                    });
+                }
+
+                getShiftData().then(function (data) {
+                  
+                  let hora = new Date(info.date).toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true });
+
+                  data.forEach(function(obj) {
+                      if (obj.start_time.includes("PM") && hora.includes("PM") ) {
+                          var id = obj.id;
+                          formData.append("slot",id);
+                          console.log("ID with 'PM' in start_time: " + id);
+                      }else if(obj.start_time.includes("AM") && hora.includes("AM") ){
+                        var id = obj.id;
+                        formData.append("slot",id);
+                      }
+                  });
 
 
-<script>
+                 $.ajax({
+                        url: baseurl+'admin/appointment/add_calendar',
+                        type: "POST",
+                        data:  formData,
+                        dataType: 'json',
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        success: function (data) {
+                          console.log(data);
+                          if(data == 0){
+                               errorMsg('Ya hay una cita programada para esta hora.');
+                               console.log("ya existe una cita");
+                          }else{   
+                               viewreschedule(data);
+                               refetch_events(); 
+                          }
+                       },
+                       error: function (error) {
+                         console.error(error);
+                       }
+                    });
+
+                })
+                .catch(function (error) {
+                  console.error(error);
+                });
+
+                formData.append("time_finish", horaFinal);
+                formData.append("global_shift_id", global_shift_id);
+
+
+                $("#date_appointment").datepicker("setDate", date_ver);
+                var event = new Event('change', { bubbles: true });
+                document.getElementById('date_appointment').dispatchEvent(event);
+                $("#date_appointment").val(date_ver).trigger("change");
+                getShift();
+              
+            } else {
+              
+  
+                if(Object.keys(array_errors).length > 0){
+                  
+                  let message = '';
+                  for (const index in array_errors) {
+                    const value = array_errors[index];
+                    message += value+`<br>`;
+                  }
+
+                  errorMsg(message);
+                } 
+  
+            }
+          
+          
+          if(info.view.type === 'timeGridDay'){
+                  event_zIndex();
+          }
+   
+       }, 
+        
+        eventClick: function (info) {
+
+           if(info.view.type === 'timeGridDay'){
+                 let eventContainer = info.el.parentNode;
+                 event_zIndex(eventContainer);
+           }
+
+        },
+
+       dayCellContent: function (arg) {
+         
+           const date = new Date(arg.date);
+           let doctor_id = document.getElementById('doctor_id').value;
+           let fc_timegrid_slot = calendarEl.querySelectorAll(`.fc-timegrid-slot-lane`);
+           let vigencia = <?php echo json_encode($query_vigencia) ?>;
+           let businessHours = calendar.getOption('businessHours');
+           let holiday = calendarEl.querySelector('.fc-holiday');
+
+           let currentDate = calendar.getDate();
+         
+            fc_timegrid_slot.forEach((element) => {
+                  if (element.classList.contains('available-time')) {
+                      element.classList.remove('available-time');
+                      element.innerHTML = ``;
+                  }
+            });
+
+
+
+           if(doctor_id !== '' && arg.view.type === 'timeGridDay' && typeof businessHours !== 'undefined' && businessHours){
+             
+                   let this_date = moment(date).format('YYYY-MM-DD');
+             
+                   let filteredBusinessHours = businessHours.filter(function (interval) {
+                       return interval.daysOfWeek.includes(date.getDay());
+                   });   
+
+                   let array_date_block = [];
+                   let events_date = new Date(currentDate);
+                   events_date = moment(events_date).format('YYYY-MM-DD');
+             
+                   fetch('<?= base_url("admin/appointment/closed_days/") ?>', {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                          id_doctor: doctor_id,
+                          this_date: date.getDay()
+                        })
+                   })
+                  .then(response => response.json())
+                  .then(data => {
+                     
+                          console.log(data.valid_days.start_date);
+                          console.log(data.valid_days.end_date);
+                          console.log(events_date);
+                     
+                          if(data.update_block_days.length > 0){
+                               console.log('bloqueo');
+                               let blockedCells = calendarEl.querySelectorAll('.fc-day[data-date="' + events_date + '"]');
+                               for(let value of data.update_block_days){
+                                    if (events_date >= value.start_date && events_date <= value.end_date) {
+
+                                          if (blockedCells.length > 0) {
+                                              blockedCells.forEach(function (cell) {
+                                                  if (cell) {
+                                                      console.log(cell);
+                                                      cell.classList.add('fc-blockeddays');
+                                                  }
+                                              });
+                                          }
+                                    }
+                               }  
+                           }
+                     
+                          if(data.valid_days.length > 0){
+                                console.log('vigencia');
+                                if (data.end_date < events_date) {
+                                    let validityCells = calendarEl.querySelectorAll('.fc-day[data-date="' + events_date + '"]');
+                                    if (validityCells.length > 0) {
+                                        validityCells.forEach(function (cell) {
+                                            if (cell) {
+                                                cell.classList.add('fc-vigenciadays');
+                                            }
+                                        });
+                                    }
+                                }  
+                           }
+
+
+                           for(let property of data.doctor_slots){   
+                                fc_timegrid_slot.forEach((element) => {  
+                                    const dataTimeAttributeValue = element.getAttribute('data-time').split(':').slice(0, 2).join(':');
+                                    if(dataTimeAttributeValue >= moment(property.start_time, "HH:mm:ss").format('HH:mm') && dataTimeAttributeValue < moment(property.end_time, "HH:mm:ss").format('HH:mm') && !holidays.includes(this_date) && data.doctor_slots.length > 0){
+                                        element.classList.add('available-time');
+                                        let label = '';
+                                        if(property.type_agenda =="consultaexterna"){
+                                           label = '<small class="label cita_cirugia" data-toggle="tooltip" title="" data-original-title="Consulta Externa">Consulta Externa</small>';
+                                        }else if(property.type_agenda=="cirugia"){
+                                           label = '<small class="label cita_externa" data-toggle="tooltip" title="" data-original-title="Cirugía">Cirugía</small>';
+                                        }else if(property.type_agenda=="procedimientos"){
+                                           label = '<small class="label cita_procedimiento" data-toggle="tooltip" title="" data-original-title="Procedimientos">Procedimientos</small>';
+                                        }
+                                        if(user_role_id == 3){          
+                                            element.innerHTML = `<h6 style="margin-left: 5px; color: white; font-size: 2rem;">${data.doctor.name} ${data.doctor.surname} - ${data.doctor.specialist_doc} - ${label}</h6>`;
+                                        }else{
+                                            element.innerHTML = `<h6 style="margin-left: 5px; color: white; font-size: 2rem;">${data.doctor.name} ${data.doctor.surname} - ${data.doctor.specialist_doc} - ${label}</h6>`;
+                                        }
+                                    }
+                                });                             
+                           }
+
+                  }).catch(error => console.error(error));
+
+           } else if(doctor_id !== '' && arg.view.type === 'timeGridWeek'){
+                console.log('entro aqui timeGridWeek');
+                let gridcell = calendarEl.querySelectorAll(`.gridcell`);
+                gridcell.forEach((element) => {
+                    console.log(element);
+                });
+                       
+          } 
+
+          if(arg.view.type === 'timeGridMonth'){
+               return date.getDate();
+          }
+
+       },
+        
+       dayCellDidMount: function (info) {
+          
+              let today = "<?= $currentDateTime->format('Y-m-d') ?>";
+              let todayCells = calendarEl.querySelectorAll('.fc-day[data-date="' + today + '"]');
+
+              todayCells.forEach(function (cell) {
+                cell.classList.add('fc-today');
+              });
+
+              holidays.forEach(function (holiday) {
+                  let holidayCells = calendarEl.querySelectorAll('.fc-day[data-date="' + holiday + '"]');
+                  if (holidayCells.length > 0) {
+                      holidayCells.forEach(function (cell) {
+                          if (cell) {
+                              cell.classList.add('fc-holiday');
+                          }
+                      });
+                  }
+              });
+        },
+        
+//         datesSet: function (info) {
+//         },
+        
+//         eventDrop: function (info) {
+          
+//               $.ajax({
+//                   url: "<?= base_url('admin/Appointment/update_event'); ?>",
+//                   method: "POST",
+//                   data: {
+//                       id_appointment: info.event.extendedProps.data.id_appointment,
+//                       start_date: new Date(info.event.startStr).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }),
+//                       end_date: new Date(info.event.endStr).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }),
+//                       start_time: new Date(info.event.startStr).toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false}),
+//                       end_time: new Date(info.event.endStr).toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false})
+//                   },
+//                   dataType: "json",
+//                   success: (result) => {
+                    
+//                       console.log(result);
+                      
+//                       if(result.state === 'success'){
+//                         console.log(result.state)
+//                       }
+                    
+//                   },
+//                   error: (error) => {
+//                       console.log(error); 
+//                   }
+//               });
+
+//         },
+        
+        eventDidMount: function (info) {
+          
+             let trElement = info.el;
+
+             if(info.view.type === 'dayGridMonth'){
+               
+                  const tooltip = tippy(trElement, {
+                      content: `${info.event.extendedProps.options_html}`,
+                      allowHTML: true,
+                      trigger: 'click', // Mostrar el tooltip al hacer clic
+                      interactive: true,
+                  });
+
+                  info.el.addEventListener('click', function () {
+                      tooltip.show();
+                  });
+               
+             } else if(info.view.type == 'timeGridWeek'){
+               
+                 let element = trElement.parentNode;
+                 element.classList.add('custom_slots');
+               
+             } else if(info.view.type == 'listDay'){
+               
+                  let content = `<div class="d-flex justify-content-between" style="margin-left: 5px;">
+                                       <div style="display: flex; flex-wrap: wrap;">
+                                          <h5>${info.event.extendedProps.data.time} - ${info.event.extendedProps.data.time_finish} </h5>&nbsp;
+                                          <h5>/ ${info.event.extendedProps.data.reason_consultation}</h5>&nbsp;&nbsp;
+                                          <h5>/ ${info.event.extendedProps.data.type_visit}</h5>&nbsp;&nbsp;
+                                          <h5>/ <small class="label ${info.event.extendedProps.status_color}" style="border-color: 1px solid white;">${info.event.extendedProps.data.appointment_status}</small></h5>&nbsp;&nbsp;
+                                        </div>
+                                        <div>
+                                            ${info.event.extendedProps.options_html}
+                                        </div>
+                                   </div>`;
+               
+                  info.el.innerHTML = content;
+               
+             }
+          
+//              array_doctor_daily.push(info.event.extendedProps.data.doctor);
+//              array_doctor_daily = [...new Set(array_doctor_daily)];
+          
+        },
+        
+        eventContent: function (info) {
+          
+          if (info.view.type === 'dayGridMonth') {
+            
+              return {
+                  html: `${info.event.extendedProps.data.time} - ${info.event.extendedProps.data.time_finish}`
+              };
+            
+          } else if(info.view.type === 'timeGridWeek') {
+              return {
+                html: `<div class="d-flex time-grid-custom">
+                        <h5>${info.event.extendedProps.data.time} - ${info.event.extendedProps.data.time_finish} </h5>
+                        <h5><strong>Doctor: </strong> ${info.event.extendedProps.data.name} ${info.event.extendedProps.data.surname}</h5>
+                        <h5><strong>Paciente: </strong>${info.event.extendedProps.data.patient_name} ${info.event.extendedProps.data.guardian_name}</h5>
+                        <h5><strong>Identificación: </strong>${info.event.extendedProps.data.identification_number}</h5>
+                        <h5><strong>Modalidad: </strong>${info.event.extendedProps.data.reason_consultation}</h5>
+                        <h5><strong>Clasificación: </strong>${info.event.extendedProps.data.type_visit}</h5>
+                        <h5><strong>Estado:</strong> <small class="label ${info.event.extendedProps.status_color}">${info.event.extendedProps.data.appointment_status}</small></h5>
+                       </div>
+                      <div>
+                          ${info.event.extendedProps.options_html}
+                      </div>`
+             };
+            
+          } else if(info.view.type === 'timeGridDay'){
+              return {
+                html: `<div class="d-flex justify-content-between" style="margin-left: 5px; flex-wrap: wrap;">
+                           <div style="display: flex; flex-wrap: wrap;">
+                              <h5 style="margin: 0px;"><strong>Tiempo: </strong>${info.event.extendedProps.data.time} - ${info.event.extendedProps.data.time_finish} </h5>&nbsp;
+                              <h5 style="margin: 0px;"><strong>Doctor: </strong>${info.event.extendedProps.data.name} ${info.event.extendedProps.data.surname}</h5>&nbsp;
+                              <h5 style="margin: 0px;"><strong>Paciente: </strong>${info.event.extendedProps.data.patient_name} ${info.event.extendedProps.data.guardian_name}</h5>&nbsp;
+                              <h5 style="margin: 0px;"><strong>Indentificación: </strong>${info.event.extendedProps.data.identification_number}</h5>&nbsp;
+                              <h5 style="margin: 0px;"><strong>Modalidad: </strong>${info.event.extendedProps.data.reason_consultation}</h5>&nbsp;
+                              <h5 style="margin: 0px;"><strong>Clasificación: </strong>${info.event.extendedProps.data.type_visit}</h5>&nbsp;
+                              <h5 style="margin: 0px 0px 3px 0px;"><strong>Estado: </strong><small class="label ${info.event.extendedProps.status_color}" style="border-color: 1px solid white;">${info.event.extendedProps.data.appointment_status}</small></h5>&nbsp;                     
+                           </div>
+                            <div style="margin-bottom: 3px;">
+                                ${info.event.extendedProps.options_html}
+                            </div>
+                       </div>`
+              };       
+          } else if(info.view.type === 'customView'){
+              return {
+                html: `<div class="">
+                           <div class="d-flex time-grid-custom">
+                              <h5>${info.event.extendedProps.data.time} - ${info.event.extendedProps.data.time_finish} </h5>
+                              <h5><strong>Doctor:&nbsp;</strong> ${info.event.extendedProps.data.name} ${info.event.extendedProps.data.surname}</h5>
+                              <h5 style="margin: 0px;"><strong>Paciente:&nbsp;</strong>${info.event.extendedProps.data.patient_name} ${info.event.extendedProps.data.guardian_name}</h5>&nbsp;
+                              <h5><strong>Estado:&nbsp;</strong> <small class="label ${info.event.extendedProps.status_color}">${info.event.extendedProps.data.appointment_status}</small></h5>
+                            </div>
+                            <div>
+                                ${info.event.extendedProps.options_html}
+                            </div>
+                       </div>`
+             };
+          }
+
+        },
+  
+        eventMouseEnter: function (info) {
+          
+              if(info.view.type === 'dayGridMonth'){
+
+                    const tooltip = tippy(info.el, {
+                        content: `<div class="margin-none">
+                                    <h5><strong>Inicio: </strong>${info.event.extendedProps.data.time}</h5>
+                                    <h5><strong>Final: </strong>${info.event.extendedProps.data.time_finish}</h5>
+                                    <h5><strong>Doctor: </strong>${info.event.extendedProps.data.name} ${info.event.extendedProps.data.surname}</h5>
+                                    <h5><strong>Paciente: </strong>${info.event.extendedProps.data.patient_name} ${info.event.extendedProps.data.guardian_name}</h5>
+                                    <h5><strong>Identificación: </strong>${info.event.extendedProps.data.identification_number}</h5>
+                                    <h5><strong>Modalidad: </strong>${info.event.extendedProps.data.reason_consultation}</h5>
+                                    <h5><strong>Classificacón: </strong>${info.event.extendedProps.data.type_visit}</h5>
+                                    <h5><strong>Estado: </strong><small class="label ${info.event.extendedProps.status_color}">${info.event.extendedProps.data.appointment_status}</small></h5>
+                                  </div>`,
+
+                        allowHTML: true,
+                        placement: 'right',
+                        offset: [10, 10],
+                        interactive: true,
+                  });
+
+                  tooltip.show();
+              } else if(info.view.type === 'timeGridWeek'){
+
+                   info.el.parentNode.classList.add('hover-event');
+                   info.el.style = 'min-height: fit-content;';          
+                   let eventContainer = info.el.parentNode; 
+                   event_zIndex(eventContainer);  
+                
+              } else if(info.view.type === 'timeGridDay'){
+                
+                    const contenedorPadre = info.el;
+                    const contenedorHijo = contenedorPadre.querySelector('.fc-event-main div');
+
+                    // Verificar si la altura del contenedor padre es menor que la del contenedor hijo
+                    if (contenedorPadre.clientHeight < contenedorHijo.clientHeight) {
+                        contenedorPadre.style.height = `${contenedorHijo.clientHeight}px`;
+                    }
+              }
+        },
+        
+        eventMouseLeave: function (info) {
+          
+           info.el.parentNode.classList.remove('hover-event');
+           info.el.style = '';
+          
+           if(info.view.type == 'timeGridDay'){
+           }else if(info.view.type == 'timeGridWeek'){
+               event_zIndex();
+           }else if(info.view.type == 'dayGridMonth'){
+               const tooltip = info.el.parentNode;
+           }
+       },
+    });
+
+    calendar.render();
+      
+        function isDateWithinSelectionConstraint(date) {
+          var startConstraint = calendar.getOption('selectConstraint').start;
+          var endConstraint = calendar.getOption('selectConstraint').end;
+
+          return (
+            moment(date).format('HH:mm') >= startConstraint &&
+            moment(date).format('HH:mm') <= endConstraint
+          );
+        }
+      
+      
+      function event_zIndex(element = null){
+        
+                 const elements_one = document.querySelectorAll('[style*="z-index: 6666"]');
+                 const elements_two = document.querySelectorAll('[style*="z-index: 8888"]');
+                 const elements_tree = document.querySelectorAll('[style*="z-index: 9999"]');
+
+                 elements_one.forEach(element => {
+                    element.style.zIndex = '1';
+                 });
+                 elements_two.forEach(element => {
+                    element.style.zIndex = '2';
+                 });
+                 elements_tree.forEach(element => {
+                    element.style.zIndex = '3';
+                 });
+        
+                if(element != null){
+                                      
+                    const computedStyle = window.getComputedStyle(element);
+                    const zIndex = computedStyle.getPropertyValue('z-index');
+                    
+                    if(zIndex === '1'){
+                        element.style.zIndex = '6666';
+                    } else if(zIndex === '2') {
+                        element.style.zIndex = '8888';
+                    } else if(zIndex === '3') {
+                        element.style.zIndex = '9999';
+                    } else if(zIndex === '9999'){
+                       element.style.zIndex = '3';
+                    } else if(zIndex === '8888'){
+                       element.style.zIndex = '2';
+                    } else if(zIndex === '6666'){
+                       element.style.zIndex = '1';
+                    }   
+                }
+      }
+ 
+      function custom_view_resouces(){
+
+          let custom_resource = calendarEl.querySelector('#custom_resource');
+          let doctor_information = <?php echo json_encode($doctors) ?>;
+          let fc_timegrid_cols = calendarEl.querySelector('.fc-timegrid-cols tr[role="row"]');
+          let grid_cells = fc_timegrid_cols.querySelectorAll('td[role="gridcell"].custom_resource');
+          let grid_cell = fc_timegrid_cols.querySelector('td[role="gridcell"]');
+
+          let thead_element = calendarEl.querySelector("thead[role='presentation']");
+          let column_header = thead_element.querySelector("th[role='columnheader']");
+
+           if (custom_resource && grid_cells.length > 0) {
+    //             console.log('remove elements');
+                grid_cells.forEach(function (cell) {
+                    cell.remove();
+                });
+
+                custom_resource.remove();
+           }
+
+  //           console.log(custom_resource);
+  //           console.log(grid_cells);
+
+             let colspan = thead_element.querySelector('th[colspan]');
+
+             if(colspan){
+                 colspan.removeAttribute('colspan');
+             }
+
+            let currentDate = calendar.getDate(); 
+            let allEvents = calendar.getEvents();
+
+            let events_date = new Date(currentDate).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
+            let eventsForDate = allEvents.filter(function(event) {
+              return new Date(event.startStr).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }) === events_date;
+            });
+        
+
+           let doctors_events = [...new Set(eventsForDate.map(event => event.extendedProps.data.doctor))];
+
+            console.log(allEvents);
+
+           if(calendar.view.type === 'customView' && doctors_events.length > 0){
+
+  //                 console.log('entro a customView');
+  //                 console.log(custom_resource);
+  //                 console.log(grid_cells.length);
+
+  //                 console.log(grid_cell);
+  //                 console.log(grid_cell.getAttribute('data-date'));
+  //                 console.log(grid_cell.classList.contains('fc-today'));
+
+  //                 console.log('Fecha de inicio de la vista actual:', currentStart);
+
+  //                grid_cell.remove();
+
+  //                console.log(array_doctor_daily);
+  //                console.log(custom_resource);
+  //                console.log(grid_cells.length);
+
+  //                if(custom_resource === null && grid_cells.length === 0){
+
+                      console.log('se añadio el html');
+                      column_header.setAttribute('colspan', doctors_events.length);
+
+                      let resources = document.createElement('tr');
+                      resources.setAttribute('role', 'row');
+                      resources.setAttribute('id', 'custom_resource');
+
+                      resources.innerHTML = `<th aria-hidden="true" class="fc-timegrid-axis">
+                                                  <div class="fc-timegrid-axis-frame"></div>
+                                              </th>`;
+
+                      thead_element.insertAdjacentElement('beforeend', resources);
+
+                      for (let i = 0; i < doctors_events.length; i++) {
+                        
+                           const matchingDoctor = doctor_information.find(item => item.id === doctors_events[i]);
+                           const doctorName = matchingDoctor ? matchingDoctor.name : '';
+
+                           let column_resource = `<td role="gridcell" data-resource-id="${doctors_events[i]}" data-date="${grid_cell.getAttribute('data-date')}" class="fc-day fc-day-thu fc-day-future fc-timegrid-col custom_resource ${grid_cell.classList.contains('fc-today') ? 'fc-today' : ''} ${grid_cell.classList.contains('fc-holiday') ? 'fc-holiday' : ''}">
+                                                     <div class="fc-timegrid-col-frame">
+                                                        <div class="fc-timegrid-col-bg"></div>
+                                                        <div class="fc-timegrid-col-events"></div>
+                                                        <div class="fc-timegrid-now-indicator-container"></div>
+                                                        <div class="fc-timegrid-col-misc"></div>
+                                                     </div>
+                                                  </td>`;
+
+                          let newTH = `<th role="columnheader" colspan="1" data-resource-id="${doctors_events[i]}" data-date="${grid_cell.getAttribute('data-date')}" class="fc-col-header-cell fc-resource ${grid_cell.classList.contains('fc-today') ? 'fc-today' : ''} ${grid_cell.classList.contains('fc-holiday') ? 'fc-holiday' : ''}">
+                                            <div class="fc-scrollgrid-sync-inner">
+                                                <span class="fc-col-header-cell-cushion">${doctorName}</span>
+                                            </div>
+                                        </th>`;
+
+                          resources.insertAdjacentHTML('beforeend', newTH);
+                          fc_timegrid_cols.insertAdjacentHTML('beforeend', column_resource);
+                      }
+             
+           } else {
+               doctors_events = [];
+           }
+      }
+      
+      function getEventsForDate(date) {
+          let allEvents = calendar.getEvents();
+          let eventsForDate = allEvents.filter(function(event) {
+            return event.start.toDate().toDateString() === date.toDateString();
+          });
+          return eventsForDate;
+      }
+      
+
+      function refetch_events(){
+          const doctor_id = document.getElementById('doctor_id').value;
+ 
+          calendar.getEvents().forEach(event => {
+            event.remove();
+          });
+
+          calendar.getEventSources().forEach(function(source) {
+              source.remove();
+          });
+
+          calendar.refetchEvents();
+          calendar.addEventSource(base_url+"admin/appointment/appointment_calendar/"+doctor_id);
+        
+         var selectedDate = document.getElementById('dateInput').value;
+         var date_appointment = document.getElementById('date_appointment').value;
+           
+          console.log(selectedDate);
+          console.log(date_appointment);
+            // Navigate to the selected date
+            if (date_appointment) {
+              
+              console.log('entro aqui');
+              var parsedDate = new Date(date_appointment);
+
+               // Format the date as "YYYY-MM-DD"
+              var formattedDate = parsedDate.getFullYear() + '-' +
+                    ('0' + (parsedDate.getMonth() + 1)).slice(-2) + '-' +
+                    ('0' + parsedDate.getDate()).slice(-2);
+              var date = new Date(formattedDate + 'T00:00:00');
+              calendar.gotoDate(date);
+              
+              
+            }else if(selectedDate){
+              var date = new Date(selectedDate + 'T00:00:00');
+              calendar.gotoDate(date);
+              console.log('entro al else if');
+              
+            }
+        
+      }
+      
+      window.refetch_events = refetch_events;
+
+     // Formulario agregar citas.
+     $("#formadd").on('submit', (function (e) {
+
+          var did = $("#doctorid").val();
+          $("#doctorinputid").val(did); 
+  //         console.log(did);
+          $("#formaddbtn").button('loading');
+          e.preventDefault();
+
+          $.ajax({
+            url: baseurl+'admin/appointment/add',
+            type: "POST",
+            data: new FormData(this),
+            dataType: 'json',
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (data) {
+  //               console.log(data.status);
+                if (data.status == "fail" ){
+                    var message = "";
+                    $.each(data.error, function (index, value) {
+                        message += value+`<br>`;
+                    });
+                    errorMsg(message);
+                } else {
+                    successMsg(data.message);
+                    table.ajax.reload();
+                    refetch_events();
+                    $('#myModal').modal('hide');
+                }
+                $("#formaddbtn").button('reset');
+            },
+              error: function () {
+            }
+        });
+      }));
+      
+     $("#doctor_id").on("change", function (e) {
+
+          let doctor_id = document.getElementById('doctor_id').value;
+
+          if(doctor_id != ''){
+              refetch_events();
+              update_hidden_days(doctor_id);
+          } else {
+              calendar.setOption('hiddenDays', null);
+              calendar.setOption('businessHours', null);
+              calendar.setOption('selectConstraint', null);
+          }
+
+          enviar_fecha();
+      });
+      
+
+      function vigencia_check(doctor_id){
+        
+        var myJSON = JSON.stringify({"doctor_id":doctor_id});
+        $.ajax({
+            url: "<?= base_url("admin/appointment/vigencia_check") ?>",
+            type: 'POST',
+            data: {
+                id_doctor: doctor_id
+            },
+            success:(resp)=> {
+              resp = JSON.parse(resp);
+//               console.log(resp.vigencia[0].start_date);
+//               console.log(resp.vigencia[0].end_date);
+              let currentDate = new Date();
+              let start_date = new Date(resp.vigencia[0].start_date);
+              let end_date = new Date(resp.vigencia[0].end_date);
+//               console.log(start_date);
+//               console.log(end_date);
+//               console.log(currentDate);
+              if (currentDate >= start_date && currentDate <= end_date) {
+                console.log('The current date is within the range.');
+//                 holdModal('vigencia_Modal');
+              } else {
+                holdModal('vigencia_Modal');
+              }
+            },
+            error: function() {
+                 console.error("No es posible completar la operación");
+            }
+        });  
+        
+      }
+      
+      window.addEventListener("load", function (event) {
+        let user_role_id_2 = "<?= $user_role_id ?>";
+          if(user_role_id_2 == 3){
+
+              let id_doctor = "<?= $doctor_select ?>";
+              update_hidden_days(id_doctor);
+
+          }
+        });
+      
+      
+      function update_hidden_days(doctor_id){
+
+              $.ajax({
+                  url: "<?= base_url("admin/appointment/hidden_days") ?>",
+                  method: "POST",
+                  data: {
+                    id_doctor: doctor_id
+                  },
+                  dataType: "json",
+                  success: function(r) {
+                       console.log(r);
+                       let result = r.doctor_days;
+                       let array_days = [];
+                    
+                        $.each(result, function (i, obj)
+                        {                  
+                           var diaDeLaSemana = obj;
+                            switch (diaDeLaSemana) {
+                              case "Sunday":
+                                array_days.push(0);
+                                break;
+                              case "Monday":
+                                array_days.push(1);
+                                break;
+                              case "Tuesday":
+                                array_days.push(2);
+                                break;
+                              case "Wednesday":
+                                array_days.push(3);
+                                break;
+                              case "Thursday":
+                                array_days.push(4);
+                                break;
+                              case "Friday":
+                                array_days.push(5);
+                                break;
+                              case "Saturday":
+                                array_days.push(6);
+                                break;
+                            }
+                        });
+                    
+                        let sortedArray = array_days.slice().sort(function(a, b) {
+                            return a - b;
+                        });
+
+                       let doctor_slots = [];
+                       let day_doctor = '';
+
+                       for(let property of r.doctor_slots){
+                           day_doctor = property.DAY === 'Sunday' ? 0 : property.DAY === 'Monday' ? 1 : property.DAY === 'Tuesday' ? 2
+                                        : property.DAY === 'Wednesday' ? 3 : property.DAY === 'Thursday' ? 4
+                                        : property.DAY === 'Friday' ? 5 : property.DAY === 'Saturday' ? 6 : '';
+                           if(day_doctor !== ''){
+                                doctor_slots.push({
+                                  daysOfWeek: [day_doctor],
+                                  startTime: property.start_time.split(':').slice(0, 2).join(':'),
+                                  endTime: property.end_time.split(':').slice(0, 2).join(':')
+                                }); 
+                            } 
+                       }
+                    
+                      if(r.doctor_slots.length > 0){
+                           calendar.setOption('selectConstraint', null);
+                           calendar.setOption('hiddenDays', sortedArray);
+                           calendar.setOption('businessHours', doctor_slots);
+                      } else {  
+                          errorMsg('Debe de configurar los tiempos de consultas para este doctor.');
+                          calendar.setOption('hiddenDays', null);
+                          calendar.setOption('businessHours', null);
+//                           calendar.setOption('businessHours');
+                          calendar.setOption('selectConstraint', {
+                            start: '00:00', 
+                            end: '23:59',
+                          });
+//                           calendar.setOption('businessHours', {
+//                               daysOfWeek: [],
+//                               startTime: '00:00',
+//                               endTime: '23:59'
+//                           });
+                      }
+                  },
+                  error: function (error) {
+                      console.log(error); 
+                  }
+              });
+
+      }
+      
+      
+      // Formulario resgendamiendo de citas
+      $("#formedit").on('submit', (function (e) {
+          $("#formeditbtn").button('loading');
+          e.preventDefault();
+          $.ajax({
+            url: baseurl+'admin/appointment/update',
+            type: "POST",
+            data: new FormData(this),
+            dataType: 'json',
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (data) {
+              if (data.status == "fail") {
+              var message = "";
+              $.each(data.error, function (index, value) {
+              message += value;
+            });
+              errorMsg(message);
+            } else {
+              successMsg(data.message);
+      //         window.location.reload(true);
+            }
+              $("#formeditbtn").button('reset');
+            },
+            error: function () {
+
+            }
+          });
+      }));
+
+
+//       $("#date_appointment").on("change", function (e) {
+//         get_lock_date(this.value);
+//         e.stopPropagation();
+//         if($("#global_shift").val() != ''){
+//             getShift();
+//         }
+//       });
+      
+//       document.getElementById('date_appointment').addEventListener('change', function (e) {
+//           get_lock_date(this.value);
+//           e.stopPropagation();
+
+//           var globalShiftValue = document.getElementById('global_shift').value;
+//           if (globalShiftValue !== '') {
+//               getShift();
+//           }
+//       });
+      
+    $("#date_appointment").datepicker().on('changeDate', function(e) {
+        const selectedDate = e.format();
+        if (selectedDate !== '') {
+            let globalShiftValue = $("#global_shift").val();
+            get_lock_date(selectedDate);
+            if (globalShiftValue !== '') {
+                getShift();
+            }
+        }
+    });
+      
+   $("#global_shift_edit").datepicker().on('changeDate', function(e) {
+        let selectedDate = e.format();
+        if (selectedDate !== '') {
+            let globalShiftValue = $("#global_shift_edit").val();
+            get_lock_date(selectedDate);
+            if (globalShiftValue !== '') {
+                getShiftEdit();
+            }
+        }
+    });
+
+    function get_lock_date(date){
+
+           let rdoctor = document.getElementById('rdoctor').value;
+           let doctor_id = document.getElementById('rdoctor').doctor_id;
+           let doctor = false;
+      
+           if(rdoctor){
+              doctor = rdoctor;
+           } else if(doctor_id){
+              doctor = doctor_id;
+           }
+
+           if(doctor){
+             
+                fetch('<?= base_url("admin/appointment/update_block_days/") ?>'+doctor)
+                    .then(response => response.json())
+                    .then(data => {
+                         let format_date = new Date(date).toISOString().split('T')[0];
+                         let lock_date = false;
+                         for(let value of data.update_block_days){
+                              if (format_date >= value.start_date && format_date <= value.end_date) {
+                                 lock_date = true;
+                              }
+                         }
+                         if(lock_date){
+                            errorMsg('Este dia esta bloqueado para el doctor seleccionado');
+                         }
+                   });
+          }
+   }
+
+      
+    // desarrollo cliniverso
+    $("#rescheduleform").on('submit', function (e) {
+        let appointment_id = document.getElementById('appointment_id').value;
+        var edit_status = document.getElementById('edit_appointment_status').value;
+        var base_url = '<?php echo base_url() ?>';
+        $("#rescheduleformbtn").button('loading');
+        e.preventDefault();
+
+        $.ajax({
+          url: baseurl+'admin/appointment/reschedule',
+          type: "POST",
+          data: new FormData(this),
+          dataType: 'json',
+          contentType: false,
+          cache: false,
+          processData: false,
+          success: function (data) {
+            if (data.status == "fail") {
+                let message = "";
+                $.each(data.error, function (index, value) {
+                  message += value+`<br>`;
+                });
+                errorMsg(message);
+            }else{
+               if(edit_status == "Cancelada"){
+                 $('#rescheduleModal').modal('hide');
+                 var message = "la cita fue cancelada";
+                 errorMsg(message);
+                 table.ajax.reload();
+               }else if(edit_status == "Aprobada"){
+                  $('#rescheduleModal').modal('hide');
+                  var message = "la cita fue Aprobada";
+                  successMsg(message);
+                 
+                  $.ajax({
+                      url: baseurl+'admin/appointment/getDetailsAppointment',
+                      type: "GET",
+                      data: {appointment_id: appointment_id},
+                      dataType: 'json',
+                      success: function (data) {
+                        
+                        if(data.patient_id != '' && data.patient_id != ''){
+                            
+                          window.open("<?= base_url('admin/bill/opd_visit_detail/') ?>" + data.patient_id + "/" + data.opd_details_id + "#charges", "_blank");
+
+                        }
+
+//                         billopd_clini_mod(data.bill_appointment);
+//                         window.open("https://clinify.co/cliniverso_dev/admin/bill/opd_visit_detail/4642/96", "PopupWindow", "width=600,height=400");
+
+                        $('#preview_charges').html('');
+                        $("#id_opd").html(data.opd_details_id);
+                        $('#rescheduleModal').modal('hide');
+                        $("#payment_case_id").val(data.case_reference_id);
+                        $("#payment_opd_id").val(data.opd_details_id);
+                        $("#patient_id").val(data.patient_id);
+                        table.ajax.reload();
+                      }
+                  });
+                 
+               }else if(edit_status == "Confirmada"){
+                   var message = "Se actualizo el estado a confirmado";
+                   successMsg(message);
+                   $('#rescheduleModal').modal('hide');
+                   table.ajax.reload();
+               }else if(edit_status == "Agendada"){
+                   var message = "Se actualizó";
+                   successMsg(message);
+                   $('#rescheduleModal').modal('hide');
+                   table.ajax.reload();  
+                    
+               } else {
+                   var message = "Se actualizó";
+                   successMsg(message);
+                   $('#rescheduleModal').modal('hide');
+                   table.ajax.reload();  
+               }
+              
+           
+            }
+            
+            refetch_events();
+
+            $("#rescheduleformbtn").button('reset');
+//           
+          },
+          error: function () {
+//               $("#rescheduleformbtn").button('loading');
+            $("#rescheduleformbtn").button('reset');
+          }
+        });
+      
+  });
+      
+     $("#rescheduleModal").on('hidden.bs.modal', function (e) {
+
+          let appointment = $('#appointment_id').val();
+
+          $.ajax({
+              url: baseurl+'admin/appointment/getpatient_id',
+              type: "GET",
+              data: {appointment_id: appointment},
+              dataType: 'json',
+              success: function (data) {
+                refetch_events();
+              }
+         });
+       
+         reset_all();
+         $('.patient_list_ajax').val(null).trigger('change');
+    });
+      
+ });
+  
+</script>
+
+<script type="text/javascript">
    $(document).on('change','.payment_mode',function(){
       var mode=$(this).val();
       if(mode == "Cheque"){
@@ -839,35 +3042,128 @@ $result_currentDate = $currentDateTime->format('Y/m/d');
       }
     });
   
-    function view_appointment() {
-      let patient = document.getElementById('id_patient').textContent;
-      let opd = document.getElementById('id_opd').textContent;
-      let doctorid = document.getElementById('doctor_id').textContent;
-      
-      console.log(doctorid);
-      
-      if(opd ==""){
-        errorMsg("debe aprobar cita");
-        $('#viewModal').modal('hide');
-      }else{
+   function refetch_events_cal(){
+     refetch_events();
+   }
+  
+  function editpatient(){
+    console.log("paciente");
+    let id = document.getElementById('id_patient').textContent;
+     window.id_record = id;
+        var idres = id;
+        $('.output').html(idres);
         
-      let base_url = "<?= base_url() ?>";
-      window.location.href = `${base_url}admin/patient/visitdetails/${patient}/${opd}`;
-      }
+        $.ajax({
+            url: '<?php echo base_url(); ?>admin/patient/getpatientDetails/update',
+            type: "POST",
+            data: {id: id},
+            dataType: 'json',
+            success: function (data) { 
+                console.log(data);
+                $("#eupdateid").val(data.id);
+                $('#customfield2').html(data.custom_fields_value);
+                $("#ename").val(data.patient_name);
+                $('#edit_patient_id').val(data.id);
+                $('#name_patient').val(data.patient_name);
+//                 $('#patient_id').val(data.id);
+                $("#eguardian_name").val(data.guardian_name);
+                $("#emobileno").val(data.mobileno);
+                $("#eemail").val(data.email);
+                $("#eaddress").val(data.address);
+              
+                    $.ajax({
+                          url: '<?php echo base_url(); ?>admin/patient/getpatientage',
+                          type: "POST",
+                          dataType: "json",
+                          data: {birth_date:data.dob},
+                          success: function (data) {
+                            $("#age_year").val(data.year);
+                            $("#age_month").val(data.month);
+                            $("#age_day").val(data.day);
+                          }
+                     });
+
+                $(".editpatient_dob").val(data.dob);
+                $("#enote").val(data.note);
+                $("#exampleInputFile").attr("data-default-file", '<?php echo base_url() ?>' + data.image);
+                $(".dropify-render").find("img").attr("src", '<?php echo base_url() ?>' + data.image);
+
+                  
+                if(data.known_allergies == '' ){
+                   $("#eknown_allergies").addClass('error-input');
+                }else if(data.email==''){
+                      $("#eemail").addClass('error-input');   
+                 }
+              
+                $("#eknown_allergies").val(data.known_allergies);
+                $('select[id="blood_groups"] option[value="' + data.blood_bank_product_id + '"]').attr("selected", "selected");
+                
+                $('select[id="egenders"] option[value="' + data.gender + '"]').attr("selected", "selected");
+                $('select[id="marital_statuss"] option[value="' + data.marital_status + '"]').attr("selected", "selected");
+                $("#edit_insurance_id").val(data.insurance_id);
+                $("#insurance_validity").val(data.insurance_validity);
+                $("#edit_identification_number").val(data.identification_number);
+                $("#blood_group").html(data.blood_group_name);
+                
+                
+                let municipio = document.getElementById('custom_fields[patient][5]').value;
+                
+                let departamento = document.getElementById('custom_fields[patient][4]').value;
+                departamentos_2(municipio,departamento);
+                holdModal('editModal2');
+                $( "#municipio" ).parent().parent().css( "display", "none" );
+                $( "#departamento" ).parent().parent().css( "display", "none" );
+            },
+        });
+  }
+  
+  
+  
+    function view_appointment(id_appointment) {
+
+       fetch('<?= base_url("admin/appointment/type_appointment/") ?>', {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({id_appointment: id_appointment})
+       })
+      .then(response => response.json())
+      .then(data =>{
+         console.log(data);
+         if(data.state == 'fail'){
+             $('#viewModal').modal('hide');
+             errorMsg(data.msg);
+         } else {
+            window.location.href = data.url;
+         }
+  
+       }).catch(error => console.error(error));
+
     }
 </script>
-
 <script type="text/javascript">
+  
   $(function () {
     $('#easySelectable').easySelectable();
   })
-</script>
-<script type="text/javascript">
+  
   $(function () {
     $('.select2').select2()
   });
 
   function holdModal(modalId) {
+    if(modalId == "myModal"){
+        var doctor_id_2 = document.getElementById('doctor_id').value;
+
+         if(doctor_id_2 !=""){
+          console.log(doctor_id_2);
+          doctor_id_2  = parseInt(doctor_id_2);
+//               document.getElementById('doctorid').value = doctor_id_2;
+           $("#doctorid").val(doctor_id_2).trigger("change");
+           
+         }
+     }
     $('#' + modalId).modal({
       backdrop: 'static',
       keyboard: false,
@@ -943,82 +3239,34 @@ $result_currentDate = $currentDateTime->format('Y/m/d');
       }
     };
   })(jQuery);
+  
 </script>
 <script type="text/javascript">
-  $(document).ready(function (e) {
 
-
-//     $("form#formadd button[type=submit]").click(function() {            
-//         $("button[type=submit]", $(this).parents("form")).removeAttr("clicked");
-//         $(this).attr("clicked", "true");
-//     });
-
-
-  $("#formadd").on('submit', (function (e) {
-    var did = $("#doctorid").val();
-    $("#doctorinputid").val(did); 
-    console.log(did);
-    $("#formaddbtn").button('loading');
-      e.preventDefault();
-      $.ajax({
-        url: baseurl+'admin/appointment/add',
-        type: "POST",
-        data: new FormData(this),
-        dataType: 'json',
-        contentType: false,
-        cache: false,
-        processData: false,
-        success: function (data) {
-            console.log(data.status);
-            if (data.status == "fail" ){
-                var message = "";
-                $.each(data.error, function (index, value) {
-                    message += value;
-                });
-                errorMsg(message);
-            } else {
-                successMsg(data.message);
-//                 enviar_fecha();
-                table.ajax.reload();
-                $('#myModal').modal('hide');
-//                 localStorage.setItem('showAlert', data.message);
-//                 window.location.reload(true);
-            }
-            $("#formaddbtn").button('reset');
-        },
-          error: function () {
-        }
-    });
-  })); 
-}); 
 
 function printAppointment(id){
-     $('#myModal').on('hidden.bs.modal', function () {
+    $('#myModal').on('hidden.bs.modal', function () {
         $(this).find('form').trigger('reset');
         $("#global_shift").select2().select2("val", '');
     });
     
     $.ajax({
-            url: base_url+'admin/appointment/printAppointmentBill',
-            type: "POST",
-            data: {'appointment_id': id},
-            dataType: 'json',
-               beforeSend: function() {
-                           
-               },
-            success: function (data) {      
-           popup(data.page);
-            },
+      url: base_url+'admin/appointment/printAppointmentBill',
+      type: "POST",
+      data: {'appointment_id': id},
+      dataType: 'json',
+      beforeSend: function() {
 
-             error: function(xhr) { // if error occured
-          alert("<?php echo $this->lang->line('error_occurred_please_try_again'); ?>");    
-               
+      },
+      success: function (data) {      
+        popup(data.page);
+      },
+      error: function(xhr) { // if error occured
+        alert("<?php echo $this->lang->line('error_occurred_please_try_again'); ?>");    
       },
       complete: function() {
-           
-     
       }
-        });
+   });
 }
 
    function popup(data) {
@@ -1058,508 +3306,317 @@ function printAppointment(id){
 
         return true;
     }
-$(document).ready(function (e) {
-$("#formedit").on('submit', (function (e) {
-  $("#formeditbtn").button('loading');
-  e.preventDefault();
+  
+  
+  window.onload = function() {
+    var showAlert = localStorage.getItem('showAlert');
+    if (showAlert) {
+      successMsg(showAlert);
+      localStorage.removeItem('showAlert');
+    }
+  };
+
+  function get_PatientDetails(id) {
+    $("#patient_name").html("patient_name");
+    $('#gender option').removeAttr('selected');
     $.ajax({
-      url: baseurl+'admin/appointment/update',
+      url: baseurl+'admin/patient/patientDetails',
       type: "POST",
-      data: new FormData(this),
-      dataType: 'json',
-      contentType: false,
-      cache: false,
-      processData: false,
-      success: function (data) {
-        if (data.status == "fail") {
-        var message = "";
-        $.each(data.error, function (index, value) {
-        message += value;
-      });
-      errorMsg(message);
-      } else {
-        successMsg(data.message);
-//         window.location.reload(true);
-      }
-        $("#formeditbtn").button('reset');
-      },
-      error: function () {
-
-      }
-    });
-  }));
-
-  $("#datetimepicker").on("change", function (e) {
-    if($("#global_shift").val() != ''){
-        getShift();
-    }
-  });
-
-  $("#dates").on("change", function (e) {
-    if($("#global_shift_edit").val() != ''){
-        getShiftEdit();
-    }
-  });
-
-//   $("#rdates").on("dp.change", function (e) {
-//     if($("#rglobal_shift_edit").val() != ''){
-//         getreschsduleShift();
-//     }
-//   });
-  
-  function restarMinutos(horaStr, minutes) {
-      const [hora, minutos, segundos] = horaStr.split(":");
-      let nuevaHora = parseInt(hora);
-      let nuevosMinutos = parseInt(minutos) - minutes;
-
-      if (nuevosMinutos < 0) {
-        nuevaHora -= Math.ceil(Math.abs(nuevosMinutos) / 60);
-        nuevosMinutos = 60 - Math.abs(nuevosMinutos) % 60;
-      }
-
-      return `${nuevaHora.toString().padStart(2, '0')}:${nuevosMinutos.toString().padStart(2, '0')}:${segundos}`;
-  }
-  
-  
-  function sumarMinutos(fechaHoraStr) {
-      const [hora, minutos, segundos] = fechaHoraStr.split(":");
-      let nuevaHora = parseInt(hora);
-      let nuevosMinutos = parseInt(minutos) + 20;
-
-      if (nuevosMinutos >= 60) {
-        nuevaHora += Math.floor(nuevosMinutos / 60);
-        nuevosMinutos %= 60;
-      }
-
-      nuevaHora %= 24; // Para asegurarnos que la hora no exceda las 24 horas
-
-      return `${nuevaHora.toString().padStart(2, '0')}:${nuevosMinutos.toString().padStart(2, '0')}:${segundos}`;
-  }
-  
-  function rescheduleFormHandler(e) {
-      var base_url = '<?php echo base_url() ?>';
-      let patient = document.getElementById('id_patient').textContent;
-      let opd = document.getElementById('id_opd').textContent;
-      let appointment_id = document.getElementById('appointment_id').value;
-    
-      // Validar si la fecha es hoy y el tiemo corresponde con la cita
-      let edit_status = $("#edit_appointment_status").val();
-      let edit_day = $("#dates").val();
-      let time_opd = $("#time_opd").val();
-      let date = "<?= $result_currentDate ?>";
-      let user_role_id = "<?= $user_role_id ?>";
-    
-      const [month, day, year] = edit_day.split(/\D/); // Divide la cadena por cualquier caracter no numérico
-      console.log(edit_day.split(/\D/));
-      let new_edit_day = `${year}/${month.padStart(2, '0')}/${day.padStart(2, '0')}`;
-      const final_time_opd = sumarMinutos(time_opd);
-    
-      const fechaActual = new Date();
-
-      // Obtener la hora, minutos y segundos de la fecha actual
-      const horaActual = fechaActual.getHours();
-      const minutosActuales = fechaActual.getMinutes();
-      const segundosActuales = fechaActual.getSeconds();
-
-      // Formatear la hora actual en un string con el formato "hh:mm:ss"
-      let current_time = `${horaActual.toString().padStart(2, '0')}:${minutosActuales.toString().padStart(2, '0')}:${segundosActuales.toString().padStart(2, '0')}`;
-
-      time_opd = user_role_id == 8 ? restarMinutos(time_opd, 30) : time_opd;
-//       time = user_role_id == 3 ? restarMinutos(time_opd, 10) : current_time;
-
-      console.log(`fecha cita: ${time_opd}`);
-      console.log(`fecha actual: ${current_time}`);
-      $("#rescheduleformbtn").button('loading');
-      e.preventDefault();
-
-      if(true){
-        
-        //desarrollo cliniverso
-        $.ajax({
-          url: baseurl+'admin/appointment/reschedule',
-          type: "POST",
-          data: new FormData(this),
-          dataType: 'json',
-          contentType: false,
-          cache: false,
-          processData: false,
-          success: function (data) {
-            if (data.status == "fail") {
-                let message = "";
-                $.each(data.error, function (index, value) {
-                message += value;
-              });
-              errorMsg(message);
-            }else{
-               if(edit_status == "cancel"){
-                 window.location.reload(true);
-                 var message = "la cita fue cancelada"
-                 errorMsg(message);
-               }else if(edit_status == "approved"){
-                  let msg = "Cita inicializada con exito";
-                  localStorage.setItem('showAlert', data.message);
-                  $.ajax({
-                      url: baseurl+'admin/appointment/getDetailsAppointment',
-                      type: "GET",
-                      data: {appointment_id: appointment_id},
-                      dataType: 'json',
-                      success: function (data) {
-                        console.log(data);
-                        $('#preview_charges').html('');
-                        $("#id_opd").html(data.opd_details_id);
-//                         window.location.href = base_url+'admin/patient/visitdetails/'+patient+'/'+data.opd_details_id;
-                        $('#rescheduleModal').modal('hide');
-                        $("#payment_case_id").val(data.case_reference_id);
-                        $("#payment_opd_id").val(data.opd_details_id);
-                        $("#patient_id").val(data.patient_id);
-//                         table.ajax.reload();
-                        var url =`${baseurl}admin/bill/index/${data.case_reference_id}`;
-                        window.open(url, '_blank');
-
-                      }
-                  });
-               }else if(edit_status == "llegada"){
-                   var message = "el paciente ha llegado"
-                   successMsg(message);
-                   $('#rescheduleModal').modal('hide');
-                   table.ajax.reload();
-               }else if(edit_status == "Confirmar"){
-                   var message = "Se actualizo el estado a confirmado";
-                   successMsg(message);
-                   $('#rescheduleModal').modal('hide');
-                   table.ajax.reload();
-               }else if(edit_status == "pending"){
-                   var message = "Se actualizo el estado a confirmado";
-                   successMsg(message);
-                   $('#rescheduleModal').modal('hide');
-                   table.ajax.reload();  
-               }
-            }
-            $("#rescheduleformbtn").button('reset');
-          },
-          error: function () {
-//               $("#rescheduleformbtn").button('loading');
-            $("#rescheduleformbtn").button('reset');
-          }
-        });
-         
-      } else{
-         errorMsg(`Aun no se ha cumplido el tiempo de la cita o ya acabo.`);
-         $("#rescheduleformbtn").button('reset');
-      }
-  }
-  
-  
-  
- 
-  $("#rescheduleform").on('submit', rescheduleFormHandler);});
-  
-window.onload = function() {
-  var showAlert = localStorage.getItem('showAlert');
-  if (showAlert) {
-    successMsg(showAlert);
-    localStorage.removeItem('showAlert');
-  }
-};
-
-function get_PatientDetails(id) {
-  $("#patient_name").html("patient_name");
-  $('#gender option').removeAttr('selected');
-  $.ajax({
-    url: baseurl+'admin/patient/patientDetails',
-    type: "POST",
-    data: {id: id},
-    dataType: 'json',
-    success: function (res) {
-      if (res) {
-      $('#patient_name').val(res.patient_name);
-      $('#patientid').val(res.id);      
-      $('#guardian_name').html(res.guardian_name);
-      $('#phone').val(res.mobileno);
-      $('#email').val(res.email);
-      $("#age").html(res.age);
-      $("#bp").html(res.bp);
-      $("#month").html(res.month);
-      $("#symptoms").html(res.symptoms);
-      $("#known_allergies").html(res.known_allergies);
-      $("#address").html(res.address);
-      $("#height").html(res.height);
-      $("#weight").html(res.weight);
-      $("#marital_status").html(res.marital_status);
-      $('#gender option[value="'+res.gender+'"]').attr("selected","selected");
-    } else {
-      $('#patient_name').val('');
-      $('#phone').val("");
-      $('#email').val("");
-      $("#note").val("");
-    }
-  }
-  });
-}
-
-function getBed(bed_group, bed = '', active, htmlid = 'bed_no') {
-        var div_data = "";
-        $('#' + htmlid).html("<option value='l'><?php echo $this->lang->line('loading') ?></option>");
-        $("#" + htmlid).select2("val", 'l');
-        $.ajax({
-            url: baseurl+'admin/setup/bed/getbedbybedgroup',
-            type: "POST",
-            data: {bed_group: bed_group, bed_id: bed, active: active},
-            dataType: 'json',
-            success: function (res) {
-                $.each(res, function (i, obj)
-                {                  
-                    div_data += "<option value=" + obj.id + ">" + obj.name + "</option>";
-                });
-                $("#" + htmlid).html("<option value=''><?php echo $this->lang->line('select') ?></option>");
-                $('#' + htmlid).append(div_data);
-                $("#" + htmlid).select2().select2('val', bed);
-            }
-        });
-    }
-  
-      $("#rescheduleModal").on('hidden.bs.modal', function (e) {
-        reset_all();
-         
-     });
-
-    function viewreschedule(id){
-      $('#rescheduleModal').modal('show');
-      $('#appointment_id').val(id);
-      
-      $.ajax({
-        url: baseurl+'admin/appointment/getDetailsAppointment',
-        type: "GET",
-        data: {appointment_id: id},
-        dataType: 'json',
-        success: function (data) {
-          console.log(data);
-          var result_date = data.date.split('-');
-          var result = `${result_date[1]}/${result_date[2]}/${result_date[0]}`;
-          console.log(result);
-          $('#customfield').html(data.custom_fields_value);
-          $("#name_patient").val(data.patients_name);
-          $("#rdoctor").val(data.doctor);
-          $("#doctor_id").val(data.doctor);
-          $("#dates").val(result);
-          $("#rglobal_shift_edit").val(data.shift_id);
-//           $("#rdates").val(data.date);
-          $("#r_dates_time").val(data.time);
-//           $("#rslot_edit").val(data.shift_id);
-          $("#rslot_edit_field").val(data.shift_id); 
-          $("#time_opd").val(data.time);
-          $("#date_time_opd").val(data.date+' '+data.time); 
-          $("#id_patient").html(data.patient_id);
-          $("#id_opd").html(data.opd_details_id);
-          $("#message").val(data.message);
-          $("#message_reason").val(data.reason_consultation);
-
-//         $("#edit_slot").val(data.time);
-          
-//           $("body").delegate(".appointment_date", "focusin", function () {
-
-//               $(this).datepicker({
-//                   todayHighlight: false,
-//                   format: 'yyyy-mm-dd',
-//                   setDate: data.date,
-//                   autoclose: true,
-//               });
-//           });
-          
-          $("#rdoctor_select").val(data.doctor).trigger("change");
-          $("#edit_responsible").val(data.responsible).trigger("change");
-          
-          
-          if(data.type_visit != 'Consulta primera vez' && data.type_visit != 'Renovacion de ordenes' && data.type_visit != 'Renovacion de medicamentos'){
-                $("#edit_type_visit").val('Otros').trigger("change");
-                $('select[id="edit_type_visit"] option[value="' + 'Otros' + '"]').attr("selected", "selected");
-                $('#edit_type_visit').removeAttr('name');
-                $('#edit_other_visit').css('display', 'block');
-                $('#edit_other_visit input').attr('name', 'edit_type_visit');
-                $('#edit_other_visit input').val(data.type_visit);
-          } else{
-              $("#edit_type_visit").val(data.type_visit).trigger("change");
-              $('select[id="edit_type_visit"] option[value="' + data.type_visit + '"]').attr("selected", "selected");
-          }
-          
-          if(data.appointment_status=="cancel"){
-            $("#person_cancel").css("display", "block");
-            $("#cancel_person").val(data.cancel_person);
-          }
-
-          $("#edit_appointment_status").val(data.appointment_status).trigger("change");
-//           $("#rslot_edit").val(data.shift_id).trigger("change");
-//           $("#edit_appoint_priority").val(data.priority).trigger("change");
-          
-          $('select[id="edit_responsible"] option[value="' + data.responsible + '"]').attr("selected", "selected");
-          $('select[id="edit_appointment_status"] option[value="' + data.appointment_status + '"]').attr("selected", "selected");
-//           $('select[id="rdoctor_select"] option[value="' + data.doctor + '"]').attr("selected", "selected");
-//           $('select[id="rslot_edit"] option[value="' + data.shift_id + '"]').attr("selected", "selected");
-//           $('select[id="edit_liveconsult"] option[value="' + data.live_consult + '"]').attr("selected", "selected");
-          get_specialist(data.doctor,'edit');
-          $("#rdoctor").trigger("change");
-          $("#dates").val(result).trigger("change");
-
-          getDoctorShift("",data.doctor,data.global_shift_id);
-        }
-      });
-    }
-
-
-function viewDetail(id) {
-  $('#viewModal').modal('show');
-  $.ajax({
-    url: baseurl+'admin/appointment/getDetailsAppointment',
-    type: "GET",
-    data: {appointment_id: id},
-    dataType: 'json',
-    success: function (data) {
-      console.log(data);
-      $("#header_appoint").css("background-color", data.banner_color);
-      $("#header_appoint").css("min-height", "min-height: 16.43px");
-      $("#header_appoint").css("border-bottom", "1px solid");
-      $("#header_appoint").css("padding", "10px 15px");
-      
-      var table_html = '';
-      $.each(data.field_data, function (i, obj)
-      {
-          if (obj.field_value == null) {
-            var field_value = "";
-          } else {
-            var field_value = obj.field_value;
-          }
-
-          var name = obj.name ;
-          var is_patient = obj.visible_on_patient_panel ;
-          if(is_patient==1){
-            table_html += "<tr><th width='15%'><span id='vcustom_name'>" + capitalizeFirstLetter(name) + "</span></th> <td width='85%'><span id='vcustom_value'>" + field_value + "</span></td></tr><th></th><td></td>";
-          }
-
-      });
-      $.each(data.custom_fields_patient, function (i, obj)
-      {
-          if (obj.custom_field_id == 30) {
-            var field_value_phone = obj.field_value;
-            $("#phones").html(field_value_phone);
-          } 
-        
-         if (obj.custom_field_id == 4) {
-            var field_value_deparment = obj.field_value;
-            $("#department_name").html(field_value_deparment);
-          } 
-        if (obj.custom_field_id == 5) {
-            var field_value_municipalities = obj.field_value;
-            $("#municipalities_name").html(field_value_municipalities);
-          }
-        if (obj.custom_field_id == 26) {
-            var field_value_home = obj.field_value;
-            $("#home_name").html(field_value_home);
-          }
-
-
-      });
-      
-      var fecha = data.date.split(' ');
-
-  $("#field_data").html(table_html);
-  $("#dating").html(fecha[0] + " - " + data.time);  
-  $("#appointmentno").html(data.appointment_no);
-  $("#appointmentsno").html(data.appointment_serial_no);
-  $("#patient_names").html(data.patients_name);
-  $("#custom_fields_value").html(data.custom_fields_patient);    
-  $("#genders").html(data.patients_gender);
-  $("#emails").html(data.patient_email);
-  $("#id_patient").html(data.patient_id);
-  $("#id_opd").html(data.opd_details_id);    
-  $("#appointpriority").html(data.reason_consultation);
-  
-  $("#doctors").html(data.name + " " + data.surname+" ("+data.employee_id+")");
-  $("#messages").html(data.message);
-  $("#opd_time").html(data.time);
-  $("#liveconsult").html(data.edit_live_consult);
-  $("#global_shift_view").html(data.global_shift_name);
-  $("#doctor_shift_view").html(data.doctor_shift_name);
-  $("#source").html(data.responsible);
-  
-  $("#payment_note").html(data.payment_note);
-  $("#patient_age").html(data.patient_age);
-
-  if(data.payment_mode=="Cheque"){
-    $("#payrow").show();
-    $("#paydocrow").show();
-    $("#spn_chequeno").html(data.cheque_no);
-    $("#spn_chequedate").html(data.cheque_date);
-    $("#spn_doc").html(data.doc);
-  }else{
-    $("#payrow").hide();
-    $("#paydocrow").hide();
-    $("#spn_chequeno").html("");
-    $("#spn_chequedate").html("");
-  }
-  
-
-    $("#pay_amount").html('<?php echo $currency_symbol; ?>'+data.amount);
-    $("#payment_mode").html(data.payment_mode);
-    $("#trans_id").html(data.transaction_id);  
-      
-    var label = "";
-    if (data.appointment_status == "approved") {
-      var text = "Aprobado";
-      var label = "class='label label-success'";  
-    } else if (data.appointment_status == "pending") { 
-      var text = "Agendado";
-      var label = "class='label label-warning'";  
-    } else if (data.appointment_status == "cancel") {
-      var text = "Cancelado";
-      var label = "class='label label-danger'";   
-    } else if (data.appointment_status == "Confirmar") {
-      var text = "Confirmado";
-      var label = "class='label' style='background-color: #4faf74;'";   
-    }else if (data.appointment_status == "Termino") {
-      var text = "Termino";
-      var label = "class='label' style='background-color: #779eb3;'";   
-    }else if (data.appointment_status == "Termino") {
-      var text = "Cerrada";
-      var label = "class='label' style='background-color: ##f5d442;'";   
-    }
-     
-      
-
-  $("#status").html("<small " + label + " >" + text + "</small>");
-  $("#edit_delete").html("<a href='#' data-toggle='tooltip'  onclick='printAppointment(" + id +")' data-original-title='<?php echo $this->lang->line('print'); ?>'><i class='fa fa-print'></i></a> <?php if ($this->rbac->hasPrivilege('appointment', 'can_delete')) {?><a href='#' data-toggle='tooltip'  onclick='delete_record(" + id +")' data-original-title='<?php echo $this->lang->line('delete'); ?>'><i class='fa fa-trash'></i></a><?php }?> ");
-
-  },
-  });
-}
-
-function delete_record(id) {
-  if (confirm(<?php echo "'" . $this->lang->line('delete_confirm') . "'"; ?>)) {
-    $.ajax({
-      url: baseurl+'admin/appointment/delete/' + id,
-      type: "POST",
-      data: {patient_id: id},
+      data: {id: id},
       dataType: 'json',
       success: function (res) {
-        if (res.status == 'success') {
-          $('#viewModal').modal('hide');
-          successMsg(res.message);
-          table.ajax.reload();
+          if (res) {
+          $('#patient_name').val(res.patient_name);
+          $('#patientid').val(res.id);      
+          $('#guardian_name').html(res.guardian_name);
+          $('#phone').val(res.mobileno);
+          $('#email').val(res.email);
+          $("#age").html(res.age);
+          $("#bp").html(res.bp);
+          $("#month").html(res.month);
+          $("#symptoms").html(res.symptoms);
+          $("#known_allergies").html(res.known_allergies);
+          $("#address").html(res.address);
+          $("#height").html(res.height);
+          $("#weight").html(res.weight);
+          $("#marital_status").html(res.marital_status);
+          $('#gender option[value="'+res.gender+'"]').attr("selected","selected");
+        } else {
+          $('#patient_name').val('');
+          $('#phone').val("");
+          $('#email').val("");
+          $("#note").val("");
+        }
       }
-      }
-    })
+    });
   }
-}
+
+    function getBed(bed_group, bed = '', active, htmlid = 'bed_no') {
+          var div_data = "";
+          $('#' + htmlid).html("<option value='l'><?php echo $this->lang->line('loading') ?></option>");
+          $("#" + htmlid).select2("val", 'l');
+          $.ajax({
+              url: baseurl+'admin/setup/bed/getbedbybedgroup',
+              type: "POST",
+              data: {bed_group: bed_group, bed_id: bed, active: active},
+              dataType: 'json',
+              success: function (res) {
+                  $.each(res, function (i, obj)
+                  {                  
+                      div_data += "<option value=" + obj.id + ">" + obj.name + "</option>";
+                  });
+                  $("#" + htmlid).html("<option value=''><?php echo $this->lang->line('select') ?></option>");
+                  $('#' + htmlid).append(div_data);
+                  $("#" + htmlid).select2().select2('val', bed);
+              }
+          });
+    }
+  
+
+    function viewreschedule(id){
+        
+        $('#rescheduleModal').modal('show');
+        $('#appointment_id').val(id);
+
+        $.ajax({
+          url: baseurl+'admin/appointment/getDetailsAppointment',
+          type: "GET",
+          data: {appointment_id: id},
+          dataType: 'json',
+          success: function (data) {
+            console.log(data);
+
+            var result_date = data.date.split('-');
+            var result = `${result_date[1]}/${result_date[2]}/${result_date[0]}`;
+            $('#customfield').html(data.custom_fields_value);
+            $("#name_patient").val(data.patients_name);
+            $("#rdoctor").val(data.doctor);
+//             $("#doctor_id").val(data.doctor);
+            $("#dates").val(result);
+            $("#rglobal_shift_edit").val(data.shift_id);
+            if(data.patient_id != null){
+                $('#edit_patient_id').val(data.patient_id);
+            }
+
+            $('#appointment_id').val(id);
+  //           $("#rdates").val(data.date);
+            $("#r_dates_time").val(data.time);
+  //           $("#rslot_edit").val(data.shift_id);
+            $("#rslot_edit_field").val(data.shift_id); 
+            $("#time_opd").val(data.time);
+            $("#date_time_opd").val(data.date+' '+data.time); 
+            $("#id_patient").html(data.patient_id);
+            $("#id_opd").html(data.opd_details_id);
+            $("#message").val(data.message);
+            $("#message_reason").val(data.reason_consultation);
+            $("#edit_medical_message").val(data.medical_message);
+            $("#edit_order_code").val(data.order_code);
+
+            $("#rdoctor_select").val(data.doctor).trigger("change");
+            $("#edit_responsible_eps").val(data.id_organizations).trigger("change");
+            
+//             console.log(data.doctors_team);
+            
+            let edit_content_operation = document.getElementById('edit_content_operation');
+            
+            console.log('doctors'+data.doctors_team);
+
+            if(data.doctors_team != null){
+                edit_content_operation.style.display = 'block';
+                $("#edit_operation_anesthetist").val(data.doctors_team.anesthetist).trigger("change");
+                $("#edit_nursing_assistant").val(data.doctors_team.ass_consultant_1).trigger("change");
+            } else {
+                edit_content_operation.style.display = 'none';
+            }
+
+            if(data.appointment_status == "cancel"){
+                $("#person_cancel").css("display", "block");
+                $("#cancel_person").val(data.cancel_person);
+            }
+
+            $("#charge_list_ajax_edit").val(data.charge_id).trigger("change.select2");
+
+            $("#edit_appointment_status").val(data.appointment_status).trigger("change");
+            $('select[id="edit_responsible_eps"] option[value="' + data.id_organizations + '"]').attr("selected", "selected");
+            $('select[id="edit_appointment_status"] option[value="' + data.appointment_status + '"]').attr("selected", "selected");
+
+            $("#rdoctor").trigger("change");
+            $("#dates").val(result).trigger("change");
+
+            getDoctorShift("",data.doctor,data.global_shift_id);
+
+          }
+        });
+      }
+
+
+      function viewDetail(id) {
+
+          $('#viewModal').modal('show');
+          $.ajax({
+            url: baseurl+'admin/appointment/getDetailsAppointment',
+            type: "GET",
+            data: {
+              appointment_id: id
+            },
+            dataType: 'json',
+            success: function (data) {
+              console.log(data);
+              var table_html = '';
+              $.each(data.field_data, function (i, obj)
+              {
+                  if (obj.field_value == null) {
+                    var field_value = "";
+                  } else {
+                    var field_value = obj.field_value;
+                  }
+
+                  var name = obj.name ;
+                  var is_patient = obj.visible_on_patient_panel ;
+                  if(is_patient==1){
+                    table_html += "<tr><th width='15%'><span id='vcustom_name'>" + capitalizeFirstLetter(name) + "</span></th> <td width='85%'><span id='vcustom_value'>" + field_value + "</span></td></tr><th></th><td></td>";
+                  }
+
+              });
+              
+              $.each(data.custom_fields_patient, function (i, obj)
+              {
+                  if (obj.custom_field_id == 30) {
+                    var field_value_phone = obj.field_value;
+                    $("#phones").html(field_value_phone);
+                  } 
+
+                 if (obj.custom_field_id == 4) {
+                    var field_value_deparment = obj.field_value;
+                    $("#department_name").html(field_value_deparment);
+                  } 
+                if (obj.custom_field_id == 5) {
+                    var field_value_municipalities = obj.field_value;
+                    $("#municipalities_name").html(field_value_municipalities);
+                  }
+                if (obj.custom_field_id == 26) {
+                    var field_value_home = obj.field_value;
+                    $("#home_name").html(field_value_home);
+                  }
+
+
+              });
+
+              var fecha = data.date.split(' ');
+
+              $("#field_data").html(table_html);
+              $("#dating").html(fecha[0] + " - " + data.time);
+              $("#appointmentno").html(data.appointment_no);
+              $("#appointmentsno").html(data.appointment_serial_no);
+              $("#patient_names").html(data.patients_name);
+              $("#custom_fields_value").html(data.custom_fields_patient);    
+              $("#genders").html(data.patients_gender);
+              $("#emails").html(data.patient_email);
+              $("#id_patient").html(data.patient_id);
+              $("#id_opd").html(data.opd_details_id);    
+              $("#appointpriority").html(data.reason_consultation);
+
+              $("#doctors").html(data.name + " " + data.surname+" ("+data.employee_id+")");
+              $("#messages").html(data.message);
+              $("#opd_time").html(data.time);
+              $("#liveconsult").html(data.edit_live_consult);
+              $("#global_shift_view").html(data.time_finish);
+              $("#responsible").html(data.organisation_name);
+              $("#doctor_shift_view").html(data.time+"-"+data.time_finish);
+              $("#payment_note").html(data.payment_note);
+              $("#patient_age").html(data.patient_age);
+              $("#type_appointment").text(data.type_visit);
+              
+              let contentDoctors = $("#content_doctors");
+
+              if (data.doctors_team != null) {
+                  // contentDoctors.css('display', 'block');
+                  contentDoctors.removeAttr('hidden');
+                  $("#view_operation_anesthetist").text(`${data.doctors_team.name_anesthetist} ${data.doctors_team.surname_anesthetist}`);
+                  $("#view_nursing_assistant").text(`${data.doctors_team.name_consultant_1} ${data.doctors_team.surname_consultant_1}`);
+              } else {
+                  // contentDoctors.css('display', 'none');
+                  contentDoctors.attr('hidden', true);
+              }
+              
+              
+              if(data.payment_mode=="Cheque"){ 
+                  $("#payrow").show();
+                  $("#paydocrow").show();
+                  $("#spn_chequeno").html(data.cheque_no);
+                  $("#spn_chequedate").html(data.cheque_date);
+                  $("#spn_doc").html(data.doc);
+              }else {    
+                  $("#payrow").hide();
+                  $("#paydocrow").hide();
+                  $("#spn_chequeno").html("");
+                  $("#spn_chequedate").html("");
+              }
+
+
+              $("#pay_amount").html('<?php echo $currency_symbol; ?>'+data.amount);
+              $("#payment_mode").html(data.payment_mode);
+              $("#trans_id").html(data.transaction_id);  
+
+
+              var label = "";
+              if (data.appointment_status == "Aprobada") {
+                var text = "Aprobada";
+                var label = "class='label cita_aprobada'";  
+              } else if (data.appointment_status == "Agendada") { 
+                var text = "Agendada";
+                var label = "class='label cita_agendada'";  
+              } else if (data.appointment_status == "Cancelada") {
+                var text = "Cancelada";
+                var label = "class='label cita_cancelada'";   
+              } else if (data.appointment_status == "Confirmada") {
+                var text = "Confirmada";
+                var label = "class='label cita_confirmada'";   
+              }else if (data.appointment_status == "Firmada") {
+                var text = "Firmada";
+                var label = "class='label cita_firmada'";  
+              }else if (data.appointment_status == "Bloqueada") {
+                var text = "Bloqueada";
+                var label = "class='label cita_bloqueada'";  
+              }
+                     
+              let appointment_detail = document.getElementById('view_appointment');
+              appointment_detail.onclick = () => view_appointment(id);
+
+              $("#status").html("<small " + label + " >" + text + "</small>");
+              $("#edit_delete").html("<a href='#' data-toggle='tooltip' onclick='printAppointment(" + id +")' data-original-title='<?php echo $this->lang->line('print'); ?>'><i class='fa fa-print'></i></a> <?php if ($this->rbac->hasPrivilege('appointment', 'can_delete')) {?><a href='#' data-toggle='tooltip' onclick='delete_record(" + id +")' data-original-title='<?php echo $this->lang->line('delete'); ?>'><i class='fa fa-trash'></i></a><?php }?> ");
+
+            },
+        });
+    }
+
+    function delete_record(id) {
+      if (confirm(<?php echo "'" . $this->lang->line('delete_confirm') . "'"; ?>)) {
+        $.ajax({
+          url: baseurl+'admin/appointment/delete/' + id,
+          type: "POST",
+          data: {patient_id: id},
+          dataType: 'json',
+          success: function (res) {
+            
+              if (res.status == 'success') {
+                  $('#viewModal').modal('hide');
+                  successMsg(res.message);
+                  table.ajax.reload();
+              }
+          }
+       })
+      }
+   }
 
 </script>
 <script type="text/javascript">
   function askconfirm() {
-
-    if (confirm("<?php echo $this->lang->line('approve_appointment'); ?>") ) {
-      return true;
-    } else {
-      return false;
-    }
-
+      if (confirm("<?php echo $this->lang->line('approve_appointment'); ?>") ) {
+        return true;
+      } else {
+        return false;
+      }
   } 
   
   $('#myModal').on('hidden.bs.modal', function () {
@@ -1569,7 +3626,13 @@ function delete_record(id) {
     $('#formadd').find('input:text, input:password, input:file, textarea').val('');
     $('#formadd').find('select option:selected').removeAttr('selected');
     $('#formadd').find('input:checkbox, input:radio').removeAttr('checked');
+    $('#table_patient_visits').css('display', 'none');
     
+    console.log("cerrar");
+    
+    reset_all();
+    $('.patient_list_ajax').val(null).trigger('change');
+    $('.charge_list_ajax').val(null).trigger('change');
   });
 
   $(".modalbtnpatient").click(function(){   
@@ -1585,12 +3648,14 @@ function delete_record(id) {
           show:false
       });
   });
-</script> 
+  
+  
+</script>
 <script type="text/javascript">
   function appointmentstatus(){
       var appointment_status = $('#appointment_status').val();
       var doctor_id = $('#doctorid').val();    
-      if(appointment_status == 'approved'){
+      if(appointment_status == 'Aprobada'){
         $.ajax({
             url: baseurl+'admin/appointment/getDoctorFees/',
             type: "POST",
@@ -1599,12 +3664,18 @@ function delete_record(id) {
             success: function (res) {
               $("#doctor_fees").val(res.fees);
               $("#charge_id").val(res.charge_id);
-              $("#charge_appointment").html("<h6>cobros</h6>");
+//               $("#charge_appointment").html("<h6>cobros</h6>");
+              
           }
         });
       }else{
           $('#doctor_fees').val('0');
       }
+  }
+  
+  function payments(category){
+    
+    console.log(category);
   }
   
   function openNewWindow() {
@@ -1614,38 +3685,80 @@ function delete_record(id) {
             // Open a new window/tab
 //             window.open(url, '_blank');
             
-        }
+  }
+  
+  
+  document.getElementById('payment_type').addEventListener('change', function(event) {
+
+      const payment_type = event.target.value;
+      let content_copay = document.getElementById('content_copay');
+    
+      if(payment_type === 'copay'){ 
+          content_copay.style.display = 'block';
+      } else {
+          content_copay.style.display = 'none';
+      }
+
+      // Mostrar el nuevo valor en la consola
+      console.log('Nuevo valor:', payment_type);
+    
+      
+  });
   
   function editappointmentstatus(){
-      
+      var category = $("#category_visit").val();
       var edit_appointment_status = $('#edit_appointment_status').val();
-      if(edit_appointment_status=="cancel"){
-        $("#person_cancel").css("display", "block");
+      let content_cancel = document.getElementById('content_cancel');
+      let content_confirm = document.getElementById('content_confirm');
+      let payment_type = document.getElementById('content_payment_type');
+      let person_cancel = document.getElementById('person_cancel');
+      let person_confirm = document.getElementById('person_confirm');
+      let category_visit = document.getElementById('moderadora');
+
+
+      if(edit_appointment_status == "Cancelada"){
+        person_cancel.style.display = "block";
+        content_cancel.style.display = "block";
       }else{
-        $("#person_cancel").css("display", "none");
+        person_cancel.style.display = "none";
+        content_cancel.style.display = "none";
       }
-      var doctor_id = $('#rdoctor').val();    
-      if(edit_appointment_status == 'approved') {
-        $.ajax({
-            url: baseurl+'admin/appointment/getDoctorFees/',
-            type: "POST",
-            data: {doctor_id: doctor_id},
-            dataType: 'json',
-            success: function (res) {
-              console.log(res);
-              $("#rdoctor_fees_edit").val(res.fees);
-              $("#charge_id_edit").val(res.charge_id);
-              $("#charge_appointment").html("<h6>cobros</h6>");
-          }
-        });
-//         $("#rescheduleform").trigger('submit');
+    
+    
+    if(edit_appointment_status == "Confirmada"){
+        person_confirm.style.display = "block";
       }else{
+        person_confirm.style.display = "none";
+      }
+
+      var doctor_id = $('#rdoctor').val();
+    
+      if(edit_appointment_status == 'Aprobada') {
+        
+          category_visit.style.display = "block";
+          payment_type.style.display = "block";
+
+          $.ajax({
+              url: baseurl+'admin/appointment/getDoctorFees/',
+              type: "POST",
+              data: {doctor_id: doctor_id},
+              dataType: 'json',
+              success: function (res) {
+                $("#rdoctor_fees_edit").val(res.fees);
+                $("#charge_id_edit").val(res.charge_id);
+                payments(category);
+             }
+          });
+        
+      }else{
+          payment_type.style.display = "none";
+          category_visit.style.display = "none";
           $('#rdoctor_fees_edit').val('0');
       }
   }
 
   function getDoctorFees(object){
-      let doctor_id = object.value;    
+     let doctor_id = object.value;    
      $.ajax({
       url: baseurl+'admin/appointment/getDoctorFees/',
       type: "POST",
@@ -1675,15 +3788,15 @@ function delete_record(id) {
       })
   }
 </script>
-<script>
+<script type="text/javascript">
+  
   function getShift(){
 
       var div_data = "";
-      var date = $("#datetimepicker").val();
+      var date = $("#date_appointment").val();
       var doctor = $("#doctorid").val();
-      var global_shift = $("#global_shift").val();
-      console.log(date);
-    
+      var global_shift = 8;
+
       $.ajax({
           url: baseurl+'admin/onlineappointment/getShift',
           type: "POST",
@@ -1696,7 +3809,8 @@ function delete_record(id) {
               });
               $("#slot").html("<option value=''><?php echo $this->lang->line('select'); ?></option>");
               $('#slot').append(div_data);
-              
+            
+//               getSlotByShiftCustom(res);
           }
       });  
       
@@ -1756,87 +3870,73 @@ function delete_record(id) {
       });
   }
   
-  
+//   function get_specialist_doctor(){
+    
+//   }
 
-  
-  
-  
-  $(document).on('change', '#doctorid', function(event) {
+//   function get_specialist(id,type){
+//            console.log(id.value);
+//            console.log(type);
+//            let doctor_id = id.value;
+//            let data = [];
+//            data = <?php echo json_encode($doctors) ?>;
+//            let div_data = "";
+//            div_data += '<option value="" hidden>Seleccione</option>';
+//            let specialist_doc = "";
     
-//     console.log("cambios");
-  
-//       document.getElementById('slot').selectedIndex=0;
-//       document.getElementById('global_shift').selectedIndex=0;
-//       document.getElementById('datetimepicker').value="";
-//         if(document.getElementById('datetimepicker').value=""){
-          
-//           document.getElementById('slot1').outerHTML="";
-//         }
-    });
-  
-  function get_specialist(id,type){
-           console.log(id.value);
-           console.log(type);
-           let doctor_id = id.value;
-           let data = [];
-           data = <?php echo json_encode($doctors) ?>;
-           let div_data = "";
-           div_data += '<option value="" hidden>Seleccione</option>';
-           let specialist_doc = "";
+//             data.forEach((i, obj) => {
+//               if (i.id == doctor_id) {
+//                 console.log(i.specialist_doc);
+//                 if (i.specialist_doc == 'Otorrinolaringologia') {
+//                   div_data += '<option value="Consulta Otorrinolaringologia">Consulta Otorrinolaringología</option>';
+//                   div_data += '<option value="Control Otorrinolaringologia">Control Otorrinolaringología</option>';
+//                 } else if(i.specialist_doc == 'Ortopedia traumatologia') {
+//                   div_data += '<option value="Consulta ortopedia">Consulta ortopedia</option>';
+//                   div_data += '<option value="Control ortopedia">Control ortopedia</option>';
+//                 } else if(i.specialist_doc == 'Cirugia general') {
+//                   div_data += '<option value="Consulta cirugía general">Consulta cirugía general</option>';
+//                   div_data += '<option value="Control cirugía general">Control cirugía general</option>';
+//                 } else if(i.specialist_doc == 'Neurocirugia') {
+//                   div_data += '<option value="Consulta neurocirugía">Consulta neurocirugía</option>';
+//                   div_data += '<option value="Control neurocirugía">Control neurocirugía</option>';
+//                 } else if(i.specialist_doc == 'Cirugia maxilofacial') {
+//                   div_data += '<option value="Consulta maxilofacial">Consulta maxilofacial</option>';
+//                   div_data += '<option value="Control maxilofacial">Control maxilofacial</option>';
+//                 } else if(i.specialist_doc == 'Cirugia vascular') {
+//                   div_data += '<option value="Consulta cirugía vascular">Consulta cirugía vascular</option>';
+//                   div_data += '<option value="Control cirugía vascular">Control cirugia vascular</option>';
+//                 } else if(i.specialist_doc == 'Urologia') {
+//                   div_data += '<option value="Consulta urología">Consulta urología</option>';
+//                   div_data += '<option value="Control urología">Control urología</option>';
+//                 }else if(i.specialist_doc == 'Anestesiologia') {
+//                       div_data += '<option value="Consulta preanestésica">Consulta urología</option>';
+//                       div_data += '<option value="Control urología">Control urología</option>';
+//                 }else {
+//                   div_data += `<option value="Consulta cirugía vascular">Consulta cirugía vascular</option>
+//                                 <option value="Control cirugía vascular">Control cirugia vascular</option>
+//                                 <option value="Consulta maxilofacial">Consulta maxilofacial</option>
+//                                 <option value="Control maxilofacial">Control maxilofacial</option>
+//                                 <option value="Consulta urología">Consulta urología</option>
+//                                 <option value="Control urología">Control urología</option>
+//                                 <option value="Consulta neurocirugía">Consulta neurocirugía</option>
+//                                 <option value="Control neurocirugía">Control neurocirugía</option>`;
+//                 }
+//               }         
+//             });
     
-            data.forEach((i, obj) => {
-              if (i.id == doctor_id) {
-                console.log(i.specialist_doc);
-                if (i.specialist_doc == 'Otorrinolaringologia') {
-                  div_data += '<option value="Consulta Otorrinonaringologia">Consulta Otorrinonaringología</option>';
-                  div_data += '<option value="Control Otorrinonaringologia">Control Otorrinonaringología</option>';
-                } else if(i.specialist_doc == 'Ortopedia traumatologia') {
-                  div_data += '<option value="Consulta ortopedia">Consulta ortopedia</option>';
-                  div_data += '<option value="Control ortopedia">Control ortopedia</option>';
-                } else if(i.specialist_doc == 'Cirugia general') {
-                  div_data += '<option value="Consulta cirugía general">Consulta cirugía general</option>';
-                  div_data += '<option value="Control cirugía general">Control cirugía general</option>';
-                } else if(i.specialist_doc == 'Neurocirugia') {
-                  div_data += '<option value="Consulta neurocirugía">Consulta neurocirugía</option>';
-                  div_data += '<option value="Control neurocirugía">Control neurocirugía</option>';
-                } else if(i.specialist_doc == 'Cirugia maxilofacial') {
-                  div_data += '<option value="Consulta maxilofacial">Consulta maxilofacial</option>';
-                  div_data += '<option value="Control maxilofacial">Control maxilofacial</option>';
-                } else if(i.specialist_doc == 'Cirugia vascular') {
-                  div_data += '<option value="Consulta cirugía vascular">Consulta cirugía vascular</option>';
-                  div_data += '<option value="Control cirugía vascular">Control cirugia vascular</option>';
-                } else if(i.specialist_doc == 'Urologia') {
-                  div_data += '<option value="Consulta urología">Consulta urología</option>';
-                  div_data += '<option value="Control urología">Control urología</option>';
-                } else {
-                  div_data += `<option value="Consulta cirugía vascular">Consulta cirugía vascular</option>
-                                <option value="Control cirugía vascular">Control cirugia vascular</option>
-                                <option value="Consulta maxilofacial">Consulta maxilofacial</option>
-                                <option value="Control maxilofacial">Control maxilofacial</option>
-                                <option value="Consulta urología">Consulta urología</option>
-                                <option value="Control urología">Control urología</option>
-                                <option value="Consulta neurocirugía">Consulta neurocirugía</option>
-                                <option value="Control neurocirugía">Control neurocirugía</option>`;
-                }
-              }         
-            });
-    
-            if(type=="add"){
-              document.getElementById('reason_consultation').innerHTML = div_data;
-            }else{
-              var reason_consul = $("#message_reason").val();
-              if(reason_consul==''){
-                div_data += `<option value="" selected>Seleccione</option>`;
-              }else{
-                div_data += `<option value="${reason_consul}" selected>${reason_consul}</option>`;
-              }
-              document.getElementById('edit_reason_consultation').innerHTML = div_data;
-//               select.value = reason_consul;
-            }
-    
-           
-    
-  }
+//             if(type=="add"){
+//               document.getElementById('reason_consultation').innerHTML = div_data;
+//             }else{
+//               var reason_consul = $("#message_reason").val();
+//               if(reason_consul==''){
+//                 div_data += `<option value="" selected>Seleccione</option>`;
+//               }else{
+//                 div_data += `<option value="${reason_consul}" selected>${reason_consul}</option>`;
+//               }
+// //               document.getElementById('edit_reason_consultation').innerHTML = div_data;
+// //               select.value = reason_consul;
+//             }
+//   }
 
   function getDoctorShift(obj,doctor_id = null,global_shift_id=null){
     
@@ -1860,8 +3960,8 @@ function delete_record(id) {
                 $("#global_shift_edit").html(select_box);
                 $("#rglobal_shift_edit").html(select_box);
                 if(global_shift_id!=null){
-                  $("#global_shift_edit").val(global_shift_id).trigger('change');
-                  $("#rglobal_shift_edit").val(global_shift_id).trigger('change');      
+                    $("#global_shift_edit").val(global_shift_id).trigger('change');
+                    $("#rglobal_shift_edit").val(global_shift_id).trigger('change');      
                 }
                   getShiftEdit();
            }
@@ -1869,23 +3969,82 @@ function delete_record(id) {
     }
 
     function validateTime(obj){
-      let id = obj.value;
-      let date = $("#datetimepicker").val();
-      if(id){
-        $.ajax({
-            url: baseurl+'admin/onlineappointment/getshiftbyid',
-            type: "POST",
-            data: {id:id,date:date},
-            dataType: 'json',
-            success: function(res){
-//               if(res.status){
-//                 alert("<?php echo $this->lang->line("appointment_time_is_expired"); ?>");
-//               }
-            }
-        });
-      }
       
-    }
+        let id = obj.value;
+        let date = $("#date_appointment").val();
+        if(id){
+          
+            $.ajax({
+                url: baseurl+'admin/onlineappointment/getshiftbyid',
+                type: "POST",
+                data: {id:id,date:date},
+                dataType: 'json',
+                success: function(res){ 
+   //               if(res.status){
+   //                 alert("<?php echo $this->lang->line("appointment_time_is_expired"); ?>");
+   //               }
+                }
+            });
+        } 
+  }
+  
+ 
+  function getSlotByShiftCustom(data, type){
+
+      let date = document.getElementById('date_appointment').value;
+      let doctor = document.getElementById('doctorid').value;
+      let global_shift = document.getElementById('rglobal_shift_edit').value;
+      let visit = "";
+      let slots_doctor = [];
+      let table_patient_visits = document.getElementById('table_patient_visits');
+    
+      for(let value of data){
+            slots_doctor.push(value.id);   
+      }
+    
+      table_patient_visits.display = "none";
+
+      $.ajax({
+          url: '<?php echo base_url(); ?>site/getSlotByShift',
+          type: "POST",
+          data: {
+            shift: slots_doctor,
+            doctor: doctor,
+            date: date,
+            global_shift: global_shift,
+            visit: visit
+          },
+          dataType: 'json',
+          success: function(res){
+            
+            const result = res.result;
+            const container = document.getElementById('slots_label');
+            const label = document.getElementById('slot1');
+            
+            console.log(result);
+//             const container = document.getElementById('edit_slots_label');
+//             const label = document.getElementById('edit_slot');
+
+            container.innerHTML = '';
+            label.innerHTML = `<label><b><?php echo $this->lang->line('available_slots'); ?></b><small class='req'> *</small></label>`;
+
+            if (result.length === 0) {
+                container.innerHTML = `<div class="alert alert-danger" role="alert">No hay slots disponibles</div>`;
+            } else {
+                let slotElement = "";
+                result.forEach(function(obj, i) {
+                    console.log(i);
+                    slotElement += `<span id='slot_${i}' onclick='setSlot(${i})' style='cursor:pointer;' class='${obj.class}' data-filled='${obj.filled}'>${obj.time}</span>`;
+                });
+                container.innerHTML = slotElement;
+            }
+  
+            if(container == ""){
+                container += '<div class="alert alert-danger" role="alert"><?php echo $this->lang->line('no_slot_available'); ?></div>';
+            }   
+        }
+    });
+  }
   
   function getSlotByShift(type){
     
@@ -1894,10 +4053,11 @@ function delete_record(id) {
             console.log(type);
             var shift = $("#slot").val();
             var div_data = "";
-            var date = $("#datetimepicker").val();
+            var date = $("#date_appointment").val();
             var doctor = $("#doctorid").val();
-//             var global_shift = $("#global_shift").val();
+//             let global_shift = $("#global_shift").val();
             var global_shift = $("#rglobal_shift_edit").val();
+            var visit = "";
           
         }else{
           
@@ -1908,17 +4068,28 @@ function delete_record(id) {
             var div_data = "";
             var date = $("#dates").val();
             var doctor = $("#rdoctor").val();
+            var visit = $("#appointment_id").val();
             var global_shift = 8;
-//             var global_shift = $("#rglobal_shift_edit").val();
-
+//             let global_shift = $("#rglobal_shift_edit").val();
+          
+            
         }
 
-        if(shift!=''){
+        if(shift != ''){
+          
+            // ocultar tabla de visitas
+            $('#table_patient_visits').css('display', 'none');
           
             $.ajax({
                 url: '<?php echo base_url(); ?>site/getSlotByShift',
                 type: "POST",
-                data: {shift:shift,doctor:doctor,date:date,global_shift:global_shift},
+                data: {
+                  shift: shift,
+                  doctor: doctor,
+                  date: date,
+                  global_shift: global_shift,
+                  visit: visit
+                },
                 dataType: 'json',
                 success: function(res){
                     $.each(res.result, function (i, obj)
@@ -1953,36 +4124,92 @@ function delete_record(id) {
         }else{
             $('#slot1').html("");
             $('#edit_slot').html("");
-
         }
     }
+  
+   function setSlot(id){
+     
+//         const slotElement = document.getElementById(`slot_${id}`);
+
+//         if (slotElement.data("filled") === "filled") {
+//             slotElement.toggleClass("badge-danger-soft badge-warning-soft");
+//         } else {
+//             slotElement.toggleClass("badge-success-soft badge-warning-soft");
+//         }
+     
+        const slotElement = document.getElementById(`slot_${id}`);
+
+        if (slotElement.dataset.filled === "filled") {
+            slotElement.classList.toggle("badge-danger-soft");
+            slotElement.classList.toggle("badge-warning-soft");
+        } else {
+            slotElement.classList.toggle("badge-success-soft");
+            slotElement.classList.toggle("badge-warning-soft");
+        }
+
+        // agrega los inputs que seleccione con su id y lo remueve cuando deseleciona.
+
+        let inputHtml = `<input type="hidden" name="add_slot[]" value="${id}">`;
+        $('#list_input_slot').append(inputHtml);
+
+        const addSlots = document.querySelectorAll('input[name="add_slot[]"]');
+        const uniqueValues = new Set();
+
+        addSlots.forEach(function(input) {
+            const value = input.value;
+            if (!uniqueValues.has(value)) {
+                   uniqueValues.add(value);
+//                          console.log('entro al aqui');
+            } else {
+                $('input[name="add_slot[]"][value="' + input.value + '"]').remove();
+            }
+        });
+
+        let editInputHtml = `<input type="hidden" name="edit_slot[]" value="${id}">`;
+        $('#edit_input_slot').append(editInputHtml);
+
+        const editSlot = document.querySelectorAll('input[name="edit_slot[]"]');
+        const uniqueSlots = new Set();
+
+        editSlot.forEach(function(input) {
+          const value = input.value;
+          if (!uniqueSlots.has(value)) {
+            uniqueSlots.add(value);
+          } else {
+            $('input[name="edit_slot[]"][value="' + input.value + '"]').remove();
+            input.remove();
+          }
+        });  
+  }
+  
+  
+  
   function reset_all(){
       $("#slot1").html("");
       $("#slot").empty();
-      $("#datetimepicker").val("");
+      $("#slots_label").html("");
+      $("#date_appointment").val("");
       $("#global_shift").select2("val", "");
-    
       $("#edit_slot").html("");
       $("#rslot_edit").empty();
       $("#dates").val("");
       $("#rglobal_shift_edit").select2("val", "");
       $("#message_reason").val("");
+    
+    
+      $("#list_input_slot").html("");
+      $("#edit_input_slot").html("");
+      $("#search_cups").val("");
+      $("#responsible_id").val("");
+      $("#edit_responsible").val("");
+      $("#edit_search_cups").val("");
+      $("#charge_list_ajax_edit").select2("val", "");
+      $("#charge_list_ajax").select2("val", "");
+      $("#receipt_code").val("");
+      $("#category_visit").val("");
+      $("#payment_type").val("");
     }
   
-  function setSlot(id){
-    
-    
-        if($("#slot_"+id).data("filled") === "filled"){
-            alert("<?php echo $this->lang->line('not_available'); ?>");
-        }else{
-            $("#slot_id").val(id);
-            $("#edit_slot_id").val(id);
-            $(".bg-primary").addClass("badge-success-soft");
-            $(".bg-primary").removeClass(".bg-primary");
-            $("#slot_"+id).removeClass("badge-success-soft");
-            $("#slot_"+id).addClass("bg-primary");
-        }
-    }
 
   function formatDateToISO(dateString) {
     // La fecha original está en formato "mes/día/año"
@@ -1993,96 +4220,230 @@ function delete_record(id) {
     return date.toISOString().slice(0, 10);
   }
   
-  function enviar_fecha(type){
-    if(type=="limpiar"){
-       $("#fecha_inicial").val("");
-        $("#fecha_final").val("");
-       }
-    var fecha = $("#fecha_id").val();
-    var doctor_id = $("#doctor_id").val();
-    
-    let type2 = "sin_lapso";
-    
-    console.log(doctor_id); 
-    
-    
-
-    initDatatable('ajaxlist','admin/appointment/getappointmentdatatable/'+type2+'/'+fecha+'/'+doctor_id,[],[],25);
-
-  }
-  
-    function enviar_fecha_parametros(){
-      
-    var fecha_inicial= $("#fecha_inicial").val();
-    var fecha_final= $("#fecha_final").val();
-      
-    if(fecha_inicial != '' && fecha_final != ''){
-      
-    var doctor_id = $("#doctor_id").val();
-    console.log(fecha_inicial);
-    console.log(fecha_final);
-      
-      console.log(formatDateToISO(fecha_inicial));
-      console.log(formatDateToISO(fecha_final));
-      fecha_inicial= formatDateToISO(fecha_inicial);
-      fecha_final= formatDateToISO(fecha_final);
-      initDatatable('ajaxlist','admin/appointment/getappointmentdatatable/'+fecha_inicial+'/'+fecha_final+'/'+doctor_id,[],[],25);
-    }else{
-      console.log("ingresa parametros")
-    }
-    
-  }
-
-//   document.addEventListener('DOMContentLoaded', function() {
-//        var elementos = document.querySelectorAll('.appoiment_alert');
-
-//       if (elementos.length > 0) {
-//         console.log('Elementos encontrados:');
-
-//         elementos.forEach(function(elemento, indice) {
-//           var valor = elemento.textContent;
-//           console.log('Valor del elemento', indice + 1 + ':', valor);
-//         });
-//       } else {
-//         console.log('No se encontraron elementos con la clase especificada.');
-//       }
-//   });
-  
-
-  function alert_appoiment(){
-    
-      var elementos = document.querySelectorAll('.appoiment_alert');
-
-      if (elementos.length > 0) {
-        console.log('Elementos encontrados:');
-
-        elementos.forEach(function(elemento, indice) {
-          var valor = elemento.textContent;
-          console.log('Valor del elemento', indice + 1 + ':', valor);
-        });
-      } else {
-        console.log('No se encontraron elementos con la clase especificada.');
+  function enviar_fecha(type=null){
+      if(type=="limpiar"){
+         $("#fecha_inicial").val("");
+          $("#fecha_final").val("");
       }
+      const fecha = $("#fecha_id").val();
+      const doctor_id = $("#doctor_id").val();
+      let type2 = "sin_lapso";
 
-//     let alert = document.querySelectorAll('#appoiment_alert');
-    
-//     if (alert.length > 0) {
-//       console.log('Posiciones con resultados:');
-
-//       alert.forEach(function(elemento, indice) {
-//         console.log('Posición:', indice);
-//       });
-//     } else {
-//       console.log('No se encontraron resultados.');
-//     }
-    
-//     let alert = Array.from(document.querySelectorAll('#appoiment_alert'));
-//     alert.forEach(property => console.log(property));
-//     console.log(Array.from(alert));
+      console.log(fecha); 
+      initDatatable('ajaxlist','admin/appointment/get_appointment_datatable/'+type2+'/'+fecha+'/'+doctor_id,[],[],25);
   }
   
-  window.addEventListener('load', alert_appoiment);
+   
   
+  
+  
+  
+  
+  
+  
+   function cups_structure() {
+         let search_cups = document.getElementById("search_cups").value;
+         let edit_search_cups = document.getElementById("edit_search_cups").value;
+         console.log(search_cups);
+         if(search_cups == ""){
+          let edit_search_cups = document.getElementById("edit_search_cups").value.toUpperCase();
+          var edit_cups_result = document.getElementById("edit_cups_result"); 
+          var search_cups_api =  edit_search_cups;
+           console.log("3");
+         }else{
+          let search_cups = document.getElementById("search_cups").value.toUpperCase();
+          var cups_result = document.getElementById("cups_result");
+          var search_cups_api =  search_cups;
+           console.log("2");
+         }
+         console.log(search_cups_api);
+
+          $.ajax({
+            url: `https://www.datos.gov.co/resource/9zcz-bjue.json?$where=codigoprocedimiento%20like%20'%25${search_cups_api}%25'%20OR%20descripcion%20like%20'%25${search_cups_api}%25'%20OR%20codigocups%20like%20'%25${search_cups_api}%25'&$limit=100&$offset=0`,
+            type: 'GET',
+            dataType: 'json',
+            data: {
+              "$$app_token": "SRFsensloxdn0TDPB95X5rzpN"
+            },
+            success: (resp) => {
+              console.log(resp);
+
+              let cups = resp;
+              
+              if(search_cups == ""){
+                  
+                   if (edit_search_cups.length != 0) {
+                      edit_cups_result.removeAttribute("hidden");
+                    } else if (edit_search_cups.length == 0) {
+                      edit_cups_result.setAttribute("hidden", false);
+                    }
+                 }else{
+                    if (search_cups.length != 0) {
+                        cups_result.removeAttribute("hidden");
+                      } else if (search_cups.length == 0) {
+                        cups_result.setAttribute("hidden", false);
+                      }
+                   
+                 }
+              
+              
+              
+              
+              //             let uniqueMedicines = removeDuplicatesMedicines(cups);
+              //             console.log(uniqueMedicines);
+              let cups_list = "";
+              for (let property of cups) {
+                cups_list += `<li class="list-group-item list-hover" onclick="addCups({ codigo:'${property.codigocups}',
+                                                                                            producto:'${property.descripcion}',
+                                                                                          })">
+                                    <div class="col-xs-12 col-md-12 col-sm-12 ">
+                                        <span class="name"><strong>Codigo Cups: </strong>${property.codigocups}</span><br>
+                                        <span><strong>Descripción: </strong>${property.descripcion}</span><br>
+                                        <span><strong>Procedemiento: </strong>${property.quees_min}</span>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </li>`;
+              }
+              
+              if(search_cups == ""){
+                
+                 document.getElementById("edit_cups_result").innerHTML = cups_list;
+                
+                document.addEventListener('click', function(event) {
+                      var targetElement = event.target;
+
+                      if (targetElement !== edit_search_cups && !edit_cups_result.contains(targetElement)) {
+            //               document.getElementById("search_cups").value = "";
+                        edit_cups_result.setAttribute("hidden", false);
+                      }          
+
+                      
+                    });
+                
+                  
+                 }else{
+                   
+                   document.getElementById("cups_result").innerHTML = cups_list;
+
+                    document.addEventListener('click', function(event) {
+                      var targetElement = event.target;
+
+                      if (targetElement !== search_cups && !cups_result.contains(targetElement)) {
+            //               document.getElementById("search_cups").value = "";
+                        cups_result.setAttribute("hidden", false);
+                      }
+           
+                    
+                    });
+                 }
+
+              
+
+            }
+          });
+
+    }
+
+
+  function enviar_fecha_parametros(){
+      
+      var fecha_inicial= $("#fecha_inicial").val();
+      var fecha_final= $("#fecha_final").val();
+
+      if(fecha_inicial != '' && fecha_final != ''){
+
+      var doctor_id = $("#doctor_id").val();
+        console.log(fecha_inicial);
+        console.log(fecha_final);
+
+        console.log(formatDateToISO(fecha_inicial));
+        console.log(formatDateToISO(fecha_final));
+        fecha_inicial= formatDateToISO(fecha_inicial);
+        fecha_final= formatDateToISO(fecha_final);
+        initDatatable('ajaxlist','admin/appointment/get_appointment_datatable/'+fecha_inicial+'/'+fecha_final+'/'+doctor_id,[],[],25);
+      }else{
+        console.log("ingresa parametros")
+      } 
+ }
+  
+  
+  function addCups({
+          codigo,
+          producto
+        }) {
+
+
+          let codigo_cups = document.getElementById('codigo_cups');
+          let cups_result = document.getElementById('cups_result');
+          let search_cups = document.getElementById('search_cups');
+          let edit_cups_result = document.getElementById('edit_cups_result');
+          let edit_search_cups = document.getElementById('edit_search_cups');
+
+          if(search_cups.value == ""){
+              document.addEventListener('click', function(event) {
+                var targetElement = event.target;
+                  if (targetElement !== edit_search_cups && edit_cups_result.contains(targetElement)) {
+    //               search_cups.value = "";
+                  edit_cups_result.setAttribute("hidden", false);
+
+                  //                 medication_dose.selectedIndex = 0;
+                  //                 codigo_cups.value = "";
+                  //                 product_cups.value = ""; 
+                }
+              });
+             edit_search_cups.value = `${codigo} - ${producto}`;
+           }else{
+              
+             document.addEventListener('click', function(event) {
+                var targetElement = event.target;
+
+                if (targetElement !== search_cups && cups_result.contains(targetElement)) {
+    //               search_cups.value = "";
+                  cups_result.setAttribute("hidden", false);
+
+                  //                 medication_dose.selectedIndex = 0;
+                  //                 codigo_cups.value = "";
+                  //                 product_cups.value = ""; 
+                }
+                 
+              });
+             
+             
+             
+              search_cups.value = `${codigo} - ${producto}`;
+           }
+
+          codigo_cups.value = `${codigo}`;
+
+          //         let myJSON = JSON.stringify({"atc": atc, "descripcionatc": descripcionatc});
+
+
+          //          $.ajax({
+          //             url: baseurl+'admin/patient/medication_alert',
+          //             type: "POST",
+          //             data: myJSON,
+          //             dataType: 'json',
+          //             cache: false,
+          //             processData: false,
+          //             success: function (data) {
+          //                 console.log(data.status);
+          //                 if (data.status == "success" ){
+          //                   holdModal('alert_modal');
+          //                   document.getElementById("message_vade").innerHTML=`<h3>${data.message}</h3>`;
+          // //                   successMsg(data.message);
+          //                 } else {
+
+          //                 }
+          //                 $("#formaddbtn").button('reset');
+          //             },
+          //               error: function () {
+          //             }
+          //         });
+
+
+        }
+
+
   function aproved(id){
     console.log(id);
     $.ajax({
@@ -2111,54 +4472,993 @@ function delete_record(id) {
         });
   }
   
-  
-  var type_visit = document.getElementById('type_visit');
-  
-  type_visit.addEventListener('change', (event) => {
 
-     if(event.target.value === "Otros"){
-        document.getElementById('other_type_visit').innerHTML = `<div class="form-group">
-                                                                          <label>Otros</label>
-                                                                          <input type="text" id="appoinment_type" name="type_visit" placeholder="tipo de cita" class="form-control">
-                                                                       </div>`;
-        type_visit.removeAttribute("name");
-     } else {
-        type_visit.setAttribute("name", 'type_visit');
-        document.getElementById('other_type_visit').innerHTML = "";
-     }
- });
-  
-//   $('edit_type_visit').on('change', () => {
-    
+  function print_visit_bill(opd_id){
+
+  //      var $this = $(this);
+      console.log(opd_id);
+
+       $.ajax({
+          url: base_url+'admin/patient/print_opd_clini',
+          type: "POST",
+          data: {opd_id: opd_id},
+          dataType: 'json',
+          beforeSend: function() {
+  //           $this.button('loading');
+          },
+          success: function (data) {
+            console.log(data);
+            popup(data.page);
+          },
+          error: function(xhr) { // if error occured
+              alert("<?php echo $this->lang->line('error_occurred_please_try_again'); ?>");
+//             $this.button('reset');
+          },
+          complete: function() {
+//                     $this.button('reset');
+          }
+       });
+  }
+
+ 
+//   document.getElementById('doctorid').addEventListener('change', function(event) {
+//     console.log('El valor seleccionado cambió a: ', event.target.value);
 //   });
-  
-  document.getElementById('edit_type_visit').addEventListener('change', (event) => {
-     if(event.target.value === "Otros"){
-        document.getElementById('edit_type_visit').removeAttribute("name");
-        document.querySelector('#edit_other_visit').style.display = "block";
-        document.querySelector('#edit_other_visit input').setAttribute("name", 'edit_type_visit');
-     } else {
-        document.querySelector('#edit_other_visit input').removeAttribute("name");
-        document.querySelector('#edit_other_visit').style.display = "none";
-        document.getElementById('edit_type_visit').setAttribute("name", 'edit_type_visit');
-     }
- });
-  
   
 </script>
 <script type="text/javascript">
-( function ( $ ) {
-  'use strict';
-  $(document).ready(function () {
-    let type2 = "sin_lapso";
-    initDatatable('ajaxlist','admin/appointment/getappointmentdatatable/'+type2,[],[],25);
-  });
-} ( jQuery ) ) 
+
+// $( document ).ready(function() {
+    
+//     $("td").click(function(){
+//         var doctor = $( this ).attr("doctor")
+//         var hora = $( this ).attr("hora")
+
+//         alert(doctor + " - "+ hora);
+//     });
+
+// });
+
+</script>
+<script type="text/javascript">
+
+
+  
+  ( function ( $ ) {
+    'use strict';
+    $(document).ready(function () {
+      let type2 = "sin_lapso";
+      initDatatable('ajaxlist','admin/appointment/get_appointment_datatable/'+type2,[],[],25);
+    });
+  } ( jQuery )) 
   
 </script>
 <!-- //========datatable end===== -->
+<script type="text/javascript">
+  
+  
+  function agendas_clinicas(){
+    var selectedDate = document.getElementById('dateInput').value;
+
+            // Navigate to the selected date
+            if (selectedDate) {
+              var date_dia = new Date(selectedDate + 'T00:00:00');
+              var date_agenda = new Date(selectedDate).toJSON().slice(0, 10);
+            }else{
+              const date_dia = new Date();
+
+              let day = date_dia.getDate();
+              let month = date_dia.getMonth() + 1;
+              let year = date_dia.getFullYear();
+
+              // This arrangement can be altered based on how we want the date's format to appear.
+              let currentDate = `${day}-${month}-${year}`;
+              console.log(currentDate); // "17-6-2022"
+              var date_agenda = currentDate;
+            }
+     
+      $.ajax({
+        url: base_url+'admin/appointment/agendas_clinicas',
+        type: "POST",
+        data: {date_agenda: date_agenda,date_dia:date_dia},
+        dataType: 'json',
+        beforeSend: function() {
+        //           $this.button('loading');
+        },
+        success: function (data) {
+          console.log(data);
+           
+          // Function to format time
+        function formatTime(time) {
+            return time.slice(0, 8); // Extract HH:mm:ss from "HH:mm:ss"
+        }
+
+        // Function to clear the matrix
+        function clearMatrix() {
+            const table = document.querySelector("#matrixTable");
+            const tableBody = table.querySelector("tbody");
+            const headerRow = table.querySelector("thead tr");
+
+            tableBody.innerHTML = ""; // Clear existing rows
+            headerRow.innerHTML = "<th></th>"; // Clear existing columns
+        }
+
+        function createMatrix() {
+            clearMatrix(); // Clear the matrix before updating
+            const table = document.querySelector("#matrixTable");
+            const tableBody = table.querySelector("tbody");
+            const headerRow = table.querySelector("thead tr");
+
+            const groupedAppointments = {};
+            const groupedSlots = {};
+            const groupedDoctor = {};
+            const slots_service = {};
+            const staffAvailability = data.doctor_slots; // Assuming you have staff availability data
+            console.log(staffAvailability);
+
+            // Group appointments by doctor's name
+            data.appointments.forEach(appointment => {
+                const name = appointment.name + " " + appointment.surname;
+                if (!groupedAppointments[name]) {
+                    groupedAppointments[name] = [];
+                }
+                groupedAppointments[name].push(appointment);
+            });
+           
+            staffAvailability.forEach(slots => {
+                const name = slots.name + " " + slots.surname;
+                if (!groupedSlots[name]) {
+                    groupedSlots[name] = [];
+                }
+                groupedSlots[name].push(slots);
+            });
+
+            staffAvailability.forEach(slot => {
+                const id = slot.staff_id;
+                if (!slots_service[id]) {
+                    slots_service[id] = [];
+                }
+                slots_service[id].push(slot);
+            });
+//             console.log(slots_service);
+            var doctorsWithAppointments = Object.keys(groupedAppointments);
+
+            // Filtrar los doctores con agenda que no tienen citas agendadas
+            var doctorsWithSlotsButNoAppointments = Object.keys(groupedSlots)
+                .filter(doctor => !doctorsWithAppointments.includes(doctor));
+
+            // Obtener los datos completos de los doctores con agenda pero sin citas
+            var doctorsWithSlotsData = doctorsWithSlotsButNoAppointments.map(doctor => groupedSlots[doctor]);
+
+            console.log(doctorsWithSlotsData);
+            doctorsWithSlotsData.forEach(doctor=> {
+                  const name = doctor[0].name + " " + doctor[0].surname;
+                  if (!groupedDoctor[name]) {
+                      groupedDoctor[name] = [];
+                  }
+                  groupedDoctor[name].push(doctor);
+              });
+          
+           console.log(groupedDoctor);
+              if(data.appointments !=""){
+
+                  for (const name in groupedAppointments) {
+                      const th = document.createElement("th");
+                      th.textContent = name;
+                      headerRow.appendChild(th);
+                  }
+                
+                for (const name in groupedDoctor) {
+                      const th = document.createElement("th");
+                      th.textContent = name;
+                      headerRow.appendChild(th);
+                  }
+                
+               }else{
+
+                 for (const name in groupedSlots) {
+                    const th = document.createElement("th");
+                    th.textContent = name;
+                    headerRow.appendChild(th);
+                }
+               }
+          
+
+            // Iterate over each 10-minute slot in a day from 06:00 to 21:00
+            for (let i = 6 * 6; i <= 21 * 6; i++) {
+                const startTime = `${String(Math.floor(i / 6)).padStart(2, '0')}:${String((i % 6) * 10).padStart(2, '0')}`;
+                const endTime = `${String(Math.floor((i + 1) / 6)).padStart(2, '0')}:${String(((i + 1) % 6) * 10).padStart(2, '0')}`;
+
+                // Create a row for each time slot
+                const row = document.createElement("tr");
+
+                // Add the time slot to the first column
+                const timeSlotCell = document.createElement("td");
+                timeSlotCell.textContent = `${formatTime(startTime)} - ${formatTime(endTime)}`;
+                timeSlotCell.classList.add("first-column"); // Add the class for fixed width
+                row.appendChild(timeSlotCell);
+
+                let prevAppointmentId = null;
+                let rowspan = 1;
+
+                // Iterate over each name and check for appointments during the time slot
+              if(data.appointments !=""){
+                
+                for (const name in groupedAppointments) {
+                    const appointmentsByName = groupedAppointments[name];
+                    const doctor = appointmentsByName[0].doctor;
+
+                    const matchingAppointments = appointmentsByName.filter(appointment =>
+                        formatTime(appointment.time) < endTime &&
+                        formatTime(appointment.time_finish) > startTime
+                    );
+
+                    let td = document.createElement("td");
+
+                    if (matchingAppointments.length > 0) {
+                        const id_appointment = matchingAppointments[0].id_appointment;
+
+                        if (id_appointment === prevAppointmentId) {
+                            // Increment rowspan
+                            rowspan++;
+                            td.classList.add("hidden-cell"); // Hide the cell
+                        } else {
+                            // If the id_appointment is different, update rowspan and reset the variable
+                            if (prevAppointmentId !== null && rowspan > 1) {
+                                td.setAttribute("rowspan", rowspan);
+                            }
+                            rowspan = 1;
+                            td.setAttribute("data-id", id_appointment);
+                            td.addEventListener("click", () => viewreschedule(id_appointment));
+                            prevAppointmentId = id_appointment;
+                        }
+
+                        if (matchingAppointments[0].appointment_status == "Aprobada") {
+                            td.textContent = matchingAppointments[0].appointment_status;
+                            td.classList.add("cita_aprobada");
+                        } else if (matchingAppointments[0].appointment_status == "Agendada") {
+                            td.textContent = matchingAppointments[0].appointment_status;
+                            td.classList.add("cita_agendada");
+                        } else if (matchingAppointments[0].appointment_status == "Confirmada") {
+                            td.textContent = matchingAppointments[0].appointment_status;
+                            td.classList.add("cita_confirmada");
+                        } else if (matchingAppointments[0].appointment_status == "Firmada") {
+                            td.textContent = matchingAppointments[0].appointment_status;
+                            td.classList.add("cita_firmada");
+                        } else if (matchingAppointments[0].appointment_status == "Bloqueada") {
+                            td.textContent = matchingAppointments[0].appointment_status;
+                            td.classList.add("cita_bloqueada");
+                        } else if (matchingAppointments[0].appointment_status == "Cancelada") {
+                            td.textContent = matchingAppointments[0].appointment_status;
+                            td.classList.add("cita_cancelada");
+                        }
+                       td.innerHTML += `<br><b><b>Fecha:</b> ` + `${matchingAppointments[0].date}`;
+                       td.innerHTML += `<br><b><b>Duración de la consulta:</b> ` + `${matchingAppointments[0].time} - ${matchingAppointments[0].time_finish}`;
+                       td.innerHTML += `<br><b>Motivo:</b> ` + `${matchingAppointments[0].reason_consultation}`;
+                       td.innerHTML += `<br><b>Paciente:</b> ` + `${matchingAppointments[0].patient_name}`;
+                       td.innerHTML += `<br><b>Identificación:</b> ` + `${matchingAppointments[0].identification_number}`;
+                       td.classList.add("text-white");
+                    } else {
+                        const slotsByid = slots_service[doctor];
+                        const matchingslots = slotsByid.filter(slot =>
+                            formatTime(slot.start_time) < endTime &&
+                            formatTime(slot.end_time) >= startTime
+                        );
+
+                        if (matchingslots.length > 0) {
+                            // Display staff availability information
+                          if(slotsByid[0].type_agenda == "consultaexterna"){
+                             
+                                td.innerHTML += `<br>Disponible:<br>` + `<small class="label cita_externa" data-toggle="tooltip" title="" data-original-title="Consulta externa">Consulta Externa</small>`;
+                           }else{
+                                td.innerHTML += `<br>Disponible:<br>` + `<small class="label cita_cirugia" data-toggle="tooltip" title="" data-original-title="Cirugía">Cirugía</small>`;
+                          
+                           }
+                           td.classList.add("cita_disponible");
+                             // Add click event to open a modal
+                            td.addEventListener("click", () => holdModal('myModal'));
+
+                        } else {
+                            td.innerHTML += `<br>No disponible`;
+                          
+                        }
+                    }
+
+                    row.appendChild(td);
+                }
+                 for (const name in groupedDoctor) {
+                 
+                    const slotsByName = groupedDoctor[name];
+                    const doctor = slotsByName[0][0].id;
+
+                    console.log(slotsByName[0][0].id);
+                         const slotsByid = slots_service[doctor];
+                        const matchingslots = slotsByid.filter(slot =>
+                            formatTime(slot.start_time) < endTime &&
+                            formatTime(slot.end_time) > startTime
+                        );
+                   let td = document.createElement("td");
+                        if (matchingslots.length > 0) {
+                            // Display staff availability information
+                           if(slotsByid[0].type_agenda == "consultaexterna"){
+                             
+                                td.innerHTML += `<br>Disponible:<br>` + `<small class="label cita_externa" data-toggle="tooltip" title="" data-original-title="Consulta externa">Consulta Externa</small>`;
+                           }else{
+                                td.innerHTML += `<br>Disponible:<br>` + `<small class="label cita_cirugia" data-toggle="tooltip" title="" data-original-title="Cirugía">Cirugía</small>`;
+                          
+                           }
+                             // Add click event to open a modal
+                            td.addEventListener("click", () => holdModal('myModal'));
+
+                        } else {
+                            td.innerHTML += `<br>No disponible`;
+                          
+                        }
+                    row.appendChild(td);
+                    }
+                
+              }else{
+                   
+                for (const name in groupedSlots) {
+                 
+                    const slotsByName = groupedSlots[name];
+                    const doctor = slotsByName[0].id;
+
+                    console.log(slots_service);
+                    const slotsByid = slots_service[doctor];
+                        const matchingslots = slotsByid.filter(slot =>
+                            formatTime(slot.start_time) < endTime &&
+                            formatTime(slot.end_time) > startTime
+                        );
+                   let td = document.createElement("td");
+
+                        if (matchingslots.length > 0) {
+                            // Display staff availability information
+                           if(slotsByid[0].type_agenda == "consultaexterna"){
+                             
+                                td.innerHTML += `<br>Disponible:<br>` + `<small class="label cita_externa" data-toggle="tooltip" title="" data-original-title="Consulta externa">Consulta Externa</small>`;
+                           }else{
+                                td.innerHTML += `<br>Disponible:<br>` + `<small class="label cita_cirugia" data-toggle="tooltip" title="" data-original-title="Cirugía">Cirugía</small>`;
+                          
+                           } 
+                          td.classList.add("cita_disponible");
+                             // Add click event to open a modal
+                          td.addEventListener("click", () => holdModal('myModal'));
+
+                        } else {
+                            td.innerHTML += `<br>No disponible`;
+                          
+                        }
+                    row.appendChild(td);
+                    }
+                
+                
+                
+              }
+              
+
+                // If the last appointment in the row covers multiple rows, update rowspan
+                if (prevAppointmentId !== null && rowspan > 1) {
+                    const lastCell = row.lastElementChild;
+                    lastCell.setAttribute("rowspan", rowspan);
+                }
+
+                // Append the row to the matrix body
+                tableBody.appendChild(row);
+            }
+    //      combinarCeldas();
+        }
+          
+       function combinarCeldas() {
+              var tabla = document.getElementById("matrixTable");
+              var filas = tabla.getElementsByTagName("tr");
+              for (var i = 0; i < filas.length; i++) {
+                  var celdas = filas[i].getElementsByTagName("td");
+
+                 let rowspan = 1;
+
+                    // Restablecer la variable al inicio
+                    let celdaAnterior = null;
+
+                    for (var j = 0; j < celdas.length; j++) {
+                        var id_appointment = celdas[j].getAttribute("data-id");
+
+                        console.log("Celda actual:", id_appointment);
+
+                        if (id_appointment === celdaAnterior) {
+                            // Incrementar rowspan
+                            console.log("Incrementar rowspan");
+                            rowspan++;
+                            celdas[j].classList.add("hidden-cell"); // Ocultar la celda
+                        } else {
+                            // Si el id_appointment es diferente, actualizar rowspan y restablecer la variable
+                            if (celdaAnterior !== null && rowspan > 1) {
+                                console.log("Actualizar rowspan y restablecer la variable");
+                                for (var k = j - rowspan; k < j; k++) {
+                                    celdas[k].setAttribute("rowspan", rowspan);
+                                }
+                            }
+                            rowspan = 1;
+                            celdaAnterior = id_appointment;
+                        }
+                    }
+
+                    // Asegurarnos de aplicar rowspan a la última celda si es necesario
+                    if (celdaAnterior !== null && rowspan > 1) {
+                        console.log("Aplicar rowspan a la última celda");
+                        for (var k = celdas.length - rowspan; k < celdas.length; k++) {
+                            celdas[k].setAttribute("rowspan", rowspan);
+                        }
+                    }
+              }
+          }
+        // Llamar a la función después de cargar la página
+     
+
+        // Call the function to generate the matrix
+        createMatrix();
+        
+         
+        },
+        error: function(xhr) { // if error occured
+          alert("<?php echo $this->lang->line('error_occurred_please_try_again'); ?>");
+        //             $this.button('reset');
+        },
+        complete: function() {
+        //                     $this.button('reset');
+        }
+      });
+     
+  }
+  
+   function agendas_clinicasquirofano(){
+    var selectedDate = document.getElementById('dateInput').value;
+
+            // Navigate to the selected date
+            if (selectedDate) {
+              var date_dia = new Date(selectedDate + 'T00:00:00');
+              var date_agenda = new Date(selectedDate).toJSON().slice(0, 10);
+            }else{
+              const date_dia = new Date();
+
+              let day = date_dia.getDate();
+              let month = date_dia.getMonth() + 1;
+              let year = date_dia.getFullYear();
+
+              // This arrangement can be altered based on how we want the date's format to appear.
+              let currentDate = `${day}-${month}-${year}`;
+              console.log(currentDate); // "17-6-2022"
+              var date_agenda = currentDate;
+            }
+     
+    
+      $.ajax({
+        url: base_url+'admin/appointment/agendas_clinicas_quirofano',
+        type: "POST",
+        data: {date_agenda: date_agenda,date_dia:date_dia},
+        dataType: 'json',
+        beforeSend: function() {
+        //           $this.button('loading');
+        },
+        success: function (data) {
+          console.log(data);
+           
+          // Function to format time
+        function formatTime(time) {
+            return time.slice(0, 8); // Extract HH:mm:ss from "HH:mm:ss"
+        }
+
+        // Function to clear the matrix
+        function clearMatrix_quirofanos() {
+            const table = document.querySelector("#matrixTable_quirofanos");
+            const tableBody = table.querySelector("tbody");
+            const headerRow = table.querySelector("thead tr");
+
+            tableBody.innerHTML = ""; // Clear existing rows
+            headerRow.innerHTML = "<th></th>"; // Clear existing columns
+        }
+
+        function createMatrix_quirofanos() {
+            clearMatrix_quirofanos(); // Clear the matrix before updating
+            const table = document.querySelector("#matrixTable_quirofanos");
+            const tableBody = table.querySelector("tbody");
+            const headerRow = table.querySelector("thead tr");
+
+            const groupedAppointments = {};
+            const groupedSlots = {};
+            const groupedDoctor = {};
+            const slots_service = {};
+            const staffAvailability = data.doctor_slots; // Assuming you have staff availability data
+            console.log(staffAvailability);
+
+            // Group appointments by doctor's name
+            data.appointments.forEach(appointment => {
+                const name = appointment.name + " " + appointment.surname;
+                if (!groupedAppointments[name]) {
+                    groupedAppointments[name] = [];
+                }
+                groupedAppointments[name].push(appointment);
+            });
+           
+            staffAvailability.forEach(slots => {
+                const name = slots.name + " " + slots.surname;
+                if (!groupedSlots[name]) {
+                    groupedSlots[name] = [];
+                }
+                groupedSlots[name].push(slots);
+            });
+
+            staffAvailability.forEach(slot => {
+                const id = slot.staff_id;
+                if (!slots_service[id]) {
+                    slots_service[id] = [];
+                }
+                slots_service[id].push(slot);
+            });
+//             console.log(slots_service);
+            var doctorsWithAppointments = Object.keys(groupedAppointments);
+
+            // Filtrar los doctores con agenda que no tienen citas agendadas
+            var doctorsWithSlotsButNoAppointments = Object.keys(groupedSlots)
+                .filter(doctor => !doctorsWithAppointments.includes(doctor));
+
+            // Obtener los datos completos de los doctores con agenda pero sin citas
+            var doctorsWithSlotsData = doctorsWithSlotsButNoAppointments.map(doctor => groupedSlots[doctor]);
+
+            console.log(doctorsWithSlotsData);
+            doctorsWithSlotsData.forEach(doctor=> {
+                  const name = doctor[0].name + " " + doctor[0].surname;
+                  if (!groupedDoctor[name]) {
+                      groupedDoctor[name] = [];
+                  }
+                  groupedDoctor[name].push(doctor);
+              });
+          
+           console.log(groupedDoctor);
+              if(data.appointments !=""){
+
+                  for (const name in groupedAppointments) {
+                      const th = document.createElement("th");
+                      th.textContent = name;
+                      headerRow.appendChild(th);
+                  }
+                
+                for (const name in groupedDoctor) {
+                      const th = document.createElement("th");
+                      th.textContent = name;
+                      headerRow.appendChild(th);
+                  }
+                
+               }else{
+
+                 for (const name in groupedSlots) {
+                    const th = document.createElement("th");
+                    th.textContent = name;
+                    headerRow.appendChild(th);
+                }
+               }
+          
+
+            // Iterate over each 10-minute slot in a day from 06:00 to 21:00
+            for (let i = 6 * 6; i <= 21 * 6; i++) {
+                const startTime = `${String(Math.floor(i / 6)).padStart(2, '0')}:${String((i % 6) * 10).padStart(2, '0')}`;
+                const endTime = `${String(Math.floor((i + 1) / 6)).padStart(2, '0')}:${String(((i + 1) % 6) * 10).padStart(2, '0')}`;
+
+                // Create a row for each time slot
+                const row = document.createElement("tr");
+
+                // Add the time slot to the first column
+                const timeSlotCell = document.createElement("td");
+                timeSlotCell.textContent = `${formatTime(startTime)} - ${formatTime(endTime)}`;
+                timeSlotCell.classList.add("first-column"); // Add the class for fixed width
+                row.appendChild(timeSlotCell);
+
+                let prevAppointmentId = null;
+                let rowspan = 1;
+
+                // Iterate over each name and check for appointments during the time slot
+              if(data.appointments !=""){
+                
+                for (const name in groupedAppointments) {
+                    const appointmentsByName = groupedAppointments[name];
+                    const doctor = appointmentsByName[0].doctor;
+
+                    const matchingAppointments = appointmentsByName.filter(appointment =>
+                        formatTime(appointment.time) < endTime &&
+                        formatTime(appointment.time_finish) > startTime
+                    );
+
+                    let td = document.createElement("td");
+
+                    if (matchingAppointments.length > 0) {
+                        const id_appointment = matchingAppointments[0].id_appointment;
+
+                        if (id_appointment === prevAppointmentId) {
+                            // Increment rowspan
+                            rowspan++;
+                            td.classList.add("hidden-cell"); // Hide the cell
+                        } else {
+                            // If the id_appointment is different, update rowspan and reset the variable
+                            if (prevAppointmentId !== null && rowspan > 1) {
+                                td.setAttribute("rowspan", rowspan);
+                            }
+                            rowspan = 1;
+                            td.setAttribute("data-id", id_appointment);
+                            td.addEventListener("click", () => viewreschedule(id_appointment));
+                            prevAppointmentId = id_appointment;
+                        }
+
+                        if (matchingAppointments[0].appointment_status == "Aprobada") {
+                            td.textContent = matchingAppointments[0].appointment_status;
+                            td.classList.add("cita_aprobada");
+                        } else if (matchingAppointments[0].appointment_status == "Agendada") {
+                            td.textContent = matchingAppointments[0].appointment_status;
+                            td.classList.add("cita_agendada");
+                        } else if (matchingAppointments[0].appointment_status == "Confirmada") {
+                            td.textContent = matchingAppointments[0].appointment_status;
+                            td.classList.add("cita_confirmada");
+                        } else if (matchingAppointments[0].appointment_status == "Firmada") {
+                            td.textContent = matchingAppointments[0].appointment_status;
+                            td.classList.add("cita_firmada");
+                        } else if (matchingAppointments[0].appointment_status == "Bloqueada") {
+                            td.textContent = matchingAppointments[0].appointment_status;
+                            td.classList.add("cita_bloqueada");
+                        } else if (matchingAppointments[0].appointment_status == "Cancelada") {
+                            td.textContent = matchingAppointments[0].appointment_status;
+                            td.classList.add("cita_cancelada");
+                        }
+                       td.innerHTML += `<br><b><b>Fecha:</b> ` + `${matchingAppointments[0].date}`;
+                       td.innerHTML += `<br><b><b>Duración de la consulta:</b> ` + `${matchingAppointments[0].time} - ${matchingAppointments[0].time_finish}`;
+                       td.innerHTML += `<br><b>Motivo:</b> ` + `${matchingAppointments[0].reason_consultation}`;
+                       td.innerHTML += `<br><b>Paciente:</b> ` + `${matchingAppointments[0].patient_name}`;
+                       td.innerHTML += `<br><b>Identificación:</b> ` + `${matchingAppointments[0].identification_number}`;
+                       td.classList.add("text-white");
+                    } else {
+                        const slotsByid = slots_service[doctor];
+                        const matchingslots = slotsByid.filter(slot =>
+                            formatTime(slot.start_time) < endTime &&
+                            formatTime(slot.end_time) >= startTime
+                        );
+
+                        if (matchingslots.length > 0) {
+                            // Display staff availability information
+                          if(slotsByid[0].type_agenda == "consultaexterna"){
+                             
+                                td.innerHTML += `<br>Disponible:<br>` + `<small class="label cita_externa" data-toggle="tooltip" title="" data-original-title="Consulta externa">Consulta Externa</small>`;
+                           }else{
+                                td.innerHTML += `<br>Disponible:<br>` + `<small class="label cita_cirugia" data-toggle="tooltip" title="" data-original-title="Cirugía">Cirugía</small>`;
+                          
+                           }
+                           td.classList.add("cita_disponible");
+                             // Add click event to open a modal
+                            td.addEventListener("click", () => holdModal('myModal'));
+
+                        } else {
+                            td.innerHTML += `<br>No disponible`;
+                          
+                        }
+                    }
+
+                    row.appendChild(td);
+                }
+                 for (const name in groupedDoctor) {
+                 
+                    const slotsByName = groupedDoctor[name];
+                    const doctor = slotsByName[0][0].id;
+
+                    console.log(slotsByName[0][0].id);
+                         const slotsByid = slots_service[doctor];
+                        const matchingslots = slotsByid.filter(slot =>
+                            formatTime(slot.start_time) < endTime &&
+                            formatTime(slot.end_time) > startTime
+                        );
+                   let td = document.createElement("td");
+                        if (matchingslots.length > 0) {
+                            // Display staff availability information
+                           if(slotsByid[0].type_agenda == "consultaexterna"){
+                             
+                                td.innerHTML += `<br>Disponible:<br>` + `<small class="label cita_externa" data-toggle="tooltip" title="" data-original-title="Consulta externa">Consulta Externa</small>`;
+                           }else{
+                                td.innerHTML += `<br>Disponible:<br>` + `<small class="label cita_cirugia" data-toggle="tooltip" title="" data-original-title="Cirugía">Cirugía</small>`;
+                          
+                           }
+                             // Add click event to open a modal
+                            td.addEventListener("click", () => holdModal('myModal'));
+
+                        } else {
+                            td.innerHTML += `<br>No disponible`;
+                          
+                        }
+                    row.appendChild(td);
+                    }
+                
+              }else{
+                   
+                for (const name in groupedSlots) {
+                 
+                    const slotsByName = groupedSlots[name];
+                    const doctor = slotsByName[0].id;
+
+                    console.log(slots_service);
+                    const slotsByid = slots_service[doctor];
+                        const matchingslots = slotsByid.filter(slot =>
+                            formatTime(slot.start_time) < endTime &&
+                            formatTime(slot.end_time) > startTime
+                        );
+                   let td = document.createElement("td");
+
+                        if (matchingslots.length > 0) {
+                            // Display staff availability information
+                           if(slotsByid[0].type_agenda == "consultaexterna"){
+                             
+                                td.innerHTML += `<br>Disponible:<br>` + `<small class="label cita_externa" data-toggle="tooltip" title="" data-original-title="Consulta externa">Consulta Externa</small>`;
+                           }else{
+                                td.innerHTML += `<br>Disponible:<br>` + `<small class="label cita_cirugia" data-toggle="tooltip" title="" data-original-title="Cirugía">Cirugía</small>`;
+                          
+                           } 
+                          td.classList.add("cita_disponible");
+                             // Add click event to open a modal
+                          td.addEventListener("click", () => holdModal('myModal'));
+
+                        } else {
+                            td.innerHTML += `<br>No disponible`;
+                          
+                        }
+                    row.appendChild(td);
+                    }
+                
+                
+                
+              }
+              
+
+                // If the last appointment in the row covers multiple rows, update rowspan
+                if (prevAppointmentId !== null && rowspan > 1) {
+                    const lastCell = row.lastElementChild;
+                    lastCell.setAttribute("rowspan", rowspan);
+                }
+
+                // Append the row to the matrix body
+                tableBody.appendChild(row);
+            }
+   
+        }
+          
+      
+        // Call the function to generate the matrix
+        createMatrix_quirofanos();
+        
+         
+        },
+        error: function(xhr) { // if error occured
+          alert("<?php echo $this->lang->line('error_occurred_please_try_again'); ?>");
+        //             $this.button('reset');
+        },
+        complete: function() {
+        //                     $this.button('reset');
+        }
+      });
+     
+  }
+  
 
 
 
+      window.addEventListener('load', 
+          function iss_structure(){
+                $.ajax({
+                    url : "<?=base_url('uploads/json/procedemientosiss2000.json')?>",
+                    type : 'GET',
+                    dataType : 'json',
+                    success : (resp) => {
+                    console.log(resp);
+                     let iss = resp;
+                     let iss_list ="";
+                     for (let property of iss ) {
+                            iss_list += `<li class="list-group-item list-hover" onclick="add_iss({ codigo:'${property.Codigo}',
+                                                                                                      producto:'${property.Procedimiento}',
+
+                                                                                                    })">
+                                              <div class="col-xs-10 col-sm-9">
+                                                  <span class="name"><strong>Codigo: </strong>${property.Codigo}</span><br>
+                                                  <span><strong>Descripcion: </strong>${property.Procedimiento}</span>
+                                              </div>
+                                              <div class="clearfix"></div>
+                                          </li>`;
+                     } 
+
+//                     document.getElementById("iss_result").innerHTML= iss_list;
+                    document.getElementById("edit_iss_result").innerHTML= iss_list;
+
+                }   
+          });  
+      });
+  
+      function busqueda_iss(type) {
+          let  iss, input_iss, iss_result;
+          if(type=="add"){
+            input_iss= document.getElementById("search_iss");
+            iss_result = document.getElementById("iss_result");
+            filtered_iss(input_iss, iss_result, "li",type);
+           }else{
+            input_iss= document.getElementById("edit_search_iss");
+            iss_result = document.getElementById("edit_iss_result");
+            filtered_iss(input_iss, iss_result, "li",type);
+           }
+        }
 
 
+        function filtered_iss(element, content, search) {
+          let filter, li, a, i, txtValue;
+          filter = element.value.toUpperCase();
+          if (element.value.length != 0) {
+            content.removeAttribute("hidden");
+          } else if (element.value.length == 0) {
+            content.setAttribute("hidden", false);
+          }
+          li = content.getElementsByTagName(search);
+          for (i = 0; i < li.length; i++) {
+            a = li[i];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              li[i].style.display = "";
+            } else {
+              li[i].style.display = "none";
+            }
+          }
+        }
+  
+  
+        function add_iss({
+              codigo,
+              producto
+            }) {
+            let edit_search_iss = document.getElementById('edit_search_iss');
+            if(edit_search_iss.value==""){
+                let iss_result = document.getElementById('iss_result');
+                let search_iss = document.getElementById('search_iss');
+
+
+                document.addEventListener('click', function(event) {
+                const targetElement = event.target;
+
+                    if (targetElement !== search_iss && iss_result.contains(targetElement)) {
+
+                        iss_result.setAttribute("hidden", false);
+
+                        search_iss.value = `${codigo} - ${producto}`;
+                    }
+                });
+
+            }else{
+
+                let edit_iss_result = document.getElementById('edit_iss_result');
+                let edit_search_iss = document.getElementById('edit_search_iss');
+
+
+                document.addEventListener('click', function(event) {
+                    const targetElement = event.target;
+
+                    if (targetElement !== edit_search_iss && edit_iss_result.contains(targetElement)) {
+
+                        edit_iss_result.setAttribute("hidden", false);
+                        edit_search_iss.value = `${codigo} - ${producto}`;
+                    }
+                });
+
+            }
+        }
+          
+      $(document).ready(function () {
+
+            $('.charge_list_ajax').select2({
+                ajax: { 
+                    url: "<?= base_url(); ?>admin/charges/getchargesListAjax",
+                    type: "post",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                          searchTerm: params.term // search term
+                        };
+                    },
+                    processResults: function (response) {
+                        console.log(response);
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                },
+                language: {
+                  noResults: function () {
+                    return 'No se encontro el resultado'; // Tu mensaje personalizado
+                  },
+                  searching: function () {
+                    return 'Búsqueda de prestaciones por cups, sura cups, iss, descripción.'; // Reemplaza con tu mensaje personalizado
+                  }
+                }
+            }).on('select2:select', function (e) {
+              
+                var select = document.getElementById('doctorid');
+                var update_select = document.getElementById('rdoctor');
+                let content_operation = document.getElementById('content_operation');
+                let edit_content_operation = document.getElementById('edit_content_operation');
+                let data = e.params.data;
+//                 console.log(e.target.id);
+                console.log(select.value);
+                let charge_id = e.target.value;
+
+                $.ajax({
+                    url: "<?= base_url(); ?>admin/Staff/getdoctorbyspecialist/"+data.especialidad,
+                    type: 'POST',
+                    data: {
+                      charge_id: charge_id,
+                    },
+                    dataType: 'json',
+                    success:(resp)=> {
+
+                       const doctors = resp.doctor_spacialist;
+                       const charge = resp.charge;
+//                        console.log(resp.doctor_spacialist);
+//                        console.log(resp.charge);
+                      
+                       if(charge.id_type_master == '3'){
+                          console.log('3');
+                          content_operation.style.display = 'block';
+                       } else {
+                          content_operation.style.display = 'none';
+                       }
+                      
+                       if(charge.id_type_master == '3'){
+                          console.log('3');
+                          edit_content_operation.style.display = 'block';
+                       } else {
+                          edit_content_operation.style.display = 'none';
+                       }
+                      
+
+//                      update_select.innerHTML = ''; 
+                       select.innerHTML = '';
+
+                        var initialOption = document.createElement('option');
+                        initialOption.value = '';
+                        initialOption.text = 'Seleccione especialista';
+                        select.appendChild(initialOption);
+
+                        doctors.forEach(function(doctor) {
+                            console.log(doctor);
+                            var option = document.createElement('option');
+                            option.value = doctor.id;
+                            option.text = doctor.name+" "+doctor.surname+ " - " + doctor.specialist_name;
+                            update_select.appendChild(option);
+                            select.appendChild(option);
+                        });
+
+                    },
+                    error: function() {
+                         console.error("No es posible completar la operación");
+                    }
+
+                });
+
+               
+              // desarrollando
+            });
+        
+
+//               $('.charge_list_ajax').on('select2:open', function (e) {
+//                   $('.select2-search__field').on('keydown', function (e) {
+//                       if (e.key === 'Enter') {
+//                           var enteredValue = $(this).val();
+//                           console.log('Enter presionado en la búsqueda. Valor: ',  e.target.value);
+//                       }
+//                   });
+//               });
+        });
+  
+  
+  
+  
+
+</script>

@@ -72,12 +72,12 @@ $config['payroll_status'] = array(
 ); 
 
 $config['payment_mode'] = array(
-    'Cash'                     => lang('cash'),
-    'Cheque'                   => lang('cheque'),
-    'transfer_to_bank_account' => lang('transfer_to_bank_account'),
-    'UPI'                      => lang('upi'),
+    'Cash'                     => 'Efectivo',
+    'QR'                   => 'Qr',
+    'Transferencia Bancaria' => 'Transferencia Bancaria',
+    'Tarjeta'                      => 'Tarjeta',
     'Other'                    => lang('other'),
-    'Online'                    => lang('online'),
+    'Online'                   => lang('online'),
 );
 
 $config['yesno_condition'] = array(
@@ -106,15 +106,38 @@ $config['charge_type'] = array(
     'Others'            => lang('others'),
 ); 
 
+// $config['appointment_status'] = array(
+//     'pending'  => lang('pending'),
+//     'approved' => lang('approved'),
+//     'cancel'   => lang('cancel'),
+//     'Confirmado' => "Confirmado",
+// //     'Asitió' => "Asistió",
+// //     'NoLlego' => "No llego",
+//     'Firmado' => "Firmado",
+//     'Atendido' => "Atendido",
+// );
+
 $config['appointment_status'] = array(
-    'pending'  => lang('pending'),
-    'approved' => lang('approved'),
-    'cancel'   => lang('cancel'),
-    'Confirmar' => "Confirmar",
-    'llegada' => "llegada",
-    'NoLlego' => "No llego",
-    'Cerrada' => "Cerrada",
-    'Termino' => "Termino atención",
+    'Agendada'  => "Agendada",
+    'Confirmada' => "Confirmada",
+    'Cancelada'   => "Cancelada",
+    'No Asistida'   => "No Asistida",
+    'Aprobada' => "Aprobada",
+    'Firmada' => "Firmada",
+    'Bloqueada' => "Bloqueada",
+);
+
+$config['type_opd'] = array(
+    'Consulta Externa'  => "consultaexterna",
+    'Cirugía' => "cirugia",
+    'Procedimientos'   => "procedimientos",
+);
+
+$config['public_holidays'] = array(
+   
+    'octubre' => ["10/16/2023"],
+    'noviembre' => ["11/6/2023","11/13/2023"],
+    'diciembre' => ["12/8/2023","12/25/2023"],
 );
 
 $config['appointment_type'] = array(

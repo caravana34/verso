@@ -1,5 +1,6 @@
 <?php
 $currency_symbol = $this->customlib->getHospitalCurrencyFormat();
+
 ?>
 <div class="content-wrapper">
     <section class="content">

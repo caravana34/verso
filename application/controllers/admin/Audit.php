@@ -49,6 +49,7 @@ class Audit extends Admin_Controller
                 $row[] = $value->name;
                 $row[] = $value->ip_address;
                 $row[] = $value->action;
+                $row[] = $value->id_appointment;
                 $row[] = $value->platform;
                 $row[] = $value->agent;
                 $row[] = $date;

@@ -1,8 +1,20 @@
 <?php
 $currency_symbol = $this->customlib->getHospitalCurrencyFormat();
 $genderList = $this->customlib->getGender();
-$case_reference_id=$result['case_reference_id'];
+$case_reference_id=$result['result']['case_reference_id'];
+//   echo "<pre>";
+//   print_r($bills_electronic_cm);
+//   exit;
 ?>
+<style>
+ 
+  .qr{
+    width:auto !important;
+    height:123px !important;
+  }
+  
+  
+</style>
 <link rel="stylesheet" href="<?php echo base_url(); ?>backend/plugins/timepicker/bootstrap-timepicker.min.css">
 <script src="<?php echo base_url(); ?>backend/plugins/timepicker/bootstrap-timepicker.min.js"></script>
 <div class="content-wrapper">
@@ -12,48 +24,46 @@ $case_reference_id=$result['case_reference_id'];
                 <div class="box box-primary">
                     <div class="box-body box-profile">
                         <?php
-                        $image = $result['image'];
+                        $image = $result['result']['image'];
                         if (!empty($image)) {
-                            $file = $result['image'];
+                            $file = $result['result']['image'];
                         } else {
                             $file = "uploads/patient_images/no_image.png";
                         }
                         ?>        
                         <img class="profile-user-img img-responsive img-circle" src="<?php echo base_url() . $file.img_time() ?>" alt="User profile picture">
-                        <h3 class="profile-username text-center"><?php echo $result['patient_name']; ?></h3> 
+                        <h4 class="profile-username text-center"><?php echo $result['result']['patient_name']; ?> <?php echo $result['result']['guardian_name']; ?></h4> 
                         <div class="editviewdelete-icon pt8 text-center">
                             <?php  if ($this->rbac->hasPrivilege('opd_patient_discharge', 'can_view')) { ?>
                             <a class="patient_discharge" href="#"    data-toggle="tooltip" title="<?php echo $this->lang->line('patient_discharge'); ?>"><i class="fa fa-hospital-o"></i>
                                     </a> 
                             <?php } if(!$is_discharge){
                                 if ($this->rbac->hasPrivilege('opd_patient_discharge_revert', 'can_view')) { ?>
-                                 <a data-toggle="tooltip" class="" onclick="discharge_revert('<?php echo $result['case_reference_id']; ?>')" href="#" title="<?php echo $this->lang->line('discharge_revert')?>"><i class="fa fa-undo"> </i></a>
+                                 <a data-toggle="tooltip" class="" onclick="discharge_revert('<?php echo $result['result']['case_reference_id']; ?>')" href="#" title="<?php echo $this->lang->line('discharge_revert')?>"><i class="fa fa-undo"> </i></a>
                                 <?php
                             } } ?>
                            
                         </div>
-                        <input type="hidden" id="result_opdid" name="" value="<?php echo $result['id'] ?>">
-                        <input type="hidden" id="result_pid" name="" value="<?php echo $result['patient_id'] ?>">  
+                        <input type="hidden" id="result_opdid" name="" value="<?php echo $result['result']['id'] ?>">
+                        <input type="hidden" id="result_pid" name="" value="<?php echo $result['result']['patient_id'] ?>">  
                         <ul class="list-group list-group-unbordered">
                             <li class="list-group-item listnoback">
-                                <b><?php echo $this->lang->line('patient_id'); ?></b> <a class="pull-right text-aqua"><?php echo $result['patient_id']; ?></a>
+                                <b><?php echo $this->lang->line('patient_id'); ?></b> <a class="pull-right text-aqua"><?php echo $result['result']['patient_id']; ?></a>
                             </li>
                             <li class="list-group-item listnoback">
-                                <b><?php echo $this->lang->line('phone'); ?></b> <a class="pull-right text-aqua"><?php echo $result['mobileno']; ?></a>
+                                <b><?php echo $this->lang->line('phone'); ?></b> <a class="pull-right text-aqua"><?php echo $result['result']['mobileno']; ?></a>
                             </li>
                             <li class="list-group-item listnoback">
-                                <b><?php echo $this->lang->line('email'); ?></b> <a class="pull-right text-aqua"><?php echo $result['email']; ?></a>
+                                <b><?php echo $this->lang->line('email'); ?></b> <a class="pull-right text-aqua"><?php echo $result['result']['email']; ?></a>
                             </li>
                             <li class="list-group-item listnoback">
-                                <b><?php echo $this->lang->line('blood_group'); ?></b> <a class="pull-right text-aqua"><?php echo $result['blood_group_name']; ?></a>
+                                <b><?php echo $this->lang->line('blood_group'); ?></b> <a class="pull-right text-aqua"><?php echo $result['result']['blood_group_name']; ?></a>
                             </li>
                              <li class="list-group-item listnoback">
-                                <b><?php echo $this->lang->line('age'); ?></b> <a class="pull-right text-aqua"><?php
-                                 echo $this->customlib->getPatientAge($result['age'],$result['month'],$result['day']);
-                                    ?></a>
+                                <b><?php echo $this->lang->line('age'); ?></b> <a class="pull-right text-aqua"><?php echo $this->customlib->getPatientAge($result['result']['age'],$result['result']['month'],$result['result']['day']); ?></a>
                             </li> 
                             <li class="list-group-item listnoback">
-                                <b><?php echo $this->lang->line('opd_no'); ?></b> <a class="pull-right text-aqua"><?php echo $opd_prefix.$result['id']; ?></a>
+                                <b><?php echo $this->lang->line('opd_no'); ?></b> <a class="pull-right text-aqua"><?php echo $opd_prefix.$result['result']['id']; ?></a>
                             </li>
                             <?php 
                             if(!$is_discharge){
@@ -62,7 +72,7 @@ $case_reference_id=$result['case_reference_id'];
                                 <b><?php echo $this->lang->line('discharged'); ?></b> <a class="pull-right text-aqua"><?php echo $this->lang->line('yes'); ?></a> 
                                 </li>
                                 <li class="list-group-item listnoback">
-                                <b><?php echo $this->lang->line('discharge_date'); ?></b> <a class="pull-right text-aqua"><?php echo $this->customlib->YYYYMMDDHisTodateFormat($result['discharge_date'],$this->customlib->getHospitalTimeFormat()); ?></a>
+                                <b><?php echo $this->lang->line('discharge_date'); ?></b> <a class="pull-right text-aqua"><?php echo $this->customlib->YYYYMMDDHisTodateFormat($result['result']['discharge_date'],$this->customlib->getHospitalTimeFormat()); ?></a>
                                 </li>
                                 <?php
                             }
@@ -70,11 +80,11 @@ $case_reference_id=$result['case_reference_id'];
                             
                            
                             <li class="list-group-item listnoback">
-                                <b><?php echo $this->lang->line('consultant'); ?></b> <a class="pull-right text-aqua"><?php echo $result['name'] . " " . $result["surname"]; ?></a>
+                                <b><?php echo $this->lang->line('consultant'); ?></b> <a class="pull-right text-aqua"><?php echo $result['result']['name'] . " " . $result['result']["surname"]; ?></a>
                             </li>
                            
                             <li class="list-group-item listnoback">
-                                <b><?php echo $this->lang->line('case'); ?></b> <a class="pull-right text-aqua"><?php echo $result['case_type']; ?></a>
+                                <b><?php echo $this->lang->line('case'); ?></b> <a class="pull-right text-aqua"><?php echo $result['result']['case_type']; ?></a>
                             </li> 
                         </ul>
                     </div>
@@ -124,70 +134,69 @@ $case_reference_id=$result['case_reference_id'];
                                          </div>    
                                    </div>
 
-                               <div class="download_label"><?php echo composePatientName($result['patient_name'],$result['patient_id']) . " " . $this->lang->line('opd_details'); ?></div>
+                               <div class="download_label"><?php echo composePatientName($result['result']['patient_name'],$result['result']['patient_id']) . " " . $this->lang->line('opd_details'); ?></div>
                                 <div class="table-responsive">
-                                    <h5><?php echo $opd_prefix.$result['id']; ?></h5> 
-                                    <table class="table table-striped table-bordered table-hover ajaxlist" cellspacing="0" width="" data-export-title="<?php echo composePatientName($result['patient_name'],$result['patient_id']) . " " . $this->lang->line('opd_details'); ?>">
+                                    <h5><?php echo $opd_prefix.$result['result']['id']; ?></h5> 
+                                    <table class="table table-striped table-bordered table-hover ajaxlist" cellspacing="0" width="" data-export-title="<?php echo composePatientName($result['result']['patient_name'],$result['result']['patient_id']) . " " . $this->lang->line('opd_details'); ?>">
                                         <thead>
-                                        <th><?php echo $this->lang->line('checkup_id'); ?></th>
-                                        <th><?php echo $this->lang->line('appointment_date'); ?></th>
-                                        <th><?php echo $this->lang->line('consultant'); ?></th>
-                                        <th><?php echo $this->lang->line('reference'); ?></th>
-                                        <th><?php echo $this->lang->line('symptoms'); ?></th>
-                                        <?php 
-                                            if (!empty($fields)) {
-                                                foreach ($fields as $fields_key => $fields_value) {
-                                                    ?>
-                                                    <th><?php echo $fields_value->name; ?></th>
-                                                    <?php
-                                                } 
-                                            } 
-                                        ?> 
-                                        <th class="text-right noExport"><?php echo $this->lang->line('action') ?></th>
-
+                                            <th><?php echo $this->lang->line('checkup_id'); ?></th>
+                                            <th><?php echo $this->lang->line('appointment_date'); ?></th>
+                                            <th><?php echo $this->lang->line('consultant'); ?></th>
+                                            <th><?php echo $this->lang->line('reference'); ?></th>
+                                            <th><?php echo $this->lang->line('symptoms'); ?></th>
+                                                <?php if (!empty($fields)) {
+                                                    foreach ($fields as $fields_key => $fields_value) { ?>
+                                                        <th><?php echo $fields_value->name; ?></th>
+                                                        <?php } } ?> 
+                                            <th  class="text-right noExport"><?php echo $this->lang->line('action') ?> </th>
                                         </thead>
                                         <tbody>
-
-                                        
                                         </tbody>
                                     </table>
                                 </div> 
                             </div>
-<?php } ?>
-                        
-
-                      
-                     
-
+                        <?php } ?>
                         <!-- Charges -->
                             <?php if ($this->rbac->hasPrivilege('opd_charges', 'can_view')) { ?>
                             <div class="tab-pane" id="charges">
                                 <div class="box-tab-header">
-                                  <h3 class="box-tab-title"><?php echo $this->lang->line('charges'); ?></h3>
+                                      <h3 class="box-tab-title"><?php echo $this->lang->line('charges'); ?></h3>
+                                        <div class="box-tab-tools">
+                                            <?php if ($this->rbac->hasPrivilege('opd_charges', 'can_add')) {
+                                                if($is_discharge){ ?>
+                                            <a data-toggle="modal" onclick="holdModal('add_chargeModal')" class="btn btn-primary btn-sm addcharges">
 
-                                <div class="box-tab-tools">
-    <?php if ($this->rbac->hasPrivilege('opd_charges', 'can_add')) { 
-        if($is_discharge){ ?>
-                                        <a data-toggle="modal" onclick="holdModal('add_chargeModal')" class="btn btn-primary btn-sm addcharges"><i class="fa fa-plus"></i> <?php echo $this->lang->line('add_charges') ?></a>
-    <?php }
-} ?>
-                                </div>
-                            </div>     
-                               <div class="download_label"><?php echo composePatientName($result['patient_name'],$result['patient_id']) . " " . $this->lang->line('opd_details'); ?></div>
+                                                <i class="fa fa-plus"></i> 
+                                                <?php echo $this->lang->line('add_charges') ?>
+                                            </a>
+                                            <?php } } ?>
+                                            <a  href="<?= base_url('admin/bill/index/'.$result['result']['case_reference_id']) ?>" class="btn btn-primary btn-sm "><i class="fa fa-plus"></i> Enviar Factura</a>
+<!--                                              <a  href="<?= base_url('admin/bill/charges_nuvo/'.$result['result']['case_reference_id']) ?>.'/cl" class="btn btn-primary btn-sm "><i class="fa fa-plus"></i> Enviar Factura</a> -->
+                                      </div>
+                                </div>     
+                                      <div style="margin:5px">
+                                          <button class="btn btn-primary btn-sm showbill_cl" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Please wait..." data-case-id="<?php echo $result['result']['case_reference_id'];?>" data-prefix-id="CL" data-payment-id="<?php echo $payment_details['0']['id'];?>">Enviar CL</button>
+                                      </div> 
+                                   <div>
+                                      <button class="btn btn-primary btn-sm showbill" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Please wait..." data-case-id="<?php echo $result['result']['case_reference_id'];?>"><?= $this->lang->line("bill_summary"); ?></button>
+                                  </div> 
+                               <div class="download_label"><?php echo composePatientName($result['result']['patient_name'],$result['result']['patient_id']) . " " . $this->lang->line('opd_details'); ?></div>
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered table-hover example">
                                         <thead>
                                         <th><?php echo $this->lang->line('date'); ?></th>
                                         <th><?php echo $this->lang->line('name'); ?></th>
+                                           <th>Cups</th>
+                                          <th>Iss</th>
                                         <th><?php echo $this->lang->line('charge_type'); ?></th>
                                         <th><?php echo $this->lang->line('charge_category'); ?></th>
-                                         <th><?php echo $this->lang->line('qty'); ?></th>
+<!--                                          <th><?php echo $this->lang->line('qty'); ?></th> -->
                                         <th class=""><?php echo $this->lang->line('standard_charge') . ' (' . $currency_symbol . ')'; ?> </th>
                                         <th class=""><?php
                                         echo $this->lang->line('tpa_charge') . ' (' . $currency_symbol . ')';
                                         ;
                                         ?></th>
-                                        <th class=""><?php echo $this->lang->line('tax'); ?></th>
+<!--                                         <th class=""><?php echo $this->lang->line('tax'); ?></th> -->
                                         <th class="text-right"><?php echo $this->lang->line('applied_charge') . ' (' . $currency_symbol . ')'; ?></th>
                                         <th class="text-right"><?php echo $this->lang->line('amount') . ' (' . $currency_symbol . ')'; ?></th>
                                         <th class="text-right noExport"><?php echo $this->lang->line('action') ?></th>
@@ -208,47 +217,38 @@ $case_reference_id=$result['case_reference_id'];
                                                             <?php echo $charges_value["name"]; ?>
                                                              <div class="bill_item_footer text-muted"><label><?php if($charges_value["note"] !=''){ echo $this->lang->line('charge_note').': ';} ?></label> <?php echo $charges_value["note"]; ?></div>
                                                          </td>
+                                                        <td style="text-transform: capitalize;"><?php echo $charges_value["cups"] ?></td>
+                                                        <td style="text-transform: capitalize;"><?php echo $charges_value["iss"] ?></td>
                                                         <td style="text-transform: capitalize;"><?php echo $charges_value["charge_type"] ?></td>
                                                         <td style="text-transform: capitalize;"><?php echo $charges_value["charge_category_name"] ?></td>
-                                                           <td style="text-transform: capitalize;"><?php echo $charges_value['qty']." ".$charges_value["unit"]; ?></td>
+<!--                                                            <td style="text-transform: capitalize;"><?php echo $charges_value['qty']." ".$charges_value["unit"]; ?></td> -->
                                                         <td class="text-right"><?php echo $charges_value["standard_charge"] ?></td>
                                                         <td class="text-right"><?php echo $charges_value["tpa_charge"] ?></td>
-                                                        <td class="text-right"><?php echo "(".$charges_value["tax"]."%) ".$taxamount ;?></td>
+<!--                                                         <td class="text-right"><?php echo "(".$charges_value["tax"]."%) ".$taxamount ;?></td> -->
                                                         <td class="text-right"><?php echo $charges_value["apply_charge"] ?></td>
                                                         <td class="text-right"><?php echo $charges_value["amount"] ?></td>
                                                         <td class="text-right"> 
-    <a href="javascript:void(0);" class="btn btn-default btn-xs print_charge" data-toggle="tooltip" title="" data-loading-text="<?php echo $this->lang->line('please_wait') ;?>" data-record-id="<?php echo $charges_value['id']; ?>"  data-original-title="<?php echo $this->lang->line('print');?>">
-    <i class="fa fa-print"></i>
-    </a> 
-     <?php 
-    if($is_discharge){
-        if ($this->rbac->hasPrivilege('opd_charges', 'can_edit')) { 
-    ?>
-    <a href='javascript:void(0);' class='btn btn-default btn-xs edit_charge' data-loading-text='<?php echo $this->lang->line('please_wait') ;?>' data-toggle='tooltip' data-record-id='<?php echo $charges_value['id']; ?>'  title="<?php echo  $this->lang->line('edit')?>"><i class='fa fa-pencil'></i></a>
-
-                                                            <?php } } if ($this->rbac->hasPrivilege('opd_charges', 'can_delete')) {
-                                                            if($is_discharge){ ?>
-                                                              
-                        <a href="javascript:void(0);" onclick="deleteOpdPatientCharge('<?php echo $charges_value['id']; ?>')" class="btn btn-default btn-xs" data-toggle="tooltip" title=""  data-original-title="<?php echo $this->lang->line('delete'); ?>"><i class="fa fa-trash"></i></a>
-
-                                                    <?php } }?>   
+                                                            <a href="javascript:void(0);" class="btn btn-default btn-xs print_charge" data-toggle="tooltip" title="" data-loading-text="<?php echo $this->lang->line('please_wait') ;?>" data-record-id="<?php echo $charges_value['id']; ?>"  data-original-title="<?php echo $this->lang->line('print');?>">
+                                                                <i class="fa fa-print"></i>
+                                                            </a> 
+                                                            <?php if($is_discharge){
+                                                                if ($this->rbac->hasPrivilege('opd_charges', 'can_edit')) { ?>
+                                                            <a href='javascript:void(0);' class='btn btn-default btn-xs edit_charge' data-loading-text='<?php echo $this->lang->line('please_wait') ;?>' data-toggle='tooltip' data-record-id='<?php echo $charges_value['id']; ?>'  title="<?php echo  $this->lang->line('edit')?>">
+                                                                <i class='fa fa-pencil'></i>
+                                                            </a>
+                                                         
+                                                            <?php } } if ($this->rbac->hasPrivilege('opd_charges', 'can_delete')) {if($is_discharge){ ?>
+                                                            <a href="javascript:void(0);" onclick="deleteOpdPatientCharge('<?php echo $charges_value['id']; ?>')" class="btn btn-default btn-xs" data-toggle="tooltip" title=""  data-original-title="<?php echo $this->lang->line('delete'); ?>">
+                                                                <i class="fa fa-trash"></i>
+                                                            </a>
+                                                            <?php } }?>   
                                                         </td>
-                                                       
                                                     </tr>
-                                                    <?php
-                                                }
-                                            }
-                                            ?>  
-
+                                                    <?php } } ?>
                                         </tbody>
-
                                         <tr class="box box-solid total-bg">
-
-                                            <td colspan='10' class="text-right"><?php echo $this->lang->line('total') . " : " . $currency_symbol . "" . amountFormat($total); ?> 
-                                            <input type="hidden" id="charge_total" name="charge_total" value="<?php echo $total ?>">
-                                            </td>
+                                            <td colspan='10' class="text-right"><?php echo $this->lang->line('total') . " : " . $currency_symbol . "" . amountFormat($total); ?></td>
                                              <td></td>
-                                            
                                         </tr>
                                     </table>
                                 </div> 
@@ -264,10 +264,7 @@ $case_reference_id=$result['case_reference_id'];
                                 <?php
                                 if ($this->rbac->hasPrivilege('opd_payment', 'can_add')) {
                                       if($is_discharge){ ?>
-                                 
-
                                     <div class="box-tab-tools">
-                                     
                                         <a href="#" class="btn btn-sm btn-primary dropdown-toggle addpayment"  data-toggle='modal'><i class="fa fa-plus"></i> <?php echo $this->lang->line('add_payment'); ?></a>
                                     </div><!--./impbtnview-->
                                     <?php
@@ -288,7 +285,6 @@ $case_reference_id=$result['case_reference_id'];
                                         <th class="text-right noExport"><?php echo $this->lang->line('action') ?></th>
                                         </thead>
                                         <tbody>
-
                                         <?php
                                         $total_payment = 0;
                                             if (!empty($payment_details)) {
@@ -296,7 +292,6 @@ $case_reference_id=$result['case_reference_id'];
                                                 foreach ($payment_details as $payment) {
                                                     if (!empty($payment['amount'])) {
                                                         $total_payment += $payment['amount'];
-
                                                     }
                                                     ?> 
                                                     <tr>
@@ -304,84 +299,69 @@ $case_reference_id=$result['case_reference_id'];
                                                         <td><?php echo $this->customlib->YYYYMMDDHisTodateFormat($payment['payment_date'],$this->customlib->getHospitalTimeFormat()); ?></td>
                                                         <td><?php echo $payment["note"] ?></td>
                                                          <td ><?php echo $this->lang->line(strtolower($payment["payment_mode"]))."<br>";
-
-                                                        if($payment['payment_mode'] == "Cheque"){
-                                                             if($payment['cheque_no']!=''){
-                                       echo $this->lang->line('cheque_no') . ": ".$payment['cheque_no'];
-                                      
-                                    echo "<br>";
-                                }
-                                    if($payment['cheque_date']!='' && $payment['cheque_date']!='0000-00-00'){
-                                       echo $this->lang->line('cheque_date') .": ".$this->customlib->YYYYMMDDTodateFormat($payment['cheque_date']);
-                                   }
-                                       
-
-                                     }
-                                                        ?>
-                                                            
-
+                                                    if($payment['payment_mode'] == "Cheque"){
+                                                        if($payment['cheque_no']!=''){
+                                                            echo $this->lang->line('cheque_no') . ": ".$payment['cheque_no'];
+                                                            echo "<br>";
+                                                        }
+                                                        if($payment['cheque_date']!='' && $payment['cheque_date']!='0000-00-00'){
+                                                            echo $this->lang->line('cheque_date') .": ".$this->customlib->YYYYMMDDTodateFormat($payment['cheque_date']);
+                                                        }
+                                                    }?>
                                                         </td>
                                                         <td class="text-right"><?php echo $payment["amount"] ?></td>
-                                                      
                                                         <td class="text-right">
-            <?php         if ($payment['payment_mode'] == "Cheque" && $payment['attachment'] != "")  {
-    ?>
-    <a href='<?php echo site_url('admin/transaction/download/'.$payment['id']);?>' class='btn btn-default btn-xs'  title='<?php echo $this->lang->line('download'); ?>'><i class='fa fa-download'></i></a>
-    <?php
-}
-         ?>
-
- <a href="javascript:void(0);" class="btn btn-default btn-xs print_trans" data-toggle="tooltip" title="" data-loading-text="<?php echo $this->lang->line('please_wait') ;?>" data-record-id="<?php echo $payment['id']; ?>"  data-original-title="<?php echo $this->lang->line('print') ;?>">
+                                                            <?php  if ($payment['payment_mode'] == "Cheque" && $payment['attachment'] != "")  { ?>
+                                                            <a href='<?php echo site_url('admin/transaction/download/'.$payment['id']);?>' class='btn btn-default btn-xs'  title='<?php echo $this->lang->line('download'); ?>'>
+                                                                <i class='fa fa-download'></i>
+                                                            </a>
+                                                            <?php }  ?>
+                                                            <a href="javascript:void(0);" class="btn btn-default btn-xs print_trans" data-toggle="tooltip" title="" data-loading-text="<?php echo $this->lang->line('please_wait') ;?>" data-record-id="<?php echo $payment['id']; ?>"  data-original-title="<?php echo $this->lang->line('print') ;?>">
                                                                     <i class="fa fa-print"></i>
-                                                                </a>  
+                                                                </a> 
+                                                          
+                                                          <?php if($bills_electronic_cm[0]['state_response'] =="Exitosa"): ?>
+                                                          <div style="margin:5px">
+                                                            <button onclick="ver_factura(<?php echo $result['result']['case_reference_id'];?>)" class="btn btn-primary btn-sm bill_patient loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Ver Factura</button>
+                                                           </div> 
+                                                          <?php else: ?>
+                                                          <div style="margin:5px">
+                                                            <button class="btn btn-primary btn-sm showbill_cm" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Please wait..." data-case-id="<?php echo $result['result']['case_reference_id'];?>" data-prefix-id="CM" data-payment-id="<?php echo $payment_details['0']['id'];?>">Enviar CM</button>
+                                                           </div> 
+                                                          <?php endif ?>
+                                                          
                                                             <?php if (!empty($payment["document"])) { ?>
                                                                 <a href="<?php echo base_url(); ?>admin/payment/download/<?php echo $payment["document"]; ?>"  class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('download'); ?>">
                                                                     <i class="fa fa-download"></i>
                                                                 </a>
-                                              <?php } ?>
-
-   
-
-                                                            <?php
-                                                             if($is_discharge){ 
-                                                            if ($this->rbac->hasPrivilege('opd_payment', 'can_delete')) { ?>
-            <a href="javascript:void(0);"onclick="deletePayment('<?php echo $payment['id']; ?>')" class="btn btn-default btn-xs" data-toggle="tooltip" title=""  data-original-title="<?php echo $this->lang->line('delete'); ?>">
+                                                            <?php } ?>
+                                                            <?php if($is_discharge){ 
+                                                        if ($this->rbac->hasPrivilege('opd_payment', 'can_delete')) { ?>
+                                                            <a href="javascript:void(0);"onclick="deletePayment('<?php echo $payment['id']; ?>')" class="btn btn-default btn-xs" data-toggle="tooltip" title=""  data-original-title="<?php echo $this->lang->line('delete'); ?>">
                                                                 <i class="fa fa-trash"></i>
-                                                            </a>   
-                                                    <?php } } ?>
+                                                            </a>
+                                                            <?php } } ?>
                                                         </td>
                                                     </tr>
-
-                                        <?php } }?> 
+                                            <?php } }?> 
                                         </tbody>
-                                                <tr class="box box-solid total-bg">
-
-                                                   
-                                                 
-                                                    <td></td> 
-                                                    <td></td> 
-                                                    <td></td> 
-                                                    <td></td> 
-                                                     <td  class="text-right"><?php echo $this->lang->line('total') . " : " . $currency_symbol . "" . number_format((float)$total_payment, 2, '.', ''); ?>
-                                                    </td> 
-                                                        <td></td> 
-                                                   
-                                                </tr>
-
-                                            
+                                        <tr class="box box-solid total-bg">
+                                            <td></td> 
+                                            <td></td> 
+                                            <td></td> 
+                                            <td></td> 
+                                             <td  class="text-right"><?php echo $this->lang->line('total') . " : " . $currency_symbol . "" . number_format((float)$total_payment, 2, '.', ''); ?></td>
+                                            <td></td>
+                                        </tr>
                                     </table>
                                 </div> 
                             </div> 
                             <!-- -->
-                                <?php } ?>
-                      
-
+                        <?php } ?>
                     </div>
-
                 </div>
-                </form>
-
-            </div>
+            </form>
+        </div>
     </section>
 </div> 
 
@@ -714,8 +694,8 @@ $case_reference_id=$result['case_reference_id'];
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12">
                            
-                            <input type="hidden" name="opd_id" value="<?php echo $result['id'] ?>" >
-                            <input type="hidden" name="patient_charge_id" id="editpatient_charge_id" value="0">
+                            <input type="hidden" name="opd_id" value="<?php echo $result['result']['id'] ?>" >
+                            <input type="hidden" name="patient_charge_id" id="editpatient_charge_id" value="<?php echo $result['result']['patient_id'] ?>" >
                             <input type="hidden" name="organisation_id" id="editorganisation_id" value="<?php echo $visitdata['organisation_id'] ?>" >
                                 
                                 <div class="row">
@@ -866,12 +846,11 @@ $case_reference_id=$result['case_reference_id'];
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12">
                            
-                            <input type="hidden" name="opd_id" value="<?php echo $result['id'] ?>" >
-                            <input type="hidden" name="patient_charge_id" id="patient_charge_id" value="0">
-                            <input type="hidden" name="organisation_id" id="organisation_id" value="<?php echo $visitdata['organisation_id'] ?>" >
+                            <input  type="hidden" name="opd_id" value="<?php echo $result['result']['id'] ?>" >
+                            <input  type="hidden" name="patient_charge_id" id="patient_charge_id" value="0">
+                            <input  type="hidden" name="organisation_id" id="organisation_id" value="<?php echo $visitdata['organisation_id'] ?>" >
                                 
                                 <div class="row">
-                                    
                                     <div class="col-sm-2">
                                         <div class="form-group">
                                             <label class="displayblock"><?php echo $this->lang->line('charge_type'); ?><small class="req"> *</small></label>
@@ -932,7 +911,21 @@ $case_reference_id=$result['case_reference_id'];
                                             <span class="text-danger"><?php echo form_error('qty'); ?></span>
                                         </div>
                                     </div>
-                                </div>
+                                     <div class="col-sm-2" style="">
+                                        <div class="form-group">
+                                          <label>Códigos Iss 2000</label>
+                                          <div class="input-group">
+                                            <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fa fa-search"></i></span>
+                                            <input type="text" class="form-control search_text" id="iss_input" onkeyup="filter()" placeholder="Buscar procedimiento" autocomplete="off" style="border-radius: 0px 10px 10px 0px !important;" <?= $result_state_readonly?>>
+                                            <span class="text-danger"></span>
+                                          </div>
+                                          <div class="usersearchlist">
+                                            <ul class="list-group scroll-container mb-3" style="position: absolute; z-index: 100;" id="iss_id" hidden>
+                                            </ul>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
                             
                                     <div class="divider"></div>
 
@@ -1784,7 +1777,7 @@ $case_reference_id=$result['case_reference_id'];
                         <?php } ?>
                     </div>
                 </div>
-                <h4 class="modal-title"> <?php echo $this->lang->line('visit_details'); ?></h4> 
+                <h4 class="modal-title"> <?php echo $this->lang->line('visit_details'); ?> </h4> 
             </div>
             <div class="modal-body pt0 pb0">
               
@@ -1978,12 +1971,13 @@ $case_reference_id=$result['case_reference_id'];
                             </div><!--./row--> 
                          </div> 
          
-                                <div class="box-footer">
-                                    <div class="pull-right">
-                                        <button type="submit" id="formeditpabtn" data-loading-text="<?php echo $this->lang->line('processing') ?>" class="btn btn-info"><?php echo $this->lang->line('save'); ?></button>
-                                    </div>
-                                </div> 
-                        </form>         </div>
+                      <div class="box-footer">
+                          <div class="pull-right">
+                              <button type="submit" id="formeditpabtn" data-loading-text="<?php echo $this->lang->line('processing') ?>" class="btn btn-info"><?php echo $this->lang->line('save'); ?></button>
+                          </div>
+                      </div> 
+              </form>        
+      </div>
     </div>    
 </div>
 <!-- discharged summary   -->
@@ -2129,8 +2123,8 @@ $case_reference_id=$result['case_reference_id'];
                         <div class="col-lg-12 col-md-12 col-sm-12">
                                 <input type="hidden" name="id" id="pid">
                                 <input type="hidden" name="password" id="revisit_password">
-                                <input type="hidden" name="opd_id"  class="form-control" value="<?php echo $result['id']; ?>">
-                                <input type="hidden" name="case_reference_id"  class="form-control" value="<?php echo $result['case_reference_id']; ?>">
+                                <input type="hidden" name="opd_id"  class="form-control" value="<?php echo $result['result']['id']; ?>">
+                                <input type="hidden" name="case_reference_id"  class="form-control" value="<?php echo $result['result']['case_reference_id']; ?>">
                                 <input type="hidden" name="email" id="revisit_email">
                                 <input type="hidden" name="contact" id="revisit_contact">
                                 <input id="revisit_name" name="name" placeholder="" type="hidden" class="form-control"  value="" />
@@ -2463,8 +2457,8 @@ $case_reference_id=$result['case_reference_id'];
                         <form id="add_payment" accept-charset="utf-8" method="post" class="ptt10" >
                 <div class="">
                     <div class="modal-body pt0 pb0">
-                            <input type="hidden" name="opd_id" id="payment_opd_id" class="form-control" value="<?php echo $result['id']; ?>">
-                                                <input type="hidden" name="case_reference_id" id="payment_opd_id" class="form-control" value="<?php echo $result['case_reference_id']; ?>">
+                            <input type="hidden" name="opd_id" id="payment_opd_id" class="form-control" value="<?php echo $result['result']['id']; ?>">
+                                                <input type="hidden" name="case_reference_id" id="payment_opd_id" class="form-control" value="<?php echo $result['result']['case_reference_id']; ?>">
                                                 <input type="hidden" name="patient_id"value="<?php echo $id; ?>">
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12">
@@ -2572,6 +2566,267 @@ $case_reference_id=$result['case_reference_id'];
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="billSummaryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog pup100" role="document">
+      <div class="modal-body ptt10 pb0 pup-scroll-area">
+        <div class="modal-content modal-media-content">
+            <div class="modal-header modal-media-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div class="modalicon modal_action">
+                   
+                </div>
+                <h4 class="modal-title"><span id="patient_bill_summary"> </span> <?= $this->lang->line("bill_summary"); ?></h4>
+            </div>
+          <div class="col-md-8" style="display:flex; align-self:center;">
+                <div class="col-md-6" style="">
+                 <div class="col-md-6" style="">
+                    <img style="height:90px; width:auto;" src="<?php echo base_url('uploads/own_cliniverso/imgs/cliniverso.png') ;?>">
+                  </div>
+                  <div class="col-md-6" style="">
+                    <p>
+                      CLINIVERSO SAS
+                      NIT 901597551-7
+                      CR 25 9 A SUR 162 P 4
+                      TEL 604460770 Bello - Colombia
+                    </p>
+                  </div>
+                </div>
+                  <div class="col-md-6">
+                    <div class="col-md-6">
+                      <p>
+                       *Régimen Ordinario de Tributación
+                       *IVA Régimen Común
+                       *Retención en la fuente a título de rent<br>
+                       *Retención en la fuente en el impuesto
+                       *Facturación Electrónica
+                       *Informante de exogena
+                      </p>
+                      </div>
+                    <div class="col-md-6">
+                      <p>
+                        Resolución DIAN <br>
+                        Facturación Electrónica No. 18764050076119 de 06/06/2023 hasta 06/06/2024<br>
+                        Rango Autorizado del CL1 al CL500000
+                      </p>
+                    </div>
+                  </div>
+             </div>
+                
+          <div class="col-md-4" style="display:flex; margin:0px 0px 5px 0px; gap:9px;">
+                    <div class="col-lg-12 col-md-12 col-sm-12 mt-4 mb-1" style="padding:10px;border-radius:15px; border: 1px solid #9b9898; margin-bottom:10px;">
+                      <div class="col-12">
+                          <strong class="items_text">Señores</strong>:  EPS SURA
+                        </div>
+                       <div class="col-12">
+                         <p style=" display: inline;">
+                          <strong class="items_text">Tipo de documento </strong>: NIT
+                         </p> 
+                         <p style=" display: inline;">
+                          <strong class="items_text">No</strong>:   800088702
+                         </p> 
+                      </div>
+                      <div class="col-12">
+                          <p style=" display: inline;">
+                            
+                                  <strong class="items_text">Dirección </strong>:
+                            
+                               Cra 64 N. 68 -75 Medellin - Colombia
+                          </p>
+                      </div>
+                      <div class="col-12">
+                            <p style=" display: inline;">
+                                <strong class="items_text">Facturación Electrónica :</strong>
+                            </p>
+                            <p style=" display: inline;">
+                             CM <?php echo $payment['id']; ?>
+                            </p>
+                        </div>
+                        <div class="col-12">
+                            <p style=" display: inline;">
+                                <strong class="items_text">Fecha de emisión :</strong>
+                            </p>
+                            <p style=" display: inline; font-size:;10px">
+                                <?php $currentDateTime = new DateTime(); echo $currentDateTime->format('Y-m-d'); ?>
+                            </p>
+                        </div>
+                        <div class="col-12">
+                                <p style=" display: inline;">
+                                    <strong class="items_text">Fecha de vencimiento :</strong>
+                                </p>
+                                <p style=" display: inline;">
+                                    <?php $currentDateTime = new DateTime(); $currentDateTime->modify('+15 days'); echo $currentDateTime->format('Y-m-d'); ?>
+                                </p>
+                        </div>
+                      <div class="col-12">
+                            <p style=" display: inline;">
+                                <strong class="items_text">Forma de pago: </strong>
+                            </p>
+                            <p style=" display: inline;">
+                                Crédito
+                            </p>
+                        </div>
+                        <div class="col-12">
+                            <p style=" display: inline;">
+                                <strong class="items_text">Medio de pago: </strong>
+                            </p>
+                            <p style=" display: inline;">
+                                Consignación Bancaria
+                            </p>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+
+                    <div id="billSummaryData" style="margin-bottom:10px">
+                        
+                    </div>
+                  <div class="col-md-4" style="">
+                    <div class="qr" id="qrcode"></div>
+                    </div>
+                  <div class="col-md-8" style="">
+                    <p id="billSummaryDian">
+                        
+                    </p>
+                   </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="billSummaryModal_cm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog pup100" role="document">
+      
+        <div class="modal-content modal-media-content">
+            <div class="modal-header modal-media-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div class="modalicon modal_action">
+                   
+                </div>
+                <h4 class="modal-title"><span id="patient_bill_summary"> </span> <?= $this->lang->line("bill_summary"); ?></h4>
+            </div>
+                <div class="col-md-12" style="display:flex">
+                  <div class="col-md-6" style="">
+                     <div class="col-md-6" style=""> 
+                          <img style="height:90px; width:auto;" src="<?php echo base_url('uploads/own_cliniverso/imgs/cliniverso.png') ;?>">
+                     </div>
+                     <div class="col-md-6" style=""> 
+                         <p>
+                         <?php echo $resolutions[0]->comercial_name ?><br>
+                         <?php echo $resolutions[0]->nit ?><br>
+                          <?php echo $resolutions[0]->address ?><br>
+                          Tel:  <?php echo $resolutions[0]->mobile ?> <?php echo $resolutions[0]->city ?> - <?php echo $resolutions[0]->country ?><br>
+                         </p>
+                     </div>
+                  </div>
+                    <div class="col-md-6">
+                        <div class="col-md-6" style=""> 
+                          <p>
+                           *Régimen Ordinario de Tributación<br>
+                           *IVA Régimen Común<br>
+                           *Retención en la fuente a título de rent<br>
+                           *Retención en la fuente en el impuesto<br>
+                           *Facturación Electrónica<br>
+                           *Informante de exogena<br>
+                          </p>
+                        </div>
+                      <div class="col-md-6" style=""> 
+                        <p>
+                          Resolución DIAN Facturación Electrónica No. 18764051921371 de 17/07/2023 hasta 17/07/2024<br>
+                          Rango Autorizado del CM1 al CM5000  
+                        </p>
+                      </div>
+                    </div>
+                </div>
+                   <div class="col-md-12" style="width: -webkit-fill-available;display:flex; margin:0px 0px 5px 0px; gap:9px;">
+                      <div class="col-lg-6 col-md-6 col-sm-6 mt-4 mb-1" style="padding:10px;border-radius:15px; border: 1px solid #9b9898; margin-bottom:10px;">
+                          <p style="display: inline;">
+                              <strong class="items_text">Señores</strong>:
+                              <?php echo $result['result']['patient_name']; ?> <?php echo $result['result']['guardian_name']; ?>
+                          </p>
+                          <p style="display: inline;">
+                            <div>
+                              <strong class="items_text">Tipo de documento </strong>:
+                               <?php echo $result['result']['insurance_validity']; ?>
+                              </div>
+                          </p>
+                          <p style=" display: inline;">
+                              <strong class="items_text">No</strong>:
+                              <?php echo $result['result']['identification_number']; ?>
+                          </p>
+                          <p style="display: inline;">
+                              <div>
+                                  <strong class="items_text">Dirección </strong>:
+                                    Cra 64 N. 68 -75 Medellin - Colombia
+                              </div>
+                          </p>
+                          
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-6  mt-4 mb-1" style="padding:10px; border-radius:15px; border: 1px solid #9b9898; margin-bottom:10px;">
+                          <div class="col-12">
+                              <p style=" display: inline;">
+                                  <strong class="items_text">Facturación Electrónica :</strong>
+                              </p>
+                              <p style=" display: inline;">
+                               CM <?php echo $bills_electronic_cm[0]['consecutive']; ?>
+                              </p>
+                          </div>
+                          <div class="col-12">
+                              <p style=" display: inline;">
+                                  <strong class="items_text">Fecha de emisión :</strong>
+                              </p>
+                              <p style=" display: inline; font-size:;10px">
+                                  <?php $currentDateTime = new DateTime(); echo $currentDateTime->format('Y-m-d'); ?>
+                              </p>
+                          </div>
+                          <div class="col-12">
+                                  <p style=" display: inline;">
+                                      <strong class="items_text">Fecha de vencimiento :</strong>
+                                  </p>
+                                  <p style=" display: inline;">
+                                      <?php $currentDateTime = new DateTime(); $currentDateTime->modify('+15 days'); echo $currentDateTime->format('Y-m-d'); ?>
+                                  </p>
+                          </div>
+                        <div class="col-12">
+                              <p style=" display: inline;">
+                                  <strong class="items_text">Forma de pago: </strong>
+                              </p>
+                              <p style=" display: inline;">
+                                  <?php echo $payment_details[0]['payment_mode']; ?>
+                              </p>
+                          </div>
+<!--                           <div class="col-12">
+                              <p style=" display: inline;">
+                                  <strong class="items_text">Medio de pago: </strong>
+                              </p>
+                              <p style=" display: inline;">
+                                  Consignación Bancaria
+                              </p>
+                          </div> -->
+                      </div>
+                  </div>
+          
+          
+                <div class="modal-body ptt10 pb0 pup-scroll-area">
+                    <div id="billSummaryData_cm">
+                        
+                    </div>
+                    <p id="billSummaryDian_cm">
+                        
+                    </p>
+                  <div class="qr" id="qrcode_cm"></div>
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
 
 <!-- //========datatable start===== -->
 <script type="text/javascript">
@@ -3336,7 +3591,7 @@ $(document).on('click','.editot',function(){
                 }else{
                     var delete_action = '';
                 }
-                var patient_id = "<?php echo $result["id"] ?>";
+                var patient_id = "<?php echo $result['result']["id"] ?>";
                 $('#edit_delete').html("<?php if ($this->rbac->hasPrivilege('revisit', 'can_edit')) { ?><a href='#'' onclick='editRecord(" + visitid + ")' data-target='#editModal' data-toggle='tooltip'  data-original-title='<?php echo $this->lang->line('edit'); ?>'><i class='fa fa-pencil'></i></a><?php } ?><?php if ($this->rbac->hasPrivilege('revisit', 'can_delete')) { ?>"+delete_action+"<?php } ?>" );
                 $('#viewModal .modal-body').html(data.page);
               $('#viewModal').modal('show');
@@ -4816,32 +5071,32 @@ return dosage_opt;
   });
 
          $(document).on('click','.print_trans',function(){
-      var $this = $(this);
-         var record_id=$this.data('recordId')
-       $this.button('loading');
-      $.ajax({
-          url: '<?php echo base_url(); ?>admin/transaction/printTransaction',
-          type: "POST",
-          data:{'id':record_id},
-          dataType: 'json',
-           beforeSend: function() {
-                 $this.button('loading');
-      
-          },
-          success: function(res) {
-           popup(res.page);
-          },
-             error: function(xhr) { // if error occured
-          alert("<?php echo $this->lang->line('error_occurred_please_try_again'); ?>");
-                  $this.button('reset');
-              
-         },
-              complete: function() {
-                   $this.button('reset');
-                 
-             }
-      });
-  });
+            var $this = $(this);
+             var record_id=$this.data('recordId')
+             $this.button('loading');
+            $.ajax({
+                url: '<?php echo base_url(); ?>admin/transaction/printTransaction',
+                type: "POST",
+                data:{'id':record_id},
+                dataType: 'json',
+                 beforeSend: function() {
+                       $this.button('loading');
+
+                },
+                success: function(res) {
+                 popup(res.page);
+                },
+                   error: function(xhr) { // if error occured
+                alert("<?php echo $this->lang->line('error_occurred_please_try_again'); ?>");
+                        $this.button('reset');
+
+               },
+                    complete: function() {
+                         $this.button('reset');
+
+                   }
+            });
+        });
 
          $(document).on('click','.print_charge',function(){    
 
@@ -5211,36 +5466,33 @@ return dosage_opt;
         }
 </script>
 <script type="text/javascript">
-    $(document).on('click','.print_bill',function(){
-    var id=$(this).data('recordId');
-      
+   $(document).on('click','.print_bill',function(){
+        let case_id=$(this).data('caseId');      
         var $this = $(this);
-        var lab   = $(this).data('typeId');
-        $.ajax({
-            url: base_url+'admin/patient/printpathoparameter',
+         $.ajax({
+            url: base_url+'admin/bill/print_patient_bill',
             type: "POST",
-            data: {'id': id,'lab':lab},
+            data: {'case_id': case_id},
             dataType: 'json',
-               beforeSend: function() {
+            beforeSend: function() {
               $this.button('loading');
-               },
-            success: function (data) {         
-          
-           popup(data.page);
+            },
+            success: function (data) {                          
+              popup(data.page);
+              $this.button('reset');
+              
 
             },
-
              error: function(xhr) { // if error occured
-          alert("<?php echo $this->lang->line('error_occurred_please_try_again'); ?>");
-             $this.button('reset');
+                alert("<?php echo $this->lang->line("error_occurred_please_try_again"); ?>");
+                $this.button('reset');
                
-      },
-      complete: function() {
+            },
+            complete: function() {
             $this.button('reset');
-     
-      }
+            }
         });
-    });
+});
 </script>
 <script>    
     $(document).on('change', '.findingtype', function () {
@@ -5298,7 +5550,7 @@ return dosage_opt;
 </script> 
 
 <script type="text/javascript">
-    function delete_prescription(visitid) {   
+   function delete_prescription(visitid) {   
         if (confirm('Are you sure')) {
             $.ajax({
                 url: '<?php echo base_url(); ?>admin/prescription/deletePrescription/'+visitid,
@@ -5364,5 +5616,381 @@ return dosage_opt;
         $('.cheque_div').css("display", "none");
       }
     });
+  
+  $(document).on('click','.showbill',function(){
+        let $this=$(this);
+        let case_id=$(this).data('caseId');
+        console.log(case_id);
+    
+            $.ajax({
+                type: 'POST',
+                url: base_url+'admin/bill/patient_bill',
+                data: {case_reference_id:case_id},
+                dataType: 'json',
+                beforeSend: function() {
+                  $this.button('loading');
+                 },
+                success: function (result) {                
+                    $("#patient_bill_summary").html(result.patient_name);
+                    $("#billSummaryData").html(result.page);
+                    $('#billSummaryModal .modal_action').html(result.modal_action);
+                    $("#billSummaryModal").modal("show");
+                    $this.button('reset');
+                },
+                 error: function(xhr) { // if error occured
+                    $this.button('reset');
+                  alert("<?php echo $this->lang->line("error_occurred_please_try_again"); ?>");    
+                },
+                 complete: function() {
+                    $this.button('reset');
+                 }
+            });
+  
+    });
+  
+  
+  function ver_factura(case_id){
+    var fact = <?php echo json_encode($bills_electronic_cm[0]); ?>;
+    var paciente = <?php echo json_encode($opd_data); ?>;
+    var payment = '<?php echo $payment_details['0']['id'];?>';
+    console.log(fact);
+//     fact = JSON.parse(fact);
+    console.log(paciente);
+    console.log(case_id);
+       $.ajax({
+            type: 'POST',
+            url: base_url+'admin/bill/patient_bill',
+            data: {case_reference_id:case_id},
+            dataType: 'json',
+            beforeSend: function() {
+//               $this.button('loading');
+             },
+            success: function (result) {                
+                $("#patient_bill_summary").html(result.patient_name);
+                $("#billSummaryData_cm").html(result.page);
+                $('#billSummaryModal_cm .modal_action').html(result.modal_action);
+//                 $("#billSummaryModal").modal("show");
+                $("#billSummaryModal_cm").modal("show");
+//                 $this.button('reset');
+            },
+             error: function(xhr) { // if error occured
+//                       $this.button('reset');
+              alert("<?php echo $this->lang->line("error_occurred_please_try_again"); ?>");    
+            },
+             complete: function() {
+//                       $this.button('reset');
+             }
+        });
+      var message_cufe = "Cufe :"+ fact.cufe_response; 
+       $("#billSummaryDian_cm").html(message_cufe);
+       console.log(fact.qr_code_response);
+       var qrCodeData = fact.qr_code_response;
+      // Crear un código QR con el contenido de la respuesta
+      var qrcode = new QRCode(document.getElementById("qrcode_cm"), {
+          text: qrCodeData,
+      });
+    
+//      $.ajax({
+//                 url: '<?php echo base_url(); ?>admin/transaction/get_Transaction',
+//                 type: "POST",
+//                 data:{'id':payment},
+//                 dataType: 'json',
+//                  beforeSend: function() {
+// //                        $this.button('loading');
+
+//                 },
+//                 success: function(res) {
+//                  $("#billSummaryModal_cm").modal("show");
+// //                  popup(res.page);
+//                   $("#billSummaryData").html(fact);
+//                 },
+//                    error: function(xhr) { // if error occured
+//                 alert("<?php echo $this->lang->line('error_occurred_please_try_again'); ?>");
+// //                         $this.button('reset');
+
+//                },
+//                     complete: function() {
+// //                          $this.button('reset');
+
+//                    }
+//             });
+                
+//             $("#patient_bill_summary").html(paciente.patient_name);
+// //             $("#billSummaryData").html(result.page);
+//             $('#billSummaryModal .modal_action').html(paciente.modal_action);
+//             $("#billSummaryModal").modal("show");
+// //             $this.button('reset');
+      
+   
+  }
+  
+  
+  
+    $(document).on('click','.showbill_cl',function(){
+            let $this = $(this);
+            let case_id = $(this).data('caseId');
+            let prefix = $(this).data('prefixId');
+            let payment = $(this).data('paymentId');
+      
+            console.log(case_id);
+            console.log(prefix);
+            console.log(payment);
+           
+
+            $.ajax({
+                type: 'POST',
+                url: base_url+'admin/bill/patient_bill',
+                data: {case_reference_id:case_id},
+                dataType: 'json',
+                beforeSend: function() {
+                    $this.button('loading');
+                },
+                success: function (result) {                
+                    $("#patient_bill_summary").html(result.patient_name);
+                    $("#billSummaryData").html(result.page);
+                    $('#billSummaryModal .modal_action').html(result.modal_action);
+                    $("#billSummaryModal").modal("show");
+                    $this.button('reset');
+                },
+                 error: function(xhr) { // if error occured
+                    $this.button('reset');
+                    alert("<?php echo $this->lang->line("error_occurred_please_try_again"); ?>");    
+                },
+                complete: function() {
+                    $this.button('reset');
+                }
+            });
+
+            $.ajax({
+                  type: 'POST',
+                  url: base_url+'admin/bill/charges_nuvo/'+case_id+'/'+prefix+'/'+payment,
+                  beforeSend: function() {
+                      $this.button('loading');
+                  },
+                  success: function (result) { 
+                      console.log(result);
+                      result = JSON.parse(result);
+                      var message_cufe = "Cufe :"+ result.Cufe; 
+                      $("#billSummaryDian").html(message_cufe);
+                      console.log(result.QrCode);
+                      var qrCodeData = result.QrCode;
+                      // Crear un código QR con el contenido de la respuesta
+                      var qrcode = new QRCode(document.getElementById("qrcode"), {
+                        text: qrCodeData,
+                      });
+
+                      $("#dian").html(message_cufe);
+                  },
+                  error: function(xhr) { // if error occured
+                      $this.button('reset');
+                      alert("<?php echo $this->lang->line("error_occurred_please_try_again"); ?>");    
+                  },
+                  complete: function() {
+                      $this.button('reset');
+                  }
+              });
+
+
+      });
+  
+      $(document).on('click','.showbill_cm',function(){
+         
+          let $this= $(this);
+          let case_id = $(this).data('caseId');
+          let prefix = $(this).data('prefixId');
+          let payment = $(this).data('paymentId');
+        
+          console.log(case_id);
+
+          $.ajax({
+              type: 'POST',
+              url: base_url+'admin/bill/patient_bill',
+              data: {case_reference_id:case_id},
+              dataType: 'json',
+              beforeSend: function() {
+                $this.button('loading');
+               },
+              success: function (result) {                
+                  $("#patient_bill_summary").html(result.patient_name);
+                  $("#billSummaryData").html(result.page);
+                  $('#billSummaryModal .modal_action').html(result.modal_action);
+                  $("#billSummaryModal_cm").modal("show");
+                  $this.button('reset');
+              },
+               error: function(xhr) { // if error occured
+                  $this.button('reset');
+                alert("<?php echo $this->lang->line("error_occurred_please_try_again"); ?>");    
+               },
+               complete: function() {
+                  $this.button('reset');
+               }
+            });
+
+            $.ajax({
+                  type: 'POST',
+                  url: base_url+'admin/bill/charges_nuvo/'+case_id+'/'+prefix+'/'+payment,
+                  beforeSend: function() {
+                    $this.button('loading');
+                   },
+                  success: function (result) {             
+                    result = JSON.parse(result);
+                    var message_cufe = "Cufe :"+ result.Cufe; 
+                    $("#billSummaryDian_cm").html(message_cufe);
+                    console.log(result.QrCode);
+                    var qrCodeData = result.QrCode;
+                    // Crear un código QR con el contenido de la respuesta
+                    var qrcode = new QRCode(document.getElementById("qrcode_cm"), {
+                        text: qrCodeData,
+                        width: 256,
+                        height: 256,
+                    });
+                    if(result.State=="Exitosa"){
+                      localStorage.setItem('showAlert', result.State);
+//                         window.location.reload(true);
+                      successMsg('Factura enviada a la DIAN de Manera '+result.State);
+                      setTimeout(function () {
+                         window.location.reload(true);
+
+                      }, 2500);
+                      
+                       location.reload();
+                     }
+                  },
+                   error: function(xhr) { // if error occured
+                      $this.button('reset');
+                      alert("<?php echo $this->lang->line("error_occurred_please_try_again"); ?>");    
+                  },
+                   complete: function() {
+                      $this.button('reset');
+                   }
+              });
+        
+       
+
+//             $.ajax({
+//                   type: 'POST',
+//                   url: base_url+'admin/bill/charges_nuvo/'+case_id+'/'+prefix+'/'+payment,
+//                   beforeSend: function() {
+//                     $this.button('loading');
+//                    },
+//                   success: function (result) { 
+//                     console.log(result);
+//                     result = JSON.parse(result);
+//                     var message_cufe = "Cufe :"+ result.Cufe; 
+//                     $("#billSummaryDian").html(message_cufe);
+//                     console.log(result.QrCode);
+//                     var qrCodeData = result.QrCode;
+//                   // Crear un código QR con el contenido de la respuesta
+//                   var qrcode = new QRCode(document.getElementById("qrcode"), {
+//                       text: qrCodeData,
+//                       width: 156,
+//                       height: 156,
+//                   });
+//                   $("#dian").html(message_cufe);
+                    
+
+//                   },
+//                   error: function(xhr) { // if error occured
+//                   $this.button('reset');
+//                     alert("<?php echo $this->lang->line("error_occurred_please_try_again"); ?>");    
+//                   },
+//                   complete: function() { 
+//                     $this.button('reset');
+//                   }
+//               });
+        
+        
+        
+        
+
+      });
+  
+  
+         window.addEventListener('load', 
+            function iss_structure(){
+              $.ajax({
+                url : "<?=base_url('uploads/json/procedemientosiss2000.json')?>",
+                type : 'GET',
+                dataType : 'json',
+                success : (resp) => {
+                console.log(resp);
+
+                 let cups = resp;
+                 let iss_list ="";
+                 for (let property of cups ) {
+                        iss_list += `<li class="list-group-item list-hover" onclick="add_destine({ codigo:'${property.Codigo}',
+                                                                                                  procedimiento:'${property.Procedimiento}',
+                                                                                                  valor:'${property.Valor}',
+                                                                                                })">
+                                          <div class="col-xs-10 col-sm-9">
+                                              <span class="name"><strong>Codigo: </strong>${property.Codigo}</span><br>
+                                              <span><strong>Procedimiento: </strong>${property.Procedimiento}</span><br>
+                                              <span><strong>Valor: </strong>${property.Valor}</span>
+                                          </div>
+                                          <div class="clearfix"></div>
+                                      </li>`;
+                 } 
+
+                document.getElementById("iss_id").innerHTML= iss_list;
+        //      document.getElementById("procedure").innerHTML= cups_list;
+
+              }   
+            });  
+          });
+  
+            function filter() {
+                var input, filter, ul, li, a, i, txtValue;
+                input = document.getElementById("iss_input");
+                filter = input.value.toUpperCase();
+                ul = document.getElementById("iss_id");
+
+                if (input.value.length != 0) {
+                  ul.removeAttribute("hidden");
+                } else if (input.value.length == 0) {
+                  ul.setAttribute("hidden", false);
+                }
+                li = ul.getElementsByTagName("li");
+                for (i = 0; i < li.length; i++) {
+                  a = li[i];
+                  txtValue = a.textContent || a.innerText;
+
+                  if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                  } else {
+                    li[i].style.display = "none";
+                  }
+                }
+                console.log("reset");
+              }
+  
+       
+          function add_destine({
+              codigo,
+              procedimiento,
+              valor
+            }) {
+
+                let iss_id = document.getElementById('iss_id');
+//                 let product_para = document.getElementById('product_para');
+//                 let codigo_para = document.getElementById('codigo_para');
+                let iss_input = document.getElementById('iss_input');
+//                 let paraclinic_input = document.getElementById('paraclinic_input');
+
+//                 codigo_para.value = `${codigo}`;
+//                 product_para.value = `${procedimiento}`;
+//                 paraclinic_input.value = valor;
+
+                document.addEventListener('click', function(event) {
+                  const targetElement = event.target;
+
+                  if (targetElement !== iss_input && iss_id.contains(targetElement)) {
+                    iss_id.setAttribute("hidden", false);
+
+                  }
+                });
+            }
+      
+  
+  
 </script>
 <!-- //========datatable end===== -->

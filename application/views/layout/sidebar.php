@@ -43,7 +43,7 @@
                         ?>
                         <li class="treeview <?php echo set_Topmenu('appointment'); ?>">
                             <a  href="<?php echo base_url(); ?>admin/appointment/index">
-                                <i class="fa fa-calendar-check-o" aria-hidden="true"></i> <span><?php echo $this->lang->line('appointment'); ?></span>
+                                <i class="fa fa-calendar-check-o" aria-hidden="true"></i> <span>Agendamiento</span>
                             </a>
                         </li>
                       <?php
@@ -64,12 +64,39 @@
                 }
             ?>
             <?php
+                if ($this->module_lib->hasActive('procedimientos_menores')) {
+                    if ($this->rbac->hasPrivilege('atencion', 'can_view')) {
+                        ?>
+                        <li class="treeview <?php echo set_Topmenu('minor_procedures'); ?>">
+                            <a href="<?php echo base_url(); ?>admin/Procedimientos/procedures">
+                               <i class="fa fa-plus-square" aria-hidden="true"></i><span>Procedimientos</span>
+                            </a>
+                        </li>
+                    <?php 
+                    }
+                }
+            ?>
+          
+           <?php
+                if ($this->module_lib->hasActive('surgery')) {
+                    if ($this->rbac->hasPrivilege('surgery', 'can_view')) {
+                        ?>
+                        <li class="treeview <?php echo set_Topmenu('surgery'); ?>">
+                            <a href="<?php echo base_url(); ?>admin/Surgery/surgeries">
+                               <i class="fas fa-cut" aria-hidden="true"></i><span>Cirugía</span>
+                            </a>
+                        </li>
+                    <?php 
+                    }
+                }
+            ?>
+            <?php
                 if ($this->module_lib->hasActive('ipd')) {
                     if ($this->rbac->hasPrivilege('ipd_patient', 'can_view')) {
                         ?>
                         <li class="treeview <?php echo set_Topmenu('IPD_in_patient'); ?>">
                             <a href="<?php echo base_url() ?>admin/patient/ipdsearch">
-                                <i class="fas fa-procedures" aria-hidden="true"></i> <span><?php echo $this->lang->line('ipd_in_patient'); ?></span>
+                                <i class="fas fa-procedures" aria-hidden="true"></i> <span>Hospitalización</span>
                             </a>
                         </li>
                       <?php 
@@ -249,7 +276,7 @@
                     }
                 } 
             ?> -->
-<!--       <?php
+      <?php
                 if ($this->module_lib->hasActive('tpa_management')) {
                     if ($this->rbac->hasPrivilege('organisation', 'can_view')) {
                         ?> 
@@ -261,7 +288,7 @@
           <?php
                     }
                 }
-            ?>  -->
+            ?> 
             <?php
                 if (($this->module_lib->hasActive('income')) || ($this->module_lib->hasActive('expense'))) {
                     if (($this->rbac->hasPrivilege('income', 'can_view')) || ($this->rbac->hasPrivilege('expense', 'can_view'))) {
@@ -647,7 +674,9 @@
                                     if ($this->rbac->hasPrivilege('payroll_report', 'can_view')) {
                                     ?>
                                         <li class="<?php echo set_Submenu('admin/payroll/payrollsearch'); ?>"><a href="<?php echo base_url(); ?>admin/payroll/payrollsearch"><i class="fas fa-angle-right"></i> <?php echo $this->lang->line('payroll_report'); ?></a></li>
-                                <?php
+                                        <li class="<?php echo set_Submenu('admin/bill/bill_report'); ?>"><a href="<?php echo base_url(); ?>admin/bill/bill_report"><i class="fas fa-angle-right"></i>Informe Facturación</a></li>
+
+                              <?php
                                     }
                                     if ($this->rbac->hasPrivilege('staff_attendance_report', 'can_view')) {
                                     ?>

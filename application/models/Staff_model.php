@@ -442,9 +442,9 @@ class Staff_model extends MY_Model
         return $query->result_array();
     }
 
-     public function getdoctorbyspecilist($spec_id,$active = 1)
+     public function getdoctorbyspecialist($spec_id,$active = 1)
     {
-        $query = $this->db->select("staff.*")->join('staff_roles', "staff_roles.staff_id = staff.id", "left")->join('roles', "roles.id = staff_roles.role_id", "left")->like('specialist', $spec_id)->where("staff.is_active", $active)->where("roles.id", 3)->order_by("staff.name")->get("staff");
+        $query = $this->db->select("staff.*,specialist.specialist_name")->join('staff_roles', "staff_roles.staff_id = staff.id", "left")->join('roles', "roles.id = staff_roles.role_id", "left")->join('specialist', "specialist.id = staff.specialist", "left")->like('specialist', $spec_id)->where("staff.is_active", $active)->where("roles.id", 3)->order_by("staff.name")->get("staff");
         return $query->result_array();
     }
 
@@ -563,6 +563,9 @@ class Staff_model extends MY_Model
         $this->db->or_like('staff.contact_no', $searchterm);
         $this->db->or_like('roles.name', $searchterm);
         $this->db->group_end();
+        $this->db->where_not_in('staff.specialist',11);
+        $this->db->order_by('staff.name', 'ASC'); // Ordenar alfabéticamente por el nombre del doctor
+
         $query  = $this->db->get();
         $result = $query->result_array();
         if ($this->session->has_userdata('hospitaladmin')) {
@@ -575,6 +578,11 @@ class Staff_model extends MY_Model
                 }
             }
         }
+      
+//       echo "<pre>";
+//       print_r($result);
+//       exit;
+      
         return $result;
     } 
 
@@ -728,13 +736,14 @@ class Staff_model extends MY_Model
             }
         }
 
-        $this->db->select('staff.id,staff.name,staff.surname,staff.employee_id,staff_designation.designation as designation,staff_roles.role_id, department.department_name as department,roles.name as user_type,specialist.specialist_name as specialist_doc');
+        $this->db->select('staff.id,staff.name,staff.surname,staff.employee_id,staff_designation.designation as designation,staff_roles.role_id, staff.specialist, department.department_name as department,roles.name as user_type,specialist.specialist_name as specialist_doc');
         $this->db->join("staff_designation", "staff_designation.id = staff.staff_designation_id", "left");
         $this->db->join("department", "department.id = staff.department_id", "left");
         $this->db->join("staff_roles", "staff_roles.staff_id = staff.id", "left");
         $this->db->join("roles", "staff_roles.role_id = roles.id", "left");
         $this->db->join('specialist', "specialist.id = staff.specialist", "LEFT");
         $this->db->where("staff_roles.role_id", $id);
+        $this->db->where_not_in("staff.specialist", 11);
         $this->db->where("staff.is_active", "1");
         $this->db->order_by("staff.name", 'asc');
         $this->db->from('staff');

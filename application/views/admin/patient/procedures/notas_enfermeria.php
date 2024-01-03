@@ -1,0 +1,84 @@
+
+<div class="modal fade" id="add_nurse_note" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-mid" role="document">
+        <div class="modal-content modal-media-content">
+            <div class="modal-header modal-media-header">
+                <button type="button" class="close close_button" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><?php echo $this->lang->line('add_nurse_note') ; ?> </h4> 
+            </div>
+            <form id="nurse_note_form" accept-charset="utf-8" enctype="multipart/form-data" method="post">   
+                <div class="scroll-area">
+                    <div class="modal-body pb0 ptt10">
+                          <input type="hidden" name="procedure_id" value="<?php echo $opdid; ?>">
+                          <div class="col-12">
+                              <div class="form-group">
+                                  <div class="form-group">
+                                      <label class="text-primary" style="font-size:15px;color:#1563B0;">Fase OperatorÍa<small class="req"> *</small> </label>
+                                      <input type="hidden" id="">
+                                      <select name="Fase_OperatorÍa" style="width: 100%" id="" class="form-control">
+                                          <option value="">Admisión</option>
+                                          <option value="">Transoperatorio</option>
+                                          <option value="" >Postoperatorio</option>
+                                      </select>
+                                  </div> 
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-sm-6">
+                                  <div class="form-group">
+                                      <label><?php echo $this->lang->line('date'); ?>
+                                      <small class="req"> *</small>
+                                      </label> 
+                                      <input type="text" name="date" value="" class="form-control datetime">
+                                  </div>
+                              </div>
+                              <div class="col-sm-6">
+                                  <div class="form-group">
+                                      <label><?php echo $this->lang->line('nurse'); ?><small class="req"> *</small> </label>
+                                  <input type="hidden" name="nurse" id="nurse_set">
+                                      <select name="nurse_field" <?php 
+                                      if ($disable_option == true) { echo "disabled"; } ?> style="width: 100%" id="nurse_field" class="form-control select2">
+                                          <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                          <?php foreach ($nurse as $key => $value) { ?>
+                                          <option  <?php if ((isset($nurse_select)) && ($nurse_select == $dvalue["id"])) { echo "selected"; } ?> value="<?php echo $value["id"] ?>"><?php echo composeStaffNameByString($value["name"],$value["surname"],$value["employee_id"]); ?></option>
+                                          <?php } ?>
+                                      </select>
+                                  </div> 
+                              </div>
+                              <div class="col-sm-12">
+                                  <div class="form-group">
+                                      <label><?php echo $this->lang->line('note') ?> <small class="req"> *</small> </label>
+                                      <textarea name="note" style="height:50px" class="form-control"></textarea>
+                                  </div> 
+                              </div>
+                              <div class="col-sm-12">
+                                  <div class="form-group">
+                                      <label><?php echo $this->lang->line('comment'); ?> <small class="req"> *</small> </label>
+                                      <textarea name="comment" style="height:50px" class="form-control"></textarea>
+                                  </div> 
+                              </div>
+
+                              <div class="">
+                                  <?php echo display_custom_fields('ipdnursenote'); ?>
+                              </div>
+                          </div>
+                    </div>
+                </div>    
+                <div class="modal-footer">    
+                    <button type="submit" id="nurse_notebtn" data-loading-text="<?php echo $this->lang->line('processing'); ?>" class="btn btn-info pull-right"><i class="fa fa-check-circle"></i> <?php echo $this->lang->line('save'); ?></button>
+                </div>  
+            </form>
+        </div>
+    </div>  
+</div>
+
+<script>
+   function holdModal(modalId) {
+        $('#' + modalId).modal({
+            backdrop: 'static',
+            keyboard: false,
+            show: true
+        });
+    }
+
+</script>

@@ -341,13 +341,13 @@ class Customlib
     public function getDaysname()
     {
         $status              = array();
-        $status['Monday']    = 'Monday';
-        $status['Tuesday']   = 'Tuesday';
-        $status['Wednesday'] = 'Wednesday';
-        $status['Thursday']  = 'Thursday';
-        $status['Friday']    = 'Friday';
-        $status['Saturday']  = 'Saturday';
-        $status['Sunday']    = 'Sunday';
+        $status['Monday']    = 'Lunes';
+        $status['Tuesday']   = 'Martes';
+        $status['Wednesday'] = 'Miércoles';
+        $status['Thursday']  = 'Jueves';
+        $status['Friday']    = 'Viernes';
+        $status['Saturday']  = 'Sábado';
+        $status['Sunday']    = 'Domingo';
         return $status;
     }
 
@@ -1148,6 +1148,7 @@ class Customlib
     public function getSlotByDoctorShift($doctor_id, $shift)
     {
         $this->CI->load->model("onlineappointment_model");
+      
         $shift             = $this->CI->onlineappointment_model->getShiftById($shift);
         $starttime         = $shift["start_time"];
         $endtime           = $shift["end_time"];
@@ -1158,10 +1159,11 @@ class Customlib
         $end_time          = strtotime($endtime);
         $array_of_time     = array();
         $add_mins          = $duration * 60;
-        while ($start_time < $end_time) {
+        while ($start_time <= $end_time) {
             $array_of_time[] = date("h:i a", $start_time);
             $start_time += $add_mins;
         }
+
         return $array_of_time;
     }
 

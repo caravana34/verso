@@ -28,8 +28,8 @@ class Audit_model extends MY_Model
         $this->datatables
             ->select('logs.*, CONCAT_WS("",staff.name,staff.surname," (",staff.employee_id,")") as name')
             ->join('staff', 'staff.id = logs.user_id')
-            ->searchable('message, name, ip_address, action, platform, agent')
-            ->orderable('message, name, ip_address, action, platform, agent')
+            ->searchable('id_appointment,message, name, ip_address, action, platform, agent')
+            ->orderable('id_appointment,message, name, ip_address, action, platform, agent')
             ->sort('logs.id', 'desc')
             ->from('logs');
         return $this->datatables->generate('json');

@@ -9,7 +9,7 @@
                         <small class="pull-right">
                             <?php if ($this->rbac->hasPrivilege('apply_leave', 'can_add')) { ?>
                                 <a href="#addleave" onclick="addLeave()" class="btn btn-primary btn-sm">
-                                    <i class="fa fa-plus"></i> <?php echo $this->lang->line('apply_leave'); ?></a>
+                                    <i class="fa fa-plus"></i> aplicar</a>
                             <?php } if ($this->rbac->hasPrivilege('approve_leave_request', 'can_view')) { ?>
                                 <a href="<?PHP echo base_url(); ?>admin/leaverequest/approveleaverequest" class="btn btn-primary btn-sm">
                                     <i class="fa fa-reorder"></i> <?php echo $this->lang->line('approve_leave_request'); ?></a>
@@ -115,9 +115,9 @@
                                 <label>
                                     <?php echo $this->lang->line('leave_type'); ?></label><small class="req"> *</small>
                                 <div id="leavetypeddl">
-                                    <select name="leave_type" id="leave_type" class="form-control" >
+<!--                                     <select name="leave_type" id="leave_type" class="form-control" >
                                         
-                                    </select>
+                                    </select> -->
                                 </div>
                                 <span class="text-danger"><?php echo form_error('leave_type'); ?></span>
                             </div>

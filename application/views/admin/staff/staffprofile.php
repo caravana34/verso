@@ -197,7 +197,7 @@ $permission_access = 1;
                             <li class=""><a href="#attendance" data-toggle="tab" aria-expanded="true"><?php echo $this->lang->line('staff_attendance'); ?></a></li>
                         <?php }?>
                         <li class=""><a href="#documents" data-toggle="tab" aria-expanded="true"><?php echo $this->lang->line('staff_documents'); ?></a></li>
-                        <li class=""><a href="#timeline" data-toggle="tab" aria-expanded="true"><?php echo $this->lang->line('staff_timeline'); ?></a></li>
+                        <li class=""><a href="#timeline" data-toggle="tab" aria-expanded="true">Notas médicas</a></li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="activity">
@@ -1190,7 +1190,7 @@ $j++;
 
     $("#myTimelineButton").click(function () {
         $("#reset").click();
-        $('.transport_fees_title').html("<b><?php echo $this->lang->line('add_timeline'); ?></b>");
+        $('.transport_fees_title').html("<b>Agregar Nota Médica</b>");
         $('#myTimelineModal').modal({
             backdrop: 'static',
             keyboard: false,

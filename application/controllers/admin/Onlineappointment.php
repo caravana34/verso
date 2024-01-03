@@ -10,10 +10,12 @@ class Onlineappointment extends Admin_Controller
     {
         parent::__construct();
         $this->load->model("staff_model");
+        $this->config->load("payroll");
         $this->load->model(array("onlineappointment_model", "charge_category_model"));
         $this->load->library("datatables");
         $this->time_format = $this->customlib->getHospitalTimeFormat();
         $this->load->library("customlib");
+        $this->type_opd = $this->config->item('type_opd');
     }
 
     public function index()
@@ -25,10 +27,10 @@ class Onlineappointment extends Admin_Controller
         $this->load->view('layout/header');
         $data['doctors']         = $this->staff_model->getStaffbyrole(3);
         $doctor                  = $this->input->post("doctor");
-        $data['charge_category'] = $this->charge_category_model->getCategoryByModule("appointment");
+        $data['charge_category'] = $this->charge_category_model->getCategoryByModule("opd");
         $this->form_validation->set_rules("doctor", $this->lang->line("doctor"), "trim|required|xss_clean");
         $this->form_validation->set_rules("shift", $this->lang->line("shift"), "trim|required|xss_clean");
-
+        $data["type_opd"]    = $this->type_opd;
         if ($this->form_validation->run() == false) {
             $this->load->view('admin/onlineappointment/index', $data);
             $this->load->view('layout/footer');
@@ -44,6 +46,9 @@ class Onlineappointment extends Admin_Controller
             $data['percentage']         = isset($charges['percentage']) ? $charges['percentage'] : 0;
             $data['appointment_charge'] = $data['standard_charge'] + ($data['standard_charge'] * $data['percentage'] / 100);
             $data['duration']           = isset($doc_data['consult_duration']) ? $doc_data['consult_duration'] : "";
+//           echo "<pre>";
+//           print_r($data);
+//           exit;
             $this->load->view('admin/onlineappointment/index', $data);
             $this->load->view('layout/footer');
         }
@@ -61,6 +66,9 @@ class Onlineappointment extends Admin_Controller
         $shift               = $this->input->post("shift");
 
         $prev_record = $this->onlineappointment_model->getShiftdata($doctor_id, $day, $shift);
+//         echo "<pre>";
+//       print_r($prev_record);
+//       exit;
 
         if (empty($prev_record)) {
             $data['prev_record'] = array();
@@ -71,13 +79,22 @@ class Onlineappointment extends Admin_Controller
         $data['day']    = $day;
         $data['doctor'] = $doctor_id;
         $data['shift']  = $shift;
-
+        $data['status_blocked']  = $prev_record['status_blocked'];
+        $data["doctors"]   = $this->staff_model->getStaffbyrole(3);
+      
+        $data['days_doctor'] = $this->db->query("SELECT distinct(doctor_shift.day) FROM doctor_shift WHERE doctor_shift.staff_id = '$doctor_id';")->result();
+       
         $data['html'] = $this->load->view('admin/onlineappointment/addrow', $data, true);
         echo json_encode($data);
     }
 
     public function saveDoctorShift()
     {
+      
+//         echo "<pre>";
+//         print_r($this->input->post());
+//         exit;
+      
         if (!$this->rbac->hasPrivilege('online_appointment_slot', 'can_edit')) {
             access_denied();
         }
@@ -87,6 +104,17 @@ class Onlineappointment extends Admin_Controller
         $this->form_validation->set_rules('charge_id', $this->lang->line('charge_id'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('doctor', $this->lang->line("doctor"), 'trim|required|xss_clean');
         $this->form_validation->set_rules('shift', $this->lang->line('shift'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('doctor_start_date', 'doctor_start_date', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('doctor_start_date', 'doctor_start_date', 'trim|required|xss_clean');
+      
+        $this->form_validation->set_rules('doctor_start_date', 'doctor_start_date', 'trim|required|xss_clean', array(
+                'required'      => 'La fecha de inicio de la vigencia es requerida.',
+        ));
+      
+        $this->form_validation->set_rules('doctor_end_date', 'end_start_date', 'trim|required|xss_clean', array(
+                'required'      => 'La fecha final de la vigencia es requerida.',
+        ));
+
         $total_rows = $this->input->post("total_row");
         if (!empty($total_rows)) {
             foreach ($this->input->post('total_row') as $key => $value) {
@@ -94,15 +122,43 @@ class Onlineappointment extends Admin_Controller
                 $this->form_validation->set_rules('time_to_' . $value, 'Time To', 'trim|required|xss_clean');
             }
         }
+      
+        $before_today = false;
+        $start_date_greater = false;
+      
+        $today = (new DateTime())->format('Y-m-d');
+        $input_start_date = (new DateTime($this->input->post('doctor_start_date')))->format('Y-m-d');
+        $input_end_date = (new DateTime($this->input->post('doctor_end_date')))->format('Y-m-d');
 
-        if (!$this->form_validation->run()) {
+//         if($input_start_date < $today || $input_end_date < $today){
+//             $before_today = true;
+//         }
+      
+        if($input_start_date > $input_end_date){
+            $start_date_greater = true;
+        }
+      
+
+        if (!$this->form_validation->run() || $before_today || $start_date_greater) {
+
             $json = array(
                 'day'          => form_error('day'),
                 'doctor'       => form_error('doctor'),
                 'shift'        => form_error('shift'),
                 'consult_time' => form_error('consult_time'),
                 'charge_id'    => form_error('charge_id'),
+                'doctor_start_date' => form_error('end_start_date'),
+                'doctor_end_date'    => form_error('doctor_end_date')
             );
+          
+            if($before_today){
+                $json['before_today'] = 'No es posible establecer una vigencia con una fecha anterior a la actual.';
+            }
+            
+            if($start_date_greater){
+                $json['start_date_greater'] = 'La fecha de inicio de la vigencia no puede ser mayor a la final.';
+            }
+          
             if (!empty($total_rows)) {
                 foreach ($this->input->post('total_row') as $key => $value) {
                     $json['time_from_' . $value] = form_error('time_from_' . $value);
@@ -154,6 +210,7 @@ class Onlineappointment extends Admin_Controller
             $charge_id    = $this->input->post('charge_id');
             $day          = $this->input->post('day');
             $doctor_id    = $this->input->post('doctor');
+            $type_agenda  = $this->input->post('type_opd');
             $total_row    = $this->input->post('total_row');
             $insert_array = array();
             $update_array = array();
@@ -174,18 +231,24 @@ class Onlineappointment extends Admin_Controller
                             'day'             => $day,
                             'staff_id'        => $doctor_id,
                             'global_shift_id' => $shift_id,
+                            'type_agenda'     => $type_agenda,
                             'start_time'      => date("H:i:s", strtotime($this->input->post('time_from_' . $total_value))),
                             'end_time'        => date("H:i:s", strtotime($this->input->post('time_to_' . $total_value))),
+                            'start_date'      => date("Y-m-d", strtotime($this->input->post('doctor_start_date'))),
+                            'end_date'        => date("Y-m-d", strtotime($this->input->post('doctor_end_date'))),
                         );
                     } else {
                         $preserve_array[] = $prev_id;
                         $update_array[]   = array(
                             'id'              => $prev_id,
                             'staff_id'        => $doctor_id,
+                            'type_agenda'     => $type_agenda,
                             'global_shift_id' => $shift_id,
                             'day'             => $day,
                             'start_time'      => date("H:i:s", strtotime($this->input->post('time_from_' . $total_value))),
                             'end_time'        => date("H:i:s", strtotime($this->input->post('time_to_' . $total_value))),
+                            'start_date'      => date("Y-m-d", strtotime($this->input->post('doctor_start_date'))),
+                            'end_date'        => date("Y-m-d", strtotime($this->input->post('doctor_end_date'))),
                         );
                     }
                 }
@@ -612,4 +675,349 @@ class Onlineappointment extends Admin_Controller
         $this->onlineappointment_model->deleteGlobalShift($id);
         echo json_encode(array('status' => 1, 'msg' => $this->lang->line('delete_message')));
     }
+  
+    public function programming_settings(){
+      
+        if (!$this->rbac->hasPrivilege('online_appointment_shift', 'can_view')) {
+            access_denied();
+        }
+        $this->session->set_userdata('top_menu', 'setup');
+        $this->session->set_userdata('sub_sidebar_menu', 'admin/onlineappointment/programming_settings');
+        $this->session->set_userdata('sub_menu', 'admin/onlineappointment');
+//         $shift         = $this->onlineappointment_model->globalShift();
+//         $data["shift"] = $shift;
+      
+        $doctors           = $this->staff_model->getStaffbyrole(3);
+        $data["doctors"]   = $doctors;
+      
+        $this->load->view('layout/header');
+        $this->load->view('admin/onlineappointment/programming_settings', $data);
+        $this->load->view('layout/footer');
+    }
+    
+  
+    function blocked_calendar(){
+
+        $id_doctor = $this->input->post('doctor');
+        $start_date = $this->input->post('start');
+        $end_date = $this->input->post('end');
+        $day = $this->input->post('day');
+        $reason = $this->input->post('reason');
+        $array_errors = [];
+
+      
+        $this->form_validation->set_rules([
+            [
+                'field' => 'start',
+                'rules' => 'trim|required|xss_clean',
+                'errors' => [
+                    'required' => 'La fecha inicial es requerida.',
+                ],
+            ],
+            [
+                'field' => 'end',
+                'rules' => 'trim|required|xss_clean',
+                'errors' => [
+                    'required' => 'La fecha final es requerida.',
+                ],
+            ],
+//             [
+//                 'field' => 'day',
+//                 'rules' => 'trim|required|xss_clean',
+//                 'errors' => [
+//                     'required' => 'El dia es requerido.',
+//                 ],
+//             ],
+            [
+                'field' => 'reason',
+                'rules' => 'trim|required|xss_clean',
+                'errors' => [
+                    'required' => 'La razón del bloqueo es requerida.',
+                ],
+            ]
+        ]);
+      
+         $result_dates = $this->db
+          ->select('lock.start_date, lock.end_date')
+          ->from('lock_calendar as lock')
+          ->where('id_doctor', $id_doctor)
+          ->get()
+          ->result();
+      
+          $date_in_range = false;
+          $overlap = false;
+          $before_today = false;
+          $start_date_greater = false;
+          $today = (new DateTime())->format('Y-m-d');
+      
+          $input_start_date = (new DateTime($start_date))->format('Y-m-d');
+          $input_end_date = (new DateTime($end_date))->format('Y-m-d');
+
+          if($input_start_date < $today || $input_end_date < $today){
+                $array_errors['before_today'] = 'No es posible establecer un bloqueo con fecha anterior a la actual.';
+          } 
+      
+          if($input_start_date > $input_end_date){
+                $array_errors['start_date_greater'] = 'La fecha de inicio no puede ser posterior a la fecha de finalización.';
+          }
+      
+          if(!empty($start_date) && !empty($end_date)){
+            
+              foreach ($result_dates as $key => $value) {
+                  $db_start_date = (new DateTime($value->start_date))->format('Y-m-d');
+                  $db_end_date = (new DateTime($value->end_date))->format('Y-m-d');
+
+                  if ($input_start_date > $db_start_date && $input_start_date < $db_end_date || $input_end_date > $db_start_date && $input_end_date < $db_end_date) {
+                      // Al menos una de las dos fechas está dentro del rango.
+                      $array_errors['date_in_range'] = 'Al menos una de las dos fechas se encuentra dentro de un bloqueo existente.';
+                      break;
+                  }else if($input_start_date < $db_end_date && $input_end_date > $db_end_date){
+                      // Esta superponiendo una fecha existente.
+                      $array_errors['overlap'] = 'No se permite la superposición de bloqueos.';
+                      break;
+                 }
+
+              }
+
+          }
+
+
+        if ($this->form_validation->run() == false || count($array_errors) > 0) {
+          
+            $validation_errors = $this->form_validation->error_array();
+            $errors = array_merge($validation_errors, $array_errors);
+            $array = array('state' => 'fail', 'msg' => '', 'errors' => $errors);  
+          
+       } else {
+
+            $appointment_dates = $this->db->select('appointment.id, appointment.date, appointment.appointment_status')
+            ->from('appointment')
+            ->where("appointment.doctor", $id_doctor)
+            ->where('DATE(appointment.date) BETWEEN "' .date("Y-m-d",strtotime($start_date)). '" AND "' .date("Y-m-d",strtotime($end_date)).'"')
+            ->get()
+            ->result();
+
+             foreach($appointment_dates as $key => $value){
+                  $this->db->where("appointment.id",$value->id);
+                  $this->db->update("appointment",array('appointment_status' => 'Bloqueada'));
+             }
+          
+            $lock_data = array(
+                'start_date' =>  date("Y-m-d",strtotime($start_date)),
+                'end_date' => date("Y-m-d",strtotime($end_date)),
+                'blocking_reason' => $reason,
+                'id_doctor' => $id_doctor,
+                'create_at' => date('Y-m-d H:i:s'),
+                'status' => '1'
+            );
+
+            $this->db->insert('lock_calendar', $lock_data); 
+//             $result_id = $this->db->insert_id();
+ 
+            $array = array('state' => 'success', 'msg' => 'Se registro el bloqueo correctamente!.', 'errors' => '');
+       }
+
+       echo json_encode($array);
+      
+    }
+  
+    function update_lock_calendar(){
+      
+//       echo "<pre>";
+//       print_r($this->input->post());
+//       exit;
+
+        $id_lock = $this->input->post('id_lock');
+        $id_doctor = $this->input->post('doctor');
+        $start_date = $this->input->post('start');
+        $end_date = $this->input->post('end');
+        $status = $this->input->post('status');
+//         $day = $this->input->post('day');
+        $reason = $this->input->post('reason');
+      
+        $array_errors = [];
+      
+        if($status == 0){
+            $lock_data = array(
+               'status' => 0
+            );
+
+            $this->db->where('id_lock_calendar', $id_lock);
+            $this->db->update('lock_calendar', $lock_data);
+            $array = array('state' => 'success', 'msg' => 'Se actualizo el estado del bloqueo correctamente.', 'errors' => '');
+            
+            echo json_encode($array);  
+            exit;
+        }
+      
+        $this->form_validation->set_rules([
+            [
+                'field' => 'start',
+                'rules' => 'trim|required|xss_clean',
+                'errors' => [
+                    'required' => 'La fecha inicial es requerida.',
+                ],
+            ],
+            [
+                'field' => 'end',
+                'rules' => 'trim|required|xss_clean',
+                'errors' => [
+                    'required' => 'La fecha final es requerida.',
+                ],
+            ],
+//             [
+//                 'field' => 'day',
+//                 'rules' => 'trim|required|xss_clean',
+//                 'errors' => [
+//                     'required' => 'El dia es requerido.',
+//                 ],
+//             ],
+            [
+                'field' => 'reason',
+                'rules' => 'trim|required|xss_clean',
+                'errors' => [
+                    'required' => 'La razón del bloqueo es requerida.',
+                ],
+            ]
+        ]);
+      
+        $result_dates = $this->db
+        ->select('lock.start_date, lock.end_date')
+        ->from('lock_calendar as lock')
+        ->where('id_lock_calendar', $id_lock) 
+        ->get()
+        ->result();
+
+//         $date_in_range = false;
+//         $overlap = false;
+//         $before_today = false;
+//         $start_date_greater = false;
+      
+        $today = (new DateTime())->format('Y-m-d');
+        $input_start_date = (new DateTime($start_date))->format('Y-m-d');
+        $input_end_date = (new DateTime($end_date))->format('Y-m-d');
+
+        if($input_start_date < $today || $input_end_date < $today){
+              $array_errors['before_today'] = 'No es posible establecer un bloqueo con fecha anterior a la actual.';
+        } 
+
+        if($input_start_date > $input_end_date){
+              $array_errors['start_date_greater'] = 'La fecha de inicio no puede ser posterior a la fecha de finalización.';
+        }
+
+        if(!empty($start_date) && !empty($end_date)){
+
+            foreach ($result_dates as $key => $value) {
+                $db_start_date = (new DateTime($value->start_date))->format('Y-m-d');
+                $db_end_date = (new DateTime($value->end_date))->format('Y-m-d');
+
+                if ($input_start_date > $db_start_date && $input_start_date < $db_end_date || $input_end_date > $db_start_date && $input_end_date < $db_end_date) {
+                    // Al menos una de las dos fechas está dentro del rango.
+                    $array_errors['date_in_range'] = 'Al menos una de las dos fechas se encuentra dentro de un bloqueo existente.';
+                    break;
+                }else if($input_start_date < $db_end_date && $input_end_date > $db_end_date){
+                    // Esta superponiendo una fecha existente.
+                    $array_errors['overlap'] = 'No se permite la superposición de bloqueos.';
+                    break;
+               }
+
+            }
+
+        }
+      
+
+        if ($this->form_validation->run() == false || count($array_errors) > 0) {
+          
+            $validation_errors = $this->form_validation->error_array();
+            $errors = array_merge($validation_errors, $array_errors);
+            $array = array('state' => 'fail', 'msg' => '', 'errors' => $errors);
+          
+        } else {
+          
+            
+              $appointment_dates = $this->db->select('appointment.id, appointment.date, appointment.appointment_status')
+              ->from('appointment')
+              ->where("appointment.doctor", $id_doctor)
+              ->where('DATE(appointment.date) BETWEEN "' .date("Y-m-d",strtotime($start_date)). '" AND "' .date("Y-m-d",strtotime($end_date)).'"')
+              ->get()
+              ->result();
+
+               foreach($appointment_dates as $key => $value){
+                    $this->db->where("appointment.id",$value->id);
+                    $this->db->update("appointment",array('appointment_status' => 'Bloqueada'));
+               }
+
+              $lock_data = array(
+                  'start_date' =>  date("Y-m-d",strtotime($start_date)),
+                  'end_date' => date("Y-m-d",strtotime($end_date)),
+                  'blocking_reason' => $reason,
+                  'id_doctor' => $id_doctor,
+                  'create_at' => date('Y-m-d H:i:s'),
+                  'status' => $status
+              );
+          
+              $this->db->where('id_lock_calendar', $id_lock);
+              $this->db->update('lock_calendar', $lock_data);
+
+              $array = array('state' => 'success', 'msg' => 'Se actualizo el bloqueo correctamente.', 'errors' => '');  
+       }
+      
+
+        echo json_encode($array);
+
+    }
+
+    function blocked_datatable()
+    {
+        date_default_timezone_set("America/Bogota");
+       
+        $dt_response = $this->onlineappointment_model->getBlockedDatatable();
+        $dt_response = json_decode($dt_response);
+        $dt_data     = array();
+
+        if (!empty($dt_response->data)) {
+            foreach ($dt_response->data as $key => $value) {
+
+                $row = array();
+              
+                $lock_data = json_encode($value);
+              
+                if($value->status == '1'){
+                    $class_status = 'cita_aprobada';
+                    $name_status = 'Activo';
+                } else if($value->status == '0'){
+                    $class_status = 'cita_cancelada';
+                    $name_status = 'Inactivo';
+                }
+              
+                $action  = "<small class='label $class_status' data-toggle='tooltip' title='' data-original-title='Agendamiento'>$name_status</small>";
+                $action .= "<div class='rowoptionview rowview-btn-top'>";
+                $action .= "<button type='button' data-toggle='modal' data-target='#edit_lock_modal' data-toggle='tooltip' title='Editar' class='btn btn-default btn-xs' onclick='get_lock_doctor($lock_data)'>
+                              <i class='fa fa-pencil'></i>
+                            </button>";         
+                $action .= "</div>";
+
+                $row[] = $value->id_lock_calendar;
+                $row[] = $value->start_date;
+                $row[] = $value->end_date;
+                $row[] = $value->blocking_reason;
+                $row[] = $value->name;
+                $row[] = $value->create_at;
+                $row[] = $action;
+                
+                $dt_data[] = $row;               
+            }
+        }
+        $json_data = array(
+            "draw"            => intval($dt_response->draw),
+            "recordsTotal"    => intval($dt_response->recordsTotal),
+            "recordsFiltered" => intval($dt_response->recordsFiltered),
+            "data"            => $dt_data,
+        );
+      
+      
+        echo json_encode($json_data);
+    
+    }
+  
 }

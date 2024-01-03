@@ -88,7 +88,7 @@ $genderList = $this->customlib->getGender();
 
                         </table>        
                     </div>
-                    <form action="<?php echo site_url('admin/patient/import') ?>" id="employeeform" name="employeeform" method="post" enctype="multipart/form-data"> 
+                    <form action="<?php echo site_url('admin/patient/import_patient') ?>" id="employeeform" name="employeeform" method="post" enctype="multipart/form-data"> 
                         <div class="box-body">
                             <?php echo $this->customlib->getCSRF(); ?>
                             <div class="row">

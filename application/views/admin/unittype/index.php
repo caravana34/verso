@@ -106,7 +106,7 @@
                  btn.button('reset');
                 },
                 error: function () {
-  btn.button('reset');
+                btn.button('reset');
                 },
                 complete: function(){
                  btn.button('reset');

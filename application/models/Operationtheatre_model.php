@@ -461,11 +461,11 @@ class Operationtheatre_model extends MY_Model {
         $field_variable = (empty($field_var_array))? "": ",".implode(',', $field_var_array);
         $custom_field_column = (empty($custom_field_column_array))? "": ",".implode(',', $custom_field_column_array);
 
-        $this->db->select('operation_theatre.*,operation.operation,operation_category.category,patients.id as pid,patients.patient_name,patients.gender,patients.age,patients.month,patients.patient_type,patients.mobileno,patients.is_active'.$field_variable)->from('operation_theatre');
+        $this->db->select('operation_theatre.*,operation.operation,patients.id as pid,patients.patient_name,patients.gender,patients.age,patients.month,patients.patient_type,patients.mobileno,patients.is_active'.$field_variable)->from('operation_theatre');
         $this->db->join('opd_details', 'opd_details.id=operation_theatre.opd_details_id', "left");
         $this->db->join('patients', 'patients.id=opd_details.patient_id', "left");
         $this->db->join('operation', 'operation_theatre.operation_id=operation.id', "left");
-        $this->db->join("operation_category","operation_category.id=operation.category_id","left");
+//         $this->db->join("operation_category","operation_category.id=operation.category_id","left");
         $this->db->where('operation_theatre.ipd_details_id', $ipdid);
         $query = $this->db->get();
         return $query->result_array();

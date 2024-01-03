@@ -18,10 +18,15 @@ $genderList = $this->customlib->getGender();
                         }
                         ?>        
                         <img class="profile-user-img img-responsive img-circle" src="<?php echo base_url() . $file.img_time() ?>" alt="User profile picture">
-                <h3 class="profile-username text-center"><?php echo $result['patient_name']; ?></h3> 
+                <h4 class="profile-username text-center"><?php echo $result['patient_name']; ?> <?php echo $result['guardian_name']; ?></h4> 
                         <ul class="list-group list-group-unbordered">
                             <li class="list-group-item listnoback">
                                 <b><?php echo $this->lang->line('patient_id'); ?></b> <a class="pull-right text-aqua"><?php echo $result['id']; ?></a>
+                            </li>
+                            <li class="list-group-item listnoback">
+                                <b><?php echo $this->lang->line('age'); ?></b> <a class="pull-right text-aqua"><?php 
+                                echo $this->customlib->getPatientAge($result['age'],$result['month'],$result['day']);
+                                    ?></a>
                             </li>
                             <li class="list-group-item listnoback">
                                 <b><?php echo $this->lang->line('gender'); ?></b> <a class="pull-right text-aqua"><?php echo $result['gender']; ?></a>
@@ -30,22 +35,12 @@ $genderList = $this->customlib->getGender();
                                 <b><?php echo $this->lang->line('marital_status'); ?></b> <a class="pull-right text-aqua"><?php echo $result['marital_status']; ?></a>
                             </li>
                             <li class="list-group-item listnoback">
-                                <b><?php echo $this->lang->line('phone'); ?></b> <a class="pull-right text-aqua"><?php echo $result['mobileno']; ?></a>
+                                <b><?php echo $this->lang->line('phone'); ?></b> <a class="pull-right text-aqua"><?php echo $telefono ?></a>
                             </li>
                             <li class="list-group-item listnoback">
                                 <b><?php echo $this->lang->line('email'); ?></b> <a class="pull-right text-aqua"><?php echo $result['email']; ?></a>
                             </li>
-                            <li class="list-group-item listnoback">
-                                <b><?php echo $this->lang->line('address'); ?></b> <a class="pull-right text-aqua"><?php echo $result['address']; ?></a>
-                            </li>
-                            <li class="list-group-item listnoback">
-                                <b><?php echo $this->lang->line('age'); ?></b> <a class="pull-right text-aqua"><?php 
-                                echo $this->customlib->getPatientAge($result['age'],$result['month'],$result['day']);
-                                    ?></a>
-                            </li>
-                            <li class="list-group-item listnoback">
-                                <b><?php echo $this->lang->line('guardian_name'); ?></b> <a class="pull-right text-aqua"><?php echo $result['guardian_name']; ?></a>
-                            </li>
+                            
                         </ul>
                     </div>
                 </div>
@@ -2766,11 +2761,11 @@ $genderList = $this->customlib->getGender();
 
 
     $(document).ready(function (e) {
- $('#viewModal').modal({
-    backdrop: 'static',
-    keyboard: false,
-    show:false
-});
+       $('#viewModal').modal({
+          backdrop: 'static',
+          keyboard: false,
+          show:false
+      });
         
         $("#add_bill").on('submit', (function (e) {
             if (confirm('Are you sure?')) {

@@ -101,8 +101,64 @@ class Charge_model extends MY_Model
         $query = $this->db->get('charges');
         return $query->result_array();
     }
+  
+  public function getcharges_fy($searchterm)
+    {
 
-    public function getDatatableAllRecord()
+    
+    $result = $this->db
+    ->select("charges.*,charge_categories.especialidad")
+    ->join('charge_categories', 'charge_categories.id = charges.charge_category_id', 'inner')
+    ->group_start()
+        ->where('charges.id', $search_term)
+        ->like('charges.cups', $searchterm)
+        ->or_like('charges.name', $searchterm)
+        ->or_like('charges.standard_charge', $searchterm)
+        ->or_like('charges.sura_cups', $searchterm)
+        ->or_like('charges.iss', $searchterm)
+        ->or_like('charges.paquete', $searchterm)
+        ->or_like('charges.description', $searchterm)
+    ->group_end()
+    ->where('charges.id !=', 12)
+    ->where_not_in('charges.charge_category_id', [33, 36, 40]) // Exclude specific charge_category_id values
+    ->get("charges")
+    ->result();
+    
+//     echo "<pre>";
+//     print_r($result);
+//     exit;
+        return $result;
+    
+    }
+  
+   public function getcharges_fy_id($id)
+    {
+
+    
+     $result = $this->db
+    ->select("charges.*")
+    ->group_start()
+        ->where('charges.id', $search_term)
+        ->like('charges.cups', $searchterm)
+        ->or_like('charges.name', $searchterm)
+        ->or_like('charges.standard_charge', $searchterm)
+        ->or_like('charges.sura_cups', $searchterm)
+        ->or_like('charges.iss', $searchterm)
+        ->or_like('charges.paquete', $searchterm)
+        ->or_like('charges.description', $searchterm)
+    ->group_end()
+    ->where('charges.id !=', 12)
+    ->where_not_in('charges.charge_category_id', [33, 36, 40]) // Exclude specific charge_category_id values
+    ->get("charges")
+    ->result();
+    
+    }
+  
+  
+  
+  
+
+    public function getDatatableAllRecord($searchterm)
     {
         $this->datatables
             ->select('charges.*,charge_type_master.charge_type as `charge_type_name`,charge_categories.name as `charge_category_name`,charge_units.unit,tax_category.percentage')
@@ -110,9 +166,16 @@ class Charge_model extends MY_Model
             ->join("charge_type_master", 'charge_categories.charge_type_id = charge_type_master.id')
             ->join("tax_category", 'tax_category.id = charges.tax_category_id', 'left')
             ->join('charge_units', 'charge_units.id = charges.charge_unit_id')
-            ->searchable('charges.name,charge_categories.name,charge_type_master.charge_type,charge_units.unit')
-            ->orderable('charges.name,charge_categories.name,charge_type_master.charge_type,charge_units.unit,tax_category.percentage')
+            ->searchable('"",charges.name,charge_categories.name,charge_type_master.charge_type,charge_units.unit,charges.cups,charges.sura_cups')
+            ->orderable('"",charges.name,charge_categories.name,charge_type_master.charge_type,charge_units.unit,tax_category.percentage')
             ->sort('charges.id', 'desc')
+            ->group_start()
+            ->like('charges.name', $searchterm)
+            ->or_like('charges.standard_charge', $searchterm)
+            ->or_like('charges.description', $searchterm)
+            ->or_like('charges.cups', $searchterm)
+            ->or_like('charges.sura_cups', $searchterm)
+            ->group_end()
             ->from('charges');
         return $this->datatables->generate('json');
     }
@@ -333,17 +396,21 @@ class Charge_model extends MY_Model
         //=======================Code Start===========================
         if (isset($data['id']) && $data['id'] > 0) {
 
-            $query = $this->db->where('id', $data['id'])
+// echo "<pre>";
+//           print_r($data);
+//           exit;
+            $query = $this->db->where('opd_id', $data['opd_id'])
                 ->update('patient_charges', $data);
 
             $message   = UPDATE_RECORD_CONSTANT . " On Patient Charges id " . $data['id'];
             $action    = "Update";
             $record_id = $data['id'];
             $this->log($message, $record_id, $action);
-
         } else {
-
             $this->db->insert("patient_charges", $data);
+// echo "<pre>";
+//           print_r($data);
+//           exit;
             $insert_id = $this->db->insert_id();
 
             $message   = INSERT_RECORD_CONSTANT . " On Patient Charges id " . $insert_id;
@@ -402,7 +469,7 @@ class Charge_model extends MY_Model
 
     public function getopdCharges($opdid)
     {
-        $query = $this->db->select('patient_charges.*,charge_categories.name as charge_category_name,charge_type_master.charge_type,charges.charge_category_id,charges.standard_charge,charge_units.unit,charges.name,organisations_charges.org_charge,opd_details.patient_id')
+        $query = $this->db->select('patient_charges.*,charge_categories.name as charge_category_name,charge_type_master.charge_type,charges.charge_category_id,charges.standard_charge,charge_units.unit,charges.name,charges.cups,charges.uvr,charges.iss,organisations_charges.org_charge,opd_details.patient_id')
             ->join('opd_details', 'patient_charges.opd_id = opd_details.id')
             ->join('patients', 'opd_details.patient_id = patients.id')
             ->join('charges', 'patient_charges.charge_id = charges.id')
@@ -420,7 +487,7 @@ class Charge_model extends MY_Model
 
     public function getopdChargesbyCaseId($case_id)
     {
-        $query = $this->db->select('patient_charges.*,charge_categories.name as charge_category_name,charge_type_master.charge_type,charges.charge_category_id,charges.standard_charge,organisations_charges.id as oid,organisations_charges.org_charge,charge_units.unit,charges.name,opd_details.id as opd_id,opd_details.case_reference_id')
+        $query = $this->db->select('patient_charges.*,charge_categories.name as charge_category_name,charge_type_master.charge_type,charges.charge_category_id,charges.standard_charge,organisations_charges.id as oid,organisations_charges.org_charge,charge_units.unit,charges.name,charges.cups,charges.sura_cups,opd_details.id as opd_id,opd_details.case_reference_id')
             ->join('opd_details', 'patient_charges.opd_id = opd_details.id')
             ->join('visit_details', 'visit_details.opd_details_id = opd_details.id')
             ->join('patients', 'opd_details.patient_id = patients.id')
@@ -513,6 +580,15 @@ class Charge_model extends MY_Model
         $this->db->where("charge_category_id", $charge_category);
         $this->db->join('charge_categories', 'charge_categories.id = charges.charge_category_id');
         $this->db->join('tax_category', 'tax_category.id = charges.tax_category_id', 'left');
+        $query = $this->db->get("charges");
+        return $query->result_array();
+    }
+  
+  
+   public function getchargeDetails_clini($charge_category)
+    {
+        $this->db->select('charges.*');
+        $this->db->where("id", $charge_category);
         $query = $this->db->get("charges");
         return $query->result_array();
     }

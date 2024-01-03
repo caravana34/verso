@@ -158,7 +158,7 @@
                                     <div class="row">
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label for="exampleInputFile"> <?php echo $this->lang->line('staff_gender'); ?></label><small class="req"> *</small>
+                                                <label for="exampleInputFile"> <?php echo $this->lang->line('staff_gender'); ?></label>
                                                 <select class="form-control" name="gender">
                                                     <option value=""><?php echo $this->lang->line('select'); ?></option>
                                                     <?php
@@ -211,7 +211,7 @@
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1"><?php echo $this->lang->line('staff_date_of_birth'); ?></label><small class="req"> *</small>
+                                                <label for="exampleInputEmail1"><?php echo $this->lang->line('staff_date_of_birth'); ?></label>
                                                 <input id="dob" name="dob" placeholder="" type="text" class="form-control date"  value="<?php
                                                 if (!empty($staff["dob"])) {
                                                     echo date($this->customlib->getHospitalDateFormat(), strtotime($staff["dob"]));
@@ -234,7 +234,7 @@
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1"><?php echo $this->lang->line('staff_phone'); ?></label>
+                                                <label for="exampleInputEmail1"><?php echo $this->lang->line('staff_phone'); ?></label><small class="req"> *</small>
                                                 <input id="mobileno" name="contactno" placeholder="" type="text" class="form-control"  value="<?php echo $staff["contact_no"] ?>" />
                                                 <input id="editid" name="editid" placeholder="" type="hidden" class="form-control"  value="<?php echo $staff["id"]; ?>" />
 

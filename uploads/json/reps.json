@@ -1,0 +1,791 @@
+[
+    
+    {
+        "codigo": "101",
+        "nombre": "101 - GENERAL ADULTOS"
+    },
+    {
+        "codigo": "102",
+        "nombre": "102 - GENERAL PEDIATRICA"
+    },
+    {
+        "codigo": "103",
+        "nombre": "103 - PSIQUIATRIA O UNIDAD DE SALUD MENTAL"
+    },
+    {
+        "codigo": "105",
+        "nombre": "105 - CUIDADO INTERMEDIO NEONATAL"
+    },
+    {
+        "codigo": "106",
+        "nombre": "106 - CUIDADO INTERMEDIO PEDIATRICO"
+    },
+    {
+        "codigo": "107",
+        "nombre": "107 - CUIDADO INTERMEDIO ADULTOS"
+    },
+    {
+        "codigo": "108",
+        "nombre": "108 - CUIDADO INTENSIVO NEONATAL"
+    },
+    {
+        "codigo": "109",
+        "nombre": "109 - CUIDADO INTENSIVO PEDIATRICO"
+    },
+    {
+        "codigo": "110",
+        "nombre": "110 - CUIDADO INTENSIVO ADULTOS"
+    },
+    {
+        "codigo": "111",
+        "nombre": "111 - UNIDAD DE QUEMADOS ADULTOS"
+    },
+    {
+        "codigo": "112",
+        "nombre": "112 - OBSTETRICIA"
+    },
+    {
+        "codigo": "117",
+        "nombre": "117 - CUIDADO AGUDO EN SALUD MENTAL O PSIQUIATRIA"
+    },
+    {
+        "codigo": "118",
+        "nombre": "118 - CUIDADO INTERMEDIO EN SALUD MENTAL O PSIQUIATRIA"
+    },
+    {
+        "codigo": "120",
+        "nombre": "120 - CUIDADO BASICO NEONATAL"
+    },
+    {
+        "codigo": "121",
+        "nombre": "121 - ATENCION INSTITUCIONAL DE PACIENTE CRONICO"
+    },
+    {
+        "codigo": "123",
+        "nombre": "123 - ATENCION A CONSUMIDOR DE SUSTANCIAS PSICOACTIVAS PACIENTE AGUDO"
+    },
+    {
+        "codigo": "124",
+        "nombre": "124 - INTERNACION PARCIAL EN HOSPITAL"
+    },
+    {
+        "codigo": "125",
+        "nombre": "125 - UNIDAD DE QUEMADOS PEDIATRICOS"
+    },
+    {
+        "codigo": "126",
+        "nombre": "126 - HOSPITALIZACION EN UNIDAD DE SALUD MENTAL"
+    },
+    {
+        "codigo": "127",
+        "nombre": "127 - INTERNACION HOSPITALARIA CONSUMIDOR DE SUSTANCIAS PSICOACTIVAS"
+    },
+    {
+        "codigo": "128",
+        "nombre": "128 - INTERNACION PARCIAL CONSUMIDOR DE SUSTANCIAS PSICOACTIVAS"
+    },
+    {
+        "codigo": "201",
+        "nombre": "201 - CIRUGIA DE CABEZA Y CUELLO"
+    },
+    {
+        "codigo": "202",
+        "nombre": "202 - CIRUGIA CARDIOVASCULAR"
+    },
+    {
+        "codigo": "203",
+        "nombre": "203 - CIRUGIA GENERAL"
+    },
+    {
+        "codigo": "204",
+        "nombre": "204 - CIRUGIA GINECOLOGICA"
+    },
+    {
+        "codigo": "205",
+        "nombre": "205 - CIRUGIA MAXILOFACIAL"
+    },
+    {
+        "codigo": "206",
+        "nombre": "206 - CIRUGIA NEUROLOGICA"
+    },
+    {
+        "codigo": "207",
+        "nombre": "207 - CIRUGIA ORTOPEDICA"
+    },
+    {
+        "codigo": "208",
+        "nombre": "208 - CIRUGIA OFTALMOLOGICA"
+    },
+    {
+        "codigo": "209",
+        "nombre": "209 - CIRUGIA OTORRINOLARINGOLOGIA"
+    },
+    {
+        "codigo": "210",
+        "nombre": "210 - CIRUGIA ONCOLOGICA"
+    },
+    {
+        "codigo": "211",
+        "nombre": "211 - CIRUGIA ORAL"
+    },
+    {
+        "codigo": "212",
+        "nombre": "212 - CIRUGIA PEDIATRICA"
+    },
+    {
+        "codigo": "213",
+        "nombre": "213 - CIRUGIA PLASTICA Y ESTETICA"
+    },
+    {
+        "codigo": "214",
+        "nombre": "214 - CIRUGIA VASCULAR Y ANGIOLOGICA"
+    },
+    {
+        "codigo": "215",
+        "nombre": "215 - CIRUGIA UROLOGICA"
+    },
+    {
+        "codigo": "217",
+        "nombre": "217 - OTRAS CIRUGIAS"
+    },
+    {
+        "codigo": "218",
+        "nombre": "218 - CIRUGIA ENDOVASCULAR NEUROLOGICA"
+    },
+    {
+        "codigo": "219",
+        "nombre": "219 - TRASPLANTE RENAL"
+    },
+    {
+        "codigo": "220",
+        "nombre": "220 - TRASPLANTE DE CORAZON"
+    },
+    {
+        "codigo": "221",
+        "nombre": "221 - TRASPLANTE DE HIGADO"
+    },
+    {
+        "codigo": "222",
+        "nombre": "222 - TRASPLANTE DE PULMON"
+    },
+    {
+        "codigo": "223",
+        "nombre": "223 - TRASPLANTE DE RIÑON PANCREAS"
+    },
+    {
+        "codigo": "227",
+        "nombre": "227 - CIRUGIA ONCOLOGICA PEDIATRICA"
+    },
+    {
+        "codigo": "231",
+        "nombre": "231 - CIRUGIA DE LA MANO"
+    },
+    {
+        "codigo": "232",
+        "nombre": "232 - CIRUGIA DE MAMA Y TUMORES TEJIDOS BLANDOS"
+    },
+    {
+        "codigo": "233",
+        "nombre": "233 - CIRUGIA DERMATOLOGICA"
+    },
+    {
+        "codigo": "234",
+        "nombre": "234 - CIRUGIA DE TORAX"
+    },
+    {
+        "codigo": "235",
+        "nombre": "235 - CIRUGIA GASTROINTESTINAL"
+    },
+    {
+        "codigo": "237",
+        "nombre": "237 - CIRUGIA PLASTICA ONCOLOGICA"
+    },
+    {
+        "codigo": "238",
+        "nombre": "238 - TRASPLANTE DE INSTESTINO"
+    },
+    {
+        "codigo": "239",
+        "nombre": "239 - TRASPLANTE MULTIVISCERAL"
+    },
+    {
+        "codigo": "240",
+        "nombre": "240 - TRASPLANTE TEJIDOS OCULARES"
+    },
+    {
+        "codigo": "241",
+        "nombre": "241 - TRASPLANTE DE TEJIDO OSTEOMUSCULAR"
+    },
+    {
+        "codigo": "242",
+        "nombre": "242 - TRASPLANTE DE PROGENITORES HEMATOPOYETICOS"
+    },
+    {
+        "codigo": "243",
+        "nombre": "243 - TRASPLANTE DE PIEL Y COMPONENTES DE LA PIEL"
+    },
+    {
+        "codigo": "244",
+        "nombre": "244 - TRASPLANTE DE TEJIDOS CARDIOVASCULARES"
+    },
+    {
+        "codigo": "301",
+        "nombre": "301 - ANESTESIA"
+    },
+    {
+        "codigo": "302",
+        "nombre": "302 - CARDIOLOGIA"
+    },
+    {
+        "codigo": "303",
+        "nombre": "303 - CIRUGIA CARDIOVASCULAR"
+    },
+    {
+        "codigo": "304",
+        "nombre": "304 - CIRUGIA GENERAL"
+    },
+    {
+        "codigo": "305",
+        "nombre": "305 - CIRUGIA NEUROLOGICA"
+    },
+    {
+        "codigo": "306",
+        "nombre": "306 - CIRUGIA PEDIATRICA"
+    },
+    {
+        "codigo": "308",
+        "nombre": "308 - DERMATOLOGIA"
+    },
+    {
+        "codigo": "309",
+        "nombre": "309 - DOLOR Y CUIDADOS PALIATIVOS"
+    },
+    {
+        "codigo": "310",
+        "nombre": "310 - ENDOCRINOLOGIA"
+    },
+    {
+        "codigo": "311",
+        "nombre": "311 - ENDODONCIA"
+    },
+    {
+        "codigo": "312",
+        "nombre": "312 - ENFERMERIA"
+    },
+    {
+        "codigo": "313",
+        "nombre": "313 - ESTOMATOLOGIA"
+    },
+    {
+        "codigo": "316",
+        "nombre": "316 - GASTROENTEROLOGIA"
+    },
+    {
+        "codigo": "317",
+        "nombre": "317 - GENETICA"
+    },
+    {
+        "codigo": "318",
+        "nombre": "318 - GERIATRIA"
+    },
+    {
+        "codigo": "320",
+        "nombre": "320 - GINECOBSTETRICIA"
+    },
+    {
+        "codigo": "321",
+        "nombre": "321 - HEMATOLOGIA"
+    },
+    {
+        "codigo": "323",
+        "nombre": "323 - INFECTOLOGIA"
+    },
+    {
+        "codigo": "324",
+        "nombre": "324 - INMUNOLOGIA"
+    },
+    {
+        "codigo": "325",
+        "nombre": "325 - MEDICINA FAMILIAR"
+    },
+    {
+        "codigo": "326",
+        "nombre": "326 - MEDICINA FISICA Y DEL DEPORTE"
+    },
+    {
+        "codigo": "327",
+        "nombre": "327 - MEDICINA FISICA Y REHABILITACION"
+    },
+    {
+        "codigo": "328",
+        "nombre": "328 - MEDICINA GENERAL"
+    },
+    {
+        "codigo": "329",
+        "nombre": "329 - MEDICINA INTERNA"
+    },
+    {
+        "codigo": "330",
+        "nombre": "330 - NEFROLOGIA"
+    },
+    {
+        "codigo": "331",
+        "nombre": "331 - NEUMOLOGIA"
+    },
+    {
+        "codigo": "332",
+        "nombre": "332 - NEUROLOGIA"
+    },
+    {
+        "codigo": "333",
+        "nombre": "333 - NUTRICION Y DIETETICA"
+    },
+    {
+        "codigo": "334",
+        "nombre": "334 - ODONTOLOGIA GENERAL"
+    },
+    {
+        "codigo": "335",
+        "nombre": "335 - OFTALMOLOGIA"
+    },
+    {
+        "codigo": "336",
+        "nombre": "336 - ONCOLOGIA CLINICA"
+    },
+    {
+        "codigo": "337",
+        "nombre": "337 - OPTOMETRIA"
+    },
+    {
+        "codigo": "338",
+        "nombre": "338 - ORTODONCIA"
+    },
+    {
+        "codigo": "339",
+        "nombre": "339 - ORTOPEDIA Y/O TRAUMATOLOGIA"
+    },
+    {
+        "codigo": "340",
+        "nombre": "340 - OTORRINOLARINGOLOGIA"
+    },
+    {
+        "codigo": "342",
+        "nombre": "342 - PEDIATRIA"
+    },
+    {
+        "codigo": "343",
+        "nombre": "343 - PERIODONCIA"
+    },
+    {
+        "codigo": "344",
+        "nombre": "344 - PSICOLOGIA"
+    },
+    {
+        "codigo": "345",
+        "nombre": "345 - PSIQUIATRIA"
+    },
+    {
+        "codigo": "346",
+        "nombre": "346 - REHABILITACION ONCOLOGICA"
+    },
+    {
+        "codigo": "347",
+        "nombre": "347 - REHABILITACION ORAL"
+    },
+    {
+        "codigo": "348",
+        "nombre": "348 - REUMATOLOGIA"
+    },
+    {
+        "codigo": "354",
+        "nombre": "354 - TOXICOLOGIA"
+    },
+    {
+        "codigo": "355",
+        "nombre": "355 - UROLOGIA"
+    },
+    {
+        "codigo": "356",
+        "nombre": "356 - OTRAS CONSULTAS DE ESPECIALIDAD"
+    },
+    {
+        "codigo": "359",
+        "nombre": "359 - CONSULTA PRIORITARIA"
+    },
+    {
+        "codigo": "361",
+        "nombre": "361 - CARDIOLOGIA PEDIATRICA"
+    },
+    {
+        "codigo": "362",
+        "nombre": "362 - CIRUGIA DE CABEZA Y CUELLO"
+    },
+    {
+        "codigo": "363",
+        "nombre": "363 - CIRUGIA DE MANO"
+    },
+    {
+        "codigo": "364",
+        "nombre": "364 - CIRUGIA DE MAMA Y TUMORES TEJIDOS BLANDOS"
+    },
+    {
+        "codigo": "365",
+        "nombre": "365 - CIRUGIA DERMATOLOGICA"
+    },
+    {
+        "codigo": "366",
+        "nombre": "366 - CIRUGIA DE TORAX"
+    },
+    {
+        "codigo": "367",
+        "nombre": "367 - CIRUGIA GASTROINTESTINAL"
+    },
+    {
+        "codigo": "368",
+        "nombre": "368 - CIRUGIA GINECOLOGICA LAPAROSCOPICA"
+    },
+    {
+        "codigo": "369",
+        "nombre": "369 - CIRUGIA PLASTICA Y ESTETICA"
+    },
+    {
+        "codigo": "370",
+        "nombre": "370 - CIRUGIA PLASTICA ONCOLOGICA"
+    },
+    {
+        "codigo": "371",
+        "nombre": "371 - OTRAS CONSULTAS GENERALES"
+    },
+    {
+        "codigo": "372",
+        "nombre": "372 - CIRUGIA VASCULAR"
+    },
+    {
+        "codigo": "373",
+        "nombre": "373 - CIRUGIA ONCOLOGICA"
+    },
+    {
+        "codigo": "374",
+        "nombre": "374 - CIRUGIA ONCOLOGICA PEDIATRICA"
+    },
+    {
+        "codigo": "375",
+        "nombre": "375 - DERMATOLOGIA ONCOLOGICA"
+    },
+    {
+        "codigo": "377",
+        "nombre": "377 - COLOPROCTOLOGIA"
+    },
+    {
+        "codigo": "379",
+        "nombre": "379 - GINECOLOGIA ONCOLOGICA"
+    },
+    {
+        "codigo": "383",
+        "nombre": "383 - MEDICINA NUCLEAR"
+    },
+    {
+        "codigo": "384",
+        "nombre": "384 - NEFROLOGIA PEDIATRICA"
+    },
+    {
+        "codigo": "385",
+        "nombre": "385 - NEONATOLOGIA"
+    },
+    {
+        "codigo": "386",
+        "nombre": "386 - NEUMOLOGIA PEDIATRICA"
+    },
+    {
+        "codigo": "387",
+        "nombre": "387 - NEUROCIRUGIA"
+    },
+    {
+        "codigo": "388",
+        "nombre": "388 - NEUROPEDIATRIA"
+    },
+    {
+        "codigo": "390",
+        "nombre": "390 - OFTALMOLOGIA ONCOLOGICA"
+    },
+    {
+        "codigo": "391",
+        "nombre": "391 - ONCOLOGIA Y HEMATOLOGIA PEDIATRICA"
+    },
+    {
+        "codigo": "393",
+        "nombre": "393 - ORTOPEDIA ONCOLOGICA"
+    },
+    {
+        "codigo": "395",
+        "nombre": "395 - UROLOGIA ONCOLOGICA"
+    },
+    {
+        "codigo": "396",
+        "nombre": "396 - ODONTOPEDIATRIA"
+    },
+    {
+        "codigo": "397",
+        "nombre": "397 - MEDICINA ESTETICA"
+    },
+    {
+        "codigo": "398",
+        "nombre": "398 - MEDICINAS ALTERNATIVAS  -  HOMEOPATIA"
+    },
+    {
+        "codigo": "399",
+        "nombre": "399 - MEDICINAS ALTERNATIVAS  -  AYURVEDA"
+    },
+    {
+        "codigo": "400",
+        "nombre": "400 - MEDICINAS ALTERNATIVAS  -  MEDICINA TRADICIONAL CHINA"
+    },
+    {
+        "codigo": "404",
+        "nombre": "404 - MEDICINAS ALTERNATIVAS  -  NATUROPATIA"
+    },
+    {
+        "codigo": "405",
+        "nombre": "405 - MEDICINAS ALTERNATIVAS  -  NEURALTERAPIA"
+    },
+    {
+        "codigo": "406",
+        "nombre": "406 - HEMATOLOGIA ONCOLOGICA"
+    },
+    {
+        "codigo": "407",
+        "nombre": "407 - MEDICINA DEL TRABAJO Y MEDICINA LABORAL"
+    },
+    {
+        "codigo": "408",
+        "nombre": "408 - RADIOTERAPIA"
+    },
+    {
+        "codigo": "409",
+        "nombre": "409 - ORTOPEDIA PEDIATRICA"
+    },
+    {
+        "codigo": "410",
+        "nombre": "410 - CIRUGIA ORAL"
+    },
+    {
+        "codigo": "411",
+        "nombre": "411 - CIRUGIA MAXILOFACIAL"
+    },
+    {
+        "codigo": "501",
+        "nombre": "501 - SERVICIO DE URGENCIAS"
+    },
+    {
+        "codigo": "601",
+        "nombre": "601 - TRANSPORTE ASISTENCIAL BASICO"
+    },
+    {
+        "codigo": "602",
+        "nombre": "602 - TRANSPORTE ASISTENCIAL MEDICALIZADO"
+    },
+    {
+        "codigo": "701",
+        "nombre": "701 - DIAGNOSTICO CARDIOVASCULAR"
+    },
+    {
+        "codigo": "703",
+        "nombre": "703 - ENDOSCOPIA DIGESTIVA"
+    },
+    {
+        "codigo": "704",
+        "nombre": "704 - NEUMOLOGIA  -  FIBROBRONCOSCOPIA"
+    },
+    {
+        "codigo": "705",
+        "nombre": "705 - HEMODINAMIA"
+    },
+    {
+        "codigo": "706",
+        "nombre": "706 - LABORATORIO CLINICO"
+    },
+    {
+        "codigo": "708",
+        "nombre": "708 - UROLOGIA  -  LITOTRIPSIA UROLOGICA"
+    },
+    {
+        "codigo": "709",
+        "nombre": "709 - QUIMIOTERAPIA"
+    },
+    {
+        "codigo": "710",
+        "nombre": "710 - RADIOLOGIA E IMAGENES DIAGNOSTICAS"
+    },
+    {
+        "codigo": "711",
+        "nombre": "711 - RADIOTERAPIA"
+    },
+    {
+        "codigo": "712",
+        "nombre": "712 - TOMA DE MUESTRAS DE LABORATORIO CLINICO"
+    },
+    {
+        "codigo": "713",
+        "nombre": "713 - TRANSFUSION SANGUINEA"
+    },
+    {
+        "codigo": "714",
+        "nombre": "714 - SERVICIO FARMACEUTICO"
+    },
+    {
+        "codigo": "715",
+        "nombre": "715 - MEDICINA NUCLEAR"
+    },
+    {
+        "codigo": "717",
+        "nombre": "717 - LABORATORIO CITOLOGIAS CERVICO - UTERINAS"
+    },
+    {
+        "codigo": "718",
+        "nombre": "718 - LABORATORIO DE PATOLOGIA"
+    },
+    {
+        "codigo": "719",
+        "nombre": "719 - ULTRASONIDO"
+    },
+    {
+        "codigo": "724",
+        "nombre": "724 - TOMA E INTERPRETACION DE RADIOGRAFIAS ODONTOLOGICAS"
+    },
+    {
+        "codigo": "725",
+        "nombre": "725 - ELECTRODIAGNOSTICO"
+    },
+    {
+        "codigo": "728",
+        "nombre": "728 - TERAPIA OCUPACIONAL"
+    },
+    {
+        "codigo": "729",
+        "nombre": "729 - TERAPIA RESPIRATORIA"
+    },
+    {
+        "codigo": "730",
+        "nombre": "730 - NEUMOLOGIA LABORATORIO FUNCION PULMONAR"
+    },
+    {
+        "codigo": "731",
+        "nombre": "731 - LABORATORIO DE HISTOTECNOLOGIA"
+    },
+    {
+        "codigo": "732",
+        "nombre": "732 - ECOCARDIOGRAFIA"
+    },
+    {
+        "codigo": "733",
+        "nombre": "733 - HEMODIALISIS"
+    },
+    {
+        "codigo": "734",
+        "nombre": "734 - DIALISIS PERITONEAL"
+    },
+    {
+        "codigo": "735",
+        "nombre": "735 - TERAPIA ALTERNATIVA BIOENERGETICA"
+    },
+    {
+        "codigo": "736",
+        "nombre": "736 - TERAPIA ALTERNATIVA CON FILTROS"
+    },
+    {
+        "codigo": "737",
+        "nombre": "737 - TERAPIA ALTERNATIVA MANUAL"
+    },
+    {
+        "codigo": "738",
+        "nombre": "738 - ELECTROFISIOLOGIA MARCAPASOS Y ARRITMIAS CARDIACAS"
+    },
+    {
+        "codigo": "739",
+        "nombre": "739 - FISIOTERAPIA"
+    },
+    {
+        "codigo": "740",
+        "nombre": "740 - FONOAUDIOLOGIA Y/O TERAPIA DEL LENGUAJE"
+    },
+    {
+        "codigo": "741",
+        "nombre": "741 - TAMIZACION DE CANCER DE CUELLO UTERINO"
+    },
+    {
+        "codigo": "815",
+        "nombre": "815 - ATENCION DOMICILIARIA DE PACIENTE CRONICO CON VENTILADOR"
+    },
+    {
+        "codigo": "816",
+        "nombre": "816 - ATENCION DOMICILIARIA DE PACIENTE CRONICO SIN VENTILADOR"
+    },
+    {
+        "codigo": "817",
+        "nombre": "817 - ATENCION DOMICILIARIA DE PACIENTE AGUDO"
+    },
+    {
+        "codigo": "818",
+        "nombre": "818 - ATENCION PREHOSPITALARIA"
+    },
+    {
+        "codigo": "819",
+        "nombre": "819 - ATENCION A CONSUMIDOR DE SUSTANCIAS PSICOACTIVAS"
+    },
+    {
+        "codigo": "820",
+        "nombre": "820 - ATENCION INSTITUCIONAL NO HOSPITALARIA AL CONSUMIDOR DE SUSTANCIAS PSICOACTIVAS"
+    },
+    {
+        "codigo": "907",
+        "nombre": "907 - PROTECCION ESPECIFICA  -  ATENCION DEL PARTO"
+    },
+    {
+        "codigo": "908",
+        "nombre": "908 - PROTECCION ESPECIFICA  -  ATENCION AL RECIEN NACIDO"
+    },
+    {
+        "codigo": "909",
+        "nombre": "909 - DETECCION TEMPRANA  -  ALTERACIONES DEL CRECIMIENTO Y DESARROLLO ( Menor a 10 años)"
+    },
+    {
+        "codigo": "910",
+        "nombre": "910 - DETECCION TEMPRANA  -  ALTERACIONES DEL DESARROLLO DEL JOVEN ( De 10 a 29 años)"
+    },
+    {
+        "codigo": "911",
+        "nombre": "911 - DETECCION TEMPRANA  -  ALTERACIONES DEL EMBARAZO"
+    },
+    {
+        "codigo": "912",
+        "nombre": "912 - DETECCION TEMPRANA  -  ALTERACIONES EN EL ADULTO ( Mayor a 45 años)"
+    },
+    {
+        "codigo": "913",
+        "nombre": "913 - DETECCION TEMPRANA  -  CANCER DE CUELLO UTERINO"
+    },
+    {
+        "codigo": "914",
+        "nombre": "914 - DETECCION TEMPRANA  -  CANCER SENO"
+    },
+    {
+        "codigo": "915",
+        "nombre": "915 - DETECCION TEMPRANA  -  ALTERACIONES DE LA AGUDEZA VISUAL"
+    },
+    {
+        "codigo": "916",
+        "nombre": "916 - PROTECCION ESPECIFICA  -  VACUNACION"
+    },
+    {
+        "codigo": "917",
+        "nombre": "917 - PROTECCION ESPECIFICA  -  ATENCION PREVENTIVA EN SALUD BUCAL"
+    },
+    {
+        "codigo": "918",
+        "nombre": "918 - PROTECCION ESPECIFICA  -  ATENCION EN PLANIFICACION FAMILIAR HOMBRES Y MUJERES"
+    },
+    {
+        "codigo": "950",
+        "nombre": "950 - PROCESO ESTERILIZACION"
+    }
+]

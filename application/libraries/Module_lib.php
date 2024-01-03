@@ -19,6 +19,9 @@ class Module_lib {
 
     function loadModule() {
         $this->allModules = $this->CI->module_model->get();
+//       echo "<pre>";
+//       print_r($this->allModules = $this->CI->module_model->get());
+//       exit;
 
         if (!empty($this->allModules)) {
             foreach ($this->allModules as $mod_key => $mod_value) {

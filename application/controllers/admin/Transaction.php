@@ -24,6 +24,17 @@ class Transaction extends Admin_Controller
         echo json_encode(array('status' => 1, 'page' => $page));
     }
 
+  
+    public function get_Transaction()
+    {
+        $print_details         = $this->printing_model->get('', 'paymentreceipt');
+        $id                    = $this->input->post('id');
+        $transaction           = $this->transaction_model->getTransaction($id);
+        $data['transaction']   = $transaction;
+        echo json_encode($data);
+      
+    }
+  
     public function deleteByID()
     {
         $id          = $this->input->post('id');

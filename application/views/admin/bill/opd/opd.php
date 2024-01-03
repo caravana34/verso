@@ -12,7 +12,7 @@ $currency_symbol = $this->customlib->getHospitalCurrencyFormat();
                         <?php if ($title == 'old_patient') { ?>
                             <h3 class="box-title titlefix"><?php echo $this->lang->line('opd_old_billing'); ?></h3>
                         <?php } else { ?>
-                            <h3 class="box-title titlefix"><?php echo $this->lang->line('opd_billing'); ?></h3>
+                            <h3 class="box-title titlefix">Facturación Consulta Externa</h3>
 
                         <?php } ?>  
                         <div class="box-tools addmeeting box-tools-md">

@@ -1505,7 +1505,8 @@ $currency_symbol = $this->customlib->getHospitalCurrencyFormat();
                         errorMsg(message);
                     } else {
                         successMsg(data.message);
-                        window.location.reload(true);
+//                         window.location.reload(true);
+                        table.ajax.reload();
                     }
                 },
                 error: function () {

@@ -312,69 +312,63 @@ $categorylist = $this->operationtheatre_model->category_list();
                                          </div><!--./staff-members-->
                                          
                                         
-                                          <div class="box-header mb10 pl-0">
+                                         <div class="box-header mb10 pl-0">
                                            <h3 class="text-uppercase bolds mt0 ptt10 pull-left font14"><?php echo $this->lang->line('nurse_notes'); ?></h3>
                                            <div class="pull-right">
                                                
                                           </div>
                                         </div>
                                         <div class="timeline-header no-border pb1">
-                                    <div id="timeline_list">
-                                        <?php if (empty($nurse_note)) { ?>
-                                          
-                                            
-                                            <?php } else { ?>
-                                            <ul class="timeline timeline-inverse">
-                                            <?php
-                                            for ($i=0; $i <$recent_record_count; $i++) { 
-                                                if (!empty($nurse_note[$i])) { 
-                                                $id = $nurse_note[$i]['id'];
-                                            
-                                            ?>      
-                                                <li class="time-label">
-                                                <span class="bg-blue">   
-                                                <?php echo $this->customlib->YYYYMMDDHisTodateFormat($nurse_note[$i]['date']); ?></span>
-                                                    </li> 
-                                                    <li>
-                                                        <i class="fa fa-list-alt bg-blue"></i>
-                                                        <div class="timeline-item">
-                                                           
+                                          <div id="timeline_list">
+                                              <?php if (empty($nurse_note)) { ?>
+                                                  <?php } else { ?>
+                                             <ul class="timeline timeline-inverse">
+                                                  <?php
+                                                  for ($i=0; $i <$recent_record_count; $i++) { 
+                                                      if (!empty($nurse_note[$i])) { 
+                                                      $id = $nurse_note[$i]['id'];
+                                                  ?>      
+                                                      <li class="time-label">
+                                                      <span class="bg-blue">   
+                                                      <?php echo $this->customlib->YYYYMMDDHisTodateFormat($nurse_note[$i]['date']); ?></span>
+                                                          </li> 
+                                                          <li>
+                                                              <i class="fa fa-list-alt bg-blue"></i>
+                                                              <div class="timeline-item">
+                                                                  <h3 class="timeline-header text-aqua"> <?php echo $nurse_note[$i]['name'].' '.$nurse_note[$i]['surname']." ( ".$nurse_note[$i]['employee_id']." )" ; ?> </h3>
 
-                                                            
-                                                            <h3 class="timeline-header text-aqua"> <?php echo $nurse_note[$i]['name'].' '.$nurse_note[$i]['surname']." ( ".$nurse_note[$i]['employee_id']." )" ; ?> </h3>
-                                                            
-                                                            <div class="timeline-body">
-                                                              <?php echo $this->lang->line('note') ."</br>". nl2br($nurse_note[$i]['note']); ?> 
-                                                            </div>
-                                                           
-                                                            <div class="timeline-body">
-                                                              <?php echo $this->lang->line('comment') ."</br> ". nl2br($nurse_note[$i]['comment']); ?> 
-                                                            </div>
-                                                            
-                                                             <?php foreach ($nursenote[$id] as $ckey => $cvalue) { 
-                                                                if (!empty($cvalue['staffname'])) {
-                                                                  $comment_by =  " (". $cvalue['staffname']." ".$cvalue['staffsurname'].": " .$cvalue['employee_id'].")";
-                                                                   $comment_date = $this->customlib->YYYYMMDDHisTodateFormat($cvalue['created_at'], $this->customlib->getHospitalTimeFormat());
-                                                                }
-                                                                                                                                 
-                                                                ?>
-                                                                 <div class="timeline-body">
-                                                                    <?php echo nl2br($cvalue['comment_staff']);  
-                                                                    if($is_discharge) { if ($this->rbac->hasPrivilege('nurse_note', 'can_delete')) { ?>
-                                                                    
-                                                                    <?php }}?> 
-                                                                    <div class="text-right mb0 ptt10"> <?php echo $comment_date." ". $comment_by ?></div>
-                                                                </div>
-                                                            <?php  } ?> 
-                                                            
-                                                        </div>
-                                                    </li>
-                                                <?php }} ?> 
-                                                <li><i class="fa fa-clock-o bg-gray"></i></li> 
-                                                <?php } ?>  
-                                        </ul>
+                                                                  <div class="timeline-body">
+                                                                    <?php echo $this->lang->line('note') ."</br>". nl2br($nurse_note[$i]['note']); ?> 
+                                                                  </div>
+
+                                                                  <div class="timeline-body">
+                                                                    <?php echo $this->lang->line('comment') ."</br> ". nl2br($nurse_note[$i]['comment']); ?> 
+                                                                  </div>
+
+                                                                   <?php foreach ($nursenote[$id] as $ckey => $cvalue) { 
+                                                                      if (!empty($cvalue['staffname'])) {
+                                                                        $comment_by =  " (". $cvalue['staffname']." ".$cvalue['staffsurname'].": " .$cvalue['employee_id'].")";
+                                                                         $comment_date = $this->customlib->YYYYMMDDHisTodateFormat($cvalue['created_at'], $this->customlib->getHospitalTimeFormat());
+                                                                      }
+
+                                                                      ?>
+                                                                       <div class="timeline-body">
+                                                                          <?php echo nl2br($cvalue['comment_staff']);  
+                                                                          if($is_discharge) { if ($this->rbac->hasPrivilege('nurse_note', 'can_delete')) { ?>
+
+                                                                          <?php }}?> 
+                                                                          <div class="text-right mb0 ptt10"> <?php echo $comment_date." ". $comment_by ?></div>
+                                                                      </div>
+                                                                  <?php  } ?> 
+
+                                                              </div>
+                                                          </li>
+                                                      <?php }} ?> 
+                                                      <li><i class="fa fa-clock-o bg-gray"></i></li> 
+                                                      <?php } ?>  
+                                              </ul>
                                           </div>
-                                </div>
+                                     </div>
                                 <hr> 
                                          <div class="box-header mb10 pl-0">
                                            <h3 class="text-uppercase bolds mt0 ptt10 pull-left font14"><?php echo $this->lang->line('timeline'); ?></h3>
@@ -1610,7 +1604,8 @@ $categorylist = $this->operationtheatre_model->category_list();
                                         <h3 class="box-tab-title"><?php echo $this->lang->line('medication'); ?></h3>
                                         <div class="box-tab-tools">
                                         <?php if($is_discharge) { if ($this->rbac->hasPrivilege('ipd_medication', 'can_add')) {  ?>
-                                            <a href="#" class="btn btn-sm btn-primary dropdown-toggle addmedication" onclick="addmedicationModal()" data-toggle='modal'><i class="fa fa-plus"></i> <?php echo $this->lang->line("add_medication_dose"); ?></a>
+                                            <a href="#" class="btn btn-sm btn-primary dropdown-toggle addmedication" onclick="addmedicationModal()" data-toggle='modal'>
+                                              <i class="fa fa-plus"></i> <?php echo $this->lang->line("add_medication_dose"); ?></a>
                                         <?php } }?>
                                         </div>    
                                    </div><!--./box-tab-header-->  
@@ -1680,23 +1675,16 @@ $categorylist = $this->operationtheatre_model->category_list();
                                                   if($add_index+1==$x){
                                                     ?>
                                                 <?php if ($this->rbac->hasPrivilege('ipd_medication', 'can_add')) { 
-                                                    if($is_discharge){
-                                                ?>
-                                                    <a href="#" class="btn btn-sm btn-primary dropdown-toggle addmedication" onclick="medicationModal('<?php echo $medicine_category_id;?>','<?php echo $medicine_id ;?>','<?php echo $date;?>')" data-toggle='modal'><i class="fa fa-plus"></i>
-                                                    
+                                                    if($is_discharge){?>
+                                                    <a href="#" class="btn btn-sm btn-primary dropdown-toggle addmedication" onclick="medicationModal('<?php echo $medicine_category_id;?>','<?php echo $medicine_id ;?>','<?php echo $date;?>')" data-toggle='modal'>
+                                                        <i class="fa fa-plus"></i>
                                                     </a>
                                                 <?php } }?>
                                                     <?php
-                                                  }
-                                                  ?></td>
-                                                  <?php
-                                                  }
-
-                                                 
-                                            }     
-
-                                              ?>
-                                  </tr>
+                                                  } ?>
+                                                 </td>
+                                                  <?php } } ?>
+                                      </tr>
 
                                 <?php $subcount++; }
 
@@ -3049,8 +3037,8 @@ $categorylist = $this->operationtheatre_model->category_list();
                                             <label><?php echo $this->lang->line("dosage"); ?></label> <small class="req"> *</small>
                                         <select class="form-control select2 dosage_medication" style="width:100%"  id="mdosage" onchange="" name='dosage'>
                                                 <option value=""><?php echo $this->lang->line('select'); ?>
-                                                    </option>
-                                                </select>
+                                                 </option>
+                                          </select>
                                             <span class="text-danger"><?php echo form_error('dosage'); ?></span>
                                         </div>
                                     </div>
@@ -3068,7 +3056,10 @@ $categorylist = $this->operationtheatre_model->category_list();
                    
                   </div>  
                    <div class="modal-footer">
-                        <button type="submit" id="add_medicationdosebtn" data-loading-text="<?php echo $this->lang->line('processing'); ?>" class="btn btn-info pull-right"><i class="fa fa-check-circle"></i> <?php echo $this->lang->line('save'); ?></button>
+                       <button type="submit" id="add_medicationdosebtn" data-loading-text="<?php echo $this->lang->line('processing'); ?>" class="btn btn-info pull-right">
+                          <i class="fa fa-check-circle"></i> 
+                          <?php echo $this->lang->line('save'); ?>
+                        </button>
                     </div>  
             </form>  
         </div>
@@ -3084,89 +3075,86 @@ $categorylist = $this->operationtheatre_model->category_list();
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title"><?php echo $this->lang->line("add_medication_dose"); ?></h4> 
             </div>
-        <form id="add_medication" accept-charset="utf-8" method="post" class="ptt10">    
-            <div class="scroll-area">
-                <div class="modal-body pt0 pb0">
-                    
-                        <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label><?php echo $this->lang->line('date'); ?></label><small class="req"> *</small>
-                                            <input type="text" name="date" id="date" class="form-control date">
-                                            <span class="text-danger"><?php echo form_error('date'); ?></span>
-                                            <input type="hidden" name="ipdid" value="<?php echo $ipdid ?>">
-                                        </div>
-                                    </div> 
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="pwd"><?php echo $this->lang->line("time"); ?></label>
-                                            <div class="bootstrap-timepicker">
-                                                <div class="form-group">
-                                                    <div class="input-group">
-                                                        <input type="text" name="time" class="form-control timepicker" id="mtime" value="<?php echo set_value('time'); ?>">
-                                                        <div class="input-group-addon">
-                                                            <i class="fa fa-clock-o"></i>
-                                                        </div>
+            <form id="add_medication" accept-charset="utf-8" method="post" class="ptt10">    
+                <div class="scroll-area">
+                    <div class="modal-body pt0 pb0">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label><?php echo $this->lang->line('date'); ?></label><small class="req"> *</small>
+                                        <input type="text" name="date" id="date" class="form-control date">
+                                        <span class="text-danger"><?php echo form_error('date'); ?></span>
+                                        <input type="hidden" name="ipdid" value="<?php echo $ipdid ?>">
+                                    </div>
+                                </div> 
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="pwd"><?php echo $this->lang->line("time"); ?></label>
+                                        <div class="bootstrap-timepicker">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <input type="text" name="time" class="form-control timepicker" id="mtime" value="<?php echo set_value('time'); ?>">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-clock-o"></i>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <span class="text-danger"><?php echo form_error('time'); ?></span>
                                         </div>
+                                        <span class="text-danger"><?php echo form_error('time'); ?></span>
                                     </div>
                                 </div>
-                                <div class="row">                       
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label><?php echo $this->lang->line("medicine_category"); ?></label> <small class="req"> *</small>
-                                            <select class="form-control medicine_category_medication select2" style="width:100%" id="mmedicine_category_id" name='medicine_category_id'>
-                                                <option value="<?php echo set_value('medicine_category_id'); ?>"><?php echo $this->lang->line('select'); ?>
+                            </div>
+                            <div class="row">                       
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label><?php echo $this->lang->line("medicine_category"); ?></label> <small class="req"> *</small>
+                                        <select class="form-control medicine_category_medication select2" style="width:100%" id="mmedicine_category_id" name='medicine_category_id'>
+                                            <option value="<?php echo set_value('medicine_category_id'); ?>"><?php echo $this->lang->line('select'); ?>
+                                            </option>
+                                                <?php foreach ($medicineCategory as $dkey => $dvalue) {
+                                                ?>
+                                                <option value="<?php echo $dvalue["id"]; ?>"><?php echo $dvalue["medicine_category"] ?>
                                                 </option>
-                                                    <?php foreach ($medicineCategory as $dkey => $dvalue) {
-                                                    ?>
-                                                    <option value="<?php echo $dvalue["id"]; ?>"><?php echo $dvalue["medicine_category"] ?>
-                                                    </option>
-                                                            <?php }?>
-                                                </select>   
-                                            <span class="text-danger"><?php echo form_error('medicine_category_id'); ?></span>
-                                        </div>
-                                    </div> 
-                                     <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label><?php echo $this->lang->line("medicine_name"); ?></label> <small class="req"> *</small>
-                                        <select class="form-control select2 medicine_name_medication" style="width:100%"  id="mmedicine_id" name='medicine_name_id'>
-                                                <option value=""><?php echo $this->lang->line('select'); ?>
-                                                    </option>
-                                                </select>
-                                            <span class="text-danger"><?php echo form_error('medicine_name_id'); ?></span>
-                                        </div>
-                                    </div> 
-                                     <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label><?php echo $this->lang->line("dosage"); ?></label> <small class="req"> *</small>
-                                        <select class="form-control select2 dosage_medication" style="width:100%"  id="dosage" onchange="get_dosagename(this.value)" name='dosage'>
-                                                <option value=""><?php echo $this->lang->line('select'); ?>
-                                                    </option>
-                                                </select>
-                                            <span class="text-danger"><?php echo form_error('dosage'); ?></span>
-                                        </div>
-                                    </div> 
-                                </div>
-                                
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label><?php echo $this->lang->line("remarks"); ?></label> 
-                                            <textarea  name="remark" id="remark" class="form-control"></textarea>
-                                        
-                                        </div>
+                                                        <?php }?>
+                                            </select>   
+                                        <span class="text-danger"><?php echo form_error('medicine_category_id'); ?></span>
+                                    </div>
+                                </div> 
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label><?php echo $this->lang->line("medicine_name"); ?></label> <small class="req"> *</small>
+                                    <select class="form-control select2 medicine_name_medication" style="width:100%"  id="mmedicine_id" name='medicine_name_id'>
+                                            <option value=""><?php echo $this->lang->line('select'); ?>
+                                                </option>
+                                            </select>
+                                        <span class="text-danger"><?php echo form_error('medicine_name_id'); ?></span>
+                                    </div>
+                                </div> 
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label><?php echo $this->lang->line("dosage"); ?></label> <small class="req"> *</small>
+                                    <select class="form-control select2 dosage_medication" style="width:100%"  id="dosage" onchange="get_dosagename(this.value)" name='dosage'>
+                                            <option value=""><?php echo $this->lang->line('select'); ?>
+                                                </option>
+                                            </select>
+                                        <span class="text-danger"><?php echo form_error('dosage'); ?></span>
+                                    </div>
+                                </div> 
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label><?php echo $this->lang->line("remarks"); ?></label> 
+                                        <textarea  name="remark" id="remark" class="form-control"></textarea>
+
                                     </div>
                                 </div>
+                            </div>
                         </div>
-                   
-                </div>  
-                <div class="modal-footer">
-                    <button type="submit" id="add_medicationbtn" data-loading-text="<?php echo $this->lang->line('processing'); ?>" class="btn btn-info pull-right"><i class="fa fa-check-circle"></i> <?php echo $this->lang->line('save'); ?></button>
-                </div>  
+                    </div>  
+                    <div class="modal-footer">
+                        <button type="submit" id="add_medicationbtn" data-loading-text="<?php echo $this->lang->line('processing'); ?>" class="btn btn-info pull-right"><i class="fa fa-check-circle"></i> <?php echo $this->lang->line('save'); ?></button>
+                    </div>  
             </form>  
         </div>
     </div> 
@@ -4465,9 +4453,9 @@ var date_format = '<?php echo strtr($this->customlib->getHospitalDateFormat(), [
     var prescription_rows=2;
     var selected_medicine_category_id=1;
 
-$(function () {
-    $('.select2').select2();
-});
+    $(function () {
+        $('.select2').select2();
+    });
 
 </script>
 <script>
@@ -6745,15 +6733,15 @@ function delete_prescription(prescription_id) {
     }); 
     
 
-   $('#myaddMedicationModal').on('hidden.bs.modal', function () {
-    $('#add_medication').find('input:text, input:password, input:file, textarea').val('');
-    $('#add_medication').find('select option:selected').removeAttr('selected');
-    $('#add_medication').find('input:checkbox, input:radio').removeAttr('checked');
-    $('.medicine_category_medication').select2("val", "");;
-    $('.medicine_name_medication').select2("val", "");;
-    $('.dosage_medication').select2("val", "");;
-     $('#mtime').val('12:00 PM');
-   });
+    $('#myaddMedicationModal').on('hidden.bs.modal', function () {
+      $('#add_medication').find('input:text, input:password, input:file, textarea').val('');
+      $('#add_medication').find('select option:selected').removeAttr('selected');
+      $('#add_medication').find('input:checkbox, input:radio').removeAttr('checked');
+      $('.medicine_category_medication').select2("val", "");;
+      $('.medicine_name_medication').select2("val", "");;
+      $('.dosage_medication').select2("val", "");;
+      $('#mtime').val('12:00 PM');
+    });
 
 
 

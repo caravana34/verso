@@ -69,17 +69,19 @@ $currency_symbol = $this->customlib->getHospitalCurrencyFormat();
                                 </div>
                             </div>
 
-                            <div class="col-sm-6 col-md-3">
+<!--                             <div class="col-sm-6 col-md-3">
                                 <div class="form-group">
                                     <label><?php echo $this->lang->line('to_age'); ?></label>
                                     <select name="to_age" id="to_age" class="form-control" >
                                            <option value=""><?php echo $this->lang->line('select') ?></option> 
                                     </select>
                                 </div>
-                            </div>
+                            </div> -->
+                          
+                          
                         </div>
                         <div class="box-body row">
-                            <div class="col-sm-6 col-md-3" >
+<!--                             <div class="col-sm-6 col-md-3" >
                                 <div class="form-group">
                                     <label><?php echo $this->lang->line('gender'); ?></label>
                                     <select class="form-control"  name="gender" style="width: 100%">
@@ -91,8 +93,8 @@ $currency_symbol = $this->customlib->getHospitalCurrencyFormat();
                                     </select>
                                     <span class="text-danger" id="error_collect_staff"><?php echo form_error('doctor'); ?></span>
                                 </div>
-                            </div>
-                            <div class="col-sm-6 col-md-3">
+                            </div> -->
+<!--                             <div class="col-sm-6 col-md-3">
                                  <div class="form-group">
                                    <label><?php echo $this->lang->line('symptoms'); ?></label>
                                     <select name="symptoms" id="symptoms" class="form-control">                                   
@@ -114,7 +116,7 @@ $currency_symbol = $this->customlib->getHospitalCurrencyFormat();
                                     <?php } ?>
                                   </select>
                                </div> 
-                            </div>
+                            </div> -->
                             <div class="col-sm-6 col-md-3">
                                  <div class="form-group">
                                    <label><?php echo $this->lang->line('findings'); ?></label>

@@ -6,7 +6,7 @@ if (!defined('BASEPATH')) {
 
 if (!function_exists('display_custom_fields')) {
 
-    function display_custom_fields($belongs_to, $rel_id = false, $where = array()) {
+    function display_custom_fields($belongs_to, $rel_id = false, $view = null) {
         $CI = &get_instance();
         $CI->db->from('custom_fields');
         $CI->db->where('belong_to', $belongs_to);
@@ -16,7 +16,7 @@ if (!function_exists('display_custom_fields')) {
         $result = $query->result_array();
         
         if($belongs_to == "opd"){
-            $fields_html = display_custom_fields_opd_own($result, $belongs_to, $rel_id);
+            $fields_html = display_custom_fields_opd_own($result, $belongs_to, $rel_id, $view);
             return $fields_html;
             
         }else{
@@ -67,7 +67,6 @@ if (!function_exists('display_custom_fields')) {
                             
                             .input-group .input-group-addon {
                                  color:#1563b0;}
-
                         </style>
                         <div>
                             <div class="row" style="margin-top:20px;">
@@ -269,7 +268,7 @@ if (!function_exists('display_custom_fields')) {
         return $fields_html;
     }
     
-    function display_custom_fields_opd_own($result, $belongs_to, $rel_id){
+    function display_custom_fields_opd_own($result, $belongs_to, $rel_id, $view = null){
          $html = ["motivo_consulta"=>'',"revision_sistemas"=>'',"fisico"=>'',"antecedentes"=>''];
         
         
@@ -309,12 +308,22 @@ if (!function_exists('display_custom_fields')) {
                 }elseif($field['block'] == "causaExterna"){
                     $field['bs_column'] = ($field['bs_column']/2);
                     $html["causaExterna"] .= builder_custom_fields_opd_own($field, $belongs_to, $rel_id);  
+                }elseif($field['block'] == "apariencia_general"){
+                    $field['bs_column'] = ($field['bs_column']/2);
+                    $html["apariencia_general"] .= builder_custom_fields_opd_own($field, $belongs_to, $rel_id);  
+                }elseif($field['block'] == "escala_vida"){
+                    $field['bs_column'] = ($field['bs_column']);
+                    $html["escala_vida"] .= builder_custom_fields_opd_own($field, $belongs_to, $rel_id);  
+                }elseif($field['block'] == "escala_eva"){
+                    $field['bs_column'] = ($field['bs_column']);
+                    $html["escala_eva"] .= builder_custom_fields_opd_own($field, $belongs_to, $rel_id);  
                 }else{
                     $field['bs_column'] = ($field['bs_column']/2);
                     $html["fisico_antro"] .= builder_custom_fields_opd_own($field, $belongs_to, $rel_id);  
                 }
 
         }
+
         $fields_html = '<style>
                           .panel-default>.panel-heading {
                                 border-radius:10px !important;
@@ -337,9 +346,26 @@ if (!function_exists('display_custom_fields')) {
                             }
                             
                             .btn {
-                                /* background-color: #cbcaca !important; */
+                                /* background-color: #cbcaca custom_fields[opd][96] */
                                 border-color: #1563b0;
                                 /* color: #fff; */
+                            }
+                            
+                            .checkbox, .radio {
+                                position: relative;
+                                display: grid;
+                                margin-top: 10px;
+                                margin-bottom: 10px;
+                            }
+                            
+                            
+                            .checkbox-inline+.checkbox-inline, .radio-inline+.radio-inline {
+                                margin-top: 0;
+                                margin-left: 0;
+                            }
+                            
+                            .eva{
+                             height: 224px !important;
                             }
 
                         </style>
@@ -362,9 +388,8 @@ if (!function_exists('display_custom_fields')) {
                                                                         <div class="col-sm-4"></div>
                                                                     </div>
                                                                     <div class="row" style="margin: 0px 0px;padding: 7px;">
-                                                                        <div class="row" style="border:margin: 25px 0px;padding: 3px;">
-                                                                            <div class="row" style="display: flex;justify-content: center;">
-                                                                            </div>
+                                                                        <div class="row" style="margin: 25px 0px;padding: 3px;">
+                                                                            <div id="reason"></div>
                                                                             '.$html["motivo_consulta"].'
                                                                         </div>
                                                                     </div>
@@ -374,9 +399,7 @@ if (!function_exists('display_custom_fields')) {
                                                      </div>
                                                </div>
                                            </div>
-                                           
-                                           
-                                           
+  
                                         <div class="row">
                                             <div class="col-sm-12"> 
                                                 <div id="accordionenferact" class="panel-group" style="margin:15px 20px;">
@@ -406,9 +429,7 @@ if (!function_exists('display_custom_fields')) {
                                                      </div>
                                                </div>
                                            </div>   
-                                           
-                                           
-                                           
+    
                                         <div class="row">
                                             <div class="col-sm-12"> 
                                                 <div id="accordion8" class="panel-group" style="margin:15px 20px;">
@@ -439,11 +460,8 @@ if (!function_exists('display_custom_fields')) {
                                                </div>
                                            </div>                  
                                                
-                                
-                                        
                                             <div class="row">
                                             <div class="col-sm-12">
-                                                
                                                  <div id="accordion3" class="panel-group" style="margin:15px 20px;">
                                                      <div class="panel panel-default" style="border-radius:20px;">
                                                             <div class="panel-heading" style="border-radius:10px;background-color:#a2cddf; color:#444;">
@@ -459,7 +477,7 @@ if (!function_exists('display_custom_fields')) {
                                                                         <div class="col-sm-4"></div>
                                                                     </div>
                                                                     <div class="row" style="margin: 0px 0px;padding: 7px;">
-                                                                        <div class="row" style="border:margin: 25px 0px;padding: 3px;">
+                                                                        <div class="row" style="margin: 25px 0px;padding: 3px;">
                                                                             <div class="row" style="display: flex;justify-content: center;">
                                                                             </div>
                                                                             '.$html["antecedentes"].'
@@ -472,10 +490,7 @@ if (!function_exists('display_custom_fields')) {
                                                </div>
                                            </div>
                                             <div class="row">
-                                    
                                             <div class="col-sm-12">
-                                                
-                                                
                                                 <div id="accordion" class="panel-group" style="margin:15px 20px;">
                                                      <div class="panel panel-default" style="border-radius:20px;">
                                                             <div class="panel-heading" style="border-radius:10px;background-color:#a2cddf">
@@ -509,7 +524,7 @@ if (!function_exists('display_custom_fields')) {
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="row" style="display: flex;justify-content: center;align-items: end;">
-                                                                                '.$html["fisico"].' '.$html["fisico_vitales_temp"].' '.$html["fisico_vitales"].' 
+                                                                                '.$html["fisico"].' '.$html["fisico_vitales_temp"].' '.$html["fisico_vitales"].'  
                                                                                 </div>
                                                                             </div>
                                                                      
@@ -522,15 +537,68 @@ if (!function_exists('display_custom_fields')) {
                                                                                 <div class="row" style="display: flex;justify-content: center;align-items: end;">
                                                                                 '.$html["fisico_vitales_presion"].' 
                                                                                 </div>
+                                                                                
+                                                                                <div class="row" style="margin: 15px 0px;padding: 3px;">
+                                                                                    <div class="row" style="margin-bottom: 10px;padding: 0px;">
+                                                                                        <div class="row" style="display: flex;justify-content: center;margin-bottom: 21px;">
+                                                                                          <div class="col-3 text-primary mb-3" style="padding:15px;font-size:19px;font-weight: bold;">
+                                                                                              <b>Hallazgos Clínicos</b>
+                                                                                          </div>
+                                                                                        </div>
+                                                                                          '.$html["apariencia_general"].' 
+                                                                                    </div>
+                                                                                 </div>
                                                                             </div>
                                                                      </div>
-                                                                     
                                                                 </div>
                                                             </div>
-                                                            
                                                         </div>
                                                      </div>
-                                               </div>
+                                                </div>
+                                                
+                                                <div class="row">
+                                                  <div class="col-sm-12">
+                                                  <div id="accordionescalas" class="panel-group" style="margin: 15px 20px;">
+                                                    <div class="panel panel-default" style="border-radius:20px;">
+                                                          <div class="panel-heading">
+                                                              <h4 class="panel-title" style="color:#444;">
+                                                                  <a class="collapsed" style="color:#fff;" role="button" data-toggle="collapse" data-parent="#accordionescalas" href="#escalas" aria-expanded="false" aria-controls="collapseExample6">
+                                                                  <i class="more-less fa fa-plus" style="color:#1563b0;"></i>
+                                                                  Escalas</a>
+                                                              </h4>
+                                                          </div>
+                                                           <div id="escalas" class="panel-collapse collapse">
+                                                                <div class="panel-body">
+                                                                    <div class="col-md-12" style="margin: 0px 0px;padding: 7px;">
+                                                                        <div class="col-md-12" style="margin: 0px 0px 0px 0px;padding: 3px;">
+                                                                            <div class="co-md-12" style="justify-content: center;margin-bottom:10px; display:flex">
+                                                                              <div class="col-md-12" style="margin:0px; display:grid">
+                                                                             
+                                                                                <label for="" class="control-label" style="display: inline;">
+                                                                                    <i class="fas fa-notes-medical" style="font-size:15px;color:#1563B0;"></i> 
+                                                                                    Escala calidad de vida
+                                                                                 </label>
+                                                                                 <span style="color:#1563B0;display: inline;">
+                                                                                    <small>Marque la respuestas que mejor describa el estado de salud en el día de hoy</small>
+                                                                                </span>
+                                                                                <br>
+                                                                                 '.$html["escala_vida"].'
+                                                          
+                                                                              </div>
+                                                                              <div class="col-md-12">
+                                                                                 '.$html["escala_eva"].'
+                                                          
+                                                                              </div>
+                                                                            </div>
+                                                                         </div>
+                                                                       </div>   
+                                                                    </div>
+                                                                </div>
+                                                            </div> 
+                                                          </div>  
+                                                       </div>
+                                                    </div>
+                                                
                                                <div class="row">
                                                 <div class="col-sm-12">
                                                 <div id="accordion10" class="panel-group" style="margin: 15px 20px;">
@@ -542,83 +610,64 @@ if (!function_exists('display_custom_fields')) {
                                                                     Diagnóstico</a>
                                                                 </h4>
                                                             </div>
+                                                            
                                                             <div id="diagnostico" class="panel-collapse collapse">
-                                                                <div class="panel-body" >
-                                                                    
+                                                                <div class="panel-body">
                                                                     <div class="row" style="margin: 0px 0px;padding: 7px;">
-                                                                        <div class="row" style="border:margin: 25px 0px;padding: 3px;">
-                                                                            <div class="row" style="justify-content: center;margin-bottom:30px;">
-                                                                              <div class="col-md-12">
+                                                                        <div class="row" style="margin: 0px 0px 0px 0px;padding: 3px;">
+                                                                            <div class="row" style="justify-content: center;margin-bottom:10px;">
+                                                                              <div class="">
                                                                                 <div class="col-md-12" style="margin-top:5px;max-height:300px; overflow: auto;">
-                                                                                    <input id="searchFilter" onkeyup="filter2()" value="" name="second_diag" type="text" class="form-control" placeholder="Búsqueda de diagnóstico" ;></input>
+                                                                                    <label>Búsqueda de diagnóstico</label>
+                                                                                    <input id="searchFilter" onkeyup="filter_diagnosis()" value="" name="second_diag" type="text" class="form-control" placeholder="Búsqueda de diagnóstico">
                                                                                 </div>
                                                                                 <div class="usersearchlist col-md-12" style="margin-top:5px;max-height:300px; overflow: auto;">
                                                                                       <ul class="list-group scroll-container mb-3" id="lista2" hidden>        
                                                                                       </ul>
                                                                                  </div>
                                                                               </div> 
+                                                                              <div class="col-md-9" style="margin-top:5px;max-height:300px; overflow: auto;">
+                                                                                    <label>Diagnóstico</label>
+                                                                                    <input id="diagnostic" onkeyup="" value="" name="" type="text" class="form-control" placeholder="diagnóstico">
+                                                                               </div>
+                                                                               <div class="col-md-3" style="margin-top:5px">
+                                                                               <div class="form-group">
+                                                                               <label for="" class="control-label">Tipo de diagnóstico</label><small class="req"> *</small><select id="type_diagnostic" name="" class="form-control" autocomplete="off"> Confirmado Nuevo&gt;<option value="">Tipo de diagnóstico</option><option value="Impresión Diagnóstica">Impresión Diagnóstica</option><option value=" Confirmado Nuevo" selected="selected"> Confirmado Nuevo</option><option value=" Confirmado Repetido"> Confirmado Repetido</option></select><span class="text-danger"></span></div></div>
+                                                                               <div class="col-md-12"><div class="form-group"><label for="" class="control-label">Nota diagnóstico</label><textarea id="note_diagnostic" name="" class="form-control"></textarea><span class="text-danger"></span></div></div>
                                                                             </div>
+                                                                            <div class="card-body">
+                                                                                 
+                                                                          </div>
                                                                             '.$html["diagnostico"].'
                                                                         </div>
-                                                                        <div class="row" style="border:margin: 25px 0px;padding: 3px;">
-                                                                          <div class="col-md-12" style="margin:35px -9px;">
-                                                                              <div class="pull-right">
-                                                                                      <button type="button" onclick="removeratr(`primario`)" class="btn btn-success pull-right" autocomplete="off"><i class="fa fa-plus"></i>  Diagnósticos</button>
+                                                                        
+                                                                       <div class="col-md-12" style="">
+                                                                              <div class="col-md-12 mb-5" style="padding:15px 5px;gap: 12px;display:flex;justify-content: end;">
+                                                                                 <div class="">
+                                                                                      <button type="button" data-loading-text="Procesando..." onclick="table_diagnosis(`primario`)" class="btn pull-right" style="background:#1563B0 !important; color:#fff;" autocomplete="off"><i class="fa fa-plus"></i> Diagnóstico Primario</button>
+                                                                                  </div>
+                                                                                  <div class="">
+                                                                                      <button type="button" onclick="table_diagnosis(`secundario`)" class="btn pull-right"  style="background:#1563B0 !important; color:#fff;" autocomplete="off"><i class="fa fa-plus"></i> Diagnóstico Secundario</button>
                                                                                   </div> 
                                                                               </div>
+                                                                           </div>
                                                                         </div>
-                                                                        <div id= "new_diag" class="row" style="border:margin: 25px 0px;padding: 3px;" hidden>
-                                                                              <div class="col-md-9">
-                                                                                <label>Otros diagnósticos</label>
-                                                                                <input id="second_diag" onkeyup="filter()" value="" name="second_diag" type="text" class="form-control" placeholder="Otros diagnósticos"></input>
-                                                                                <div class="usersearchlist" style="margin-top:5px;max-height:300px; overflow: auto;">
-                                                                                    <ul class="list-group scroll-container mb-3" id="lista_second" hidden>        
-                                                                                    </ul>
-                                                                               </div>
-                                                                              </div>
-                                                                              <div class="col-md-3">
-                                                                              <div class="form-group">
-                                                                              <label for="" class="control-label">Tipo de diagnóstico</label>
-                                                                                <select id="second_diag_confirm" class="form-control">
-                                                                                  <option selected>Tipo de diagnóstico</option>
-                                                                                  <option value="Impresión Diagnóstica">Impresión Diagnóstica</option>
-                                                                                  <option value="Confirmado Nuevo">Confirmado Nuevo</option>
-                                                                                  <option value="Confirmado Repetido">Confirmado Repetido</option>
-                                                                                </select>
-                                                                                </div>
-                                                                              </div>
-                                                                              <div class="col-md-12">
-                                                                                <label>Nota otros diagnósticos</label>
-                                                                                <textarea id="second_diag_text" type="text" class="form-control" placeholder="Otros diagnósticos"></textarea>
-                                                                              </div>
-                                                                              
-                                                                              <div class="col-md-12" style="margin:35px -9px;">
-                                                                              <div class="pull-right">
-                                                                                      <button type="button" onclick="removeratr(`secundario`)" class="btn pull-right" autocomplete="off"><i class="fa fa-check-circle"></i> Guardar</button>
-                                                                                  </div> 
-                                                                              </div>
-                                                                        </div>
-                                                                         
-                                                                        <div id="table_new" class="row" style="border:margin: 25px 0px;padding: 3px;" hidden>
-                                                                              <div class="col-md-12">
-                                                                                <div class="table-responsive mailbox-messages">
-                                                                                  <table class="table table-hover table-striped">
-                                                                                      <thead>
-                                                                                          <tr>
-                                                                                              <th> Codigo</th>
-                                                                                              <th>Diagnóstico</th>
-                                                                                              <th>Nota</th>
-                                                                                              <th>Opciones</th>
-                                                                                          </tr>
-                                                                                      </thead>
-                                                                                      <tbody id="table_diag">
-                                                                                        
-                                                                                       </tbody>
-                                                                                  </table>
-                                                                              </div>
-                                                                          </div>
-                                                                        </div>
-                                                                    </div>
+                                                                        
+                                                                      <div class="" style="margin-bottom: 15px;padding: 3px;">
+                                                                          <div class="content">
+                                                                               <table class="table table-bordered table-striped mt-5 mb-5" id="diagnosticos">
+                                                                                  <thead>
+                                                                                    <tr>
+                                                                                        <th>Diagnóstico</th>
+                                                                                        <th>Nota Diagnóstico</th>
+                                                                                        <th>Tipo de Diagnóstico</th>
+                                                                                        <th>Categoría Diagnóstico</th>
+                                                                                        <th>Acción</th>
+                                                                                    </tr>
+                                                                                  </thead>
+                                                                              </table>
+                                                                          </div>    
+                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -651,20 +700,21 @@ if (!function_exists('display_custom_fields')) {
                                                                                   <option value="Accidente de trabajo">Accidente de trabajo</option>
                                                                                   <option value="Accidente de tránsito">Accidente de tránsito</option>
                                                                                   <option value="Accidente ofídico">Accidente ofídico</option>
-                                                                                  <option value="Otro tipo de accidente">Otro tipo de accidente</option>
+                                                                                  <option value="Enfermedad general">Enfermedad General</option>
                                                                                   <option value="Evento catastrófico">Evento catastrófico</option>
+                                                                                  <option value="Lesión auto infligida">Lesión auto infligida</option>
                                                                                   <option value="Lesión por agresión">Lesión por agresión</option>
                                                                                   <option value="Otra">Otra</option>
+                                                                                  <option value="Otro tipo de accidente">Otro tipo de accidente</option>
                                                                                   <option value="Sospecha de maltrato físico">Sospecha de maltrato físico</option>
                                                                                   <option value="Sospecha de abuso sexual">Sospecha de abuso sexual</option>
                                                                                   <option value="Sospecha de maltrato emocional">Sospecha de maltrato emocional</option>
-                                                                                  <option value="Lesión auto infligida">Lesión auto infligida</option>
                                                                                 </select>
                                                                             <span class="text-danger"></span>
                                                                             </div>
                                                                         </div>
                                                                     <div class="row" style="margin: 0px 0px;padding: 7px;">
-                                                                        <div class="row" style="border:margin: 25px 0px;padding: 3px;">
+                                                                        <div class="row" style="margin: 25px 0px;padding: 3px;">
                                                                             <div class="row" style="display: flex;justify-content: center;margin-bottom:30px;">
                                                                             
                                                                            </div>
@@ -678,72 +728,258 @@ if (!function_exists('display_custom_fields')) {
                                                </div>
                                            </div>
                                            
-                                           <div class="row">
-                                            <div class="col-sm-12"> 
-                                                <div id="accordionana" class="panel-group" style="margin:15px 20px;">
+                                          <div class="row">
+                                              <div class="col-sm-12"> 
+                                                  <div id="accordionplan" class="panel-group" style="margin:15px 20px;">
                                                      <div class="panel panel-default" style="border-radius:20px;">
-                                                            <div class="panel-heading" style="border-radius:10px;background-color:#a2cddf">
-                                                                <h4 class="panel-title">
-                                                                    <a class="collapsed"  style="color:#fff;" role="button" data-toggle="collapse" data-parent="#accordionana" href="#ana" aria-expanded="true" aria-controls="mot_consul_sistemas">
-                                                                    <i class="more-less fa fa-plus" style="color:#1563b0;" ></i>
-                                                                    Análisis</a>
-                                                                </h4>
-                                                            </div>
-                                                            <div id="ana" class="panel-collapse collapse">
-                                                                <div class="panel-body">
-                                                                    <div class="">
-                                                                        <div class="col-sm-4"></div>
-                                                                    </div>
-                                                                    <div class="row" style="margin: 15px 0px;padding: 3px;">
-                                                                        <div class="row" style="margin: 0px;padding: 0px;">
-                                                                            <div class="row" style="display: flex;justify-content: center;">
-                                                                            </div>
+                                                          <div class="panel-heading" style="border-radius:10px;background-color:#a2cddf">
+                                                              <h4 class="panel-title">
+                                                                  <a class="collapsed"  style="color:#fff;" role="button" data-toggle="collapse" data-parent="#accordionplan" href="#mot_plan" aria-expanded="true" aria-controls="mot_consul_sistemas">
+                                                                  <i class="more-less fa fa-plus" style="color:#1563b0;" ></i>
+                                                                  Análisis y plan</a>
+                                                              </h4>
+                                                          </div>
+                                                          <div id="mot_plan" class="panel-collapse collapse">
+                                                              <div class="panel-body">
+                                                                  <div class="">
+                                                                      <div class="col-sm-4"></div>
+                                                                  </div>
+                                                                  <div class="row" style="margin: 15px 0px;padding: 3px;">
+                                                                      <div class="row" style="margin: 0px;padding: 0px;">
+                                                                          <div class="row" style="display: flex;justify-content: center;">
+                                                                          </div>
                                                                             '.$html["analisis"].'
-                                                                        </div>
-                                                                     </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                     </div>
-                                               </div>
-                                           </div>  
-                                           
-                                           <div class="row">
-                                            <div class="col-sm-12"> 
-                                                <div id="accordionplan" class="panel-group" style="margin:15px 20px;">
-                                                     <div class="panel panel-default" style="border-radius:20px;">
-                                                            <div class="panel-heading" style="border-radius:10px;background-color:#a2cddf">
-                                                                <h4 class="panel-title">
-                                                                    <a class="collapsed"  style="color:#fff;" role="button" data-toggle="collapse" data-parent="#accordionplan" href="#mot_plan" aria-expanded="true" aria-controls="mot_consul_sistemas">
-                                                                    <i class="more-less fa fa-plus" style="color:#1563b0;" ></i>
-                                                                    Plan</a>
-                                                                </h4>
-                                                            </div>
-                                                            <div id="mot_plan" class="panel-collapse collapse">
-                                                                <div class="panel-body">
-                                                                    <div class="">
-                                                                        <div class="col-sm-4"></div>
-                                                                    </div>
-                                                                    <div class="row" style="margin: 15px 0px;padding: 3px;">
-                                                                        <div class="row" style="margin: 0px;padding: 0px;">
-                                                                            <div class="row" style="display: flex;justify-content: center;">
-                                                                            </div>
                                                                             '.$html["plan"].'
-                                                                        </div>
-                                                                     </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                     </div>
+                                                                      </div>
+                                                                   </div>
+                                                              </div>
+                                                         </div>
+                                                      </div>
+                                                   </div>
                                                </div>
-                                           </div>  
+                                            </div>  
                                            
                                         </div>
                                     </div> 
                                 </div>
                             </div>';
+      
+        $surgery_field_html = "<style>
+        
+                              .panel-default>.panel-heading {
+                                border-radius:10px !important;
+                                background-color:#cbcaca !important;
+                                color:#fff;
+                              }
+                              .modal-header {
+                                background:linear-gradient(to right,#100f0f96,#bbabab,#100f0f96 100%) !important;
+                              }
+                              .modal-header h4 {
+                                color:#f7f2f2 !important;
+                              }
+                              .panel-default>.panel-heading {
+                                border-radius:10px !important;
+                                background:linear-gradient(to right,#777373,#a59d9d,#aeafaf 100%) !important;
+                                color:#fff;
+                              }
+                              .btn {
+                                border-color:#1563b0;
+                              }
+                              .checkbox,.radio {
+                                position:relative;
+                                display:grid;
+                                margin-top:10px;
+                                margin-bottom:10px;
+                              }
+                              .checkbox-inline+.checkbox-inline,.radio-inline+.radio-inline {
+                                margin-top:0;
+                                margin-left:0;
+                              }
+                              .eva {
+                                height:224px !important;
+                              }
+                        </style>
+
+                        <div class='row'>
+                            <div class='col-sm-12'>
+                                <div id='accordion3' class='panel-group' style='margin:15px 20px;'>
+                                    <div class='panel panel-default' style='border-radius:20px;'>
+                                        <div class='panel-heading' style='border-radius:10px;background-color:#a2cddf; color:#444;'>
+                                            <h4 class='panel-title' style='color:#444;'>
+                                                <a class='collapsed' style='color:#fff;' role='button' data-toggle='collapse'
+                                                    data-parent='#accordion2' href='#antecedentes' aria-expanded='false'
+                                                    aria-controls='collapseExample6'>
+                                                    <i class='more-less fa fa-plus' style='color:#1563b0;'>
+                                                    </i>
+                                                    Antecedentes
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id='antecedentes' class='panel-collapse collapse'>
+                                            <div class='panel-body'>
+                                                <div class=''>
+                                                    <div class='col-sm-4'>
+                                                    </div>
+                                                </div>
+                                                <div class='row' style='margin: 0px 0px;padding: 7px;'>
+                                                    <div class='row' style='margin: 25px 0px;padding: 3px;'>
+                                                        <div class='row' style='display: flex;justify-content: center;'>
+                                                        </div>
+                                                        ".$html['antecedentes']."
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='row'>
+                            <div class='col-sm-12'>
+                                <div id='accordion10' class='panel-group' style='margin: 15px 20px;'>
+                                    <div class='panel panel-default' style='border-radius:20px;'>
+                                        <div class='panel-heading' @click='cie_structure()'>
+                                            <h4 class='panel-title' style='color:#444;'>
+                                                <a class='collapsed' style='color:#fff;' role='button' data-toggle='collapse'
+                                                    data-parent='#accordion10' href='#diagnostico' aria-expanded='false'
+                                                    aria-controls='collapseExample6'>
+                                                    <i class='more-less fa fa-plus' style='color:#1563b0;'>
+                                                    </i>
+                                                    Diagnóstico
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id='diagnostico' class='panel-collapse collapse'>
+                                            <div class='panel-body'>
+                                                <div class='row' style='margin: 0px 0px;padding: 7px;'>
+                                                    <div class='row' style='margin: 0px 0px 0px 0px;padding: 3px;'>
+                                                        <div class='row' style='justify-content: center;margin-bottom:10px;'>
+                                                            <div class=''>
+                                                                <div class='col-md-12' style='margin-top:5px;max-height:300px; overflow: auto;'>
+                                                                    <label>
+                                                                        Búsqueda de diagnóstico
+                                                                    </label>
+                                                                    <input id='searchFilter' onkeyup='filter_diagnosis()' value='' name='second_diag'
+                                                                        type='text' class='form-control' placeholder='Búsqueda de diagnóstico'>
+                                                                </div>
+                                                                <div class='usersearchlist col-md-12'
+                                                                    style='margin-top:5px;max-height:300px; overflow: auto;'>
+                                                                    <ul class='list-group scroll-container mb-3' id='lista2' hidden>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                            <div class='col-md-9' style='margin-top:5px;max-height:300px; overflow: auto;'>
+                                                                <label>
+                                                                    Diagnóstico
+                                                                </label>
+                                                                <input id='diagnostic' onkeyup='' value='' name='' type='text'
+                                                                    class='form-control' placeholder='diagnóstico'>
+                                                            </div>
+                                                            <div class='col-md-3' style='margin-top:5px'>
+                                                                <div class='form-group'>
+                                                                    <label for='' class='control-label'>
+                                                                        Tipo de diagnóstico
+                                                                    </label>
+                                                                    <small class='req'>
+                                                                        *
+                                                                    </small>
+                                                                    <select id='type_diagnostic' name='' class='form-control'
+                                                                        autocomplete='off'>
+                                                                        Confirmado Nuevo&gt;
+                                                                        <option value=''>
+                                                                            Tipo de diagnóstico
+                                                                        </option>
+                                                                        <option value='Impresión Diagnóstica'>
+                                                                            Impresión Diagnóstica
+                                                                        </option>
+                                                                        <option value=' Confirmado Nuevo' selected='selected'>
+                                                                            Confirmado Nuevo
+                                                                        </option>
+                                                                        <option value=' Confirmado Repetido'>
+                                                                            Confirmado Repetido
+                                                                        </option>
+                                                                    </select>
+                                                                    <span class='text-danger'>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class='col-md-12'>
+                                                                <div class='form-group'>
+                                                                    <label for='' class='control-label'>
+                                                                        Nota diagnóstico
+                                                                    </label>
+                                                                    <textarea id='note_diagnostic' name='' class='form-control'>
+                                                                    </textarea>
+                                                                    <span class='text-danger'>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class='card-body'>
+                                                        </div>
+                                                        ".$html['diagnostico']."
+                                                    </div>
+                                                    <div class='col-md-12' style=''>
+                                                        <div class='col-md-12 mb-5'
+                                                            style='padding:15px 5px;gap: 12px;display:flex;justify-content: end;'>
+                                                            <div class=''>
+                                                                <button type='button' data-loading-text='Procesando...'
+                                                                    onclick='table_diagnosis(`primario`)' class='btn pull-right'
+                                                                    style='background:#1563B0 !important; color:#fff;' autocomplete='off'>
+                                                                    <i class='fa fa-plus'>
+                                                                    </i>
+                                                                    Diagnóstico Primario
+                                                                </button>
+                                                            </div>
+                                                            <div class=''>
+                                                                <button type='button' onclick='table_diagnosis(`secundario`)' class='btn pull-right'
+                                                                    style='background:#1563B0 !important; color:#fff;' autocomplete='off'>
+                                                                    <i class='fa fa-plus'>
+                                                                    </i>
+                                                                    Diagnóstico Secundario
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class='' style='margin-bottom: 15px;padding: 3px;'>
+                                                    <div class='content'>
+                                                        <table class='table table-bordered table-striped mt-5 mb-5' id='diagnosticos'>
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>
+                                                                        Diagnóstico
+                                                                    </th>
+                                                                    <th>
+                                                                        Nota Diagnóstico
+                                                                    </th>
+                                                                    <th>
+                                                                        Tipo de Diagnóstico
+                                                                    </th>
+                                                                    <th>
+                                                                        Categoría Diagnóstico
+                                                                    </th>
+                                                                    <th>
+                                                                        Acción
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>";
+      
+        if($view === 'surgery'){
+              return $surgery_field_html;
+        } else {
+              return $fields_html;
+        }
 //         echo ($fields_html);
-        return $fields_html;
     }
         
 //     function display_custom_fields_patient($belongs_to, $rel_id = false, $where = array()) {
@@ -880,7 +1116,7 @@ if (!function_exists('display_custom_fields')) {
            || $name=='custom_fields[patient][15]' 
            || $name=='custom_fields[patient][30]' 
            || $name=='custom_fields[patient][7]' 
-           || $name=='custom_fields[patient][12]' 
+           || $name=='custom_fields[patient][12]'
            || $name=='custom_fields[patient][66]' 
            || $name=='custom_fields[patient][4]')
         {
@@ -916,7 +1152,7 @@ if (!function_exists('display_custom_fields')) {
             if ($validation) {
                 $input .= "<small class='req'> *</small>";
             }
-            $input .= '<input type="' . $type . '" id="searchFilter" name="' . $name . '" class="form-control' . $input_class . '" ' . $_input_attrs . ' placeholder="¿Cuál?">';
+            $input .= '<input type="' . $type . '" name="' . $name . '" class="form-control' . $input_class . '" ' . $_input_attrs . ' placeholder="¿Cuál?">';
 
             $input .= '<span class="text-danger">' . form_error($name) . '</span>';
             $input .= '</div>';
@@ -1017,7 +1253,7 @@ if (!function_exists('display_custom_fields')) {
             $input .= '<div style="margin: 20px 0px 0px 0px;font_size:15px;" class="col-12">
                             <div class="col-2">
                                 <label for="' . $name . '" class="control-label">
-                                    <b>' . $label . 'hola1 </b>
+                                    <b>' . $label . ' </b>
                                     <small class="req"> *</small>
                                 </label>';
 
@@ -1106,7 +1342,7 @@ if (!function_exists('display_custom_fields')) {
                 $input_class = ' ' . $input_class;
             }
 
-            $input .= '<div style="margin: 0px 0px 15px 0px;font_size:15px;" class="col-12">
+            $input .= '<div style="margin: 0px 0px 26px 0px;font_size:15px;" class="col-12">
                             <div class="col-2"><label for="' . $name . '" class="control-label">
                                 <b>' . $label . '</b>
                                 <small class="req"> *</small>
@@ -1149,7 +1385,7 @@ if (!function_exists('display_custom_fields')) {
                 $input_class = ' ' . $input_class;
             }
 
-            $input .= '<div style="margin: -4px 0px;font_size:15px;" class="col-12">
+            $input .= '<div style="margin: 8px 0px;font_size:15px;" class="col-12">
                             <div class="row" style="padding:0px 25px 18px 25px;">';
 
             if ($label != '') {
@@ -1268,7 +1504,7 @@ if (!function_exists('display_custom_fields')) {
                 </div>
                             &nbsp;
                         <div class="col-2" style="margin-bottom:4px;"> 
-                            <b><span>LPM</span></b>
+                            <b><span>°C</span></b>
                         </div>';
 
             $input .= '<span class="text-danger">' . form_error($name) . '</span>';
@@ -1294,15 +1530,14 @@ if (!function_exists('display_custom_fields')) {
                             <div class="col-2">
                                 <label for="' . $name . '" class="control-label">
                                     <b>' . $label . '</b>
-                                    <small class="req"> *</small>
                                 </label>';
 
             if ($label != '') {
                 $input .= '</div>';
             }
-            if ($validation) {
+//             if ($validation) {
                 $input .= '<div class="row" style="display: flex;padding:0px 19px 15px 8px;align-items: baseline;">';
-            }
+//             }
             $input .= '<div class="col-6" style="width: -webkit-fill-available;">
                             <div class="input-group">
                                 <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;">
@@ -1316,7 +1551,7 @@ if (!function_exists('display_custom_fields')) {
                 </div>
                             &nbsp;
                         <div class="col-2" style="margin-bottom:4px;"> 
-                            <b><span>LPM</span></b>
+                            <b><span>%</span></b>
                         </div>';
 
             $input .= '<span class="text-danger">' . form_error($name) . '</span>';
@@ -1524,18 +1759,6 @@ if (!function_exists('display_custom_fields')) {
 
     function render_textarea_field($name, $belong_to, $field_id, $validation, $label = '', $value = '', $type = 'text', $input_class = '') {
         
-//         if($name=='custom_fields[opd][34]'){
-            
-//         $input = '';
-        
-//         $input .= '<div class="standalone-container"><div name="" id="snow-container" ><div id="socioeconomicos" ><p ><b>Socioeconómicos:</b><br><br></p></div><p id="patologicos"><b>Patológicos:</b><br><br></p><p id="familiares"><b>Familiares:</b><br><br></p><p id="farmacologicos"><b>Farmacológicos:</b><br><br></p><p id="transfusiones"><b>Transfusiones:</b><br><br></p><p id="habitos"><b>Hábitos:</b><br><br></p><p id="ginecobstetricos"><b>Ginecobstetricos:</b><br><br></p></div></div>';
-
-//         return $input;
-            
-//         }
-      
-      
-      
       if($name=='custom_fields[opd][74]'){
         $input = '';
         $_form_group_attr = '';
@@ -1565,7 +1788,7 @@ if (!function_exists('display_custom_fields')) {
         
       }
       // desarrollo Juan inputs antecedentes
-      if($name=='custom_fields[opd][75]'|| $name=='custom_fields[opd][75]' || $name=='custom_fields[opd][76]' || $name=='custom_fields[opd][77]' || $name=='custom_fields[opd][78]' || $name=='custom_fields[opd][79]' || $name=='custom_fields[opd][80]' || $name=='custom_fields[opd][81]'){
+      if($name=='custom_fields[opd][75]'|| $name=='custom_fields[opd][75]' || $name=='custom_fields[opd][76]' || $name=='custom_fields[opd][77]' || $name=='custom_fields[opd][78]' || $name=='custom_fields[opd][79]' || $name=='custom_fields[opd][80]' || $name=='custom_fields[opd][81]' || $name=='custom_fields[opd][92]' || $name=='custom_fields[opd][93]' || $name=='custom_fields[opd][95]'){
         $input = '';
         $_form_group_attr = '';
         $_input_attrs = '';
@@ -1579,20 +1802,22 @@ if (!function_exists('display_custom_fields')) {
         $input .= '<div class="form-group">';
 
         if ($label != '') {
-    $input .= '<div class="row" style="box-sizing: border-box;">
-                <div class="col-5 d-flex ml-2 justify-content-between">
-                    <label for="' . $label . '" class="control-label">
-                        ' . $label . '
-                    </label>
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="optradio" onclick="check_antecedentes(\'' . $name . '\')">Ningún valor
-                        </label>
-                    </div>
-                </div>
-            </div>
-            ';
-              }
+                $input .= '<div class="col-md-12" style="display:flex; margin-bottom:5px;gap:9px;justify-content: space-between;">
+                                <div class="col-9">
+                                    <label for="' . $name . '" class="control-label" style="display: inline;">
+                                        <i class="fas fa-notes-medical" style="font-size:15px;color:#1563B0;"></i> 
+                                      ' . $label . '
+                                   </label> 
+                                 </div>
+                                  <div class="col-3">
+                                    <span class="form-check" >
+                                        <label class=" form-check-label">
+                                              <input type="checkbox" class="form-check-input" name="optradio" onclick="check_antecedentes(\'' . $name . '\')">No refiere
+                                          </label>
+                                    </span>
+                                  </div>
+                            </div>';
+                          }
         if ($validation) {
             $input .= "<small class='req'> *</small>";
         }
@@ -1635,7 +1860,423 @@ if (!function_exists('display_custom_fields')) {
         return $input;
         
       }
+//------------------------------------------------- input sistemas----------------------------------------   
+      if($name=='custom_fields[opd][83]'){
+        $input = '';
+        $_form_group_attr = '';
+        $_input_attrs = '';
+        if (isset($_POST['custom_fields'][$belong_to][$field_id])) {
+            $value = $_POST['custom_fields'][$belong_to][$field_id];
+        }
+        if (!empty($input_class)) {
+            $input_class = ' ' . $input_class;
+        }
+
+        $input .= '<div class="form-group">';
+
+        if ($label != '') {
+            $input .= ' <div class="col-md-12" style="display:flex; margin-bottom:5px;gap:9px;justify-content: space-between;">
+                          <div class="col-9">
+                              <label for="' . $name . '" class="control-label" style="display: inline;">
+                                  <i class="fas fa-notes-medical" style="font-size:15px;color:#1563B0;"></i> 
+                                ' . $label . '
+                             </label><br>
+                             <span style="color:#1563B0;">
+                                  <small>Zonas: Corazón, mamas y tórax</small>
+                              </span> 
+                           </div>
+                            <div class="col-3">
+                              <span class="form-check" >
+                                  <label class="form-check-label" style="display: inline;">
+                                      <input type="checkbox" class="form-check-input" name="optradio" onclick="check_sistemas(\'' . $name . '\')">Normal
+                                  </label>
+                              </span>
+                            </div>
+                        </div>';
+        }
+        if ($validation) {
+            $input .= "<small class='req'> *</small>";
+        }
+        $input .= '<textarea id="' . $name . '" name="' . $name . '" class="form-control' . $input_class . '" ' . $_input_attrs . ' >' . $value . '</textarea>';
+        $input .= '<span class="text-danger">' . form_error($name) . '</span>';
+        $input .= '</div>';
+
+
+        return $input;
+      }
+      
+      
+      if($name=='custom_fields[opd][84]'){
+        $input = '';
+        $_form_group_attr = '';
+        $_input_attrs = '';
+        if (isset($_POST['custom_fields'][$belong_to][$field_id])) {
+            $value = $_POST['custom_fields'][$belong_to][$field_id]; 
+        }
+        if (!empty($input_class)) {
+            $input_class = ' ' . $input_class;
+        }
+
+        $input .= '<div class="form-group">';
+
+        if ($label != '') {
+            $input .= '<div class="col-md-12" style="display:flex; margin-bottom:5px;justify-content: space-between;">
+                          <div class="col-9">
+                              <label for="' . $name . '" class="control-label" style="margin:0px;">
+                                  <i class="fas fa-notes-medical" style="font-size:15px;color:#1563B0;"></i> 
+                                  ' . $label . '
+                               </label><br>
+                               <span style="color:#1563B0;">
+                                <small>Zonas: Abdomen, recto y ano</small>
+                              </span>
+                           </div>
+                            <div class="col-3">
+                              <span class="form-check">
+                                  <label class="form-check-label" style="display: inline;">
+                                      <input type="checkbox" class="form-check-input" name="optradio" onclick="check_sistemas(\'' . $name . '\')">Normal
+                                  </label>
+                              </span>
+                            </div>
+                        </div>';
+        }
+        if ($validation) {
+            $input .= "<small class='req'> *</small>";
+        }
+        $input .= '<textarea id="' . $name . '" name="' . $name . '" class="form-control' . $input_class . '" ' . $_input_attrs . ' >' . $value . '</textarea>';
+        $input .= '<span class="text-danger">' . form_error($name) . '</span>';
+        $input .= '</div>';
+
+
+        return $input;
+      }
         
+        
+         if($name=='custom_fields[opd][85]'){
+        $input = '';
+        $_form_group_attr = '';
+        $_input_attrs = '';
+        if (isset($_POST['custom_fields'][$belong_to][$field_id])) {
+            $value = $_POST['custom_fields'][$belong_to][$field_id]; 
+        }
+        if (!empty($input_class)) {
+            $input_class = ' ' . $input_class;             
+        }
+
+        $input .= '<div class="form-group">';
+
+        if ($label != '') {
+            $input .= '<div class="col-md-12" style="display:flex; margin-bottom:5px;justify-content: space-between;">
+                          <div class="col-9">
+                              <label for="' . $name . '" class="control-label" style="margin:0px;" >
+                                  <i class="fas fa-notes-medical" style="font-size:15px;color:#1563B0;"></i> 
+                                  ' . $label . '
+                               </label><br>
+                               <span style="color:#1563B0;display: inline;">
+                                  <small>Zonas: Genitales (masculinos, femeninos)</small>
+                              </span>
+                           </div>
+                           
+                            <div class="col-3">
+                              <span class="form-check" style="display: inline;">
+                                  <label class="form-check-label" style="">
+                                      <input type="checkbox" class="form-check-input" name="optradio" onclick="check_sistemas(\'' . $name . '\')">Normal
+                                  </label>
+                              </span>
+                            </div>
+                        </div>';
+        }
+        if ($validation) {
+            $input .= "<small class='req'> *</small>";
+        }
+        $input .= '<textarea id="' . $name . '" name="' . $name . '" class="form-control' . $input_class . '" ' . $_input_attrs . ' >' . $value . '</textarea>';
+        $input .= '<span class="text-danger">' . form_error($name) . '</span>';
+        $input .= '</div>';
+
+
+        return $input;
+      }
+        
+        
+         if($name=='custom_fields[opd][86]'){
+        $input = '';
+        $_form_group_attr = '';
+        $_input_attrs = '';
+        if (isset($_POST['custom_fields'][$belong_to][$field_id])) {     
+            $value = $_POST['custom_fields'][$belong_to][$field_id];
+        }
+        if (!empty($input_class)) {
+            $input_class = ' ' . $input_class;
+        }
+
+        $input .= '<div class="form-group">';
+
+        if ($label != '') {
+            $input .= '<div class="col-md-12" style="display:flex; margin-bottom:5px;gap:0px;justify-content: space-between;">
+                          <div class="col-9">
+                              <label for="' . $name . '" class="control-label"  style="display: inline">
+                                <i class="fas fa-notes-medical" style="font-size:15px;color:#1563B0;"></i> 
+                                ' . $label . '
+                             </label><br>
+                             <span style="color:#1563B0;display: inline">
+                                  <small>Zonas: Columna, articulaciones, tronco y extremidades</small>
+                              </span>
+                           </div>
+                           
+                            <div class="col-3">
+                              <span class="form-check" style="display: inline;">
+                                <label class="form-check-label" style="">
+                                    <input type="checkbox" class="form-check-input" name="optradio" onclick="check_sistemas(\'' . $name . '\')">Normal
+                                </label>
+                            </span>
+                            </div>
+                        </div>';
+        }
+        if ($validation) {
+            $input .= "<small class='req'> *</small>";
+        }
+        $input .= '<textarea id="' . $name . '" name="' . $name . '" class="form-control' . $input_class . '" ' . $_input_attrs . ' >' . $value . '</textarea>';
+        $input .= '<span class="text-danger">' . form_error($name) . '</span>';
+        $input .= '</div>';
+
+
+        return $input;
+      }
+        
+        
+        if($name=='custom_fields[opd][87]'){
+        $input = '';
+        $_form_group_attr = '';
+        $_input_attrs = '';
+        if (isset($_POST['custom_fields'][$belong_to][$field_id])) {           
+            $value = $_POST['custom_fields'][$belong_to][$field_id];  
+        }
+        if (!empty($input_class)) {
+            $input_class = ' ' . $input_class;
+        }
+
+        $input .= '<div class="form-group">';
+
+        if ($label != '') {
+            $input .= '  <div class="col-md-12" style="display:flex; margin-bottom:5px;gap:0px;justify-content: space-between;">
+                          <div class="col-9">
+                              <label for="' . $name . '" class="control-label" style="display: inline;">
+                                <i class="fas fa-notes-medical" style="font-size:15px;color:#1563B0;"></i> 
+                                ' . $label . '
+                              </label><br>
+                              <span style="color:#1563B0;display: inline;">
+                                  <small>Zonas: Conciencia, reflejos, fuerza muscular, pares craneales</small>
+                              </span> 
+                           </div>
+                           
+                            <div class="col-3">
+                              <span class="form-check" style="display: inline;">
+                                  <label class="form-check-label" style="">
+                                      <input type="checkbox" class="form-check-input" name="optradio" onclick="check_sistemas(\'' . $name . '\')">Normal
+                                  </label>
+                              </span>
+                            </div>
+                        </div> ';
+        }
+        if ($validation) {
+            $input .= "<small class='req'> *</small>";
+        }
+        $input .= '<textarea id="' . $name . '" name="' . $name . '" class="form-control' . $input_class . '" ' . $_input_attrs . ' >' . $value . '</textarea>';
+        $input .= '<span class="text-danger">' . form_error($name) . '</span>';
+        $input .= '</div>';
+
+
+        return $input;
+      }
+        
+        
+      
+        
+        if($name=='custom_fields[opd][89]'){
+        $input = '';
+        $_form_group_attr = '';
+        $_input_attrs = '';
+        if (isset($_POST['custom_fields'][$belong_to][$field_id])) {
+            $value = $_POST['custom_fields'][$belong_to][$field_id]; 
+        }
+        if (!empty($input_class)) {
+            $input_class = ' ' . $input_class;
+        }
+
+        $input .= '<div class="form-group">';
+
+        if ($label != '') {
+            $input .= ' <div class="col-md-12" style="display:flex; margin-bottom:5px;gap:0px;justify-content: space-between;">
+                          <div class="col-9">
+                              <label for="' . $name . '" class="control-label" style="display: inline; ">
+                                  <i class="fas fa-notes-medical" style="font-size:15px;color:#1563B0;"></i> 
+                                  ' . $label . '
+                               </label><br>
+                               <span style="color:#1563B0;display: inline;">
+                                  <small> Zonas: Textura, turgencia, pigmentación, lesiones, uñas y cabello</small>
+                              </span> 
+                           </div>
+                           
+                            <div class="col-3">
+                              <span class="form-check" style="display: inline;">
+                                  <label class="form-check-label" >
+                                      <input type="checkbox" class="form-check-input" name="optradio" onclick="check_sistemas(\'' . $name . '\')">Normal
+                                  </label>
+                              </span>
+                            </div>
+                        </div> 
+                        ';
+        }
+        if ($validation) {
+            $input .= "<small class='req'> *</small>";
+        }
+        $input .= '<textarea id="' . $name . '" name="' . $name . '" class="form-control' . $input_class . '" ' . $_input_attrs . ' >' . $value . '</textarea>';
+        $input .= '<span class="text-danger">' . form_error($name) . '</span>';
+        $input .= '</div>';
+
+
+        return $input;
+      }
+        
+        
+        if($name=='custom_fields[opd][88]'){
+        $input = '';
+        $_form_group_attr = '';
+        $_input_attrs = '';
+        if (isset($_POST['custom_fields'][$belong_to][$field_id])) {
+            $value = $_POST['custom_fields'][$belong_to][$field_id];
+        }
+        if (!empty($input_class)) {
+            $input_class = ' ' . $input_class;
+        }
+
+        $input .= '<div class="form-group">';
+
+        if ($label != '') {
+          
+            $input .='<div class="col-md-12" style="display:flex; margin-bottom:5px;gap:0px;justify-content: space-between;">
+                            <div class="col-9">
+                                <label for="' . $name . '" class="control-label" style="display: inline;">
+                                    <i class="fas fa-notes-medical" style="font-size:15px;color:#1563B0;"></i> 
+                                    ' . $label . '
+                                 </label><br>
+                                 <span style="color:#1563B0;display: inline;">
+                                    <small> Zonas: Todo lo que compete al corazón</small>
+                                </span>
+                             </div>
+                              <div class="col-3">
+                                <span class="form-check" style="display: inline;">
+                                    <label class="form-check-label" style="">
+                                        <input type="checkbox" class="form-check-input" name="optradio" onclick="check_sistemas(\'' . $name . '\')">Normal
+                                    </label>
+                                </span>
+                              </div>
+                          </div> ';
+        }
+        if ($validation) {
+            $input .= "<small class='req'> *</small>";
+        }
+        $input .= '<textarea id="' . $name . '" name="' . $name . '" class="form-control' . $input_class . '" ' . $_input_attrs . ' >' . $value . '</textarea>';
+        $input .= '<span class="text-danger">' . form_error($name) . '</span>';
+        $input .= '</div>';
+
+
+        return $input;
+      }
+      
+      
+      if($name=='custom_fields[opd][90]'){
+        $input = '';
+        $_form_group_attr = '';
+        $_input_attrs = '';
+        if (isset($_POST['custom_fields'][$belong_to][$field_id])) {
+            $value = $_POST['custom_fields'][$belong_to][$field_id];
+        }
+        if (!empty($input_class)) {
+            $input_class = ' ' . $input_class;
+        }
+
+        $input .= '<div class="form-group">';
+
+        if ($label != '') {
+          
+            $input .='<div class="col-md-12" style="display:flex; margin-bottom:5px;gap:0px;justify-content: space-between;">
+                            <div class="col-9">
+                                <label for="' . $name . '" class="control-label" style="display: inline;">
+                                    <i class="fas fa-notes-medical" style="font-size:15px;color:#1563B0;"></i> 
+                                    ' . $label . '
+                                 </label><br>
+                                 <span style="color:#1563B0;display: inline;">
+                                    <small> Zonas: Ojos, Naríz, Boca, Cuello, Cráneo</small>
+                                </span>
+                             </div>
+                              <div class="col-3">
+                                <span class="form-check" style="display: inline;">
+                                    <label class="form-check-label" style="">
+                                        <input type="checkbox" class="form-check-input" name="optradio" onclick="check_sistemas(\'' . $name . '\')">Normal
+                                    </label>
+                                </span>
+                              </div>
+                          </div> ';
+        }
+        if ($validation) {
+            $input .= "<small class='req'> *</small>";
+        }
+        $input .= '<textarea id="' . $name . '" name="' . $name . '" class="form-control' . $input_class . '" ' . $_input_attrs . ' >' . $value . '</textarea>';
+        $input .= '<span class="text-danger">' . form_error($name) . '</span>';
+        $input .= '</div>';
+
+
+        return $input;
+      }
+      
+      
+      if($name=='custom_fields[opd][91]'){
+        $input = '';
+        $_form_group_attr = '';
+        $_input_attrs = '';
+        if (isset($_POST['custom_fields'][$belong_to][$field_id])) {
+            $value = $_POST['custom_fields'][$belong_to][$field_id];
+        }
+        if (!empty($input_class)) {
+            $input_class = ' ' . $input_class;
+        }
+
+        $input .= '<div class="form-group">';
+
+        if ($label != '') {
+          
+            $input .='<div class="col-md-12" style="display:flex; margin-bottom:5px;gap:0px;justify-content: space-between;">
+                            <div class="col-9">
+                                <label for="' . $name . '" class="control-label" style="display: inline;">
+                                    <i class="fas fa-notes-medical" style="font-size:15px;color:#1563B0;"></i> 
+                                    ' . $label . '
+                                 </label><br>
+                                 <span style="color:#1563B0;display: inline;">
+                                    <small>Apariencia general</small>
+                                </span>
+                             </div>
+                              <div class="col-3">
+                                <span class="form-check" style="display: inline;">
+                                    <label class="form-check-label" style="">
+                                        <input type="checkbox" class="form-check-input" name="optradio" onclick="check_sistemas(\'' . $name . '\')">Normal
+                                    </label>
+                                </span>
+                              </div>
+                          </div> ';
+        }
+        if ($validation) {
+            $input .= "<small class='req'> *</small>";
+        }
+        $input .= '<textarea id="' . $name . '" name="' . $name . '" class="form-control' . $input_class . '" ' . $_input_attrs . ' >' . $value . '</textarea>';
+        $input .= '<span class="text-danger">' . form_error($name) . '</span>';
+        $input .= '</div>';
+
+
+        return $input;
+      }
+      
+      
+      // desarrollo sistemas_cliniverso
         $input = '';
         $_form_group_attr = '';
         $_input_attrs = '';
@@ -1780,7 +2421,7 @@ if (!function_exists('display_custom_fields')) {
         if ($validation) {
             $input .= "<small class='req'> *</small>";
         }
-        if ($name=='custom_fields[patient][10]' || $name=='custom_fields[patient][16]' || $name=='custom_fields[patient][12]' ){
+        if ($name=='custom_fields[patient][10]' || $name=='custom_fields[patient][16]' || $name=='custom_fields[patient][12]' || $name=='custom_fields[patient][102]' ){
           $input .='<div class="input-group"><span class="input-group-addon" style="border-radius: 10px 0px 0px 10px !important;"><i class="fa fa-hospital-o"></i></span>';
         }
         if ($name=='custom_fields[patient][3]' || $name=='custom_fields[patient][4]' || $name=='custom_fields[patient][14]' || $name=='custom_fields[patient][26]'){
@@ -1806,7 +2447,7 @@ if (!function_exists('display_custom_fields')) {
         $input .= '</select>';
         $input .= '<span class="text-danger">' . form_error($name) . '</span>';
         $input .= '</div>';
-        if ($name=='custom_fields[patient][10]' || $name=='custom_fields[patient][16]' || $name=='custom_fields[patient][12]' || $name=='custom_fields[patient][3]' || $name=='custom_fields[patient][4]' 
+        if ($name=='custom_fields[patient][10]' || $name=='custom_fields[patient][16]' || $name=='custom_fields[patient][12]' || $name=='custom_fields[patient][102]' || $name=='custom_fields[patient][3]' || $name=='custom_fields[patient][4]' 
             || $name=='custom_fields[patient][14]' || $name=='custom_fields[patient][26]' || $name=='custom_fields[patient][31]' || $name=='custom_fields[patient][28]' || $name=='custom_fields[patient][24]' 
             || $name=='custom_fields[patient][13]' || $name=='custom_fields[patient][67]'){
           $input .='</div>';
@@ -1869,7 +2510,7 @@ if (!function_exists('display_custom_fields')) {
                 $input_class = ' ' . $input_class;
             }
 
-            $input .= '<div class="form-group">';
+            $input .= '<div class="form-group" style="margin: 18px 0px 21px 0px;font_size:15px;">';
 
             if ($label != '') {
                 $input .= '<label for="' . $name . '" class="control-label">' . $label . '</label>';
@@ -1971,7 +2612,7 @@ if (!function_exists('display_custom_fields')) {
          
        }
         
-        $input .= '<select id="' . $name . '" name="' . $name . '" class="form-control' . $input_class . '" ' . $_input_attrs . '>';
+        $input .= '<select id="' . $name . '" name="' . $name . '" class="form-control ' . $input_class . '" ' . $_input_attrs . '>';
         $input .= '<option value="">Select</option>';
         foreach ($options as $option_key => $option_value) {
             $input .= '<option value="' . $option_value . '" ' . set_select($name, $option_value, (set_value($name, $value) == $option_value ) ? TRUE : FALSE) . '>' . $option_value . '</option>';
@@ -1985,25 +2626,52 @@ if (!function_exists('display_custom_fields')) {
 
     function render_multiselect_field($name, $options, $belong_to, $field_id, $validation, $label = '', $value = '', $type = 'text', $input_class = '') {
         
+       
+      
+      
+      
         
         $input = '';
         $_form_group_attr = '';
         $_input_attrs = '';
 
         if (!empty($input_class)) {
-            $input_class = ' ' . $input_class;
+            $input_class = '' . $input_class;
         }
 
         $input .= '<div class="form-group">';
 
+        
+      
+      if($name=='custom_fields[opd][96]'){
+         $input .= '<label for="' . $name . '" class="control-label" style="display: inline;">
+                        <i class="fas fa-notes-medical" style="font-size:15px;color:#1563B0;"></i> 
+                        ' . $label . '
+                     </label><br>
+                     <span style="color:#1563B0;display: inline;">
+                        <small> Marque los números del 0 al 9 para representar la intensidad del dolor, donde 0 indica ausencia de dolor y 9 indica un dolor insoportable</small>
+                    </span><br>';
+      }else{
         if ($label != '') {
             $input .= '<label for="' . $name . '" class="control-label">' . $label . '</label>';
         }
+      }
+      
+      
+      
         if ($validation) {
             $input .= "<small class='req'> *</small>";
         }
-        $input .= '<select id="' . $name . '" name="' . $name . '[]" class="form-control' . $input_class . '" ' . $_input_attrs . ' multiple  >' . $value . '>';
-        $input .= '<option value="">Select</option>';
+        if($name=='custom_fields[opd][96]'){
+           $input .= '<select id="' . $name . '" name="' . $name . '[]" class="form-control eva' . $input_class . '" ' . $_input_attrs . ' multiple  >' . $value . '>';
+        }else{
+           $input .= '<select id="' . $name . '" name="' . $name . '[]" class="form-control' . $input_class . '" ' . $_input_attrs . ' multiple  >' . $value . '>';
+        
+        }
+       
+      
+      
+        $input .= '<option value="">Seleccione</option>';
         foreach ($options as $option_key => $option_value) {
 
             if ($_SERVER['REQUEST_METHOD'] == "POST") {

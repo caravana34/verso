@@ -516,6 +516,10 @@ class Operationtheatre extends Admin_Controller
     public function getotDetails()
     {
         $id                            = $this->input->post("id");
+//       echo "<pre>";
+//       print_r($id );
+//       exit;
+      
         $result                        = $this->operationtheatre_model->getotDetails($id);
         $result['otdate']              = $this->customlib->YYYYMMDDHisTodateFormat($result['date'], $this->time_format);
         $result['custom_fields_value'] = display_custom_fields('operationtheatre', $id);

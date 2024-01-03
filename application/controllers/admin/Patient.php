@@ -42,6 +42,8 @@ class patient extends Admin_Controller
         $this->blood_group         = $this->bloodbankstatus_model->get_product(null, 1);
         $this->time_format         = $this->customlib->getHospitalTimeFormat();
         $this->recent_record_count = 5;
+        $this->load->library('curl');
+      
 
     }
 
@@ -64,6 +66,276 @@ class patient extends Admin_Controller
         echo json_encode(array('status' => 1, 'pateint_id' => $patient_id));
 
     }
+  
+//    public function import_patient()
+// {
+//     $fields = array('identification_number', 'insurance_validity', 'patient_name', 'otro_asegurador', 'departamento', 'ciudad', 'phone_principal', 'mobileno', 'email', 'address', 'ocupacion', 'gender', 'dob', 'age', 'regimen', 'responsable', 'responsable_numero', 'acompanante', 'acompanante_numero');
+//     $data["fields"] = $fields;
+
+//     $this->form_validation->set_rules('file', $this->lang->line('file'), 'callback_handle_csv_upload');
+
+//     if ($this->form_validation->run() == false) {
+//         echo "Error en la validación del archivo CSV";
+//     } else {
+      
+      
+      
+//         if (isset($_FILES["file"]) && !empty($_FILES['file']['name'])) {
+  
+//             $ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
+
+//             if ($ext == 'csv') {
+//                 $file = $_FILES['file']['tmp_name'];
+//                 $delimiter = ";";
+
+//                 $handle = fopen($file, "r");
+//                 $firstLine = fgets($handle);
+
+//                 $der = strpos($firstLine, $delimiter);
+// //          echo "<pre>";
+// //        print_r($der);
+// //       exit;
+      
+//                 if ($der > 0) {
+//                     while (($datos = fgetcsv($handle, 1000, $delimiter)) !== FALSE) {
+//                           echo "<pre>";
+//                       print_r($datos);
+//                       exit;
+                   
+                      
+                      
+                      
+                      
+//                         if ($datos[0] != '') {
+                           
+
+//                             $patients = [];
+//                             $patients["patient_name"] = $datos[1];
+//                             $patients["dob"] = $datos[3];
+//                             $patients["email"] = $datos[6];
+//                             $patients["identification_number"] = $datos[0];
+//                             $patients["insurance_validity"] = "CC: Cédula de ciudadanía";
+                           
+//                             $insert_id = $this->patient_model->addImport($patients); 
+// //                             echo "<pre>";
+// //                             print_r($charges);
+// //                             exit;
+//                           if (!empty($insert_id)) {
+//                              $eps = array();
+//                              $eps['belong_table_id'] = $insert_id;
+//                              $eps['custom_field_id'] = 12;
+//                              $eps['field_value'] = "Sura EPS";  
+//                              $this->db->insert('custom_field_values', $eps);
+                            
+//                              if($datos[2] =="PLAN COMPLEMENTARIO EPS SURA PAC"){
+//                                   $pac = array();
+//                                   $pac['belong_table_id'] = $insert_id;
+//                                   $pac['custom_field_id'] = 31;
+//                                   $pac['field_value'] = "PAC";  
+//                                   $this->db->insert('custom_field_values', $pac);
+                                  
+//                                 }
+//                           }
+                          
+                          
+//                         }
+//                     }
+
+//                     fclose($handle);
+
+//                     // Insertar en la tabla 'charges_organisation'
+//                     if (!empty($charges_organisation_data)) {
+//                         $this->db->insert_batch('organisations_charges', $charges_organisation_data);
+//                     }
+
+//                     // Redirigir después de la importación
+//                     redirect('admin/charges/charge');
+//                 }
+//             } else {
+//                 echo "El archivo debe tener extensión CSV";
+//             }
+//         }
+//     }
+//    }
+ 
+    public function import_patient()
+{
+    $fields = array('identification_number', 'insurance_validity', 'patient_name', 'otro_asegurador', 'departamento', 'ciudad', 'phone_principal', 'mobileno', 'email', 'address', 'ocupacion', 'gender', 'dob', 'age', 'regimen', 'responsable', 'responsable_numero', 'acompanante', 'acompanante_numero');
+    $data["fields"] = $fields;
+
+    $this->form_validation->set_rules('file', $this->lang->line('file'), 'callback_handle_csv_upload');
+
+    if ($this->form_validation->run() == false) {
+        echo "Error en la validación del archivo CSV";
+    } else {
+      
+      
+      
+        if (isset($_FILES["file"]) && !empty($_FILES['file']['name'])) {
+  
+            $ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
+
+            if ($ext == 'csv') {
+                $file = $_FILES['file']['tmp_name'];
+                $delimiter = ";";
+
+                $handle = fopen($file, "r");
+                $firstLine = fgets($handle);
+
+                $der = strpos($firstLine, $delimiter);
+      
+                if ($der > 0) {
+                    while (($datos = fgetcsv($handle, 1000, $delimiter)) !== FALSE) {
+//          echo "<pre>";
+//        print_r($datos);
+//       exit;
+                   
+                      
+                      
+                        if ($datos[0] != '') {
+                           
+
+                            $patients = [];
+                            $patients["patient_name"] = $datos[7]." ".$datos[8];
+                            $patients["guardian_name"] = $datos[5]." ".$datos[6];
+                            $patients["dob"] = $datos[9];
+                            $patients['gender'] = $datos[12];
+                            $patients["age"] = $datos[10];
+                            $patients["email"] = $datos[22];
+                            $patients["identification_number"] = $datos[0];
+                            $patients["insurance_validity"] = $datos[2];
+                            $timestamp = strtotime($patients["dob"]);
+                            $patients["dob"] = date('Y-m-d', $timestamp);
+                            $patients["is_active"] = 'yes';
+//                           echo "<pre>";
+//                       print_r($patients);
+//                       exit;
+                            $insert_id = $this->patient_model->addImport($patients); 
+
+                          
+                          if (!empty($insert_id)) {
+                            
+                               $departamento = array();
+                                $departamento['belong_table_id'] = $insert_id;
+                                $departamento['custom_field_id'] = 4;
+                                $departamento['field_value'] = "Antioquia";  
+                                $this->db->insert('custom_field_values', $departamento);
+                              
+                                $municipio = $datos[20];
+                                if($municipio == 88){
+                                   $municipio = "Bello";
+                                }else if($municipio == 887){
+                                   $municipio = "Yarumal";
+                                }else if($municipio == 237){
+                                   $municipio = "Don Matías";
+                                }else if($municipio == 308){
+                                   $municipio = "Girardota";
+                                }else if($municipio == 212){
+                                   $municipio = "Copacabana";
+                                }else if($municipio == 79){
+                                   $municipio = "Puerto Berrio";
+                                }else if($municipio == 1){
+                                   $municipio = "Medellín";
+                                }
+                            
+                                $ciudad = array();
+                                $ciudad['belong_table_id'] = $insert_id;
+                                $ciudad['custom_field_id'] = 5;
+                                $ciudad['field_value'] = $municipio;  
+                                $this->db->insert('custom_field_values', $ciudad);
+                              
+                              
+                               
+                              
+                                $direccion = array();
+                                $direccion['belong_table_id'] = $insert_id;
+                                $direccion['custom_field_id'] = 25;
+                                $direccion['field_value'] = $datos[23];  
+                                $this->db->insert('custom_field_values', $direccion);
+                                
+                                $tipo = array();
+                                $tipo['belong_table_id'] = $insert_id;
+                                $tipo['custom_field_id'] = 102;
+                                $tipo['field_value'] = $datos[4]; 
+                                if($datos[4] == 5 ){
+                                   $tipo['field_value'] ="Cotizante";
+//                                                           echo "<pre>";
+//                             print_r($tipo['field_value']);
+//                             exit;
+                                }else{
+                                   $tipo['field_value'] ="Beneficiario";
+                                }
+                                $this->db->insert('custom_field_values', $tipo);
+                            
+                              
+                                $tel_principal = array();
+                                $tel_principal['belong_table_id'] = $insert_id;
+                                $tel_principal['custom_field_id'] = 30;
+                                $tel_principal['field_value'] = $datos[24];    
+                                $this->db->insert('custom_field_values', $tel_principal);
+                              
+                                $tel_aux = array();
+                                $tel_aux['belong_table_id'] = $insert_id;
+                                $tel_aux['custom_field_id'] = 15;
+                                $tel_aux['field_value'] = $datos[25];     
+                                $this->db->insert('custom_field_values', $tel_aux);
+                              
+                                $responsable = array();
+                                $responsable['belong_table_id'] = $insert_id;
+                                $responsable['custom_field_id'] = 7;
+                                $responsable['field_value'] = $datos[26];  
+                                $this->db->insert('custom_field_values', $responsable);
+                              
+                                $responsable_numero = array();
+                                $responsable_numero['belong_table_id'] = $insert_id;
+                                $responsable_numero['custom_field_id'] = 11; 
+                                $responsable_numero['field_value'] = $datos[26];  
+                                $this->db->insert('custom_field_values', $responsable_numero);
+                            
+                            
+                            
+                            
+                             $eps = array();
+                             $eps['belong_table_id'] = $insert_id;
+                             $eps['custom_field_id'] = 12;
+                             $eps['field_value'] = "Sura EPS";  
+                             $this->db->insert('custom_field_values', $eps);
+                            
+                             if($datos[2] =="PLAN COMPLEMENTARIO EPS SURA PAC"){
+                                  $pac = array();
+                                  $pac['belong_table_id'] = $insert_id;
+                                  $pac['custom_field_id'] = 31;
+                                  $pac['field_value'] = "PAC";  
+                                  $this->db->insert('custom_field_values', $pac);
+                                  
+                                }
+                            $user_password      = $this->role->get_random_password($chars_min = 6, $chars_max = 6, $use_upper_case = false, $include_numbers = true, $include_special_chars = false);
+                            $data_patient_login = array(
+                                'username' => $this->patient_login_prefix . $insert_id,
+                                'password' => $user_password,
+                                'user_id'  => $insert_id,
+                                'role'     => 'patient',
+                            );
+                            $this->user_model->add($data_patient_login);
+                          }
+                          
+                          
+                        }
+                    }
+
+                    fclose($handle);
+
+
+                    // Redirigir después de la importación
+                    redirect('admin/patient/import');
+                }
+            } else {
+                echo "El archivo debe tener extensión CSV";
+            }
+        }
+    }
+   }
+  
 
     public function index()
     {
@@ -348,6 +620,12 @@ class patient extends Admin_Controller
 
     public function addmedicationdose()
     {
+//       echo "<pre>";
+//       print_r($this->input->post());
+//       exit;
+      
+      
+      
         if (!$this->rbac->hasPrivilege('ipd_medication', 'can_add')) {
             access_denied();
         }
@@ -423,6 +701,11 @@ class patient extends Admin_Controller
     public function addmedicationdoseopd()
     {
 
+//                  echo "<pre>";
+//       print_r($this->input->post());
+//       exit;
+      
+      
         $this->form_validation->set_rules('date', $this->lang->line('date'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('time', $this->lang->line('time'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('medicine_category_id', $this->lang->line('medicine_category'), 'trim|required|xss_clean');
@@ -439,14 +722,18 @@ class patient extends Admin_Controller
             );
             $array = array('status' => 'fail', 'error' => $msg, 'message' => '');
         } else {
+           
             $opd_id      = $this->input->post("opdid");
+            $Fase_Operatoria        = $this->input->post('Fase_Operatoria');
             $date        = $this->customlib->dateFormatToYYYYMMDD($this->input->post("date"));
             $time        = $this->input->post('time');
             $timeformat  = date("H:i:s", strtotime($time));
             $pharmacy_id = $this->input->post('medicine_name_id');
             $chekrecord  = $this->patient_model->checkmedicationdoseopd($opd_id, $pharmacy_id, $date, $timeformat);
 
+
             $data = array(
+                'report_type'               => $Fase_Operatoria,
                 'date'               => $date,
                 'medicine_dosage_id' => $this->input->post('dosage'),
                 'time'               => $timeformat,
@@ -490,6 +777,9 @@ class patient extends Admin_Controller
 
     public function updatemedication()
     {
+//                  echo "<pre>";
+//       print_r($this->input->post());
+//       exit;
 
         $this->form_validation->set_rules('date', $this->lang->line('date'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('time', $this->lang->line('time'), 'trim|required|xss_clean');
@@ -510,6 +800,7 @@ class patient extends Admin_Controller
 
             $data = array(
                 'id'                 => $this->input->post('medication_id'),
+                'report_type'        => $this->input->post('FaseOperatoria_id'),
                 'medicine_dosage_id' => $this->input->post('dosage_id'),
                 'date'               => $this->customlib->dateFormatToYYYYMMDD($this->input->post("date")),
                 'time'               => date("H:i:s", strtotime($this->input->post('time'))),
@@ -1233,13 +1524,13 @@ This Function is used to Import Multiple Patient Records
         $this->session->set_userdata('top_menu', 'setup');
         $this->session->set_userdata('sub_menu', 'patient/import');
 
-        $fields         = array('patient_name', 'guardian_name', 'gender', 'age', 'month', 'day', 'marital_status', 'mobileno', 'email', 'address', 'note', 'known_allergies', 'identification_number', 'insurance_id', 'insurance_validity');
+        $fields        = array('identification_number','insurance_validity','patient_name','otro_asegurador','departamento','ciudad','phone_principal','mobileno','email','address','ocupacion','gender','dob','age','regimen','responsable','responsable_numero','acompanante','acompanante_numero' );
         $data["fields"] = $fields;
         $this->form_validation->set_rules('file', $this->lang->line('file'), 'callback_handle_csv_upload');
 
         $data['blood_group'] = $this->blood_group;
         if ($this->form_validation->run() == false) {
-
+              
             $this->load->view('layout/header');
             $this->load->view('admin/patient/import', $data);
             $this->load->view('layout/footer');
@@ -1248,14 +1539,16 @@ This Function is used to Import Multiple Patient Records
 
             if (isset($_FILES["file"]) && !empty($_FILES['file']['name'])) {
                 $ext        = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
+              
                 $bloodgroup = $this->input->post('blood_group');
 
                 if ($ext == 'csv') {
                     $file   = $_FILES['file']['tmp_name'];
                     $result = $this->csvreader->parse_file($file);
-
+                  
                     if (!empty($result)) {
-
+                  
+                      
                         $count = 0;
                         for ($i = 1; $i <= count($result); $i++) {
 
@@ -1271,12 +1564,85 @@ This Function is used to Import Multiple Patient Records
                                 $patient_name                              = $patient_data[$i]["patient_name"];
                                 $n++;
                             }
-
+              
+                          echo"<pre>";
+                          print_r($patient_data[$i]);
+                          exit;
+                            
+ 
                             if (!empty($patient_name)) {
                                 $insert_id = $this->patient_model->addImport($patient_data[$i]);
                             }
 
                             if (!empty($insert_id)) {
+                              
+                                $departamento = array();
+                                $departamento['belong_table_id'] = $insert_id;
+                                $departamento['custom_field_id'] = 4;
+                                $departamento['field_value'] = $patient_data[$i]['departamento'];  
+                                $this->db->insert('custom_field_values', $departamento);
+                              
+                                $ciudad = array();
+                                $ciudad['belong_table_id'] = $insert_id;
+                                $ciudad['custom_field_id'] = 5;
+                                $ciudad['field_value'] = $patient_data[$i]['ciudad'];  
+                                $this->db->insert('custom_field_values', $ciudad);
+                              
+                              
+                                $regimen = array();
+                                $regimen['belong_table_id'] = $insert_id;
+                                $regimen['custom_field_id'] = 10;
+                                $regimen['field_value'] = $patient_data[$i]['regimen'];  
+                                $this->db->insert('custom_field_values', $regimen);
+                              
+                                $direccion = array();
+                                $direccion['belong_table_id'] = $insert_id;
+                                $direccion['custom_field_id'] = 25;
+                                $direccion['field_value'] = $patient_data[$i]['address'];  
+                                $this->db->insert('custom_field_values', $direccion);
+                              
+                              
+                                $tel_principal = array();
+                                $tel_principal['belong_table_id'] = $insert_id;
+                                $tel_principal['custom_field_id'] = 30;
+                                $tel_principal['field_value'] = $patient_data[$i]['phone_principal'];  
+                                $this->db->insert('custom_field_values', $tel_principal);
+                              
+                                $tel_aux = array();
+                                $tel_aux['belong_table_id'] = $insert_id;
+                                $tel_aux['custom_field_id'] = 15;
+                                $tel_aux['field_value'] = $patient_data[$i]['mobileno'];  
+                                $this->db->insert('custom_field_values', $tel_aux);
+                              
+                                $responsable = array();
+                                $responsable['belong_table_id'] = $insert_id;
+                                $responsable['custom_field_id'] = 7;
+                                $responsable['field_value'] = $patient_data[$i]['responsable'];  
+                                $this->db->insert('custom_field_values', $responsable);
+                              
+                                $responsable_numero = array();
+                                $responsable_numero['belong_table_id'] = $insert_id;
+                                $responsable_numero['custom_field_id'] = 11;
+                                $responsable_numero['field_value'] = $patient_data[$i]['responsable_numero'];  
+                                $this->db->insert('custom_field_values', $responsable_numero);
+                              
+                                $eps = array();
+                                $eps['belong_table_id'] = $insert_id;
+                                $eps['custom_field_id'] = 12;
+                                $eps['field_value'] = "Sura EPS";  
+                                $this->db->insert('custom_field_values', $eps);
+                              
+                                if($patient_data[$i]['otro_asegurador'] =="PLAN COMPLEMENTARIO EPS SURA PAC"){
+                                  $pac = array();
+                                  $pac['belong_table_id'] = $insert_id;
+                                  $pac['custom_field_id'] = 31;
+                                  $pac['field_value'] = "PAC";  
+                                  $this->db->insert('custom_field_values', $pac);
+                                  
+                                }
+                              
+                              
+                              
                                 $data['csvData'] = $result;
                                 $this->session->set_flashdata('patient_import_msg', '<div class="alert alert-success text-center">' . $this->lang->line('patients_imported_successfully') . '</div>');
                                 $count++;
@@ -1371,6 +1737,12 @@ This Function is used to Import Multiple Patient Records
         $data["doctor_select"]  = $doctorid;
         $data["disable_option"] = $disable_option;
         $data['organisation']   = $this->organisation_model->get();
+        
+//         echo "<pre>";
+//         print_r($data);
+//         exit;
+      
+      
         $this->load->view('layout/header');
         $this->load->view('admin/patient/search', $data);
         $this->load->view('layout/footer');
@@ -1548,36 +1920,36 @@ This Function is used to Import Multiple Patient Records
 
                 $action = "<div class=''>";
                 if ($this->rbac->hasPrivilege('opd_print_bill', 'can_view')) {
-                    $action .= "<a href='javascript:void(0)' data-loading-text='<i class=\"fa fa-circle-o-notch fa-spin\"></i>' data-opd-id=" . $opd_id . " data-record-id=" . $visit_details_id . " class='btn btn-default btn-xs print_visit_bill'  data-toggle='tooltip' title='" . $this->lang->line('print_bill') . "'><i class='fa fa-file'></i></a>";
+                    $action .= "<a href='javascript:void(0)' data-loading-text='<i class=\"fa fa-circle-o-notch fa-spin\"></i>' data-opd-id=" . $opd_id . " data-record-id=" . $visit_details_id . " class='btn btn-default btn-xs print_visit_bill color-black'  data-toggle='tooltip' title='" . $this->lang->line('print_bill') . "'><i class='fa fa-file'></i></a>";
                 }
 
                 if ($result[$key]['prescription'] == 'no') {
                     if ($this->rbac->hasPrivilege('prescription', 'can_add')) {
-                        $action .= "<a href='#' onclick='getRecord_id(" . $visit_details_id . ")' class='btn btn-default btn-xs'  data-toggle='tooltip' title='" . $this->lang->line('add_prescription') . "'><i class='fas fa-prescription'></i></a>";
+                        $action .= "<a href='#' onclick='getRecord_id(" . $visit_details_id . ")' class='btn btn-default btn-xs color-black'  data-toggle='tooltip' title='" . $this->lang->line('add_prescription') . "'><i class='fas fa-prescription'></i></a>";
                     }
                 } elseif ($result[$key]['prescription'] == 'yes') {
                     if ($this->rbac->hasPrivilege('prescription', 'can_view')) {
-                        $action .= "<a href='#' onclick='view_prescription(" . $visit_details_id . ")' class='btn btn-default btn-xs'  data-toggle='tooltip' title='" . $this->lang->line('view_prescription') . "'><i class='fas fa-file-prescription'></i></a>";
+                        $action .= "<a href='#' onclick='view_prescription(" . $visit_details_id . ")' class='btn btn-default btn-xs color-black'  data-toggle='tooltip' title='" . $this->lang->line('view_prescription') . "'><i class='fas fa-file-prescription'></i></a>";
                     }
                 }
 
                 if ($this->rbac->hasPrivilege('manual_prescription', 'can_view')) {
 
-                    $action .= "<a href='#' onclick='viewmanual_prescription(" . $visit_details_id . ")' class='btn btn-default btn-xs'  data-toggle='tooltip' title='" . $this->lang->line('manual_prescription') . "'><i class='fas fa fa-print'></i></a>";
+                    $action .= "<a href='#' onclick='viewmanual_prescription(" . $visit_details_id . ")' class='btn btn-default btn-xs color-black'  data-toggle='tooltip' title='" . $this->lang->line('manual_prescription') . "'><i class='fas fa fa-print'></i></a>";
 
                 }
 
-                $action .= "<a href='javascript:void(0)' data-loading-text='" . $this->lang->line('please_wait') . "' data-opd-id=" . $opd_id . " data-record-id=" . $visit_details_id . " class='btn btn-default btn-xs get_opd_detail'  data-toggle='tooltip' title='" . $this->lang->line('show') . "'><i class='fa fa-reorder'></i></a>";
+                $action .= "<a href='javascript:void(0)' data-loading-text='" . $this->lang->line('please_wait') . "' data-opd-id=" . $opd_id . " data-record-id=" . $visit_details_id . " class='btn btn-default btn-xs get_opd_detail color-black'  data-toggle='tooltip' title='" . $this->lang->line('show') . "'><i class='fa fa-reorder'></i></a>";
 
                 if (!$value->is_ipd_moved) {
                     if ($this->rbac->hasPrivilege('opd_move_patient_in_ipd', 'can_view')) {
-                        $action .= "<a href='javascript:void(0)' data-toggle='tooltip'  data-original-title='" . $this->lang->line('move_in_ipd') . "' class='btn btn-default btn-xs move_opd' data-opd-id=" . $this->opd_prefix . $opd_id . " data-record-id=" . $visit_details_id . "><i class='fas fa-share-square'></i></a>";
+                        $action .= "<a href='javascript:void(0)' data-toggle='tooltip'  data-original-title='" . $this->lang->line('move_in_ipd') . "' class='btn btn-default btn-xs move_opd color-black' data-opd-id=" . $this->opd_prefix . $opd_id . " data-record-id=" . $visit_details_id . "><i class='fas fa-share-square'></i></a>";
 
                     }
                 }
 
                 $action .= "</div>";
-                $first_action = "<a href=" . base_url() . 'admin/patient/visitdetails/' . $value->pid . '/' . $opd_id . ">";
+                $first_action = "<a onclick='view_appointment($value->appointment_id)' >";
 
                 //==============================
                 $row[] = $first_action . $this->opd_prefix . $opd_id . "</a>";
@@ -1780,14 +2152,7 @@ This Function is used to Import Multiple Patient Records
             foreach ($dt_response->data as $key => $value) {
                 $row = array();
                 //====================================
-                $action = "<div class=''>";
-
-                if ($this->rbac->hasPrivilege('opd_charges', 'can_delete')) {
-
-                    $action .= "<a href='#' onclick='deleterecord(" . $value->patient_id . ',' . $value->opd_details_id . ',' . $value->id . ")' class='btn btn-default btn-xs'  data-toggle='tooltip' title='" . $this->lang->line('delete') . "'><i class='fa fa-trash'></i></a>";
-                }
-
-                $action .= "</div>";
+               
                 //==============================
 
                 $row[] = date($this->customlib->getHospitalDateFormat(true, true), strtotime($value->date));
@@ -1958,6 +2323,9 @@ This Function is used to Import Multiple Patient Records
         $data["doctor_select"]  = $doctorid;
         $data["disable_option"] = $disable_option;
         $setting                = $this->setting_model->get();
+//         echo "<pre>";
+//         print_r($setting);
+//        exit;
         $data['setting']        = $setting;
         $data['organisation']   = $this->organisation_model->get();
         $this->load->view('layout/header');
@@ -2313,6 +2681,10 @@ This Function is used to Import Multiple Patient Records
               $data["payment_details"]           = $paymentDetails;
               $data['roles']                     = $this->role_model->get();
               $getVisitDetailsid                 = $this->patient_model->getVisitDetailsid($opdid);
+//                         echo "<pre>";
+//               print_r($getVisitDetailsid );
+//               exit;
+              
               $data['medicationreport_overview'] = $this->patient_model->getmedicationdetailsbydate_opdoverview($opdid);
               if (!empty($getVisitDetailsid)) {
                   $data['visitconferences'] = $this->conference_model->getconfrencebyvisitid($getVisitDetailsid);
@@ -2335,13 +2707,13 @@ This Function is used to Import Multiple Patient Records
 
               $data['graph']               = $this->transaction_model->opd_bill_paymentbycase_id($result['result']['case_reference_id']);
 
-              $query = $this->db->query("SELECT ipd_prescription_basic.id, ipd_prescription_details.id, ipd_prescription_basic.visit_details_id, ipd_prescription_basic.header_note, ipd_prescription_basic.footer_note, ipd_prescription_basic.finding_description, ipd_prescription_basic.is_finding_print, ipd_prescription_basic.date, ipd_prescription_basic.generated_by, prescribe_by,
-                                         ipd_prescription_details.basic_id, ipd_prescription_details.pharmacy_id, ipd_prescription_details.dosage, ipd_prescription_details.dose_interval_id, ipd_prescription_details.dose_duration_id, ipd_prescription_details.instruction
-                                         FROM ipd_prescription_basic    
-                                         INNER JOIN visit_details ON visit_details.id = ipd_prescription_basic.visit_details_id          
-                                         INNER JOIN ipd_prescription_details ON ipd_prescription_details.basic_id = ipd_prescription_basic.id
-                                         INNER JOIN opd_details ON opd_details.id = visit_details.opd_details_id
-                                         WHERE opd_details.id = ".$opdid.";")->result();
+              $query_medications = $this->db->query("SELECT ipd_prescription_basic.id, ipd_prescription_details.medication_total, ipd_prescription_basic.medication_via, ipd_prescription_basic.visit_details_id, ipd_prescription_basic.header_note, ipd_prescription_basic.footer_note, ipd_prescription_basic.finding_description, ipd_prescription_basic.is_finding_print, ipd_prescription_basic.date, ipd_prescription_basic.generated_by, prescribe_by,
+                                                     ipd_prescription_details.basic_id, ipd_prescription_details.pharmacy_id, ipd_prescription_details.dosage, ipd_prescription_details.dose_interval_id, ipd_prescription_details.dose_duration_id, ipd_prescription_details.instruction, ipd_prescription_basic.medical_formula
+                                                     FROM ipd_prescription_basic    
+                                                     INNER JOIN visit_details ON visit_details.id = ipd_prescription_basic.visit_details_id          
+                                                     INNER JOIN ipd_prescription_details ON ipd_prescription_details.basic_id = ipd_prescription_basic.id
+                                                     INNER JOIN opd_details ON opd_details.id = visit_details.opd_details_id
+                                                     WHERE opd_details.id = ".$opdid.";")->result();
 
 
               $inabilityQuery = $this->db->query("SELECT inability.*
@@ -2354,14 +2726,18 @@ This Function is used to Import Multiple Patient Records
                 $contador++;
               }
 
-             $id_visit = $this->db->query("SELECT id
+             $visit_details = $this->db->query("SELECT visit_details.id as id_visit
                                           FROM visit_details 
-                                          WHERE opd_details_id = " . $opdid . ";")->result();
+                                          WHERE opd_details_id = " . $opdid . ";")->row_array();
+                 
+//              echo "<pre>";
+//              print_r($opdid);
+//              exit;
 
              $case = $result['result']['case_reference_id'];
 
 
-              $data['doctor_app'] = $this->db->query("SELECT doctor, time, date, reason_consultation, cancel_person, date_cancel
+              $data['doctor_app'] = $this->db->query("SELECT doctor, time,message, date, reason_consultation, cancel_person, date_cancel
                                                       FROM appointment 
                                                       WHERE case_reference_id = " .$case. ";")->result();
               if($data['doctor_app']!=NULL){
@@ -2382,23 +2758,34 @@ This Function is used to Import Multiple Patient Records
                                                             FROM shift_details 
                                                             WHERE staff_id = " .$id_doctor_shift. ";")->result();
 
-            $data['medications'] = $query;
+            $data['medications'] = $query_medications;
             $data['inabilities'] = $inabilityQuery;
             $data['contador'] = $contador;
-            $data['id_visit'] = $id_visit;
+            $data['id_visit'] = $visit_details['id_visit'];
             $data['recent_record_count'] = 5;
               
       
-           $data['procedures_opd'] = $this->db->query("SELECT id_procedures, procedure_name, specialities, code_cup, procedure_name, procedure_cant
+            $data['procedures_opd'] = $this->db->query("SELECT id_procedures, procedure_name, specialities, code_cup, procedure_name, procedure_cant, appointment_priority, observation, diagnostic_help
                                                         FROM procedures_clini
                                                         LEFT JOIN opd_details ON opd_details.id = procedures_clini.opd_details_id
                                                         WHERE procedures_clini.opd_details_id = " .$opdid. ";")->result();
+              
+              
+            $data['diagnosis'] = $this->db->query("SELECT diagnosis.id_diagnosis, diagnosis.id_patient, diagnosis.nombre_diag, diagnosis.tipo_diag, diagnosis.nota_diag, diagnosis.categoria_diag, diagnosis.opd_id
+                                                  FROM diagnosis
+                                                  WHERE diagnosis.opd_id = " .$opdid. ";")->result();
             
-            
-          
+            $data['remisions'] = $this->db->query("SELECT remisions_clini.*
+                                                  FROM remisions_clini
+                                                  WHERE remisions_clini.id_visit = " .$visit_details['id_visit']. ";")->result();
+              
+             $data['paraclini_clini'] = $this->db->query("SELECT paraclini_clini.*
+                                                  FROM paraclini_clini
+                                                  WHERE paraclini_clini.visit_id = " .$visit_details['id_visit']. ";")->result(); 
+              $data['userdata']   = $userdata; 
 //             echo "<pre>";
-//             print_r($data);
-//             exit;
+//               print_r($userdata);
+//               exit;
 
           
             $this->load->view("layout/header");
@@ -2448,9 +2835,7 @@ This Function is used to Import Multiple Patient Records
   
      public function insert_medication($user_id, $visit_id, $opdid){
        
-       
-       $post= $this->input->post();
-       
+        $post= $this->input->post();
        
         $this->form_validation->set_rules(
             array(
@@ -2585,7 +2970,7 @@ This Function is used to Import Multiple Patient Records
 
         }
   
-     }
+    }
   
     public function addvisitDetails()
     {
@@ -2886,7 +3271,7 @@ This Function is used to Import Multiple Patient Records
         $data['total_pharmacy']    = $total_pharmacy;
         $data['total_ipd']         = $total_ipd;
         $data['total_visits']      = $total_visits;
-        $data['patient_id']=$id;
+        $data['patient_id']        = $id;
         // edit by cliniverso desarrollo
         $this->db->select('*');
         $this->db->from('custom_field_values');
@@ -2895,7 +3280,7 @@ This Function is used to Import Multiple Patient Records
         $data['patient_end_files'] = $query2->result_object();
       
       
-        $data['medicines'] = $this->db->query("SELECT ipd_prescription_basic.id, ipd_prescription_details.id, ipd_prescription_basic.visit_details_id, ipd_prescription_basic.header_note, ipd_prescription_basic.footer_note, ipd_prescription_basic.finding_description, ipd_prescription_basic.is_finding_print, ipd_prescription_basic.date, ipd_prescription_basic.generated_by, prescribe_by,
+        $data['medicines'] = $this->db->query("SELECT ipd_prescription_basic.medication_via, ipd_prescription_details.medication_total, ipd_prescription_basic.visit_details_id, ipd_prescription_basic.header_note, ipd_prescription_basic.footer_note, ipd_prescription_basic.finding_description, ipd_prescription_basic.is_finding_print, ipd_prescription_basic.date, ipd_prescription_basic.generated_by, prescribe_by,
                                                  ipd_prescription_details.basic_id, ipd_prescription_details.pharmacy_id, ipd_prescription_details.dosage, ipd_prescription_details.dose_interval_id, ipd_prescription_details.dose_duration_id, ipd_prescription_details.instruction
                                                  FROM ipd_prescription_basic    
                                                  INNER JOIN visit_details ON visit_details.id = ipd_prescription_basic.visit_details_id          
@@ -2908,9 +3293,9 @@ This Function is used to Import Multiple Patient Records
                                                FROM procedures_clini    
                                                WHERE id_patient = ".$id.";")->result();
 
-      $data['inability2'] = $this->db->query("SELECT inability.*,opd_details.id, opd_details.patient_id FROM inability
-                                              INNER JOIN opd_details ON opd_details.id = inability.opd_details_id   
-                                              WHERE opd_details.patient_id = " . $id.";")->result();
+       $data['inability2'] = $this->db->query("SELECT inability.*,opd_details.id, opd_details.patient_id FROM inability
+                                               INNER JOIN opd_details ON opd_details.id = inability.opd_details_id   
+                                               WHERE opd_details.patient_id = " . $id.";")->result();
 
 //         echo "<pre>";
 //         print_r($data);
@@ -3523,13 +3908,12 @@ This Function is used to Import Multiple Patient Records
         echo json_encode($result);
     }
 
-    public function getpatientDetails($type)
+    public function getpatientDetails()
     {
+
         $id                    = $this->input->post("id");
         $result                = $this->patient_model->getpatientDetails($id);
       
-        
-        
         $result['patient_age'] = $this->customlib->getPatientAge($result['age'], $result['month'], $result['day']);
 
 //         if (($result['insurance_validity'] == '') || ($result['insurance_validity'] == '0000-00-00') || ($result['insurance_validity'] == '1970-01-01')) {
@@ -3557,13 +3941,38 @@ This Function is used to Import Multiple Patient Records
                 $result['voluntad_anticipada']  = $y->field_value;
             } 
         }
-//         print_r($result  );
-//         exit;
-       
+      
         echo json_encode($result);
     }
+  
+    public function tablePatientVisits(){
+      
+      $id = $this->input->post('id');
+      $patientdetails = $this->patient_model->getpatientoverview($id);
+      $data['patientdetails'] = $patientdetails['patient']['visitdetails'];
+//       $data['appointment'] = $patientdetails['patient']['appointment'];
+      $data['opd_no'] = $this->customlib->getSessionPrefixByType('opd_no');
+     
+      if(!empty($data['patientdetails'])){
+        $array = array('status' => "success", "data" => $data);
+        echo json_encode($array);
+      } else {
+        $array = array('status' => "fail", "data" => "");
+        echo json_encode($array);
+      }
 
-    
+//         echo "<pre>";
+//         print_r($patientdetails['patient']['visit_details']['appointment_status']);
+//         exit;
+      
+        // edit by cliniverso desarrollo
+//         $this->db->select('*');
+//         $this->db->from('custom_field_values');
+//         $this->db->where('belong_table_id', $data['patientdetails']['patient']['visitdetails'][0]['opd_id']);
+//         $query2 = $this->db->get();
+//         $data['patient_end_files'] = $query2->result_object();
+    }
+
     public function patientDetails()
     {
         $id                    = $this->input->post("id");
@@ -4069,6 +4478,11 @@ This Function is used to Import Multiple Patient Records
     public function opd_detail_update()
     {
       $post = $this->input->post();
+//                    echo "<pre>";
+//       print_r($post);
+//       exit;
+      
+      
         if (!$this->rbac->hasPrivilege('opd_patient', 'can_edit')) {
             access_denied();
         }
@@ -4090,7 +4504,7 @@ This Function is used to Import Multiple Patient Records
                     if ($custom_fields_value['validation']) {
                         $custom_fields_id   = $custom_fields_value['id'];
                         $custom_fields_name = $custom_fields_value['name'];
-                        $this->form_validation->set_rules($set_fields . "[" . $custom_fields_id . "]", $custom_fields_name, 'trim|required');
+//                         $this->form_validation->set_rules($set_fields . "[" . $custom_fields_id . "]", $custom_fields_name, 'trim|required');
 
                     }
                 }
@@ -4315,6 +4729,10 @@ This Function is used to Import Multiple Patient Records
         if ((!empty($visitid))) {
 
            $result                        = $this->patient_model->getopdvisitDetailsbyvisitid($visitid);
+           $result['diagnosis'] = $this->db->query("SELECT diagnosis.id_diagnosis, diagnosis.id_patient, diagnosis.nombre_diag, diagnosis.tipo_diag, diagnosis.nota_diag, diagnosis.categoria_diag, diagnosis.opd_id
+                                                  FROM diagnosis
+                                                  WHERE diagnosis.opd_id = " .$visitid. ";")->result();
+          
            $result['custom_fields_value'] = display_custom_fields('opd', $result['opdid']);
         }
         if (!empty($result['appointment_date'])) {
@@ -4470,6 +4888,7 @@ This Function is used to Import Multiple Patient Records
             }
             $array = array('status' => 'success', 'error' => '', 'message' => $this->lang->line('record_added_successfully'));
         }
+      
         echo json_encode($array);
     }
 
@@ -4870,104 +5289,380 @@ This Function is used to Import Multiple Patient Records
         echo json_encode(array('status' => 1, 'page' => $page));
 
     }
+  // desarrollo clini
+    public function print_opd_clini()
+    { 
+        $opd_id                    = $this->input->post('opd_id');
+        $this->charge_type         = $this->customlib->getChargeMaster();
+
+                     
+        $opddata                  = $this->patient_model->getVisitDetailsbyopdid($opd_id);
+        $id_visit = $opddata['id'];
+        $data['blood_group_name'] = $opddata['blood_group_name'];
+        $data["print_details"]    = $this->printing_model->get('', 'opdpre');
+        $data["result"]           = $opddata;
+        $data['opd_prefix']       = $this->customlib->getSessionPrefixByType('opd_no');
+        $data['checkup_prefix']   = $this->customlib->getSessionPrefixByType('checkup_id');
+        $data['fields'] = get_custom_table_values($opd_id  , 'opd');
+        $data['fields_patient'] = get_custom_table_values($opddata['patient_id'], 'patient');
+        $data['medications'] = $query_medications = $this->db->query("SELECT ipd_prescription_details.medication_total, ipd_prescription_basic.medication_via, ipd_prescription_basic.visit_details_id, ipd_prescription_basic.header_note, ipd_prescription_basic.footer_note, ipd_prescription_basic.finding_description, ipd_prescription_basic.is_finding_print, ipd_prescription_basic.date, ipd_prescription_basic.generated_by, prescribe_by,
+                                                                       ipd_prescription_details.basic_id, ipd_prescription_details.pharmacy_id, ipd_prescription_details.dosage, ipd_prescription_details.dose_interval_id, ipd_prescription_details.dose_duration_id, ipd_prescription_details.instruction
+                                                                       FROM ipd_prescription_basic    
+                                                                       INNER JOIN visit_details ON visit_details.id = ipd_prescription_basic.visit_details_id          
+                                                                       INNER JOIN ipd_prescription_details ON ipd_prescription_details.basic_id = ipd_prescription_basic.id
+                                                                       INNER JOIN opd_details ON opd_details.id = visit_details.opd_details_id
+                                                                       WHERE opd_details.id = ".$opd_id.";")->result();
+        $inabilityQuery = $this->db->query("SELECT inability.*
+                                                  FROM inability 
+                                                  WHERE opd_details_id = ".$opd_id.";")->result();
+        $data['inabilities']      = $inabilityQuery;
+        
+        $data['diagnosis'] = $this->db->query("SELECT diagnosis.id_diagnosis, diagnosis.id_patient, diagnosis.nombre_diag, diagnosis.tipo_diag, diagnosis.nota_diag, diagnosis.categoria_diag, diagnosis.opd_id
+                                                FROM diagnosis
+                                                WHERE diagnosis.opd_id = $id_visit ;")->result();
+
+        $data['patientdetails'] = $this->patient_model->getpatientoverviewbycaseid($result['result']['case_reference_id']);
+        if (!empty($opddata)) {
+            $patient_charge_id = $opddata['patient_charge_id'];
+            $charge            = $this->charge_model->getChargeById($patient_charge_id);
+            $data['charge']    = $charge;
+            if (!empty($opddata['transaction_id'])) {
+                $transaction         = $this->transaction_model->getTransaction($opddata['transaction_id']);
+      
+                $data['transaction'] = $transaction;
+            }
+        }
+        $data['remisions'] = $this->db->query("SELECT remisions_clini.*
+                                                  FROM remisions_clini
+                                                  WHERE remisions_clini.id_visit = " .$id_visit. ";")->result();
+
+        $data['paraclini_clini'] = $this->db->query("SELECT paraclini_clini.*
+                                          FROM paraclini_clini
+                                          WHERE paraclini_clini.visit_id = " .$id_visit. ";")->result(); 
+// echo "<pre>";
+//       print_r($data['fields']);
+//       exit;
+
+      
+        $page = $this->load->view('admin/patient/_print_opd_clini', $data, true);
+        echo json_encode(array('status' => 1, 'page' => $page));
+
+    }
+    
+  public function print_opd_clini_procedures()
+    { 
+        $opd_id                    = $this->input->post('opd_id');
+        $this->charge_type         = $this->customlib->getChargeMaster();    
+        $opddata                  = $this->patient_model->getVisitDetailsbyopdid($opd_id);
+      
+        $data['medicineCategory']   = $this->medicine_category_model->getMedicineCategory();
+        $data['intervaldosage']     = $this->medicine_dosage_model->getIntervalDosage();
+        $data['durationdosage']     = $this->medicine_dosage_model->getDurationDosage();
+        $data['dosage']             = $this->medicine_dosage_model->getMedicineDosage();
+        $data['dose_list']          = $this->medicine_dosage_model->getMedicineDosage();
+        $category_dosage            = $this->medicine_dosage_model->getCategoryDosages();
+        $data['category_dosage']    = $category_dosage;
+        $data['medicineName']       = $this->pharmacy_model->getMedicineName();
+        $doctors                    = $this->staff_model->getStaffbyrole(3);
+        $data["doctors"]            = $doctors;
+        $medicationreport           = $this->patient_model->getmedicationdetailsbydateopd($opd_id);
+        $max_dose                   = $this->patient_model->getMaxByopdid($opd_id);
+        $data['max_dose']           = $max_dose->max_dose;
+        $data["medication"]         = $medicationreport;
+        $operation_theatre          = $this->operationtheatre_model->getopdoperationDetails($opd_id);
+        $data['operation_theatre']  = $operation_theatre;
+        $data['is_discharge']       = $this->customlib->checkDischargePatient($data["result"]['result']['discharged']);
+      
+        $nurse                      = $this->staff_model->getStaffbyrole(9);
+        $data["nurse"]              = $nurse;
+        $data["nurse_select"]       = $nurse;
+        $result                     = $this->patient_model->getDetails($opd_id);
+        $data['result']             = $result;
+        $data["id"]                 = $id;
+        $data["opdid"]              = $opd_id;
+      
+      
+      
+//         $id_visit = $opddata['id'];
+//         $data['blood_group_name'] = $opddata['blood_group_name'];
+        $data["print_details"]    = $this->printing_model->get('', 'procedure');
+        $data["result"]           = $opddata;
+        $data['opd_prefix']       = $this->customlib->getSessionPrefixByType('opd_no');
+//         $data['checkup_prefix']   = $this->customlib->getSessionPrefixByType('checkup_id');
+//         $data['fields'] = get_custom_table_values($opd_id  , 'opd');
+        $data['fields_patient'] = get_custom_table_values($opddata['patient_id'], 'patient');
+        $data['medications'] = $query_medications = $this->db->query("SELECT ipd_prescription_details.medication_total, ipd_prescription_basic.medication_via, ipd_prescription_basic.visit_details_id, ipd_prescription_basic.header_note, ipd_prescription_basic.footer_note, ipd_prescription_basic.finding_description, ipd_prescription_basic.is_finding_print, ipd_prescription_basic.date, ipd_prescription_basic.generated_by, prescribe_by,
+                                                                       ipd_prescription_details.basic_id, ipd_prescription_details.pharmacy_id, ipd_prescription_details.dosage, ipd_prescription_details.dose_interval_id, ipd_prescription_details.dose_duration_id, ipd_prescription_details.instruction
+                                                                       FROM ipd_prescription_basic    
+                                                                       INNER JOIN visit_details ON visit_details.id = ipd_prescription_basic.visit_details_id          
+                                                                       INNER JOIN ipd_prescription_details ON ipd_prescription_details.basic_id = ipd_prescription_basic.id
+                                                                       INNER JOIN opd_details ON opd_details.id = visit_details.opd_details_id
+                                                                       WHERE opd_details.id = ".$opd_id.";")->result();
+//         $inabilityQuery = $this->db->query("SELECT inability.*
+//                                                   FROM inability 
+//                                                   WHERE opd_details_id = ".$opd_id.";")->result();
+//         $data['inabilities']      = $inabilityQuery;
+        
+//         $data['diagnosis'] = $this->db->query("SELECT diagnosis.id_diagnosis, diagnosis.id_patient, diagnosis.nombre_diag, diagnosis.tipo_diag, diagnosis.nota_diag, diagnosis.categoria_diag, diagnosis.opd_id
+//                                                 FROM diagnosis
+//                                                  WHERE diagnosis.opd_id = $id_visit ;")->result();
+
+//         $data['patientdetails'] = $this->patient_model->getpatientoverviewbycaseid($result['result']['case_reference_id']);
+//         if (!empty($opddata)) {
+//             $patient_charge_id = $opddata['patient_charge_id'];
+//             $charge            = $this->charge_model->getChargeById($patient_charge_id);
+//             $data['charge']    = $charge;
+//             if (!empty($opddata['transaction_id'])) {
+//                 $transaction         = $this->transaction_model->getTransaction($opddata['transaction_id']);
+      
+//                 $data['transaction'] = $transaction;
+//             }
+//         }
+//         $data['remisions'] = $this->db->query("SELECT remisions_clini.*
+//                                                   FROM remisions_clini
+//                                                   WHERE remisions_clini.id_visit = " .$id_visit. ";")->result();
+
+//         $data['paraclini_clini'] = $this->db->query("SELECT paraclini_clini.*
+//                                           FROM paraclini_clini
+//                                           WHERE paraclini_clini.visit_id = " .$id_visit. ";")->result();
+      $data['recent_record_count'] = $this->recent_record_count;    
+            foreach ($nurse_note as $key => $nurse_note_value) {
+                $notecomment                        = $this->patient_model->getnurenotecomment($opd_id, $nurse_note_value['id']);
+                $nursenote[$nurse_note_value['id']] = $notecomment;
+            }
+            if (!empty($nursenote)) {
+                $data["nursenote"] = $nursenote;
+            }
+                $data["nurse_note"]= $nurse_note;
+      
+      
+//       $case = $result['result']['case_reference_id'];
+//         $data['doctor_app'] = $this->db->query("SELECT doctor, time,message, date, reason_consultation, cancel_person, date_cancel, procedure_name
+//                                                 FROM appointment 
+//                                                 WHERE case_reference_id = " .$case. ";")->result();
+
+//        if($data['doctor_app']!=NULL){
+//               $id_doctor_shift = $data['doctor_app'][0]->doctor;
+//        }else{
+//               $data['doctor_app'] = $this->db->query("SELECT cons_doctor
+//                                                       FROM visit_details
+//                                                       WHERE id = " .$id_visit[0]->id. ";")->result();
+//            $id_doctor_shift = $data['doctor_app'][0]->cons_doctor;
+//        }
+//        $data['doctor_duration'] = $this->db->query("SELECT consult_duration
+//                                                       FROM shift_details 
+//                                                       WHERE staff_id = " .$id_doctor_shift. ";")->result();
+      
+      
+//       $data['nurse_note'] = $this->db->query("SELECT*
+//                                        FROM nurse_note    
+//                                        INNER JOIN staff ON staff.id = nurse_note.staff_id           
+//                                        WHERE procedure_id = ".$opd_id.";")->result();
+
+      
+      
+      
+      $anestesiologiaDoctors = array();
+        foreach ($doctors as $Anestesiologia) {
+            if ($Anestesiologia['specialist_doc'] == 'Anestesiologia') {
+                $anestesiologiaDoctors[] = $Anestesiologia;
+            }
+        }
+        $data['anestesiologiaDoctors'] = $anestesiologiaDoctors;
+
+       
+      $nurse_note = $this->patient_model->getdatanursenote_opd($id, $opd_id);
+      $data['recent_record_count'] = $this->recent_record_count;    
+            foreach ($nurse_note as $key => $nurse_note_value) {
+                $notecomment                        = $this->patient_model->getnurenotecomment($opd_id, $nurse_note_value['id']);
+                $nursenote[$nurse_note_value['id']] = $notecomment;
+            }
+            if (!empty($nursenote)) {
+                $data["nursenote"] = $nursenote;
+            }
+                $data["nurse_note"]= $nurse_note;
+        
+        $Admisionnursenote = [];
+        $Transoperatorionursenote = [];
+        $Postoperatorionursenote = [];
+
+      
+      
+        foreach ($data["nurse_note"] as $nursenoteType) {
+            switch ($nursenoteType['report_type']) {
+                case "Admision":
+                    $Admisionnursenote[] = $nursenoteType;
+                    break;
+                case "Transoperatorio":
+                    $Transoperatorionursenote[] = $nursenoteType;
+                    break;
+                case "Postoperatorio":
+                    $Postoperatorionursenote[] = $nursenoteType;
+                    break;
+            }
+        }
+
+        $data['Admision_nn'] = $Admisionnursenote;
+        $data['Transoperatorio_nn'] = $Transoperatorionursenote;
+        $data['Postoperatorio_nn'] = $Postoperatorionursenote;
+      
+      
+      
+       $data['signos_vitales'] = $this->db->query("SELECT signos_vitales_report.* FROM signos_vitales_report 
+                                                WHERE opd_details_id = " .$opd_id. ";")->result();
+        
+        $AdmisionSignosVital = [];
+        $TransoperatorioSignosVital = [];
+        $PostoperatorioSignosVitale = [];
+        
+            foreach ($data['signos_vitales'] as $SignosVitales) {
+                switch ($SignosVitales->report_type) {
+                    case "Admision":
+                        $AdmisionSignosVital[] = $SignosVitales;
+                        break;
+                    case "Transoperatorio":
+                        $TransoperatorioSignosVital[] = $SignosVitales;
+                        break;
+                    case "Postoperatorio":
+                        $PostoperatorioSignosVitale[] = $SignosVitales;
+                        break;
+                }
+            }
+      $data['Admision_sv'] = $AdmisionSignosVital;
+      $data['Transoperatorio_sv'] = $TransoperatorioSignosVital;
+      $data['Postoperatorio_sv'] = $PostoperatorioSignosVitale;
+      
+      
+      if($operation_theatre[0]['anesthetist'] != "" && $operation_theatre[0]['ass_consultant_1'] != "" ){ 
+        $data["anestesiologo"]  = $this->db->query("SELECT staff.name,staff.surname FROM staff 
+                                                WHERE id = ".$operation_theatre[0]['anesthetist'].";")->result();
+        
+        $data["aux_enfermeria"]  = $this->db->query("SELECT staff.name,staff.surname FROM staff 
+                                                WHERE id = ".$operation_theatre[0]['ass_consultant_1'].";")->result();
+       }
+      
+      $DataSmall = array();
+      foreach ($operation_theatre as $operationSmall) {
+          if ($operationSmall['anesthetist'] == '' && $operationSmall['ass_consultant_1'] == '' && $operationSmall['Via'] == '' && $operationSmall['Laterality'] == '') {
+              $DataSmall[] = $operationSmall;
+          }
+      }
+      $data['DataSmall'] = $DataSmall;
+      
+      $DataAll = array();
+      foreach ($operation_theatre as $operationSmall) {
+          if ($operationSmall['anesthetist'] != '' && $operationSmall['ass_consultant_1'] != '' && $operationSmall['Via'] != '' && $operationSmall['Laterality'] != '') {
+              $DataAll[] = $operationSmall;
+          }
+      }
+      $data['DataAll'] = $DataAll;
+      
+    
+        $page = $this->load->view('admin/patient/_print_opd_clini_proce', $data,true);
+        echo json_encode(array('status' => 1, 'page' => $page));
+
+    }
+  
+  
+  
+  
 
     public function add_opd_prescription($user_id, $visit_id, $opdid)
     {
-      
-  
-        $post= $this->input->post();
 
-       
-        $this->form_validation->set_rules(
-            array(
-                array(
-                    'field' => 'diagnosis_main',
-                    'rules' => 'required',
-                    'errors' => array(
-                        'required' => 'El diagnostico principal es requerido.',
-                    )
-                ),
-                array(
+         $post= $this->input->post();
+         $medical_formula = $this->input->post('medical_formula');
+
+         if(empty($medical_formula)){
+
+             $this->form_validation->set_rules([
+                [
                     'field' => 'active_principle',
-                    'rules' => 'required',
-                    'errors' => array(
+                    'rules' =>  'trim|required|xss_clean',
+                    'errors' => [
                         'required' => 'El principio activo es requerido.',
-                    )
-                ),
-                array(
+                    ]
+                ],
+                [
                     'field' => 'pharmaceutical_form',
-                    'rules' => 'required',
-                    'errors' => array(
+                    'rules' => 'trim|required|xss_clean',
+                    'errors' => [
                         'required' => 'La forma farmacéutica es requerida.',
-                    )
-                ),
-               array(
+                    ]
+                ],
+               [
                     'field' => 'medication_concentration',
-                    'rules' => 'required',
-                    'errors' => array(
+                    'rules' => 'trim|required|xss_clean',
+                    'errors' => [
                         'required' => 'la concentración es requerida.',
-                    )
-                ),
-               array(
-                    'field' => 'medication_through',
-                    'rules' => 'required',
-                    'errors' => array(
-                        'required' => 'La vía es requerida.',
-                    )
-                ),
-               array(
+                    ]
+                ],
+               [
                     'field' => 'medication_dose',
-                    'rules' => 'required',
-                    'errors' => array(
+                    'rules' => 'trim|required|xss_clean',
+                    'errors' => [
                         'required' => 'La dosis es requerida.',
-                    )
-               ),
-               array(
+                    ]
+               ],
+               [
                     'field' => 'medication_each',
-                    'rules' => 'required',
-                    'errors' => array(
-                        'required' => 'Seleccione una opción.',
-                    )
-                ),
-               array(
+                    'rules' => 'trim|required|xss_clean',
+                    'errors' => [
+                        'required' => 'Cada cuanto tiempo es requerido.',
+                    ]
+                ],
+               [
                     'field' => 'medication_during',
-                    'rules' => 'required',
-                    'errors' => array(
-                        'required' => 'Seleccione una opción.',
-                    )
-                ),
-               array(
+                    'rules' => 'trim|required|xss_clean',
+                    'errors' => [
+                        'required' => 'Durante cuanto tiempo es requerido.',
+                    ]
+                ],
+               [
                     'field' => 'medication_total',
-                    'rules' => 'required|numeric',
-                    'errors' => array(
+                    'rules' => 'trim|required|xss_clean|numeric',
+                    'errors' => [
                         'required' => 'El total es requerido.',
-                    )
-               ),
-               array(
+                    ]
+               ],
+               [
                     'field' => 'medication_periodicity',
-                    'rules' => 'required|numeric',
-                    'errors' => array(
-                        'required' => 'Debe escribir el número.',
+                    'rules' => 'trim|required|xss_clean|numeric',
+                    'errors' => [
+                        'required' => 'El número de cada cuánto tiempo es requerido',
                         'numeric' => 'Debe ser un número.',
-                    )
-                ),
-                array(
+                    ]
+                ],
+                [
                     'field' => 'medication_time',
-                    'rules' => 'required|numeric',
-                    'errors' => array(
-                        'required' => 'Debe escribir el número.',
+                    'rules' => 'trim|required|xss_clean|numeric',
+                    'errors' => [
+                        'required' => 'El número de la duración es requerido.',
                         'numeric' => 'Debe ser un número.',
-                    )
-                ),
-                array(
+                    ]
+                ],
+                [
                     'field' => 'medication_indication',
-                    'rules' => 'required',
-                    'errors' => array(
+                    'rules' => 'trim|required|xss_clean',
+                    'errors' => [
                         'required' => 'Debe escribir una indicación.',
-                    )
-                ),
-            )
-        );
+                    ]
+                ], 
+            ]);
+           
+         } else {
+
+             $this->form_validation->set_rules([
+                [
+                    'field' => 'medical_formula',
+                    'rules' => 'trim|required|xss_clean',
+                    'errors' => [
+                        'required' => 'La formula medica es requerida.',
+                    ]
+                ], 
+             ]);
+         }
+
 
         if ($this->form_validation->run() == FALSE) {
           
@@ -4982,23 +5677,35 @@ This Function is used to Import Multiple Patient Records
           
              exit;
         } else {
-
-            $opd_details  = $this->patient_model->get_patientidbyvisitid($visit_id);
-
           
-            $basic = array(
-             'visit_details_id' => $visit_id,
-             'header_note ' => $this->input->post('active_principle'),
-             'footer_note' => $this->input->post('medication_concentration'),
-             'finding_description' => $this->input->post('pharmaceutical_form'),
-             'is_finding_print' => "yes",
-             'date' => date("Y-m-d"),
-             'generated_by' => $this->customlib->getStaffID(),
-             'prescribe_by' => $opd_details['doctor_id']
-           );
-//           echo "<pre>";
-//        print_r($basic );
-//        exit;
+//             echo "<pre>";
+//             print_r($this->input->post());
+//             exit;
+
+          $opd_details  = $this->patient_model->get_patientidbyvisitid($visit_id);
+
+           if(!empty($medical_formula)){
+               $basic = [
+                 'visit_details_id' => $visit_id,
+                 'is_finding_print' => "yes",
+                 'date' => date("Y-m-d"),
+                 'generated_by' => $this->customlib->getStaffID(),
+                 'prescribe_by' => $opd_details['doctor_id'],
+                 'medical_formula' => $medical_formula
+               ];
+           } else { 
+               $basic = array(
+                 'visit_details_id' => $visit_id,
+                 'header_note ' => $this->input->post('active_principle'),
+                 'footer_note' => $this->input->post('medication_concentration'),
+                 'finding_description' => $this->input->post('pharmaceutical_form'),
+                 'is_finding_print' => "yes",
+                 'date' => date("Y-m-d"),
+                 'generated_by' => $this->customlib->getStaffID(),
+                 'prescribe_by' => $opd_details['doctor_id'],
+                 'medication_via' => $this->input->post('medication_through')
+               ); 
+           }
 
            $result = $this->prescription_model->insertPrescriptionBasic($basic);
 
@@ -5008,7 +5715,8 @@ This Function is used to Import Multiple Patient Records
              'dosage' => $this->input->post('medication_dose'),
              'dose_interval_id' => $this->input->post('medication_periodicity')." ".$this->input->post('medication_each'),
              'dose_duration_id' => $this->input->post('medication_time')." ".$this->input->post('medication_during'),
-             'instruction' => $this->input->post('medication_indication')
+             'instruction' => $this->input->post('medication_indication'),
+             'medication_total' => $this->input->post('medication_total')
            );
 
     //          'basic_id' => $this->input->post('active_principle');
@@ -5344,6 +6052,7 @@ This Function is used to Import Multiple Patient Records
             access_denied();
         }
         $patient_type  = $this->customlib->getPatienttype();
+      
         $custom_fields = $this->customfield_model->getByBelong('ipd');
 
         foreach ($custom_fields as $custom_fields_key => $custom_fields_value) {
@@ -5355,7 +6064,7 @@ This Function is used to Import Multiple Patient Records
         }
 
         $this->form_validation->set_rules('patient_id', $this->lang->line('patient'), 'trim|required|callback_valid_patient');
-        $this->form_validation->set_rules('credit_limit', $this->lang->line('credit_limit'), 'trim|required');
+        $this->form_validation->set_rules('credit_limit', $this->lang->line('credit_limit'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('appointment_date', $this->lang->line('appointment_date'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('consultant_doctor', $this->lang->line('consultant_doctor'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('bed_no', $this->lang->line('bed_number'), 'trim|required|xss_clean');
@@ -5368,6 +6077,7 @@ This Function is used to Import Multiple Patient Records
                 'bed_no'            => form_error('bed_no'),
                 'consultant_doctor' => form_error('consultant_doctor'),
             );
+        
 
             if (!empty($custom_fields)) {
                 foreach ($custom_fields as $custom_fields_key => $custom_fields_value) {
@@ -5386,8 +6096,8 @@ This Function is used to Import Multiple Patient Records
             }
             $array = array('status' => 'fail', 'error' => $error_msg, 'message' => '');
         } else {
-
             $appointment_date = $this->input->post('appointment_date');
+           
             $patient_id       = $this->input->post('patient_id');
             $password         = $this->input->post('password');
             $email            = $this->input->post('email');
@@ -5422,8 +6132,12 @@ This Function is used to Import Multiple Patient Records
                 'live_consult'    => $live_consult,
                 'generated_by'    => $this->customlib->getLoggedInUserID(),
             );
-
+          
+//desarrollando
             $ipd_id            = $this->patient_model->add_ipd($ipd_data);
+//           echo "<pre>";
+//         print_r($ipd_id);
+//         exit;
             $ipdno             = $this->customlib->getSessionPrefixByType('ipd_no') . $ipd_id;
             $case_reference_id = $this->patient_model->getReferenceByIpdId($ipd_id);
             $bed_data          = array('id' => $this->input->post('bed_no'), 'is_active' => 'no');
@@ -5727,6 +6441,8 @@ This Function is used to Import Multiple Patient Records
 
     public function add_nurse_note()
     {
+     
+      
         if (!$this->rbac->hasPrivilege('nurse_note', 'can_add')) {
             access_denied();
         }
@@ -5745,10 +6461,10 @@ This Function is used to Import Multiple Patient Records
         $this->form_validation->set_rules('comment', $this->lang->line('comment'), 'trim|required|xss_clean');
         if ($this->form_validation->run() == false) {
             $msg = array(
-                'date'    => form_error('date'),
-                'nurse'   => form_error('nurse'),
-                'note'    => form_error('note'),
-                'comment' => form_error('comment'),
+                'date'                 => form_error('date'),
+                'nurse'                => form_error('nurse'),
+                'note'                 => form_error('note'),
+                'comment'              => form_error('comment'),
             );
             if (!empty($custom_fields)) {
                 foreach ($custom_fields as $custom_fields_key => $custom_fields_value) {
@@ -5767,21 +6483,45 @@ This Function is used to Import Multiple Patient Records
 
             $array = array('status' => 'fail', 'error' => $error_msg, 'message' => '');
         } else {
-            $date       = $this->input->post('date');
-            $nurse      = $this->input->post('nurse');
-            $patient_id = $this->input->post('patient_id');
-            $ipd_id     = $this->input->post('ipdid');
-            $note       = $this->input->post('note');
-            $comment    = $this->input->post('comment');
+//            echo "<pre>";
+//       print_r($this->input->post());
+//       exit;
+      
+            $Fase_Operatoria       = $this->input->post('Fase_Operatoria');
+            $date                  = $this->input->post('date');
+            $nurse                 = $this->input->post('nurse');
+            $patient_id            = $this->input->post('patient_id');
+            $ipd_id                = $this->input->post('ipdid');
+            $note                  = $this->input->post('note');
+            $comment               = $this->input->post('comment');
+            $surgery_id            = $this->input->post('surgery_id');
+            $procedure_id          = $this->input->post('procedure_id');
 
             $data_array = array(
+                'report_type'   => $Fase_Operatoria,
                 'date'       => $this->customlib->dateFormatToYYYYMMDDHis($date, $this->time_format),
-                'ipd_id'     => $ipd_id,
                 'staff_id'   => $nurse,
                 'note'       => $note,
                 'comment'    => $comment,
                 'updated_at' => $this->customlib->dateFormatToYYYYMMDDHis($date, $this->time_format),
             );
+            
+              
+//               echo "<pre>";
+//               print_r($data_array);
+//               exit;
+          
+            if($this->input->post('ipdid')){
+               $data_array ['ipd_id' ] = $ipd_id;
+            } else if($this->input->post('procedure_id')){
+               $data_array ['procedure_id' ] = $procedure_id;
+            } else if($this->input->post('surgery_id')){
+               $data_array ['surgery_id' ] = $surgery_id;
+            } 
+          
+//             echo "<pre>";
+//             print_r($data_array);
+//             exit;
 
             $custom_field_post  = $this->input->post("custom_fields[ipdnursenote]");
             $custom_value_array = array();
@@ -5917,6 +6657,7 @@ This Function is used to Import Multiple Patient Records
 
     public function addnursenotecomment()
     {
+      
         $this->form_validation->set_rules('comment_staff', $this->lang->line('comment'), 'trim|required|xss_clean');
 
         if ($this->form_validation->run() == false) {
@@ -5996,6 +6737,9 @@ This Function is used to Import Multiple Patient Records
             }
         }
 
+//         echo "<pre>";
+//         print_r($data);
+//         exit;
         $data['findings'] = $findings;
         $this->load->view('layout/header');
         $this->load->view('admin/patient/opdReport', $data);
@@ -6108,14 +6852,14 @@ This Function is used to Import Multiple Patient Records
         } else {
             $param = array(
                 'search_type' => $this->input->post('search_type'),
-                'gender'      => $this->input->post('gender'),
+//                 'gender'      => $this->input->post('gender'),
                 'doctor'      => $this->input->post('doctor'),
                 'date_from'   => $this->input->post('date_from'),
                 'date_to'     => $this->input->post('date_to'),
-                'symptoms'    => $this->input->post('symptoms'),
+//                 'symptoms'    => $this->input->post('symptoms'),
                 'findings'    => $this->input->post('findings'),
                 'from_age'    => $this->input->post('from_age'),
-                'to_age'      => $this->input->post('to_age'),
+//                 'to_age'      => $this->input->post('to_age'),
             );
 
             $json_array = array('status' => 'success', 'error' => '', 'param' => $param, 'message' => $this->lang->line('success_message'));
@@ -6332,13 +7076,13 @@ This Function is used to Import Multiple Patient Records
                 $row[] = $first_action . $this->customlib->getSessionPrefixByType($value->module_no) . $value->id . "</a>";
                // $row[] = $this->customlib->getSessionPrefixByType($value->module_no) . $value->id;
                 $row[] = $this->customlib->getSessionPrefixByType('checkup_id') . $value->visit_id;
-                $row[] = composePatientName($value->patient_name, $value->patientid);
+                $row[] = composePatientName($value->patient_name." ".$value->guardian_name , $value->patientid);
                 $row[] = $this->customlib->getPatientAge($value->age, $value->month, $value->day);
                 $row[] = $value->gender;
                 $row[] = $value->mobileno;
-                $row[] = $value->guardian_name;
+                $row[] = $value->email;
                 $row[] = $value->name . " " . $value->surname . "(" . $value->employee_id . ")";
-                $row[] = $value->symptoms;
+                $row[] = $value->appointment_status;
                 $row[] = $value->finding_description;
                 //====================
                 if (!empty($fields)) {
@@ -6401,31 +7145,52 @@ This Function is used to Import Multiple Patient Records
         $reportdata = $this->transaction_model->opdpatientbalanceRecord($start_date, $end_date, $from_age, $to_age, $gender, $discharged);
 
         $reportdata    = json_decode($reportdata);
+//         echo "<pre>";
+//       print_r($reportdata);
+//       exit;
         $dt_data       = array();
         $total_balance = 0;
         $total_paid    = 0;
         $total_charge  = 0;
         if (!empty($reportdata->data)) {
             foreach ($reportdata->data as $key => $value) {
-
+              
+                $array_bill = json_encode($value);
+              
                 $total_balance += ($value->amount_charged - $value->amount_paid);
                 $total_paid += $value->amount_paid;
                 $total_charge += $value->amount_charged;
+                $first_action = "<a href=" . base_url() . 'admin/bill/opd_visit_detail/' . $value->patient_id . '/' . $value->opd. ">";
+//                 $first_action = "<div style='padding:10px;color: black;height:90px;border-radius:5px;font-weight:semibold;'><a  href='.$url.' style=color:#fff;  data-toggle='tooltip'  data-target='#viewModal' title='Ver detalles de la cita''>";
                 $row       = array();
                 $row[]     = $this->customlib->getSessionPrefixByType('opd_no') . $value->id;
-                $row[]     = $value->patient_name . " (" . $value->patient_id . ")";
+                $row[]     = "<div class='material-switch'>
+                                  <input id='gene_$value->id' type='checkbox' class='chk' onclick='module_generate.generate_bills_cl($array_bill)'>
+                                  <label for='gene_$value->id' class='label-success'></label>
+                              </div>";
+                $row[]     = "<div class='material-switch'>
+                                  <input id='bill_$value->id' type='checkbox' class='chk' onclick='module_bill.array_bill($array_bill)'>
+                                  <label for='bill_$value->id' class='label-success'></label>
+                              </div>";
+                $row[]     = $first_action.$value->patient_name." ".$value->guardian_name . " (" . $value->patient_id . ")";
                 $row[]     = $value->case_reference_id;
                 $row[]     = $this->customlib->getPatientAge($value->age, $value->month, $value->day);
                 $row[]     = $value->gender;
-                $row[]     = $value->mobileno;
-                $row[]     = $this->lang->line($value->discharged);
+                $row[]     = $value->email;
+//                 $row[]     = $this->lang->line($value->discharged);
+                $row[]     = $value->eps;
                 $row[]     = $value->amount_charged;
-                $row[]     = $value->amount_paid;
+                if($value->prefix == "CM"){
+                  $status_dian_cm = $value->state_response;
+                }
+                $row[]     = $value->amount_paid."<br>".$status_dian_cm;
                 $row[]     = amountFormat($value->amount_charged - $value->amount_paid);
                 $dt_data[] = $row;
             }
 
             $footer_row   = array();
+            $footer_row[] = "";
+            $footer_row[] = "";
             $footer_row[] = "";
             $footer_row[] = "";
             $footer_row[] = "";
@@ -7222,6 +7987,11 @@ This Function is used to Import Multiple Patient Records
         $patientid   = $this->uri->segment(4);
         $dt_response = $this->patient_model->getopdtreatmenthistory($patientid);
         $dt_response = json_decode($dt_response);
+     
+        echo "<pre>";
+        print_r($dt_response);
+        exit;
+     
         $dt_data     = array();
         if (!empty($dt_response->data)) {
             foreach ($dt_response->data as $key => $value) {
@@ -7545,82 +8315,112 @@ This Function is used to Import Multiple Patient Records
 //         print_r($this->input->post());
 
 //         exit;
+
+        $diagnostic_help = $this->input->post('diagnostic_help');
         
-        $this->form_validation->set_rules(
-              array(
-                  array(
-                      'field' => 'codigo_cups',
-                      'rules' => 'required',
-                      'errors' => array(
-                          'required' => 'El principio activo es requerido.',
-                      )
-                  ),
-                  array(
-                      'field' => 'specialities_procedure',
-                      'rules' => 'required',
-                      'errors' => array(
-                          'required' => 'La forma farmacéutica es requerida.',
-                      )
-                  ),
-                  array(
-                      'field' => 'product_cups',
-                      'rules' => 'required',
-                      'errors' => array(
-                          'required' => 'El principio activo es requerido.',
-                      )
-                  ),
-                  array(
-                      'field' => 'quantity_procedure',
-                      'rules' => 'required',
-                      'errors' => array(
-                          'required' => 'La forma farmacéutica es requerida.',
-                      )
-                  )
-              )
-        );
-
-        if ($this->form_validation->run() == FALSE) {
-          
-          $errors = $this->form_validation->error_array();
-          $array = array('status' => 'fail', 'error' => $errors, 'message' => '');
-
-          echo json_encode($array, JSON_UNESCAPED_UNICODE);
+        if(empty($diagnostic_help)){
+            
+             $this->form_validation->set_rules([
+                [
+                    'field' => 'codigo_cups',
+                    'rules' => 'trim|required|xss_clean',
+                    'errors' => [
+                        'required' => 'El codigo cups es requerido.',
+                    ]
+                ],
+                [
+                    'field' => 'product_cups',
+                    'rules' => 'trim|required|xss_clean',
+                    'errors' => [
+                        'required' => 'La ayuda diagnostica es requerida.',
+                    ]
+                ],
+                [
+                    'field' => 'quantity_procedure',
+                    'rules' => 'trim|required|xss_clean|numeric',
+                    'errors' => [
+                        'required' => 'La forma farmacéutica es requerida.',
+                        'numeric' => 'La cantidad debe de ser un numero',
+                    ]
+                ],
+                [
+                    'field' => 'appointment_priority',
+                    'rules' => 'trim|required|xss_clean',
+                    'errors' => [
+                        'required' => 'La prioridad es requerida.',
+                    ]
+                ],
+                [
+                    'field' => 'procedure_formula',
+                    'rules' => 'trim|required|xss_clean',
+                    'errors' => [
+                        'required' => 'La formula medica es requerida.',
+                    ]
+                ]
+            ]);
           
         } else {
-          
-
-          $datos = array(
-            "opd_details_id" => $opdid,
-            "code_cup" => $this->input->post('codigo_cups'),
-            "specialities" =>  $this->input->post('specialities_procedure'),
-            "procedure_name" => $this->input->post('product_cups'),
-            "procedure_cant" => $this->input->post('quantity_procedure'),
-            "id_patient" => $user_id,
-          );
-            
-          $this->db->insert("procedures_clini", $datos);
-        
-          $message = array('status' => "success", "error" => "", "message" => "El procedimiento se registro con exito");
-          
-          echo json_encode($message);
-          
+             $this->form_validation->set_rules([
+                 [
+                    'field' => 'diagnostic_help',
+                    'rules' => 'trim|required|xss_clean',
+                 ]
+             ]); 
         }
         
 
-     
+
+        if ($this->form_validation->run() == FALSE) {
+
+            $errors = $this->form_validation->error_array();
+            $array = array('status' => 'fail', 'error' => $errors, 'message' => '');
+
+            echo json_encode($array, JSON_UNESCAPED_UNICODE);
+          
+        } else {
+          
+//             echo "<pre>";
+//             print_r($this->input->post('appointment_priority'));
+//             exit;
+          
+            if(!empty($diagnostic_help)){
+                $datos = array(
+                    "opd_details_id" => $opdid,
+                    "id_patient" => $user_id,
+                    "diagnostic_help" => $diagnostic_help,
+                    "create_at" => date('Y-m-d H:i:s')
+                );
+            } else {
+                $datos = array(
+                    "opd_details_id" => $opdid,
+                    "code_cup" => $this->input->post('codigo_cups'),
+                    "specialities" => $this->input->post('specialities_procedure'),
+                    "procedure_name" => $this->input->post('product_cups'),
+                    "procedure_cant" => $this->input->post('quantity_procedure'),
+                    "appointment_priority" => $this->input->post('appointment_priority'),
+                    "observation" => $this->input->post('medication_observation'),
+                    "id_patient" => $user_id,
+                    "create_at" => date('Y-m-d H:i:s')
+                );
+            }
+
+            $this->db->insert("procedures_clini", $datos);
+
+            $message = array('status' => "success", "error" => "", "message" => "El procedimiento se registro con exito");
+
+            echo json_encode($message);
+        }
+        
     }
   
-  
+//   desarrollo cliniverso medicamentos vademecum
     public function medication_alert(){
       
 //       $json = $this->input->getJSON();
       $json = $this->input->post();
       $json_data = json_decode(key($json), true);
       
-//             echo "<pre>";
-//       print_r($json_data['atc']);
-      
-//       exit;
+
       if(str_contains($json_data['atc'], "M01")) {
             $array = array('status' => "success", 'error' => '', 'message' => "Analgesicos de venta libre");
             echo json_encode($array);
@@ -7711,12 +8511,227 @@ This Function is used to Import Multiple Patient Records
 //       exit;
       
     }
+    public function space($s){
+    
+      switch ($s) {
+                case 3:
+                    echo "País";
+                    break;
+                case 4:
+                    echo "Departamento";
+                    break;
+                case 5:
+                    echo "Municipio";
+                    break;
+                case 7:
+                    echo "Acompañante";
+                    break;
+                case 8:
+                    echo "Cédula";
+                    break;
+                case 9:
+                    echo "Huella";
+                    break;
+                case 10:
+                    echo "Regimen";
+                    break;
+                case 11:
+                    echo "Teléfono De Acompañante";
+                    break;
+                case 12:
+                    echo "EPS";
+                    break;
+                case 13:
+                    echo "Categoría discapacidad";
+                    break;
+                case 14:
+                    echo "Estrato";
+                    break;
+                case 15:
+                    echo "Teléfono de contacto auxiliar";
+                    break;
+                case 16:
+                    echo "Estado de afiliación";
+                    break;
+                case 18:
+                    echo "IMC";
+                    break;
+                case 19:
+                    echo "Talla";
+                    break;
+                case 24:
+                    echo "Voluntad Anticipada";
+                    break;
+                case 25:
+                    echo "Dirección";
+                    break;
+                case 26:
+                    echo "Zona de residencia";
+                    break;
+                case 28:
+                    echo "Voluntad anticipada";
+                    break;
+                case 29:
+                    echo "Observaciones";
+                    break;
+                case 30:
+                    echo "Teléfono Principal";
+                    break;
+                case 31:
+                    echo "Plan Complementario";
+                    break;
+                case 34:
+                    echo "Antecedentes";
+                    break;
+                case 32:
+                    echo "Motivo de consulta *";
+                    break;
+                case 36:
+                    echo "Peso";
+                    break;
+                case 37:
+                    echo "Clasificación IMC";
+                    break;
+                case 38:
+                    echo "Frecuencia Cardíaca(FC)";
+                    break;
+                case 39:
+                    echo "Frecuencia Respiratoria(FR)";
+                    break;
+                case 43:
+                    echo "Revisión por sistemas";
+                    break;
+                case 44:
+                    echo "Presión Arterial sistólica";
+                    break;
+                case 45:
+                    echo "Presión Arterial diastólica";
+                    break;
+                case 46:
+                    echo "Posición Presión Arterial";
+                    break;
+                case 47:
+                    echo "Lugar Presión Arterial";
+                    break;
+                case 49:
+                    echo "Temperatura";
+                    break;
+                case 52:
+                    echo "SA02 sin oxígeno";
+                    break;
+                case 54:
+                    echo "SAO2 con Oxígeno";
+                    break;
+                case 57:
+                    echo "Diagnóstico";
+                    break;
+                case 58:
+                    echo "Enfermedad actual";
+                    break;
+                case 59:
+                    echo "Diagnóstico Principal";
+                    break;
+                case 62:
+                    echo "Tipo de Diagnóstico principal";
+                    break;
+                case 64:
+                    echo "Analisis";
+                    break;
+                case 65:
+                    echo "Plan";
+                    break;
+                case 69:
+                    echo "Causa Externa";
+                    break;
+                case 70:
+                    echo "Arl";
+                    break;
+                case 72:
+                    echo "Diagnóstico Secundarios";
+                    break;
+                case 75:
+                    echo "Antecedentes Socioeconómicos";
+                    break;
+                case 76:
+                    echo "Antecedentes Patológicos";
+                    break;
+                case 77:
+                    echo "Antecedentes Familiares";
+                    break;
+                case 78:
+                    echo "Antecedentes Farmacológicos";
+                    break;
+                case 79:
+                    echo "Antecedentes Transfusiones";
+                    break;
+                case 80:
+                    echo "Hábitos";
+                    break;
+                case 81:
+                    echo "Ginecobstetrico";
+                    break;
+                 case 74:
+                    echo "Diagnóstico secundario";
+                    break;
+                    case 83:
+                    echo "Torax";
+                    break;
+                case 84:
+                    echo "Gastrointestinal";
+                    break;
+                case 85:
+                    echo "Genetourinario";
+                    break;
+                case 86:
+                    echo "Osteomuscular";
+                    break;
+                case 87:
+                    echo "Neurológico";
+                    break;
+                case 88:
+                    echo "Vascular Periférico";
+                    break;
+                 case 89:
+                    echo "Piel y anexos";
+                    break;
+
+        }
+      }
   
   
-   public function api_hl7_standard($opd_id,$id){
+   public function api_hl4_standard($opd_id,$id){
+     
+     $curl = curl_init();  
+     curl_setopt_array($curl, array(
+        CURLOPT_URL => 'https://apirelevant.dllosura.com.co/oauth/token?grant_type=client_credentials',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+        CURLOPT_POSTFIELDS => 'grant_type=client_credentials&client_id=9Vu8MhmCf802jA68LvT4x5lxJo7yLGG6cUIR5qcSEO3fpKdr&client_secret=CXk7RxDce5EXlVhztZWFZu3GfAnGzn4WpiOAKn1Gs8HXO7DUuZH4ORiGF3C86xKA',
+        CURLOPT_HTTPHEADER => array(
+            'X-Request-Data-Provider: Escafandra',
+            'Content-Type: application/x-www-form-urlencoded',
+            'Authorization: Basic OVZ1OE1obUNmODAyakE2OEx2VDR4NWx4Sm83eUxHRzZjVUlSNXFjU0VPM2ZwS2RyOkNYazdSeERjZTVFWGxWaHp0WldGWnUzR2ZBbkd6bjRXcGlPQUtuMUdzOEhYTzdEVXVaSDRPUmlHRjNDODZ4S0E='
+          ),
+        ));
+
+        $bearer = curl_exec($curl);
+
+        curl_close($curl);
+//           echo "<pre>";
+//           print_r($bearer);
+//      exit;
+            
+     
+     
+     
      $result         = $this->patient_model->getDetails($opd_id);
      $custom_fields_data            = get_custom_table_values($id, 'patient');
-     $getVisitDetailsid                 = $this->patient_model->getVisitDetailsid($opdid);
+     $getVisitDetailsid             = $this->patient_model->getVisitDetailsid($opd_id);
      
      if($result['result']['is_dead'] === "no"){
         $death_date = "no";
@@ -7780,6 +8795,26 @@ This Function is used to Import Multiple Patient Records
      }
      $data= [];
      
+     $opd_data       = $this->patient_model->getPatientVisitDetails($id);
+     foreach ($result['custom'] as $key =>$s){
+       $this->space($s->custom_field_id);echo " = ".$s->field_value;if($s->custom_field_id == 36){echo ("Kg");}elseif($s->custom_field_id == 49){echo ("°C");}elseif($s->custom_field_id == 19){echo ("Cm");}elseif($s->custom_field_id == 38){echo ("LPM");} if($s->custom_field_id == 39){echo ("RPM");}elseif($s->custom_field_id == 44 || $s->custom_field_id == 45){echo ("mmHg");} echo "<br>";
+       
+     }
+     $case = $result['result']['case_reference_id'];
+     $data['appointment_date'] = $this->db->query("SELECT doctor, time,time_finish, date, reason_consultation, cancel_person, date_cancel
+                                                      FROM appointment 
+                                                      WHERE case_reference_id = " .$case. ";")->result();
+//      echo "<pre>";
+//      print_r($result);
+//      exit;
+     $id_visit = $this->db->query("SELECT id
+                                          FROM visit_details 
+                                          WHERE opd_details_id = " . $opd_id . ";")->result();
+     $data['diagnosis'] = $this->db->query("SELECT diagnosis.id_diagnosis, diagnosis.id_patient, diagnosis.nombre_diag, diagnosis.tipo_diag, diagnosis.nota_diag, diagnosis.categoria_diag, diagnosis.opd_id
+                                              FROM diagnosis
+                                              WHERE diagnosis.opd_id = " .$id_visit[0]->id. ";")->result();
+     $curl_2 = curl_init();       
+     
      $patient =[
        
                
@@ -7824,14 +8859,92 @@ This Function is used to Import Multiple Patient Records
        
      ];
 
-        array_push($data, $patient);
-     echo "<pre>";
-//      print_r($getVisitDetailsid);
-//      print_r($result['result']);
-//      print_r($custom_fields_data);
-     print_r($data);
-//      print_r($custom_fields_data);
-     exit;
+     $encounter =[
+       
+               
+          "resourceType" => "Encounter",
+          // from Resource: id, meta, implicitRules, and language
+          // from DomainResource: text, contained, extension, and modifierExtension
+          "identifier" => $result['result']['identification_number'], // An identifier for this patient
+          "active" => $result['result']['is_active'], // Whether this patient's record is in active use
+          "name" => $result['result']['patient_name'], // A name associated with the patient
+          "telecom" => $contact, // A contact detail for the individual
+          "gender" => $result['result']['gender'], // male | female | other | unknown
+          "birthDate" => $result['result']['dob'], // The date of birth for the individual
+          // deceased[x]: Indicates if the individual is deceased or not. One of these 2:
+          "deceasedBoolean" => $result['result']['is_dead'],
+          "deceasedDateTime" => $death_date,
+          "address" => $address != "" ? $address : "no", // An address for the individual
+          "maritalStatus" => $result['result']['marital_status'] != "" ? $result['result']['marital_status'] : "no", // Marital (civil) status of a patient
+          // multipleBirth[x]: Whether patient is part of a multiple birth. One of these 2:
+          "multipleBirthBoolean" => "no",
+          "multipleBirthInteger" => "no",
+          "photo" => "https://clinify.co/cliniverso_dev/".$result['result']['image'], // Image of the patient
+          "contact" => [ // A contact party (e.g. guardian, partner, friend) for the patient
+            "relationship" => "no", // The kind of relationship
+            "name" => $contact_person, // A name associated with the contact person
+            "telecom" => $phone_contact_person, // A contact detail for the person
+            "address" => "no", // Address for the contact person
+            "gender" => "no", // male | female | other | unknown
+            "organization" => "no", // C? Organization that is associated with the contact
+            "period" => "no" // The period during which this contact person or organization is valid to be contacted relating to this patient
+          ],
+          "communication" => [ // A language which may be used to communicate with the patient about his or her health
+            "language" => "no", // R!  The language which can be used to communicate with the patient about his or her health
+            "preferred" => "no" // Language preference indicator
+          ],
+          "generalPractitioner" => $result['result']['guardian_name'], // Patient's nominated primary care provider
+          "managingOrganization" => "no", // Organization that is the custodian of the patient record
+          "link" => [ // Link to another patient resource that concerns the same actual person
+            "other" => "no", // R!  The other patient or related person resource that the link refers to
+            "type" => "no" // R!  replaced-by | replaces | refer | seealso
+          ]
+        
+       
+     ];
+
+     
+     
+     array_push($data, $patient);
+     
+//      echo "<pre>";
+//      print_r($data);
+//      exit;
+     curl_setopt_array($curl_2, array(
+        CURLOPT_URL => 'https://apirelevant.dllosura.com.co/fhir/R4',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+        CURLOPT_POSTFIELDS =>$data,
+             
+               CURLOPT_HTTPHEADER => array(
+                'X-Request-Data-Provider: Escafandra',
+                'Content-Type: application/json',
+                'Authorization: Bearer'.$bearer,
+              ),
+            ));
+
+
+          $response = curl_exec($curl_2);
+
+          curl_close($curl_2);
+          echo $response;
+     
+     
+     
+     
+//      echo json_encode($data);
+//      echo "<pre>";
+// //      print_r($getVisitDetailsid);
+// //      print_r($result['result']);
+// //      print_r($custom_fields_data);
+//      print_r($data);
+// //      print_r($custom_fields_data);
+//      exit;
      
 //      {
 //         "resourceType": "Patient",
@@ -7889,43 +9002,433 @@ This Function is used to Import Multiple Patient Records
   
   
   
-  public function change_state_opd($opd_id,$id, $id_visit){
-    
-    
-    $this->form_validation->set_rules( 'signed_appointment', 'signed_appointment','required', array('required' => 'La firma es requerida.'));
-    
-    if(!$this->form_validation->run() == FALSE){
-      
-        if($this->input->post('signed_checkbox') == '1' && $this->input->post('signed_appointment') != ''){
+  public function change_state_opd($opd_id, $id, $id_visit){
+//        echo '<pre>';
+//     print_r($opd_id);
+//     exit;
+       if(!empty($opd_id) && !empty($id) && !empty($id_visit)){
+         
+            $this->db->set('refference', "Cerrada");
+            $this->db->where('opd_details_id', $opd_id);
+            $this->db->update('visit_details');
 
-              $this->db->set('refference', "Cerrada");
-              $this->db->where('opd_details_id', $opd_id);
-              $this->db->update('visit_details');
-          
-              $this->db->set('appointment_status', "Termino");
-              $this->db->where('visit_details_id', $id_visit);
-              $this->db->update('appointment');
-          
-          
-              $array = array("status" => 'success', 'errors' => '', 'msg' => 'Se firmo y termino completamente la cita');
-                
-        } else if($this->input->post('signed_appointment') == '') {
-          
-              $this->db->set('appointment_status', "Termino");
-              $this->db->where('visit_details_id', $id_visit);
-              $this->db->update('appointment');
-          
-              $array = array("status" => 'success', 'errors' => '', 'msg' => 'Se termino la cita correctamente');
-        }
-      
-    } else {
-        $array = array("status" => 'fail', 'errors' => $this->form_validation->error_array());    
-    }
-
+            $this->db->set('appointment_status', "Firmada");
+            $this->db->where('visit_details_id', $id);
+            $this->db->update('appointment');
+ 
+            $array = array("status" => 'success', 'errors' => '', 'msg' => 'Se finalizó y firmo completamente la cita');
+         
+       } else {
+            $array = array("status" => 'fail', 'errors' => array('signed_appointment' => 'Ocurrio un error al confirmar la cita.')); 
+       }
     
-    echo json_encode($array);
-      
+       echo json_encode($array);
+    
   }
+  
+  public function patient_diagnostic_delete(){
+    
+      $json = $this->input->post();
+      $json_data = json_decode(key($json), true);
+    
+      $id = $json_data['id'];
+
+    
+      $query = $this->db->query('DELETE 
+                                   FROM diagnosis    
+                                   WHERE id_diagnosis = '.$id.';');
+      if($query){
+          $array = array('state' => 'success', 'msg' => 'Se elimino el diagnóstico');
+      }else{
+          $array = array('state' => 'fail', 'msg' => 'Ocurrio un error al eliminar el diagnóstico'); 
+      }
+    
+      echo json_encode($array);
+  }
+  
+  public function patient_diagnostic(){
+    
+//       $json = $this->input->post();
+//       $json_data = json_decode(key($json), true);
+    
+      $input_stream = $this->input->raw_input_stream;
+      $json_data = json_decode($input_stream, true);
+      $array_errors = [];
+      $id = $json_data['opd_id'];
+    
+      
+
+    
+     if($json_data['category_diagnostic'] == 'primario'){
+       
+         $query = $this->db->query("SELECT categoria_diag, id_diagnosis
+                             FROM diagnosis    
+                             WHERE opd_id = ? AND categoria_diag = 'primario'", array($id))->result();
+       
+//          echo '<pre>';
+//          print_r($query);
+//          exit;
+         
+
+          if(count($query) > 0){
+              $array_errors['unique_primary'] = 'Ya existe el diagnostico primario';
+          }
+     }
+
+
+      $validation = [
+        'diagnostic' => $json_data['diagnostic'],
+        'note_diagnostic' => $json_data['note_diagnostic'],
+        'type_diagnostic' => $json_data['type_diagnostic'],
+        'category_diagnostic' => $json_data['category_diagnostic']
+      ];
+    
+      $this->form_validation->set_data($validation);
+    
+      $this->form_validation->set_rules([
+          [
+              'field' => 'diagnostic',
+              'rules' => 'trim|required|xss_clean|min_length[5]|max_length[255]',
+              'errors' => [
+                  'required' => 'El diagnostico es requerido.',
+              ],
+          ],
+          [
+              'field' => 'type_diagnostic',
+              'rules' => 'trim|required|xss_clean|min_length[5]|max_length[255]',
+              'errors' => [
+                  'required' => 'El tipo de diagnostico es requerido es requerido.',
+              ],
+          ],
+     ]);
+
+     if($this->form_validation->run() === false || count($array_errors) > 0){
+
+          $errors = $this->form_validation->error_array();
+          $msg = array_merge($errors, $array_errors);
+          $array = array('state' => 'fail', 'msg' => '', 'errors' => $msg);
+       
+     } else {
+       
+        $data = [  
+          "nombre_diag" => str_replace("_"," ",$json_data['diagnostic']),
+          "tipo_diag" => str_replace("_"," ",$json_data['type_diagnostic']),
+          "nota_diag" => str_replace("_"," ",$json_data['note_diagnostic']),
+          "categoria_diag" => str_replace("_"," ",$json_data['category_diagnostic']),
+          "opd_id" => $json_data['opd_id'],
+          "id_patient" => str_replace("_"," ",$json_data['id_patient']),
+        ];
+       
+       if($json_data['category_diagnostic'] == 'primario'){
+
+            $this->db->insert("diagnosis", $data);
+            $array = array('state' => 'success', 'msg' => 'Se registro el diagnostico primario', 'errors' => '');
+          
+        } else if($json_data['category_diagnostic'] == 'secundario'){
+            
+            $this->db->insert("diagnosis", $data);
+            $array = array('state' => 'success', 'msg' => 'Se registro el diagnostico secundario', 'errors' => '');
+          
+        } 
+     } 
+              
+     echo json_encode($array);
+
+  }
+  
+  function update_name_format(){
+    
+      $query = $this->db->query("SELECT id,patient_name
+                               FROM patients;")->result();
+    
+      foreach($query as $value){
+          $name = ucwords(strtolower($value->patient_name));
+          $name = mb_convert_case($name, MB_CASE_TITLE, "UTF-8");       
+          // Update the record using a prepared statement
+//         echo "<pre>";
+//     print_r($name);
+//     exit;
+          $this->db->set('patient_name', $name);
+          $this->db->where('id', $value->id);
+          $this->db->update('patients');
+
+          // Get the number of affected rows
+          $affected_rows = $this->db->affected_rows();
+
+            // Check if the update was successful
+           if ($affected_rows > 0) {
+                // Update was successful
+                echo "Update successful for ID {$value->id}. $affected_rows row(s) updated.<br>";
+            } else {
+                // No rows were updated
+                echo "Update failed for ID {$value->id}. No rows were updated.<br>";
+            }
+        }
+  }
+  
+  
+      function search_by_cups(){
+        $cups = $this->input->post('codigo');
+        $query = $this->db->query("SELECT charges.*
+            FROM charges
+            WHERE cups =".$cups.";")->result();
+        
+        echo json_encode($query);
+        
+      }
+  
+     function add_opd_remision($user_id, $visit_id, $opdid){
+       
+         $post = $this->input->post();
+
+         $this->form_validation->set_rules(
+             array(
+                array(
+                      'field' => 'remision_name',
+                      'rules' => 'required',
+                      'errors' => array(
+                          'required' => 'El servicio es requerido.',
+                      )
+                 ),
+                 array(
+                      'field' => 'remision_motive',
+                      'rules' => 'required',
+                      'errors' => array(
+                          'required' => 'Debe ingresar un motivo de consulta.',
+                      )
+                ),
+                array(
+                    'field' => 'remision_treatment',
+                    'rules' => 'required',
+                    'errors' => array(
+                        'required' => 'Debe escribir el número.',
+                    )
+                ),
+             )
+          );
+
+         if ($this->form_validation->run() == FALSE) {
+  
+
+               $result = array("status" => 'fail', 'errors' => $this->form_validation->error_array());
+               echo json_encode($result);
+
+         } else {
+
+               $remision = array(
+                   'id_visit' => $visit_id,
+                   'referred_to' => $post['referred_to'],
+                   'remision_code' => $post['remision_code'],
+                   'remision_name ' => $post['remision_name'],
+                   'remision_motive' => $post['remision_motive'],
+                   'remision_treatment' => $post['remision_treatment'],
+                   'create_at' => date('Y-m-d H:i:s'),
+              );
+           
+
+              $this->db->insert("remisions_clini", $remision);
+           
+              $result = array("status" => 'success', 'message' => "La remision se registro correctamente.");  
+           
+              echo json_encode($result);
+
+        }
+        
+     }
+  
+  
+     function add_paraclini($user_id, $visit_id, $opdid){
+       
+         $post = $this->input->post();
+       
+//        echo "<pre>";
+//        print_r($post);
+//        exit;
+       
+         $description_procedure = $this->input->post('description_procedure');
+       
+         if(empty($description_procedure)){
+           
+             $this->form_validation->set_rules([
+                  [
+                        'field' => 'diagnosis_main',
+                        'rules' => 'required',
+                        'errors' => [
+                            'required' => 'El diagnóstico es requrido.',
+                        ]
+                  ],
+                  [
+                      'field' => 'codigo_para',
+                      'rules' => 'required',
+                      'errors' => [
+                          'required' => 'Debe Ingresar un código.',
+                      ]
+                 ],
+                 [
+                      'field' => 'product_para',
+                      'rules' => 'required',
+                      'errors' => [
+                          'required' => 'Debe Ingresar un procedimiento.',
+                      ]
+                 ],
+  //                [
+  //                     'field' => 'quantity_procedure',
+  //                     'rules' => 'required',
+  //                     'errors' => [
+  //                         'required' => 'El receptor es requerido.',
+  //                     ]
+  //                ]
+            ]);
+           
+         } else {
+           
+            $this->form_validation->set_rules([
+                  [
+                      'field' => 'description_procedure',
+                      'rules' => 'required',
+                      'errors' => [
+                          'required' => 'El diagnóstico es requrido.',
+                      ]
+                  ],
+            ]);
+         }
+
+
+         if ($this->form_validation->run() == FALSE) {
+      
+               $result = array("status" => 'fail', 'errors' => $this->form_validation->error_array());
+               echo json_encode($result);
+
+         } else {
+           
+               if(!empty($description_procedure)){
+
+                    $paraclini = [
+                       'visit_id' => $visit_id,
+                       'description_procedure' => $post['description_procedure'],
+                       'create_at' => date('Y-m-d H:i:s')
+                    ];
+
+               } else {
+                 
+                    $paraclini = array(
+                       'visit_id' => $visit_id,
+                       'diagnosis' => $post['diagnosis_main'],
+                       'codigo_para' => $post['codigo_para'],
+                       'product_para' => $post['product_para'],
+                       'quantity_procedure' => $post['quantity_procedure'],
+                       'create_at' => date('Y-m-d H:i:s')
+                    );
+               }
+
+              $this->db->insert("paraclini_clini", $paraclini);
+           
+              $result = array("status" => 'success', 'message' => "La remision se registro correctamente.");  
+           
+              echo json_encode($result);
+
+        }
+        
+     }
+  
+  
+  
+  
+    function json_data($type){
+      echo "<pre>";
+      print_r($type);
+      exit;
+        $filter = $this->input->get('search');
+      
+        $jsonPath = base_url('/uploads/json/suracups_su.json');
+        echo "<pre>";
+        print_r($filter);
+        exit;
+
+        $data = file_get_contents($jsonPath);
+        $items = json_decode($data, true);
+      
+                   
+        $resultadosFiltrados = array_filter($items, function ($items) use ($filter) {
+              return stripos(strtolower($item['descripcion']), $filter) !== false || stripos(strtolower($item['codigo']), $filter) !== false;
+        });
+      
+        echo json_encode(array_values($resultadosFiltrados));
+  }
+  
+  function get_diagnosis(){
+
+       $json = $this->input->post();
+    
+       $data['diagnosis'] = $this->db->query("SELECT diagnosis.id_diagnosis, diagnosis.id_patient, diagnosis.nombre_diag, diagnosis.tipo_diag, diagnosis.nota_diag, diagnosis.categoria_diag, diagnosis.opd_id
+                                          FROM diagnosis
+                                          WHERE diagnosis.opd_id = " .$json['opd_id']. ";")->result();
+  
+       echo json_encode($data);
+
+  }
+  
+  
+//    public function search_diagnosis(){
+      
+//       $json_data = json_decode($this->input->raw_input_stream, true);
+
+//       $searchTerm = $json_data['search_term'];
+
+//       if(isset($searchTerm) && $searchTerm != ''){
+
+//           // Obtener el contenido del archivo JSON
+//           $jsonContent = file_get_contents(base_url('uploads/json_cie/cie_10.json'));
+
+//           // Decodificar el JSON a un array de PHP
+//           $items = json_decode($jsonContent, true);
+
+//           $resultadosFiltrados = array_filter($items, function ($item) use ($searchTerm) {
+//               return stripos(strtolower($item['Nombre']), $searchTerm) !== false || stripos(strtolower($item['Descripcion']), $searchTerm) !== false;
+//           });
+
+//       } else {
+//           $resultadosFiltrados = array();
+//       }  
+
+
+//       echo json_encode(array_values($resultadosFiltrados));
+    
+//   }
+  
+  
+//   function json_data(){
+//     $filtro = $this->input->get('search');
+
+//     define('JSON',  base_url('/uploads/json/suracups_su.json'));
+
+//     // Leemos el JSON y convertimos
+//     $data = file_get_contents(JSON);
+//     $items = json_decode($data, true);
+
+//     $resultadosFiltrados = array();
+
+//     foreach ($items as $item) {
+//         if (strpos($item['descripcion'], $filtro) !== false || strpos($item['codigo'], $filtro) !== false ) {
+//             $resultadosFiltrados[] = $item;
+//         }
+//     }
+
+//     // Implementar paginación
+//     $totalItems = count($resultadosFiltrados);
+//     $page =10; // Número de página predeterminado
+//     $pageSize = 20; // Tamaño de la página predeterminado
+// //     $totalItems = count($resultadosFiltrados);
+//     $offset = ($page - 1) * $pageSize; // Calcular el offset
+//     $paginatedResults = array_slice($resultadosFiltrados, $offset, $pageSize); // Obtener resultados para la página actual
+
+//     $response = [
+//         'total' => $totalItems,
+//         'data' => $paginatedResults,
+//     ];
+
+//     echo json_encode($resultadosFiltrados);
+//   }
 
 }
 

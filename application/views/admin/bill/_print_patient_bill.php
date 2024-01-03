@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="<?php echo base_url(); ?>backend/dist/css/sh-print.css">
 <?php $currency_symbol = $this->customlib->getHospitalCurrencyFormat(); ?>
+
 <div class="print-area">
 <div class="row">
         <div class="col-md-12">
@@ -32,7 +33,7 @@
                         <th><?php echo $this->lang->line('name'); ?></th>
                         <td ><?php echo composePatientName($patient['patient_name'],$patient['patient_id']); ?></td>
                         <th><?php echo $this->lang->line('guardian_name'); ?></th>
-                        <td ><?php echo $patient['guardian_name']; ?></td>
+                        <td ><?php echo $patient['email']; ?></td>
                     </tr>
                     <tr>
                         <th><?php echo $this->lang->line('gender'); ?></th>
@@ -45,11 +46,11 @@
                     <tr>
                         <th><?php echo $this->lang->line('phone'); ?></th>
                         <td ><?php echo $patient['mobileno']; ?></td>
-                        <th><?php
+<!--                         <th><?php
                             echo $this->lang->line('credit_limit') . " (" . $currency_symbol . ")";
                             ;
                             ?></th>
-                        <td ><?php echo $patient['credit_limit']; ?>
+                        <td ><?php echo $patient['credit_limit']; ?> -->
                         </td>
                     </tr>
                     <?php 
@@ -366,8 +367,15 @@ if(!empty($bloodissue_data)){
             </tr>
         </tbody>
     </table>
+          <div id=""></div>
+          <div id="">Cufe: <br><?php echo $bills_electronic_cm[0]['cufe_response']?></div>
+          
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+
+
+
